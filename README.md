@@ -2,6 +2,8 @@
 
 **Razorpay AI Buildathon 2026 — Track 02 (AI Risk Manager)**
 
+**[Read the visual explainer](docs/explainer.html)** — the argument, the pipeline, and the honest numbers in five minutes, before diving into the dashboard below.
+
 ## The actual technical argument
 
 Fraud detection almost always means scoring one row at a time: is *this* transaction fraudulent, is *this* account risky. That architecture is mathematically incapable of catching a promo/referral abuse ring, no matter how good the model is — because a farmed account, viewed alone, is designed to look ordinary. Real-looking phone number, plausible order, no red flag. **The signal only exists across multiple rows at once**: the same device behind thirteen "different" signups, the same payment instrument reused across accounts, a referral chain that pays out in hours instead of the weeks an organic referral takes.
@@ -81,8 +83,9 @@ data/
   ground_truth/                  planted rings + confounders (never read by the detector)
   processed/                      pipeline output (clusters.json, eval_report.json, cases.json)
 docs/
-  ARCHITECTURE.md                Stage 1-8 diagram + design rationale + known limitations
-  PITCH_SCRIPT.md                 5-minute pitch video script
+  explainer.html                   standalone visual explainer — open this first
+  ARCHITECTURE.md                   Stage 1-8 diagram + design rationale + known limitations
+  PITCH_SCRIPT.md                    5-minute pitch video script
 ```
 
 ## Scope

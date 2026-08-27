@@ -1,0 +1,568 @@
+<title>Abuse-Ring Sentinel</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=IBM+Plex+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --paper: #eef0f4;
+    --panel: #ffffff;
+    --panel-raised: #f7f8fb;
+    --text: #14171d;
+    --text-dim: #565d6b;
+    --hairline: rgba(20,23,29,0.13);
+    --hairline-strong: rgba(20,23,29,0.22);
+
+    --thread-red: #cf3d2c;
+    --thread-violet: #7c4fd6;
+    --thread-amber: #b5791f;
+    --thread-blue: #2f6fb8;
+    --verified: #2b8a57;
+    --accent: #6a3fc7;
+    --accent-ink: #ffffff;
+
+    --shadow: 0 1px 2px rgba(20,23,29,0.06), 0 8px 24px rgba(20,23,29,0.06);
+    --radius-s: 3px;
+    --radius-m: 5px;
+    --font-display: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+    --font-body: "IBM Plex Sans", -apple-system, "Segoe UI", sans-serif;
+    --font-mono: "IBM Plex Mono", ui-monospace, "SF Mono", Consolas, monospace;
+  }
+
+  @media (prefers-color-scheme: dark) {
+    :root:not([data-theme="light"]) {
+      --paper: #0a0c10;
+      --panel: #14171d;
+      --panel-raised: #1a1e26;
+      --text: #ece9e3;
+      --text-dim: #9096a3;
+      --hairline: rgba(236,233,227,0.11);
+      --hairline-strong: rgba(236,233,227,0.2);
+
+      --thread-red: #ff6b52;
+      --thread-violet: #b18cf0;
+      --thread-amber: #e8a23d;
+      --thread-blue: #6fa8e8;
+      --verified: #52c98a;
+      --accent: #b18cf0;
+      --accent-ink: #14171d;
+
+      --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+    }
+  }
+  :root[data-theme="dark"] {
+    --paper: #0a0c10;
+    --panel: #14171d;
+    --panel-raised: #1a1e26;
+    --text: #ece9e3;
+    --text-dim: #9096a3;
+    --hairline: rgba(236,233,227,0.11);
+    --hairline-strong: rgba(236,233,227,0.2);
+
+    --thread-red: #ff6b52;
+    --thread-violet: #b18cf0;
+    --thread-amber: #e8a23d;
+    --thread-blue: #6fa8e8;
+    --verified: #52c98a;
+    --accent: #b18cf0;
+    --accent-ink: #14171d;
+
+    --shadow: 0 1px 2px rgba(0,0,0,0.3), 0 12px 32px rgba(0,0,0,0.35);
+  }
+
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    background: var(--paper);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+  }
+  a { color: var(--accent); }
+  a:focus-visible, button:focus-visible, .navlink:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+  }
+  h1, h2, h3 { font-family: var(--font-display); font-weight: 700; text-wrap: balance; margin: 0; letter-spacing: -0.01em; }
+  code, .mono, .tabular { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+
+  .wrap { max-width: 1180px; margin: 0 auto; padding: 0 32px; }
+  .prose-col { max-width: 62ch; }
+
+  /* ---------- top bar ---------- */
+  .topbar {
+    position: sticky; top: 0; z-index: 20;
+    background: color-mix(in srgb, var(--paper) 88%, transparent);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--hairline);
+  }
+  .topbar-inner { display: flex; align-items: center; justify-content: space-between; padding: 14px 32px; max-width: 1180px; margin: 0 auto; }
+  .brand { font-family: var(--font-display); font-weight: 600; font-size: 14px; letter-spacing: 0.02em; display: flex; align-items: center; gap: 8px; }
+  .brand-mark { width: 9px; height: 9px; border-radius: 50%; background: var(--thread-red); box-shadow: 0 0 0 3px color-mix(in srgb, var(--thread-red) 20%, transparent); flex: none; }
+  .navlinks { display: flex; gap: 24px; }
+  .navlink { font-family: var(--font-display); font-size: 12px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); text-decoration: none; }
+  .navlink:hover { color: var(--text); }
+  @media (max-width: 720px) { .navlinks { display: none; } }
+
+  /* ---------- hero ---------- */
+  .hero { padding: 64px 0 40px; }
+  .eyebrow {
+    font-family: var(--font-display); font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--text-dim); margin: 0 0 18px; display: flex; align-items: center; gap: 10px;
+  }
+  .eyebrow::before { content: ""; display: inline-block; width: 22px; height: 1px; background: var(--hairline-strong); }
+  .hero h1 { font-size: clamp(34px, 5vw, 56px); line-height: 1.08; margin-bottom: 20px; }
+  .hero h1 em { font-style: normal; color: var(--thread-red); }
+  .hero .lede { font-size: 18px; color: var(--text-dim); max-width: 56ch; margin-bottom: 30px; }
+  .hero-ctas { display: flex; gap: 14px; flex-wrap: wrap; margin-bottom: 8px; }
+
+  .btn {
+    font-family: var(--font-display); font-size: 13px; font-weight: 600; letter-spacing: 0.02em;
+    padding: 12px 20px; border-radius: var(--radius-s); border: 1px solid transparent; cursor: pointer;
+    text-decoration: none; display: inline-flex; align-items: center; gap: 8px;
+  }
+  .btn-primary { background: var(--accent); color: var(--accent-ink); }
+  .btn-ghost { border-color: var(--hairline-strong); color: var(--text); background: transparent; }
+
+  /* ---------- network canvas ---------- */
+  .stage {
+    position: relative; margin-top: 44px; border: 1px solid var(--hairline);
+    border-radius: var(--radius-m); background: var(--panel); overflow: hidden;
+  }
+  .stage canvas { display: block; width: 100%; height: 380px; }
+  .stage-tag {
+    position: absolute; font-family: var(--font-display); font-size: 11px; letter-spacing: 0.03em;
+    padding: 5px 9px; border-radius: 2px; backdrop-filter: blur(6px);
+    background: color-mix(in srgb, var(--panel) 72%, transparent); border: 1px solid var(--hairline-strong);
+    pointer-events: none; white-space: nowrap;
+  }
+  .stage-tag .dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; margin-right: 6px; }
+  .stage-caption {
+    display: flex; gap: 28px; flex-wrap: wrap; padding: 16px 20px; border-top: 1px solid var(--hairline);
+    font-family: var(--font-display); font-size: 12px; color: var(--text-dim);
+  }
+  .stage-caption span { display: inline-flex; align-items: center; gap: 7px; }
+  .swatch { width: 14px; height: 2px; display: inline-block; }
+
+  /* ---------- section scaffolding ---------- */
+  section { padding: 76px 0; border-top: 1px solid var(--hairline); }
+  .section-head { display: grid; grid-template-columns: 120px 1fr; gap: 24px; margin-bottom: 40px; align-items: start; }
+  .exhibit-no { font-family: var(--font-display); font-size: 13px; color: var(--text-dim); letter-spacing: 0.05em; padding-top: 6px; }
+  .section-head h2 { font-size: clamp(24px, 3vw, 32px); }
+  .section-sub { color: var(--text-dim); margin-top: 10px; max-width: 62ch; }
+  @media (max-width: 640px) { .section-head { grid-template-columns: 1fr; } }
+
+  /* ---------- thesis two-up ---------- */
+  .thesis-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--radius-m); overflow: hidden; }
+  .thesis-cell { background: var(--panel); padding: 28px; }
+  .thesis-cell h3 { font-size: 15px; margin-bottom: 12px; }
+  .thesis-cell p { color: var(--text-dim); margin: 0; font-size: 15px; }
+  .thesis-cell.no { }
+  .thesis-cell.no h3 { color: var(--thread-red); }
+  .thesis-cell.yes h3 { color: var(--verified); }
+  @media (max-width: 720px) { .thesis-grid { grid-template-columns: 1fr; } }
+
+  /* ---------- pipeline ---------- */
+  .pipeline { border-left: 1px solid var(--hairline-strong); margin-left: 6px; }
+  .pstep { position: relative; padding: 0 0 34px 32px; }
+  .pstep:last-child { padding-bottom: 0; }
+  .pstep::before {
+    content: ""; position: absolute; left: -6px; top: 3px; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--panel); border: 2px solid var(--accent);
+  }
+  .pstep .pnum { font-family: var(--font-display); font-size: 12px; color: var(--text-dim); letter-spacing: 0.04em; }
+  .pstep h3 { font-family: var(--font-body); font-weight: 600; font-size: 17px; margin: 4px 0 6px; }
+  .pstep p { margin: 0; color: var(--text-dim); font-size: 15px; max-width: 60ch; }
+  .pstep code { font-size: 13px; background: var(--panel-raised); padding: 1px 5px; border-radius: 2px; }
+
+  /* ---------- KPI grid ---------- */
+  .kpi-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 1px; background: var(--hairline); border: 1px solid var(--hairline); border-radius: var(--radius-m); overflow: hidden; margin-bottom: 28px; }
+  .kpi { background: var(--panel); padding: 24px 22px; }
+  .kpi .num { font-family: var(--font-display); font-size: 32px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .kpi .lbl { color: var(--text-dim); font-size: 13px; margin-top: 6px; }
+  @media (max-width: 860px) { .kpi-grid { grid-template-columns: repeat(2, 1fr); } }
+
+  .honesty-box {
+    border: 1px solid var(--hairline-strong); border-left: 3px solid var(--thread-amber);
+    border-radius: var(--radius-s); padding: 20px 24px; background: var(--panel-raised);
+  }
+  .honesty-box h4 { font-family: var(--font-body); font-weight: 600; font-size: 15px; margin: 0 0 10px; }
+  .honesty-box p { margin: 0 0 10px; color: var(--text-dim); font-size: 14.5px; }
+  .honesty-box p:last-child { margin-bottom: 0; }
+
+  .breakdown-table { width: 100%; border-collapse: collapse; font-size: 14px; margin-top: 24px; }
+  .breakdown-table th, .breakdown-table td { text-align: left; padding: 10px 14px; border-bottom: 1px solid var(--hairline); }
+  .breakdown-table th { font-family: var(--font-display); font-weight: 600; font-size: 11px; letter-spacing: 0.04em; text-transform: uppercase; color: var(--text-dim); }
+  .breakdown-table td.num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; }
+  .table-scroll { overflow-x: auto; }
+
+  /* ---------- governance ---------- */
+  .rule-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
+  .rule-card { border: 1px solid var(--hairline); border-radius: var(--radius-m); padding: 22px; background: var(--panel); }
+  .rule-card .tag {
+    display: inline-block; font-family: var(--font-display); font-size: 11px; letter-spacing: 0.03em;
+    padding: 3px 8px; border-radius: 2px; margin-bottom: 12px;
+  }
+  .tag-hold { background: color-mix(in srgb, var(--thread-red) 16%, transparent); color: var(--thread-red); }
+  .tag-review { background: color-mix(in srgb, var(--thread-amber) 18%, transparent); color: var(--thread-amber); }
+  .tag-none { background: color-mix(in srgb, var(--verified) 16%, transparent); color: var(--verified); }
+  .rule-card p { margin: 0; color: var(--text-dim); font-size: 14.5px; }
+  @media (max-width: 780px) { .rule-grid { grid-template-columns: 1fr; } }
+
+  .banned {
+    margin-top: 24px; padding: 18px 22px; border: 1px dashed var(--hairline-strong); border-radius: var(--radius-s);
+    font-family: var(--font-display); font-size: 13.5px; color: var(--text-dim); text-align: center;
+  }
+  .banned strong { color: var(--text); }
+
+  /* ---------- llm layer ---------- */
+  .flow-line { display: flex; align-items: center; gap: 10px; flex-wrap: wrap; font-family: var(--font-display); font-size: 13px; margin-bottom: 28px; }
+  .flow-node { padding: 7px 13px; border: 1px solid var(--hairline-strong); border-radius: var(--radius-s); background: var(--panel); }
+  .flow-node.dim { color: var(--text-dim); }
+  .flow-arrow { color: var(--text-dim); }
+
+  .case-sample { border: 1px solid var(--hairline); border-radius: var(--radius-m); background: var(--panel); padding: 22px 24px; }
+  .case-sample .ch { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px; }
+  .case-sample .cid { font-family: var(--font-display); font-size: 12px; color: var(--text-dim); }
+  .case-sample .conf { font-family: var(--font-mono); font-size: 12px; }
+  .case-sample blockquote { margin: 0; padding-left: 16px; border-left: 2px solid var(--thread-violet); color: var(--text); font-size: 15px; font-style: normal; }
+  .case-sample .src { margin-top: 14px; font-family: var(--font-display); font-size: 11px; color: var(--text-dim); letter-spacing: 0.03em; }
+
+  /* ---------- limits ---------- */
+  .limits-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 16px; }
+  .limits-list li { display: grid; grid-template-columns: 22px 1fr; gap: 12px; font-size: 14.5px; color: var(--text-dim); }
+  .limits-list li::before { content: "—"; color: var(--text-dim); }
+
+  footer { padding: 40px 0 60px; border-top: 1px solid var(--hairline); }
+  .footer-row { display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px; font-family: var(--font-display); font-size: 12px; color: var(--text-dim); }
+
+  @media (prefers-reduced-motion: reduce) { * { animation-duration: 0.001ms !important; transition-duration: 0.001ms !important; } }
+</style>
+
+<div class="topbar">
+  <div class="topbar-inner">
+    <div class="brand"><span class="brand-mark"></span>ABUSE-RING SENTINEL</div>
+    <nav class="navlinks">
+      <a class="navlink" href="#thesis">Thesis</a>
+      <a class="navlink" href="#pipeline">Pipeline</a>
+      <a class="navlink" href="#verdict">Verdict</a>
+      <a class="navlink" href="#governance">Governance</a>
+      <a class="navlink" href="#limits">Limits</a>
+    </nav>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <p class="eyebrow">Razorpay AI Buildathon 2026 — Track 02, AI Risk Manager</p>
+    <h1>A ring doesn't look<br>like fraud. It looks<br>like a <em>graph.</em></h1>
+    <p class="lede">Score one account at a time and every farmed signup looks ordinary — real phone number, plausible order, no red flag. Look at the connections <em>between</em> accounts, and the ring draws itself.</p>
+    <div class="hero-ctas">
+      <a class="btn btn-primary" href="#verdict">See the verdict, honestly</a>
+      <a class="btn btn-ghost" href="#thesis">Read the argument</a>
+    </div>
+  </div>
+
+  <div class="stage">
+    <canvas id="net" aria-label="Illustration: a network graph in which one dense cluster is connected by shared payment attributes (flagged), and a second, similarly dense cluster is connected only by shared wifi (left alone)"></canvas>
+    <div class="stage-tag" id="tag-ring" style="left:14%;top:16%;"><span class="dot" style="background:var(--thread-red)"></span>ring — flagged</div>
+    <div class="stage-tag" id="tag-conf" style="right:12%;bottom:18%;"><span class="dot" style="background:var(--verified)"></span>hostel — left alone</div>
+    <div class="stage-caption">
+      <span><span class="swatch" style="background:var(--thread-violet)"></span>shared instrument</span>
+      <span><span class="swatch" style="background:var(--thread-red)"></span>shared device</span>
+      <span><span class="swatch" style="background:var(--thread-amber)"></span>IP overlap only</span>
+      <span><span class="swatch" style="background:var(--thread-blue)"></span>referral link</span>
+    </div>
+  </div>
+</div>
+
+<section id="thesis">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 00</div>
+      <div>
+        <h2>Why this isn't a classification problem</h2>
+        <p class="section-sub">Every "is this transaction fraudulent" model shares the same blind spot: it looks at one row and asks whether that row is suspicious. A farmed account is built specifically to pass that test.</p>
+      </div>
+    </div>
+    <div class="thesis-grid">
+      <div class="thesis-cell no">
+        <h3>What a row-classifier sees</h3>
+        <p>Account #4,812: real-looking phone number. Plausible first order. KYC pending, like a third of all new signups. No single field trips a rule. Score: low risk. Thirteen more accounts just like it, scored the same way, one at a time, never compared to each other.</p>
+      </div>
+      <div class="thesis-cell yes">
+        <h3>What the graph sees</h3>
+        <p>Those same thirteen accounts share one device fingerprint. They signed up across 66 hours. Each claimed a referral bonus within six hours of creation, then went silent. Order values are identical to the rupee. None of that is visible in any single row — it only exists <em>across</em> the thirteen.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="pipeline">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 01</div>
+      <div>
+        <h2>Six stages, deterministic until the last one</h2>
+        <p class="section-sub">Every stage below is graph algorithms and explicit thresholds — no model, nothing learned, nothing that can't be traced back to a specific edge or number. An LLM only ever sees what stage five already decided, and only to write it up.</p>
+      </div>
+    </div>
+    <div class="pipeline">
+      <div class="pstep">
+        <div class="pnum">STAGE 1</div>
+        <h3>Build the entity graph</h3>
+        <p>Accounts become nodes. An edge forms wherever two accounts share a <code>device_fingerprint_id</code>, an <code>instrument_hash</code>, an IP subnet, or a referral link — weighted by how rare that overlap is to happen honestly.</p>
+      </div>
+      <div class="pstep">
+        <div class="pnum">STAGE 2</div>
+        <h3>Hard-signal clustering</h3>
+        <p>Connected components on the shared-device and shared-instrument edges alone. Two strangers legitimately sharing a payment instrument is rare enough that this signal is treated as near-certain on its own.</p>
+      </div>
+      <div class="pstep">
+        <div class="pnum">STAGE 3</div>
+        <h3>Soft-signal clustering</h3>
+        <p>Weighted community detection (Louvain) over the <em>full</em> graph — the only stage that can catch a ring connected by nothing but IP overlap and referral-chain timing. This is deliberately the harder case, and it's scored separately, not blended into one headline number.</p>
+      </div>
+      <div class="pstep">
+        <div class="pnum">STAGE 4</div>
+        <h3>Score every candidate cluster</h3>
+        <p>Signup-burst tightness, order-value templating, the claim-then-dormant pattern, post-signup engagement. Still zero models — every number here is a direct calculation over timestamps and amounts.</p>
+      </div>
+      <div class="pstep">
+        <div class="pnum">STAGE 5</div>
+        <h3>Filter out the confounders</h3>
+        <p>Explicit rules that actively look for evidence a dense cluster is <em>legitimate</em> — a household, a hostel, an organic referral tree — and suppress the flag when they find it. This stage's entire job is to leave real people alone.</p>
+      </div>
+      <div class="pstep">
+        <div class="pnum">STAGE 6</div>
+        <h3>A bounded LLM writes the case</h3>
+        <p>Only clusters that survive stage 5 reach an LLM, and it sees only the aggregate evidence above — never a name, phone number, or account ID. It writes a plain-English case and picks exactly one of three actions. It cannot ban, block, or move money.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="verdict">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 02</div>
+      <div>
+        <h2>The verdict, held-out and unblended</h2>
+        <p class="section-sub">Measured on a split of the planted ground truth never used to pick any threshold. 7,500 synthetic accounts — 40 hard-signal rings, 40 soft-signal rings, 40 legitimate lookalike clusters, and 5,964 ordinary background accounts as noise.</p>
+      </div>
+    </div>
+
+    <div class="kpi-grid">
+      <div class="kpi"><div class="num tabular">100%</div><div class="lbl">hard-signal ring recall — 40 of 40</div></div>
+      <div class="kpi"><div class="num tabular">77.5%</div><div class="lbl">soft-signal ring recall — 31 of 40</div></div>
+      <div class="kpi"><div class="num tabular">5.0%</div><div class="lbl">confounder false-positive rate — 2 of 40</div></div>
+      <div class="kpi"><div class="num tabular">97.3%</div><div class="lbl">cluster-level precision</div></div>
+    </div>
+
+    <div class="honesty-box">
+      <h4>The honest part</h4>
+      <p>Soft-signal recall is lower on purpose — it's the case with no shared device or instrument, only IP overlap and referral timing, and it's the real test of the approach. It is not a scattered failure rate hiding behind an average: every single one of the 9 missed rings is the dataset's deliberately "hard mode" variant (slower claims, noisier order values), and both wrongly-flagged confounders are the deliberately "tight" household variant (a compressed, borderline-organic signup window). Zero misses on the easy case of either category.</p>
+    </div>
+
+    <div class="table-scroll">
+      <table class="breakdown-table">
+        <thead><tr><th>Category</th><th>Difficulty</th><th>Count</th><th>Result</th></tr></thead>
+        <tbody>
+          <tr><td>Hard-signal rings</td><td>—</td><td class="num tabular">40</td><td class="num tabular">40 detected, 0 missed</td></tr>
+          <tr><td>Soft-signal rings</td><td>easy</td><td class="num tabular">24</td><td class="num tabular">24 detected, 0 missed</td></tr>
+          <tr><td>Soft-signal rings</td><td>hard mode</td><td class="num tabular">16</td><td class="num tabular">7 detected, 9 missed</td></tr>
+          <tr><td>Confounders</td><td>easy</td><td class="num tabular">37</td><td class="num tabular">37 spared, 0 wrongly flagged</td></tr>
+          <tr><td>Confounders</td><td>tight</td><td class="num tabular">3</td><td class="num tabular">1 spared, 2 wrongly flagged</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="governance">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 03</div>
+      <div>
+        <h2>Every recommendation is bounded to three words</h2>
+        <p class="section-sub">The system flags, explains, and recommends. A human executes. This isn't a policy choice made after the fact — there is no function in this codebase that bans an account, blocks a payment, or claws back a bonus.</p>
+      </div>
+    </div>
+    <div class="rule-grid">
+      <div class="rule-card"><span class="tag tag-hold">HOLD_BONUS</span><p>Hold or reverse a pending referral bonus for this cluster, pending human review. Reserved for strong evidence — shared instrument or device, tight timing, templated spending, dormancy after claim.</p></div>
+      <div class="rule-card"><span class="tag tag-review">MANUAL_REVIEW</span><p>Evidence is suspicious but not conclusive enough to touch money. A human analyst looks closer before anything happens.</p></div>
+      <div class="rule-card"><span class="tag tag-none">NO_ACTION</span><p>Even after passing the deterministic filter, the model can still recommend doing nothing — its own secondary read of the evidence, not a rubber stamp of stage five.</p></div>
+    </div>
+    <div class="banned">A missed ring costs paid-out money. A false alarm costs a delayed payout pending review — <strong>never a punishment.</strong> That asymmetry is why stage five is tuned conservatively.</div>
+  </div>
+</section>
+
+<section id="llm-layer">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 04</div>
+      <div>
+        <h2>The LLM writes the case. It doesn't build it.</h2>
+        <p class="section-sub">By the time a cluster reaches a model, five deterministic stages have already produced every fact in the case file. The model's only job is to explain it in one paragraph a human can act on in ten seconds.</p>
+      </div>
+    </div>
+    <div class="flow-line">
+      <div class="flow-node">stage 4 features</div><span class="flow-arrow">→</span>
+      <div class="flow-node">stage 5 verdict</div><span class="flow-arrow">→</span>
+      <div class="flow-node dim">no raw account data</div><span class="flow-arrow">→</span>
+      <div class="flow-node">Claude / Gemini</div><span class="flow-arrow">→</span>
+      <div class="flow-node">1 of 3 actions</div>
+    </div>
+    <div class="case-sample">
+      <div class="ch"><span class="cid">CLUSTER C0002 · HARD-SIGNAL · 12 ACCOUNTS</span><span class="conf tabular">confidence 0.98</span></div>
+      <blockquote>"This cluster of 12 accounts exhibits classic referral farming behavior, featuring a tight signup burst over 2.88 days and 100% sharing of a single payment instrument. All bonus-claiming members went completely dormant immediately after receiving their rewards, engaging in near-identical, templated transaction amounts."</blockquote>
+      <div class="src">→ HOLD_BONUS · written by Gemini, live, from stage 4/5 evidence only</div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <div class="section-head">
+      <div class="exhibit-no">EXHIBIT 05</div>
+      <div>
+        <h2>What this doesn't claim</h2>
+        <p class="section-sub">Stated plainly, because a demo that only shows its wins isn't trustworthy.</p>
+      </div>
+    </div>
+    <ul class="limits-list">
+      <li>Real fraud rings are adversarial, not static. They evolve to evade exactly this kind of detection — these planted rings are necessarily more obvious than one built by someone who has seen a system like this before.</li>
+      <li>A ring sharing <em>zero</em> attributes — fully clean burner identities, no device, IP, or payment overlap — is structurally invisible to a graph-clustering approach. There's no edge to find.</li>
+      <li>LLM confidence scores are self-reported, not calibrated probabilities.</li>
+      <li>This is a bounded, synthetic demonstration — it has no access to Razorpay's actual cross-merchant network data, and makes no claim to outperform network-scale fraud infrastructure.</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap footer-row">
+    <div>PROMO/REFERRAL ABUSE-RING SENTINEL — GRAPH-BASED DETECTION, HUMAN-EXECUTED ACTION</div>
+    <div>SNAPSHOT · 7,500-ACCOUNT SYNTHETIC COHORT</div>
+  </div>
+</footer>
+
+<script>
+(function(){
+  const canvas = document.getElementById('net');
+  const stage = canvas.closest('.stage');
+  const ctx = canvas.getContext('2d');
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function seeded(seed){ let s = seed; return function(){ s = (s * 9301 + 49297) % 233280; return s / 233280; }; }
+  const rnd = seeded(42);
+
+  const bg = [];
+  for (let i = 0; i < 30; i++){
+    bg.push({ x: rnd(), y: rnd(), r: 1.6 + rnd() * 1.2, phase: rnd() * Math.PI * 2, speed: 0.15 + rnd() * 0.15 });
+  }
+
+  function ring(cx, cy, n, spread, seedOffset){
+    const r = seeded(seedOffset);
+    const pts = [];
+    for (let i = 0; i < n; i++){
+      const a = (i / n) * Math.PI * 2 + r() * 0.6;
+      const d = spread * (0.55 + r() * 0.55);
+      pts.push({ x: cx + Math.cos(a) * d, y: cy + Math.sin(a) * d * 0.72 });
+    }
+    return pts;
+  }
+
+  const ringCluster = ring(0.20, 0.42, 7, 0.115, 7);
+  const confCluster = ring(0.76, 0.58, 8, 0.125, 19);
+
+  function meshEdges(pts, extra){
+    const edges = [];
+    for (let i = 1; i < pts.length; i++) edges.push([0, i]);
+    for (let i = 0; i < extra.length; i++) edges.push(extra[i]);
+    return edges;
+  }
+  const ringEdges = meshEdges(ringCluster, [[1,2],[2,3],[3,4],[4,5],[1,3],[4,6]]);
+  const confEdges = meshEdges(confCluster, [[1,2],[2,3],[3,4],[4,5],[5,6],[6,7],[1,4],[3,6]]);
+
+  let dpr = Math.min(window.devicePixelRatio || 1, 2);
+
+  function size(){
+    const rect = canvas.getBoundingClientRect();
+    canvas.width = Math.round(rect.width * dpr);
+    canvas.height = Math.round(rect.height * dpr);
+  }
+
+  const cs = getComputedStyle(document.documentElement);
+  function col(name){ return cs.getPropertyValue(name).trim(); }
+
+  function drawEdges(pts, edges, color, alpha, w){
+    ctx.strokeStyle = color; ctx.globalAlpha = alpha; ctx.lineWidth = w;
+    ctx.beginPath();
+    edges.forEach(([a,b]) => {
+      const p1 = pts[a], p2 = pts[b];
+      ctx.moveTo(p1.x * canvas.width, p1.y * canvas.height);
+      ctx.lineTo(p2.x * canvas.width, p2.y * canvas.height);
+    });
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+  }
+
+  function drawNodes(pts, color, radius, glow){
+    pts.forEach(p => {
+      const x = p.x * canvas.width, y = p.y * canvas.height;
+      if (glow){
+        const g = ctx.createRadialGradient(x, y, 0, x, y, radius * 4.2);
+        g.addColorStop(0, color); g.addColorStop(1, 'transparent');
+        ctx.globalAlpha = 0.35; ctx.fillStyle = g;
+        ctx.beginPath(); ctx.arc(x, y, radius * 4.2, 0, Math.PI * 2); ctx.fill();
+        ctx.globalAlpha = 1;
+      }
+      ctx.fillStyle = color;
+      ctx.beginPath(); ctx.arc(x, y, radius, 0, Math.PI * 2); ctx.fill();
+    });
+  }
+
+  function frame(t){
+    const secs = t / 1000;
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+    const dim = col('--text-dim');
+    ctx.globalAlpha = 0.45;
+    bg.forEach(n => {
+      const x = (n.x + Math.sin(secs * n.speed + n.phase) * 0.006) * canvas.width;
+      const y = (n.y + Math.cos(secs * n.speed * 0.8 + n.phase) * 0.006) * canvas.height;
+      ctx.fillStyle = dim;
+      ctx.beginPath(); ctx.arc(x, y, n.r * dpr, 0, Math.PI * 2); ctx.fill();
+    });
+    ctx.globalAlpha = 1;
+
+    drawEdges(confCluster, confEdges, col('--thread-amber'), 0.7, 1.4 * dpr);
+    drawNodes(confCluster, col('--verified'), 4.2 * dpr, false);
+
+    const pulse = reduceMotion ? 0.85 : 0.62 + Math.sin(secs * 1.7) * 0.28;
+    drawEdges(ringCluster, ringEdges.slice(0,4), col('--thread-violet'), pulse, 1.8 * dpr);
+    drawEdges(ringCluster, ringEdges.slice(4), col('--thread-red'), pulse, 1.8 * dpr);
+    drawNodes(ringCluster, col('--thread-red'), 4.8 * dpr, true);
+
+    if (!reduceMotion) requestAnimationFrame(frame);
+  }
+
+  function layout(){
+    size();
+    const r = canvas.getBoundingClientRect();
+    const tagRing = document.getElementById('tag-ring');
+    const tagConf = document.getElementById('tag-conf');
+    tagRing.style.left = (ringCluster[0].x * 100 - 6) + '%';
+    tagRing.style.top = (ringCluster[0].y * 100 - 11) + '%';
+    tagConf.style.left = (confCluster[0].x * 100 - 4) + '%';
+    tagConf.style.top = (confCluster[0].y * 100 + 13) + '%';
+    frame(reduceMotion ? 0 : performance.now());
+  }
+
+  new ResizeObserver(layout).observe(stage);
+  layout();
+  if (!reduceMotion) requestAnimationFrame(frame);
+})();
+</script>
