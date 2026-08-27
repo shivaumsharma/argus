@@ -1,0 +1,71 @@
+"""Cross-cutting queries joining ground truth with pipeline output -- used by the dashboard and API."""
+
+import json
+
+from . import db
+from .pipeline.data_io import GT_DIR, PROCESSED_DIR
+from .pipeline.eval import best_match
+
+
+def load_ground_truth():
+    with open(GT_DIR / "rings.json") as f:
+        rings = json.load(f)
+    with open(GT_DIR / "confounders.json") as f:
+        confounders = json.load(f)
+    return rings, confounders
+
+
+def load_eval_report():
+    path = PROCESSED_DIR / "eval_report.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
+
+
+def confounder_callout_rows():
+    """For every planted legitimate cluster: was it wrongly flagged, and if it was ever
+    considered a candidate at all, why did (or didn't) it survive the Stage 5 filter?"""
+    _, confounders = load_ground_truth()
+    all_clusters = db.get_all_clusters()
+    flagged = [c for c in all_clusters if c["flagged"]]
+
+    rows = []
+    for cid, conf in confounders.items():
+        members = set(conf["members"])
+        flagged_match = best_match(members, flagged)
+        any_match = best_match(members, all_clusters)
+        rows.append({
+            "confounder_id": cid,
+            "type": conf["type"],
+            "difficulty": conf.get("difficulty", "easy"),
+            "size": len(members),
+            "description": conf["description"],
+            "wrongly_flagged": flagged_match is not None,
+            "matched_cluster_id": (flagged_match or any_match)["cluster_id"] if (flagged_match or any_match) else None,
+            "filter_reason": (flagged_match or any_match)["filter_reason"] if (flagged_match or any_match) else None,
+            "features": (flagged_match or any_match)["features"] if (flagged_match or any_match) else None,
+            "surfaced_as_candidate": any_match is not None,
+        })
+    return rows
+
+
+def ring_recall_rows():
+    rings, _ = load_ground_truth()
+    all_clusters = db.get_all_clusters()
+    flagged = [c for c in all_clusters if c["flagged"]]
+
+    rows = []
+    for rid, ring in rings.items():
+        members = set(ring["members"])
+        match = best_match(members, flagged)
+        rows.append({
+            "ring_id": rid,
+            "type": ring["type"],
+            "difficulty": ring.get("difficulty", "n/a"),
+            "size": len(members),
+            "description": ring["description"],
+            "detected": match is not None,
+            "matched_cluster_id": match["cluster_id"] if match else None,
+        })
+    return rows
