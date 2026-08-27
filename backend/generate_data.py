@@ -44,7 +44,7 @@ TODAY = datetime(2026, 8, 27)
 START = datetime(2025, 9, 1)
 SPAN_DAYS = (TODAY - START).days
 
-TARGET_TOTAL_ACCOUNTS = 4000
+TARGET_TOTAL_ACCOUNTS = 7500
 
 EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com", "rediffmail.com", "hotmail.com"]
 
@@ -454,7 +454,7 @@ def main():
     labels = []  # user_id, cluster_type, cluster_id
 
     # --- Hard-signal rings ---
-    n_hard = 9
+    n_hard = 40
     for i in range(1, n_hard + 1):
         size = random.randint(3, 15)
         members = gen_hard_ring(size)
@@ -467,9 +467,9 @@ def main():
         }
         labels += [{"user_id": u, "cluster_type": "ring_hard", "cluster_id": ring_id} for u in members]
 
-    # --- Soft-signal rings --- (4 of 9 run in hard_mode: slower/noisier, the genuinely hard case)
-    n_soft = 9
-    hard_mode_indices = {2, 4, 6, 8}
+    # --- Soft-signal rings --- (~40% run in hard_mode: slower/noisier, the genuinely hard case)
+    n_soft = 40
+    hard_mode_indices = {i for i in range(1, n_soft + 1) if i % 5 in (2, 4)}
     for i in range(1, n_soft + 1):
         size = random.randint(4, 15)
         hard_mode = i in hard_mode_indices
@@ -488,13 +488,13 @@ def main():
         }
         labels += [{"user_id": u, "cluster_type": "ring_soft", "cluster_id": ring_id} for u in members]
 
-    # --- Confounders --- (one household runs "tight": borderline organic, stress-tests Stage 5)
+    # --- Confounders --- (a few households run "tight": borderline organic, stress-tests Stage 5)
     conf_specs = (
-        [("household", gen_household, (3, 6), {"tight": True})]
-        + [("household", gen_household, (3, 6), {}) for _ in range(3)]
-        + [("hostel", gen_hostel, (12, 25), {}) for _ in range(3)]
-        + [("influencer", gen_influencer_tree, (25, 50), {}) for _ in range(2)]
-        + [("office", gen_office, (15, 35), {}) for _ in range(3)]
+        [("household", gen_household, (3, 6), {"tight": True}) for _ in range(3)]
+        + [("household", gen_household, (3, 6), {}) for _ in range(10)]
+        + [("hostel", gen_hostel, (12, 25), {}) for _ in range(10)]
+        + [("influencer", gen_influencer_tree, (25, 50), {}) for _ in range(7)]
+        + [("office", gen_office, (15, 35), {}) for _ in range(10)]
     )
     conf_counters = {}
     for kind, fn, size_range, kwargs in conf_specs:
