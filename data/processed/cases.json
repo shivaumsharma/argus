@@ -131,7 +131,451 @@
   {
     "cluster_id": "C0010",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0010 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0010 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.73 days",
+      "order-value CV of 0.0181 (near-identical amounts)"
+    ]
+  },
+  {
+    "cluster_id": "C0011",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0011 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.57 days",
+      "order-value CV of 0.0133 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0012",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0012 (11 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.71 days",
+      "order-value CV of 0.0054 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0013",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0013 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.53 days",
+      "order-value CV of 0.018 (near-identical amounts)",
+      "85% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0014",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0014 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.69 days",
+      "order-value CV of 0.0053 (near-identical amounts)",
+      "92% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0015",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0015 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.57 days",
+      "order-value CV of 0.0038 (near-identical amounts)",
+      "80% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0016",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0016 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.86 days",
+      "order-value CV of 0.0064 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0017",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0017 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.45 days",
+      "order-value CV of 0.004 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0018",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0018 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.52 days",
+      "order-value CV of 0.0073 (near-identical amounts)",
+      "78% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0019",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0019 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.53 days",
+      "order-value CV of 0.0117 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0020",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0020 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.76 days",
+      "order-value CV of 0.0046 (near-identical amounts)",
+      "83% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0021",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0021 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.47 days",
+      "order-value CV of 0.0211 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0022",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0022 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.5 days",
+      "order-value CV of 0.005 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0023",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0023 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.0 days",
+      "order-value CV of 0.0069 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0024",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0024 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.66 days",
+      "order-value CV of 0.0064 (near-identical amounts)",
+      "70% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0025",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0025 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.11 days",
+      "order-value CV of 0.0026 (near-identical amounts)",
+      "50% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0026",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0026 (4 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.04 days",
+      "order-value CV of 0.0276 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0027",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0027 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.49 days",
+      "order-value CV of 0.005 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0028",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0028 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.52 days",
+      "order-value CV of 0.012 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0029",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0029 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.32 days",
+      "order-value CV of 0.0026 (near-identical amounts)"
+    ]
+  },
+  {
+    "cluster_id": "C0030",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0030 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.02 days",
+      "order-value CV of 0.0034 (near-identical amounts)"
+    ]
+  },
+  {
+    "cluster_id": "C0031",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0031 (6 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.93 days",
+      "order-value CV of 0.0067 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0032",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0032 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.99 days",
+      "order-value CV of 0.0045 (near-identical amounts)",
+      "56% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0033",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0033 (10 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.65 days",
+      "order-value CV of 0.0067 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0034",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0034 (9 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.55 days",
+      "order-value CV of 0.046 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0035",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0035 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.71 days",
+      "order-value CV of 0.0085 (near-identical amounts)",
+      "50% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0036",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0036 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.74 days",
+      "order-value CV of 0.0262 (near-identical amounts)",
+      "82% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0037",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0037 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.52 days",
+      "order-value CV of 0.0055 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0038",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0038 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "100% of members share one device",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.51 days",
+      "order-value CV of 0.0094 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0039",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0039 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.83 days",
+      "order-value CV of 0.0472 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0040",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0040 (6 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "confidence": 0.85,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "100% of members share one payment instrument",
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.79 days",
+      "order-value CV of 0.0504 (near-identical amounts)",
+      "80% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0041",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0041 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
     "confidence": 0.4,
     "recommended_action": "MANUAL_REVIEW",
     "key_evidence": [
@@ -140,107 +584,417 @@
     ]
   },
   {
-    "cluster_id": "C0012",
+    "cluster_id": "C0042",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0012 (6 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
-    "recommended_action": "HOLD_BONUS",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0042 (4 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "confidence": 0.4,
+    "recommended_action": "MANUAL_REVIEW",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.53 days",
-      "order-value CV of 0.0509 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share one device",
+      "cluster shares an IP subnet"
     ]
   },
   {
-    "cluster_id": "C0014",
+    "cluster_id": "C0047",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0014 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0047 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 1.48 days",
-      "order-value CV of 0.0139 (near-identical amounts)",
-      "82% claim-then-dormant"
+      "signup burst spans only 1.92 days",
+      "order-value CV of 0.0151 (near-identical amounts)",
+      "90% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0015",
+    "cluster_id": "C0048",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0015 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0048 (9 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 1.51 days",
-      "order-value CV of 0.0864 (near-identical amounts)",
+      "signup burst spans only 5.27 days",
+      "order-value CV of 0.0609 (near-identical amounts)",
       "67% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0016",
+    "cluster_id": "C0049",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0016 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0049 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 0.24 days",
-      "order-value CV of 0.0081 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "signup burst spans only 0.6 days",
+      "order-value CV of 0.0027 (near-identical amounts)",
+      "100% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0017",
+    "cluster_id": "C0051",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0017 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0051 (12 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 4.58 days",
-      "order-value CV of 0.0526 (near-identical amounts)",
+      "signup burst spans only 1.52 days",
+      "order-value CV of 0.0064 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0052",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0052 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.18 days",
+      "order-value CV of 0.0113 (near-identical amounts)",
       "80% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0018",
+    "cluster_id": "C0054",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0018 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0054 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 1.05 days",
-      "order-value CV of 0.005 (near-identical amounts)",
-      "78% claim-then-dormant"
+      "signup burst spans only 0.85 days",
+      "order-value CV of 0.0049 (near-identical amounts)",
+      "88% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0019",
+    "cluster_id": "C0056",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0019 (6 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0056 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.16 days",
+      "order-value CV of 0.0078 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0057",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0057 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.49 days",
+      "order-value CV of 0.0109 (near-identical amounts)",
+      "83% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0059",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0059 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.65 days",
+      "order-value CV of 0.0084 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0061",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0061 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.48 days",
+      "order-value CV of 0.0075 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0062",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0062 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.75 days",
+      "order-value CV of 0.0042 (near-identical amounts)",
+      "90% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0063",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0063 (11 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 6.27 days",
+      "order-value CV of 0.0607 (near-identical amounts)",
+      "50% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0064",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0064 (14 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
       "signup burst spans only 2.06 days",
-      "order-value CV of 0.0754 (near-identical amounts)",
-      "50% claim-then-dormant"
+      "order-value CV of 0.0149 (near-identical amounts)",
+      "82% claim-then-dormant"
     ]
   },
   {
-    "cluster_id": "C0020",
+    "cluster_id": "C0065",
     "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0020 (11 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0065 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
     "confidence": 0.72,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "cluster shares an IP subnet",
-      "signup burst spans only 1.2 days",
-      "order-value CV of 0.0049 (near-identical amounts)",
+      "signup burst spans only 4.93 days",
+      "order-value CV of 0.065 (near-identical amounts)",
+      "50% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0066",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0066 (14 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.21 days",
+      "order-value CV of 0.0074 (near-identical amounts)",
+      "91% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0067",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0067 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.87 days",
+      "order-value CV of 0.0057 (near-identical amounts)",
+      "60% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0069",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0069 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.77 days",
+      "order-value CV of 0.0079 (near-identical amounts)",
       "62% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0071",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0071 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.39 days",
+      "order-value CV of 0.0049 (near-identical amounts)",
+      "90% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0072",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0072 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.29 days",
+      "order-value CV of 0.0049 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0074",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0074 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.62 days",
+      "order-value CV of 0.0075 (near-identical amounts)",
+      "60% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0075",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0075 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 4.05 days",
+      "order-value CV of 0.0778 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0076",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0076 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.39 days",
+      "order-value CV of 0.0082 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0077",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0077 (11 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.42 days",
+      "order-value CV of 0.0112 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0078",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0078 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 4.39 days",
+      "order-value CV of 0.0829 (near-identical amounts)",
+      "71% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0079",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0079 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 2.17 days",
+      "order-value CV of 0.0522 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0080",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0080 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 6.63 days",
+      "order-value CV of 0.0587 (near-identical amounts)",
+      "46% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0081",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0081 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.29 days",
+      "order-value CV of 0.0068 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0082",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0082 (12 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.56 days",
+      "order-value CV of 0.042 (near-identical amounts)",
+      "90% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0083",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0083 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.71 days",
+      "order-value CV of 0.104 (near-identical amounts)",
+      "67% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0084",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0084 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.23 days",
+      "order-value CV of 0.0093 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0086",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0086 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.87 days",
+      "order-value CV of 0.004 (near-identical amounts)",
+      "100% claim-then-dormant"
     ]
   }
 ]
