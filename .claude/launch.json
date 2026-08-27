@@ -4,7 +4,7 @@
     {
       "name": "sentinel-dashboard",
       "runtimeExecutable": "D:/Coding/Projects/Razorpay/venv/Scripts/streamlit.exe",
-      "runtimeArgs": ["run", "frontend/app.py", "--server.port", "8501", "--server.headless", "true"],
+      "runtimeArgs": ["run", "frontend/streamlit_app.py", "--server.port", "8501", "--server.headless", "true"],
       "port": 8501
     }
   ]
