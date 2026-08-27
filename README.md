@@ -39,14 +39,14 @@ venv\Scripts\pip install -r requirements.txt          # Windows
 python -m backend.generate_data                        # Day 1 — synthetic accounts + planted rings/confounders
 python -m backend.pipeline.run_pipeline                 # Stages 1-5 — graph, clustering, scoring, filter
 python -m backend.pipeline.eval                          # precision/recall vs. ground truth
-python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY for live mode)
+python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY or GEMINI_API_KEY for live mode)
 python -m backend.demo_failure_injection                 # proves the pipeline survives missing device/IP/instrument data
 
 streamlit run frontend/streamlit_app.py                    # dashboard
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
 ```
 
-Without `ANTHROPIC_API_KEY` set, the LLM stage falls back to a clearly-labeled deterministic template writeup so the pipeline still runs end to end.
+Stage 8 tries providers in order and degrades gracefully: **Claude** (`ANTHROPIC_API_KEY`) → **Gemini free tier** (`GEMINI_API_KEY` or `GOOGLE_API_KEY`, no billing required — get one at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)) → a clearly-labeled deterministic template writeup. With no credentials at all, the pipeline still runs end to end on the template. Model choice matters here: the newest `gemini-3.6-flash` turned out to carry a free-tier quota of only 20 requests/**day** (not minute) per project — it's a brand-new model, presumably still ramping up its free allocation — so Stage 8 uses `gemini-flash-lite-latest` instead, whose free tier is roughly 1,000 requests/day and ~30/minute, comfortably enough for a full investigation run.
 
 ## Project layout
 

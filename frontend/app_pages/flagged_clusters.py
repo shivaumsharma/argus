@@ -8,7 +8,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import ACTION_COLOR, STAGE_COLOR, cached_all_clusters, ensure_version, get_graph, graph_viz  # noqa: E402
+from shared import ACTION_COLOR, MODE_ICON, MODE_LABEL, STAGE_COLOR, cached_all_clusters, ensure_version, get_graph, graph_viz  # noqa: E402
 
 st.title(":material/flag: Flagged clusters")
 st.caption(
@@ -26,12 +26,15 @@ if not flagged:
     st.stop()
 
 # --- Summary ---
+n_live = sum(1 for c in flagged if c.get("llm_mode") in ("anthropic", "gemini"))
 with st.container(horizontal=True):
     st.metric("Flagged clusters", len(flagged), border=True)
     st.metric("Hard-signal", sum(1 for c in flagged if c["detection_stage"] == "hard"), border=True)
     st.metric("Soft-signal", sum(1 for c in flagged if c["detection_stage"] == "soft"), border=True)
     st.metric("Hold bonus", sum(1 for c in flagged if c["llm_recommended_action"] == "HOLD_BONUS"), border=True)
     st.metric("Manual review", sum(1 for c in flagged if c["llm_recommended_action"] == "MANUAL_REVIEW"), border=True)
+    st.metric("Written by live LLM", f"{n_live}/{len(flagged)}", border=True,
+              help="Cases written by a real LLM call (Claude or Gemini) vs. the deterministic template fallback.")
 
 st.space("medium")
 
@@ -62,6 +65,7 @@ table_df = pd.DataFrame([{
     "Size": c["features"]["size"],
     "Action": c["llm_recommended_action"] or "pending",
     "Confidence": c["llm_confidence"],
+    "Written by": MODE_LABEL.get(c.get("llm_mode"), "-"),
     "Signup span (d)": c["features"]["signup_span_days"],
     "Order CV": c["features"]["order_value_cv"],
     "Claim-then-dormant": c["features"]["claim_then_dormant_frac"],
@@ -99,8 +103,10 @@ if c["llm_key_evidence"]:
     for ev in c["llm_key_evidence"]:
         st.markdown(f"- {ev}")
 
-if c.get("llm_mode") == "fallback_template":
-    st.caption(":material/info: Template fallback used (no LLM credentials available for this run).")
+if c.get("llm_mode"):
+    icon = MODE_ICON.get(c["llm_mode"], ":material/info:")
+    label = MODE_LABEL.get(c["llm_mode"], c["llm_mode"])
+    st.caption(f"{icon} Case written by: **{label}**")
 
 detail_cols = st.columns(2)
 with detail_cols[0]:

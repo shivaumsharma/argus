@@ -14,6 +14,8 @@ from backend.pipeline.data_io import load_data  # noqa: E402
 from backend.pipeline.graph_build import build_graph  # noqa: E402
 
 ACTION_COLOR = {"HOLD_BONUS": "red", "MANUAL_REVIEW": "orange", "NO_ACTION": "gray"}
+MODE_LABEL = {"anthropic": "Claude (live)", "gemini": "Gemini (live)", "fallback_template": "Template fallback"}
+MODE_ICON = {"anthropic": ":material/bolt:", "gemini": ":material/bolt:", "fallback_template": ":material/description:"}
 ACTION_ICON = {"HOLD_BONUS": ":material/pause_circle:", "MANUAL_REVIEW": ":material/search:", "NO_ACTION": ":material/check_circle:"}
 STAGE_COLOR = {"hard": "red", "soft": "violet"}
 DIFFICULTY_COLOR = {"easy": "gray", "hard": "orange", "tight": "orange", "n/a": "gray"}

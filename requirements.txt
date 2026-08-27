@@ -7,4 +7,5 @@ uvicorn>=0.29
 streamlit>=1.57
 pyvis>=0.3.2
 anthropic>=0.40
+google-genai>=2.0
 pydantic>=2.6
