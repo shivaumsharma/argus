@@ -15,23 +15,25 @@ Target structure per the submission brief: problem (30s) → live demo (2.5min) 
 ## 0:30–3:00 — Live demo
 
 **[0:30–1:15] Show the graph forming.**
-Open the Streamlit dashboard → **Graph explorer** tab → pick a flagged hard-signal cluster (e.g. `C0002`).
-> "This is thirteen accounts that all signed up within a three-day window. Watch the edges: purple means they share one payment instrument, red means shared device, orange means the same IP subnet. Two different people legitimately sharing a payment instrument is rare — this is a near-certain signal, and it's a *connected component* in the graph, not a model score."
+Open the Streamlit dashboard — start on **Overview** for two seconds to establish scale (7,500 accounts, dozens of rings caught, dozens of confounders spared), then go to **Flagged clusters**, pick a hard-signal row from the table (any of them — sort by confidence and take the top one), and open its **Graph** panel.
+> "This is a cluster that all signed up within a few days of each other. Watch the edges: purple means they share one payment instrument, red means shared device, orange means the same IP subnet. Two different people legitimately sharing a payment instrument is rare — this is a near-certain signal, and it's a *connected component* in the graph, not a model score."
 
 **[1:15–2:00] Show a flagged case card.**
-Switch to **Flagged clusters** tab, scroll to the same cluster.
-> "Here's the case the system built. The deterministic pipeline — five stages, zero LLM calls — already decided this is suspicious: shared instrument, 2.9-day signup burst, order-value coefficient of variation of 0.004 — that means the order amounts are practically identical — and 100% of members went silent after claiming their bonus. *Only now* does an LLM see it, and only to write this up in plain English and pick one bounded action: `HOLD_BONUS`. It cannot ban anyone. It cannot block a transaction. A human executes the final call."
+Stay on the same row's detail panel.
+> "Here's the case the system built. The deterministic pipeline — five stages, zero LLM calls — already decided this is suspicious: shared instrument, a signup burst measured in days not months, an order-value coefficient of variation near zero — that means the order amounts are practically identical — and most of the members went silent after claiming their bonus. *Only now* does an LLM see it, and only to write this up in plain English and pick one bounded action: `HOLD_BONUS`. It cannot ban anyone. It cannot block a transaction. A human executes the final call."
 
 **[2:00–3:00] Show a confounder correctly left alone.**
-Switch to **Confounders left alone** tab, pick `CONF_HOSTEL_02` (24 accounts, shared IP subnet, correctly unflagged).
-> "Now here's the part that actually matters for a submission like this: this is a *planted, legitimate* cluster — 24 students on the same hostel wifi. Same kind of dense, shared-attribute cluster as the ring I just showed you. But the system left it alone, and it tells you exactly why: activity spread out over months, diverse order values, ongoing engagement — not a burst, not templated, not dormant. The entire job of the last deterministic stage is to actively look for evidence a cluster is *legitimate* and suppress the flag. That's not a nice-to-have. That's the difference between a system a trust-and-safety team can actually run and one that gets shut off after week one for punishing real customers."
+Switch to **Confounders left alone**, filter to "hostel" or "office", pick a large one that's correctly unflagged.
+> "Now here's the part that actually matters for a submission like this: this is a *planted, legitimate* cluster — dozens of students on the same hostel wifi, or an entire office on the same network. Same kind of dense, shared-attribute cluster as the ring I just showed you. But the system left it alone, and it tells you exactly why: activity spread out over months, diverse order values, ongoing engagement — not a burst, not templated, not dormant. The entire job of the last deterministic stage is to actively look for evidence a cluster is *legitimate* and suppress the flag. That's not a nice-to-have. That's the difference between a system a trust-and-safety team can actually run and one that gets shut off after week one for punishing real customers."
 
 ---
 
 ## 3:00–4:00 — Honest metrics
 
-Switch to **Metrics** tab.
-> "On a held-out split — never used to tune any threshold — the hard-signal rings, the ones sharing a device or payment instrument: 100% recall. The soft-signal rings, the ones with no shared device or instrument at all, only IP overlap and referral timing: 88.9%. That number is lower on purpose, and I'm not going to pretend otherwise — soft-signal-only detection is the genuinely hard case, and one of my planted 'patient' rings, the ones with slower claims and noisier order values, got missed. Confounder false-positive rate: 8.3%, one out of twelve planted legitimate clusters wrongly flagged — and that one is a household with a compressed nine-day signup window that fooled the spread-out check.
+Switch to **Metrics**.
+> "On a held-out split — never used to tune any threshold — across 40 planted rings per category: the hard-signal rings, the ones sharing a device or payment instrument: 100% recall. The soft-signal rings, the ones with no shared device or instrument at all, only IP overlap and referral timing: 77.5%. That number is lower on purpose, and I'm not going to pretend otherwise — soft-signal-only detection is the genuinely hard case. And it's not scattered, either: every single miss is my deliberately 'patient' ring variant, the ones with slower claims and noisier order values — zero misses on the easy soft rings. Confounder false-positive rate: 5%, two out of forty planted legitimate clusters wrongly flagged — and both of those are households with a compressed, borderline signup window that fooled the spread-out check. Same story: zero false positives on the easy confounders.
+
+> Look at the difficulty breakdown on this page — that's not me hiding a scattershot failure rate behind an average. Every miss traces to a specific, deliberately-hard planted case.
 
 > And here's the framing that actually matters for the business: a missed ring costs real, paid-out money. A wrongly-flagged legitimate cluster costs a *delayed* bonus, pending human review — because nothing here auto-executes. That asymmetry is why the filter defaults to *not* flagging when evidence is ambiguous."
 
@@ -52,6 +54,6 @@ Let the script output scroll: corruption applied, graph built, zero exceptions, 
 
 ## Recording notes
 
-- Pre-load the Streamlit dashboard (`streamlit run frontend/app.py`) and let clusters/graphs render *before* recording — the pyvis graphs take a second to lay out via physics simulation.
+- Pre-load the Streamlit dashboard (`streamlit run frontend/streamlit_app.py`) and let clusters/graphs render *before* recording — the pyvis graphs take a second to lay out via physics simulation.
 - Have a terminal window ready with the venv activated for the failure-injection segment.
 - If narrating live, rehearse the 2:00–3:00 confounder segment once — it's the section most likely to run long and it's the section that differentiates this submission most, so it's worth protecting the time for.

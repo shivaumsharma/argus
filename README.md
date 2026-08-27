@@ -18,14 +18,16 @@ This is also, not incidentally, what the RBI's FREE-AI framework (Aug 2025) asks
 
 ## Results (held-out split, never used to tune thresholds)
 
+Synthetic cohort: **7,500 accounts** — 40 hard-signal rings, 40 soft-signal rings, and 40 planted legitimate confounders (120 planted cases, ~1,536 labeled accounts), plus ~5,964 unconnected background accounts as noise.
+
 | Metric | Value |
 |---|---|
-| Hard-signal ring recall | **100%** (9/9) |
-| Soft-signal ring recall | **88.9%** (8/9) — the real test of the approach |
-| Confounder false-positive rate | **8.3%** (1/12) |
-| Cluster-level precision | **94.4%** |
+| Hard-signal ring recall | **100%** (40/40) |
+| Soft-signal ring recall | **77.5%** (31/40) — the real test of the approach |
+| Confounder false-positive rate | **5.0%** (2/40) |
+| Cluster-level precision | **97.3%** |
 
-Both misses are individually traceable to specific feature values, not bugs — see [`data/processed/eval_report.json`](data/processed/eval_report.json) and [Known Limitations](docs/ARCHITECTURE.md#known-limitations-honest) below. The dataset deliberately includes a "hard mode" ring variant (slower claims, noisier order values) and a "tight" household confounder (compressed signup window) specifically so these numbers aren't a suspiciously perfect 100% — a synthetic benchmark that never misses anything isn't testing the hard cases.
+Every miss is individually traceable, not a bug: all 9 missed soft rings are the deliberately "hard mode" variant (slower referral claims, noisier order-value templating); both wrongly-flagged confounders are "tight" households (a compressed, borderline-organic signup window). Zero misses on the easy cases of either category — see [`data/processed/eval_report.json`](data/processed/eval_report.json) and [Known Limitations](docs/ARCHITECTURE.md#known-limitations-honest) below.
 
 ## Quickstart
 
@@ -40,7 +42,7 @@ python -m backend.pipeline.eval                          # precision/recall vs. 
 python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY for live mode)
 python -m backend.demo_failure_injection                 # proves the pipeline survives missing device/IP/instrument data
 
-streamlit run frontend/app.py                             # dashboard
+streamlit run frontend/streamlit_app.py                    # dashboard
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
 ```
 
@@ -65,7 +67,15 @@ backend/
   api.py                         FastAPI read-only service over the same store
   demo_failure_injection.py       Day 7 — proves graceful handling of missing device/IP/instrument fields
 frontend/
-  app.py                       Streamlit dashboard — case cards, confounder callout, graph explorer, metrics, audit log
+  streamlit_app.py             entry point — page config, sidebar pipeline controls, navigation
+  shared.py                     shared cached loaders (graph, clusters, eval report) used by every page
+  app_pages/
+    overview.py                  landing page — the thesis, headline KPIs, pipeline walkthrough
+    flagged_clusters.py           filterable/searchable table + case detail with embedded graph
+    confounders.py                 filterable confounder callout — correctly-left-alone vs. wrongly-flagged
+    graph_explorer.py               free-form subgraph viewer
+    metrics.py                       precision/recall, dev/holdout split, recall-by-difficulty breakdown
+    audit_log.py                      full input-evidence/output audit trail
 data/
   raw/                          synthetic accounts/sessions/referrals/instruments/orders
   ground_truth/                  planted rings + confounders (never read by the detector)
