@@ -4,3 +4,7 @@ __pycache__/
 .env
 *.db
 .streamlit/secrets.toml
+.venv
+data/app.db
+data/processed/graph_cache/
+lib/

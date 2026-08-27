@@ -3,6 +3,7 @@
 import json
 import time
 
+from .. import db
 from .clustering import dedupe_candidates, stage2_hard_clusters, stage3_soft_clusters
 from .confounder_filter import evaluate_cluster
 from .data_io import PROCESSED_DIR, load_data
@@ -41,6 +42,7 @@ def run(resolution: float = None, verbose: bool = True):
 
     with open(PROCESSED_DIR / "clusters.json", "w") as f:
         json.dump(results, f, indent=2)
+    db.write_clusters(results)
 
     elapsed = time.time() - t0
     if verbose:
