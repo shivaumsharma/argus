@@ -1,0 +1,2300 @@
+[
+  {
+    "cluster_id": "C0001",
+    "detection_stage": "hard",
+    "members": [
+      "U000001",
+      "U000002",
+      "U000003",
+      "U000004",
+      "U000005",
+      "U000006",
+      "U000007",
+      "U000008",
+      "U000009",
+      "U000010",
+      "U000011",
+      "U000012",
+      "U000013"
+    ],
+    "features": {
+      "size": 13,
+      "n_edges": 78,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_device"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.077,
+      "signup_span_days": 2.66,
+      "avg_gap_hours": 5.32,
+      "bonus_claim_velocity_hours": 4.64,
+      "claim_frac": 0.846,
+      "claim_then_dormant_frac": 0.727,
+      "n_orders": 18,
+      "order_value_cv": 0.0076,
+      "post_signup_engagement": 0.154
+    },
+    "flagged": true,
+    "filter_reason": "Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0002",
+    "detection_stage": "hard",
+    "members": [
+      "U000014",
+      "U000015",
+      "U000016",
+      "U000017",
+      "U000018",
+      "U000019",
+      "U000020",
+      "U000021",
+      "U000022",
+      "U000023",
+      "U000024",
+      "U000025"
+    ],
+    "features": {
+      "size": 12,
+      "n_edges": 66,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_instrument"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.083,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.88,
+      "avg_gap_hours": 6.29,
+      "bonus_claim_velocity_hours": 3.0,
+      "claim_frac": 0.833,
+      "claim_then_dormant_frac": 1.0,
+      "n_orders": 15,
+      "order_value_cv": 0.0044,
+      "post_signup_engagement": 0.083
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0003",
+    "detection_stage": "hard",
+    "members": [
+      "U000026",
+      "U000027",
+      "U000028",
+      "U000029",
+      "U000030",
+      "U000031",
+      "U000032",
+      "U000033",
+      "U000034",
+      "U000035",
+      "U000036",
+      "U000037",
+      "U000038",
+      "U000039",
+      "U000040"
+    ],
+    "features": {
+      "size": 15,
+      "n_edges": 105,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_device",
+        "shared_instrument"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.81,
+      "avg_gap_hours": 4.82,
+      "bonus_claim_velocity_hours": 3.05,
+      "claim_frac": 0.733,
+      "claim_then_dormant_frac": 0.909,
+      "n_orders": 22,
+      "order_value_cv": 0.0048,
+      "post_signup_engagement": 0.067
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0004",
+    "detection_stage": "hard",
+    "members": [
+      "U000041",
+      "U000042",
+      "U000043",
+      "U000044",
+      "U000045",
+      "U000046",
+      "U000047",
+      "U000048",
+      "U000049",
+      "U000050",
+      "U000051",
+      "U000052",
+      "U000053",
+      "U000054"
+    ],
+    "features": {
+      "size": 14,
+      "n_edges": 91,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_device",
+        "shared_instrument"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.44,
+      "avg_gap_hours": 4.5,
+      "bonus_claim_velocity_hours": 3.14,
+      "claim_frac": 0.786,
+      "claim_then_dormant_frac": 0.909,
+      "n_orders": 23,
+      "order_value_cv": 0.0059,
+      "post_signup_engagement": 0.0
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0005",
+    "detection_stage": "hard",
+    "members": [
+      "U000055",
+      "U000056",
+      "U000057",
+      "U000058",
+      "U000059",
+      "U000060",
+      "U000061",
+      "U000062"
+    ],
+    "features": {
+      "size": 8,
+      "n_edges": 28,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_device",
+        "shared_instrument"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.3,
+      "avg_gap_hours": 7.89,
+      "bonus_claim_velocity_hours": 3.69,
+      "claim_frac": 0.75,
+      "claim_then_dormant_frac": 1.0,
+      "n_orders": 9,
+      "order_value_cv": 0.0133,
+      "post_signup_engagement": 0.0
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0006",
+    "detection_stage": "hard",
+    "members": [
+      "U000063",
+      "U000064",
+      "U000065",
+      "U000066",
+      "U000067",
+      "U000068",
+      "U000069",
+      "U000070",
+      "U000071",
+      "U000072",
+      "U000073",
+      "U000074",
+      "U000075",
+      "U000076"
+    ],
+    "features": {
+      "size": 14,
+      "n_edges": 91,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_instrument"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.071,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.08,
+      "avg_gap_hours": 3.84,
+      "bonus_claim_velocity_hours": 2.6,
+      "claim_frac": 0.857,
+      "claim_then_dormant_frac": 0.75,
+      "n_orders": 21,
+      "order_value_cv": 0.006,
+      "post_signup_engagement": 0.286
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0007",
+    "detection_stage": "hard",
+    "members": [
+      "U000077",
+      "U000078",
+      "U000079",
+      "U000080",
+      "U000081",
+      "U000082"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_instrument"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.167,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 1.53,
+      "avg_gap_hours": 7.36,
+      "bonus_claim_velocity_hours": 2.72,
+      "claim_frac": 0.333,
+      "claim_then_dormant_frac": 1.0,
+      "n_orders": 8,
+      "order_value_cv": 0.004,
+      "post_signup_engagement": 0.167
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0008",
+    "detection_stage": "hard",
+    "members": [
+      "U000083",
+      "U000084",
+      "U000085",
+      "U000086",
+      "U000087",
+      "U000088",
+      "U000089",
+      "U000090",
+      "U000091",
+      "U000092",
+      "U000093"
+    ],
+    "features": {
+      "size": 11,
+      "n_edges": 55,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_instrument"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.091,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.24,
+      "avg_gap_hours": 5.38,
+      "bonus_claim_velocity_hours": 2.81,
+      "claim_frac": 0.727,
+      "claim_then_dormant_frac": 0.875,
+      "n_orders": 15,
+      "order_value_cv": 0.0041,
+      "post_signup_engagement": 0.091
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0009",
+    "detection_stage": "hard",
+    "members": [
+      "U000094",
+      "U000095",
+      "U000096",
+      "U000097",
+      "U000098",
+      "U000099",
+      "U000100",
+      "U000101",
+      "U000102",
+      "U000103",
+      "U000104",
+      "U000105",
+      "U000106"
+    ],
+    "features": {
+      "size": 13,
+      "n_edges": 78,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link",
+        "shared_instrument"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.077,
+      "shared_instrument": true,
+      "shared_instrument_frac": 1.0,
+      "signup_span_days": 2.05,
+      "avg_gap_hours": 4.1,
+      "bonus_claim_velocity_hours": 1.7,
+      "claim_frac": 0.692,
+      "claim_then_dormant_frac": 0.778,
+      "n_orders": 18,
+      "order_value_cv": 0.0382,
+      "post_signup_engagement": 0.154
+    },
+    "flagged": true,
+    "filter_reason": "Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0010",
+    "detection_stage": "hard",
+    "members": [
+      "U000184",
+      "U000185",
+      "U000186"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 3,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "shared_device"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 9.78,
+      "avg_gap_hours": 117.35,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 11,
+      "order_value_cv": 0.5012,
+      "post_signup_engagement": 8.667
+    },
+    "flagged": true,
+    "filter_reason": "Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
+    "organic_score": 2,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0011",
+    "detection_stage": "hard",
+    "members": [
+      "U000187",
+      "U000188",
+      "U000189",
+      "U000190"
+    ],
+    "features": {
+      "size": 4,
+      "n_edges": 6,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "shared_device"
+      ],
+      "shared_device": true,
+      "shared_device_frac": 1.0,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.25,
+      "signup_span_days": 70.97,
+      "avg_gap_hours": 567.76,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 27,
+      "order_value_cv": 0.5757,
+      "post_signup_engagement": 18.0
+    },
+    "flagged": false,
+    "filter_reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0012",
+    "detection_stage": "soft",
+    "members": [
+      "U000107",
+      "U000108",
+      "U000109",
+      "U000110",
+      "U000111",
+      "U000112"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.167,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.167,
+      "signup_span_days": 0.53,
+      "avg_gap_hours": 2.56,
+      "bonus_claim_velocity_hours": 1.42,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 1.0,
+      "n_orders": 11,
+      "order_value_cv": 0.0509,
+      "post_signup_engagement": 0.0
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0013",
+    "detection_stage": "soft",
+    "members": [
+      "U000113",
+      "U000114",
+      "U000115",
+      "U000116",
+      "U000117",
+      "U000118",
+      "U000119",
+      "U000120",
+      "U000121",
+      "U000122",
+      "U000123",
+      "U000124",
+      "U000125",
+      "U000126"
+    ],
+    "features": {
+      "size": 14,
+      "n_edges": 91,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.071,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.071,
+      "signup_span_days": 9.86,
+      "avg_gap_hours": 18.2,
+      "bonus_claim_velocity_hours": 23.7,
+      "claim_frac": 0.786,
+      "claim_then_dormant_frac": 0.727,
+      "n_orders": 24,
+      "order_value_cv": 0.0655,
+      "post_signup_engagement": 0.571
+    },
+    "flagged": false,
+    "filter_reason": "Soft-signal cluster with no clear suspicious pattern and insufficient organic evidence -- left unflagged by default (evidence too weak either way).",
+    "organic_score": 0,
+    "suspicion_score": 2
+  },
+  {
+    "cluster_id": "C0014",
+    "detection_stage": "soft",
+    "members": [
+      "U000127",
+      "U000128",
+      "U000129",
+      "U000130",
+      "U000131",
+      "U000132",
+      "U000133",
+      "U000134",
+      "U000135",
+      "U000136",
+      "U000137",
+      "U000138",
+      "U000139"
+    ],
+    "features": {
+      "size": 13,
+      "n_edges": 78,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.077,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.077,
+      "signup_span_days": 1.48,
+      "avg_gap_hours": 2.97,
+      "bonus_claim_velocity_hours": 2.3,
+      "claim_frac": 0.846,
+      "claim_then_dormant_frac": 0.818,
+      "n_orders": 20,
+      "order_value_cv": 0.0139,
+      "post_signup_engagement": 0.154
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0015",
+    "detection_stage": "soft",
+    "members": [
+      "U000140",
+      "U000141",
+      "U000142",
+      "U000143"
+    ],
+    "features": {
+      "size": 4,
+      "n_edges": 6,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.25,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.25,
+      "signup_span_days": 1.51,
+      "avg_gap_hours": 12.1,
+      "bonus_claim_velocity_hours": 31.11,
+      "claim_frac": 0.75,
+      "claim_then_dormant_frac": 0.667,
+      "n_orders": 7,
+      "order_value_cv": 0.0864,
+      "post_signup_engagement": 0.75
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 3
+  },
+  {
+    "cluster_id": "C0016",
+    "detection_stage": "soft",
+    "members": [
+      "U000144",
+      "U000145",
+      "U000146",
+      "U000147",
+      "U000148"
+    ],
+    "features": {
+      "size": 5,
+      "n_edges": 10,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.2,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.2,
+      "signup_span_days": 0.24,
+      "avg_gap_hours": 1.41,
+      "bonus_claim_velocity_hours": 2.04,
+      "claim_frac": 0.8,
+      "claim_then_dormant_frac": 0.75,
+      "n_orders": 8,
+      "order_value_cv": 0.0081,
+      "post_signup_engagement": 0.4
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0017",
+    "detection_stage": "soft",
+    "members": [
+      "U000149",
+      "U000150",
+      "U000151",
+      "U000152",
+      "U000153",
+      "U000154",
+      "U000155",
+      "U000156"
+    ],
+    "features": {
+      "size": 8,
+      "n_edges": 28,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.125,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.125,
+      "signup_span_days": 4.58,
+      "avg_gap_hours": 15.71,
+      "bonus_claim_velocity_hours": 25.51,
+      "claim_frac": 0.625,
+      "claim_then_dormant_frac": 0.8,
+      "n_orders": 13,
+      "order_value_cv": 0.0526,
+      "post_signup_engagement": 0.5
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 3
+  },
+  {
+    "cluster_id": "C0018",
+    "detection_stage": "soft",
+    "members": [
+      "U000157",
+      "U000158",
+      "U000159",
+      "U000160",
+      "U000161",
+      "U000162",
+      "U000163",
+      "U000164",
+      "U000165",
+      "U000166"
+    ],
+    "features": {
+      "size": 10,
+      "n_edges": 45,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.1,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.1,
+      "signup_span_days": 1.05,
+      "avg_gap_hours": 2.81,
+      "bonus_claim_velocity_hours": 1.5,
+      "claim_frac": 0.9,
+      "claim_then_dormant_frac": 0.778,
+      "n_orders": 14,
+      "order_value_cv": 0.005,
+      "post_signup_engagement": 0.3
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0019",
+    "detection_stage": "soft",
+    "members": [
+      "U000167",
+      "U000168",
+      "U000169",
+      "U000170",
+      "U000171",
+      "U000172"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.167,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.167,
+      "signup_span_days": 2.06,
+      "avg_gap_hours": 9.89,
+      "bonus_claim_velocity_hours": 14.48,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.5,
+      "n_orders": 8,
+      "order_value_cv": 0.0754,
+      "post_signup_engagement": 0.667
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 3
+  },
+  {
+    "cluster_id": "C0020",
+    "detection_stage": "soft",
+    "members": [
+      "U000173",
+      "U000174",
+      "U000175",
+      "U000176",
+      "U000177",
+      "U000178",
+      "U000179",
+      "U000180",
+      "U000181",
+      "U000182",
+      "U000183"
+    ],
+    "features": {
+      "size": 11,
+      "n_edges": 55,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.091,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.091,
+      "signup_span_days": 1.2,
+      "avg_gap_hours": 2.87,
+      "bonus_claim_velocity_hours": 2.51,
+      "claim_frac": 0.727,
+      "claim_then_dormant_frac": 0.625,
+      "n_orders": 17,
+      "order_value_cv": 0.0049,
+      "post_signup_engagement": 0.273
+    },
+    "flagged": true,
+    "filter_reason": "No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "organic_score": 0,
+    "suspicion_score": 4
+  },
+  {
+    "cluster_id": "C0021",
+    "detection_stage": "soft",
+    "members": [
+      "U000191",
+      "U000192",
+      "U000193"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 3,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 71.11,
+      "avg_gap_hours": 853.3,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 24,
+      "order_value_cv": 0.5214,
+      "post_signup_engagement": 23.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0022",
+    "detection_stage": "soft",
+    "members": [
+      "U000194",
+      "U000195",
+      "U000196"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 3,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 85.33,
+      "avg_gap_hours": 1023.98,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 15,
+      "order_value_cv": 0.6883,
+      "post_signup_engagement": 15.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0023",
+    "detection_stage": "soft",
+    "members": [
+      "U000197",
+      "U000198",
+      "U000199",
+      "U000200",
+      "U000201",
+      "U000202",
+      "U000203",
+      "U000204",
+      "U000205",
+      "U000206",
+      "U000207",
+      "U000208",
+      "U000209",
+      "U000210"
+    ],
+    "features": {
+      "size": 14,
+      "n_edges": 91,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.071,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.071,
+      "signup_span_days": 226.14,
+      "avg_gap_hours": 417.49,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 48,
+      "order_value_cv": 0.5263,
+      "post_signup_engagement": 13.857
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0024",
+    "detection_stage": "soft",
+    "members": [
+      "U000211",
+      "U000212",
+      "U000213",
+      "U000214",
+      "U000215",
+      "U000216",
+      "U000217",
+      "U000218",
+      "U000219",
+      "U000220",
+      "U000221",
+      "U000222",
+      "U000223",
+      "U000224",
+      "U000225",
+      "U000226",
+      "U000227",
+      "U000228",
+      "U000229",
+      "U000230",
+      "U000231",
+      "U000232",
+      "U000233",
+      "U000234"
+    ],
+    "features": {
+      "size": 24,
+      "n_edges": 276,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.042,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.042,
+      "signup_span_days": 227.54,
+      "avg_gap_hours": 237.43,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 81,
+      "order_value_cv": 0.5868,
+      "post_signup_engagement": 10.25
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0025",
+    "detection_stage": "soft",
+    "members": [
+      "U000235",
+      "U000236",
+      "U000237",
+      "U000238",
+      "U000239",
+      "U000240",
+      "U000241",
+      "U000242",
+      "U000243",
+      "U000244",
+      "U000245",
+      "U000246",
+      "U000247",
+      "U000248",
+      "U000249",
+      "U000250",
+      "U000251",
+      "U000252",
+      "U000253",
+      "U000254",
+      "U000255",
+      "U000256",
+      "U000257",
+      "U000258"
+    ],
+    "features": {
+      "size": 24,
+      "n_edges": 276,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.042,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.042,
+      "signup_span_days": 224.34,
+      "avg_gap_hours": 234.09,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 114,
+      "order_value_cv": 0.4899,
+      "post_signup_engagement": 11.875
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0026",
+    "detection_stage": "soft",
+    "members": [
+      "U000259",
+      "U000260",
+      "U000261",
+      "U000262",
+      "U000263",
+      "U000264",
+      "U000265",
+      "U000266",
+      "U000267",
+      "U000268",
+      "U000269",
+      "U000270",
+      "U000271",
+      "U000272",
+      "U000273",
+      "U000274",
+      "U000275",
+      "U000276",
+      "U000277",
+      "U000278",
+      "U000279",
+      "U000280",
+      "U000281",
+      "U000282",
+      "U000283",
+      "U000284",
+      "U000285",
+      "U000286"
+    ],
+    "features": {
+      "size": 28,
+      "n_edges": 27,
+      "edge_density": 0.0714,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.036,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.036,
+      "signup_span_days": 269.85,
+      "avg_gap_hours": 239.87,
+      "bonus_claim_velocity_hours": 105.44,
+      "claim_frac": 0.964,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 122,
+      "order_value_cv": 0.5324,
+      "post_signup_engagement": 11.75
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0027",
+    "detection_stage": "soft",
+    "members": [
+      "U000287",
+      "U000288",
+      "U000289",
+      "U000290",
+      "U000291",
+      "U000292",
+      "U000293",
+      "U000294",
+      "U000295",
+      "U000296",
+      "U000297",
+      "U000298",
+      "U000299",
+      "U000300",
+      "U000301",
+      "U000302",
+      "U000303",
+      "U000304",
+      "U000305",
+      "U000306",
+      "U000307",
+      "U000308",
+      "U000309",
+      "U000310",
+      "U000311",
+      "U000312",
+      "U000313",
+      "U000314",
+      "U000315",
+      "U000316",
+      "U000317",
+      "U000318"
+    ],
+    "features": {
+      "size": 32,
+      "n_edges": 31,
+      "edge_density": 0.0625,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.031,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.031,
+      "signup_span_days": 266.07,
+      "avg_gap_hours": 205.99,
+      "bonus_claim_velocity_hours": 113.08,
+      "claim_frac": 0.969,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 136,
+      "order_value_cv": 0.5082,
+      "post_signup_engagement": 13.625
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0028",
+    "detection_stage": "soft",
+    "members": [
+      "U000319",
+      "U000320",
+      "U000321",
+      "U000322",
+      "U000323",
+      "U000324",
+      "U000325",
+      "U000326",
+      "U000327",
+      "U000328",
+      "U000329",
+      "U000330",
+      "U000331",
+      "U000332",
+      "U000333",
+      "U000334",
+      "U000335",
+      "U000336",
+      "U000337",
+      "U000338",
+      "U000339",
+      "U000340",
+      "U000341",
+      "U000342",
+      "U000343",
+      "U000344",
+      "U000345"
+    ],
+    "features": {
+      "size": 27,
+      "n_edges": 351,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.037,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.037,
+      "signup_span_days": 322.33,
+      "avg_gap_hours": 297.54,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 75,
+      "order_value_cv": 0.4806,
+      "post_signup_engagement": 7.63
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0029",
+    "detection_stage": "soft",
+    "members": [
+      "U000346",
+      "U000347",
+      "U000348",
+      "U000349",
+      "U000350",
+      "U000351",
+      "U000352",
+      "U000353",
+      "U000354",
+      "U000355",
+      "U000356",
+      "U000357",
+      "U000358",
+      "U000359",
+      "U000360",
+      "U000361",
+      "U000362",
+      "U000363",
+      "U000364",
+      "U000365",
+      "U000366",
+      "U000367",
+      "U000368",
+      "U000369",
+      "U000370",
+      "U000371",
+      "U000372",
+      "U000373",
+      "U000374",
+      "U000375"
+    ],
+    "features": {
+      "size": 30,
+      "n_edges": 435,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.033,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.033,
+      "signup_span_days": 332.82,
+      "avg_gap_hours": 275.44,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 68,
+      "order_value_cv": 0.4838,
+      "post_signup_engagement": 7.967
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0030",
+    "detection_stage": "soft",
+    "members": [
+      "U000376",
+      "U000377",
+      "U000378",
+      "U000379",
+      "U000380",
+      "U000381",
+      "U000382",
+      "U000383",
+      "U000384",
+      "U000385",
+      "U000386",
+      "U000387",
+      "U000388",
+      "U000389",
+      "U000390",
+      "U000391",
+      "U000392",
+      "U000393",
+      "U000394",
+      "U000395",
+      "U000396",
+      "U000397",
+      "U000398",
+      "U000399",
+      "U000400",
+      "U000401",
+      "U000402",
+      "U000403",
+      "U000404",
+      "U000405",
+      "U000406"
+    ],
+    "features": {
+      "size": 31,
+      "n_edges": 465,
+      "edge_density": 1.0,
+      "signals_present": [
+        "ip_subnet_overlap"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.032,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.032,
+      "signup_span_days": 334.02,
+      "avg_gap_hours": 267.22,
+      "bonus_claim_velocity_hours": null,
+      "claim_frac": 0.0,
+      "claim_then_dormant_frac": null,
+      "n_orders": 99,
+      "order_value_cv": 0.4823,
+      "post_signup_engagement": 10.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0031",
+    "detection_stage": "soft",
+    "members": [
+      "U000439",
+      "U003276",
+      "U003880"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 49.26,
+      "avg_gap_hours": 591.09,
+      "bonus_claim_velocity_hours": 99.3,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 8,
+      "order_value_cv": 0.7067,
+      "post_signup_engagement": 5.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0032",
+    "detection_stage": "soft",
+    "members": [
+      "U000524",
+      "U001931",
+      "U003526"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 35.12,
+      "avg_gap_hours": 421.46,
+      "bonus_claim_velocity_hours": 112.01,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 7,
+      "order_value_cv": 0.4768,
+      "post_signup_engagement": 10.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0033",
+    "detection_stage": "soft",
+    "members": [
+      "U000577",
+      "U001623",
+      "U002757",
+      "U003881"
+    ],
+    "features": {
+      "size": 4,
+      "n_edges": 3,
+      "edge_density": 0.5,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.25,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.25,
+      "signup_span_days": 59.3,
+      "avg_gap_hours": 474.39,
+      "bonus_claim_velocity_hours": 283.41,
+      "claim_frac": 0.75,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 10,
+      "order_value_cv": 0.5549,
+      "post_signup_engagement": 7.25
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0034",
+    "detection_stage": "soft",
+    "members": [
+      "U000682",
+      "U003014",
+      "U003813"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 37.72,
+      "avg_gap_hours": 452.61,
+      "bonus_claim_velocity_hours": 312.18,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 8,
+      "order_value_cv": 0.4823,
+      "post_signup_engagement": 6.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0035",
+    "detection_stage": "soft",
+    "members": [
+      "U000692",
+      "U000706",
+      "U002698"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 16.66,
+      "avg_gap_hours": 199.92,
+      "bonus_claim_velocity_hours": 97.11,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 6,
+      "order_value_cv": 0.4484,
+      "post_signup_engagement": 5.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 2,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0036",
+    "detection_stage": "soft",
+    "members": [
+      "U000738",
+      "U000777",
+      "U002465"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 5.91,
+      "avg_gap_hours": 70.93,
+      "bonus_claim_velocity_hours": 243.08,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 7,
+      "order_value_cv": 0.4522,
+      "post_signup_engagement": 13.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 2,
+    "suspicion_score": 1
+  },
+  {
+    "cluster_id": "C0037",
+    "detection_stage": "soft",
+    "members": [
+      "U000894",
+      "U002071",
+      "U003615"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 23.17,
+      "avg_gap_hours": 278.08,
+      "bonus_claim_velocity_hours": 117.75,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 12,
+      "order_value_cv": 0.4234,
+      "post_signup_engagement": 13.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0038",
+    "detection_stage": "soft",
+    "members": [
+      "U000966",
+      "U001319",
+      "U002982"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 49.38,
+      "avg_gap_hours": 592.61,
+      "bonus_claim_velocity_hours": 177.86,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 6,
+      "order_value_cv": 0.2783,
+      "post_signup_engagement": 9.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 2,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0039",
+    "detection_stage": "soft",
+    "members": [
+      "U000990",
+      "U001078",
+      "U002568"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 25.22,
+      "avg_gap_hours": 302.63,
+      "bonus_claim_velocity_hours": 286.3,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 6,
+      "order_value_cv": 0.3316,
+      "post_signup_engagement": 5.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0040",
+    "detection_stage": "soft",
+    "members": [
+      "U001070",
+      "U001489",
+      "U002790"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 76.45,
+      "avg_gap_hours": 917.36,
+      "bonus_claim_velocity_hours": 146.24,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 5,
+      "order_value_cv": 0.754,
+      "post_signup_engagement": 6.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0041",
+    "detection_stage": "soft",
+    "members": [
+      "U001090",
+      "U002411",
+      "U003421"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 92.41,
+      "avg_gap_hours": 1108.9,
+      "bonus_claim_velocity_hours": 186.75,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 8,
+      "order_value_cv": 0.4214,
+      "post_signup_engagement": 11.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0042",
+    "detection_stage": "soft",
+    "members": [
+      "U001136",
+      "U001557",
+      "U002140"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 51.46,
+      "avg_gap_hours": 617.53,
+      "bonus_claim_velocity_hours": 214.34,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 9,
+      "order_value_cv": 0.4344,
+      "post_signup_engagement": 17.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0043",
+    "detection_stage": "soft",
+    "members": [
+      "U001219",
+      "U001863",
+      "U003694"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 44.83,
+      "avg_gap_hours": 537.95,
+      "bonus_claim_velocity_hours": 222.56,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 3,
+      "order_value_cv": 0.7652,
+      "post_signup_engagement": 7.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0044",
+    "detection_stage": "soft",
+    "members": [
+      "U001230",
+      "U001962",
+      "U002521",
+      "U002823"
+    ],
+    "features": {
+      "size": 4,
+      "n_edges": 3,
+      "edge_density": 0.5,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.25,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.25,
+      "signup_span_days": 37.78,
+      "avg_gap_hours": 302.21,
+      "bonus_claim_velocity_hours": 173.63,
+      "claim_frac": 0.75,
+      "claim_then_dormant_frac": 0.667,
+      "n_orders": 3,
+      "order_value_cv": 0.7937,
+      "post_signup_engagement": 2.25
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 1
+  },
+  {
+    "cluster_id": "C0045",
+    "detection_stage": "soft",
+    "members": [
+      "U001299",
+      "U002313",
+      "U002860"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 10.23,
+      "avg_gap_hours": 122.73,
+      "bonus_claim_velocity_hours": 142.74,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 10,
+      "order_value_cv": 0.5716,
+      "post_signup_engagement": 11.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 2,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0046",
+    "detection_stage": "soft",
+    "members": [
+      "U001332",
+      "U001545",
+      "U001591"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 36.62,
+      "avg_gap_hours": 439.38,
+      "bonus_claim_velocity_hours": 266.58,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 8,
+      "order_value_cv": 0.5071,
+      "post_signup_engagement": 8.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0047",
+    "detection_stage": "soft",
+    "members": [
+      "U001335",
+      "U003128",
+      "U003407"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 55.43,
+      "avg_gap_hours": 665.1,
+      "bonus_claim_velocity_hours": 234.11,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 6,
+      "order_value_cv": 0.5107,
+      "post_signup_engagement": 9.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0048",
+    "detection_stage": "soft",
+    "members": [
+      "U001389",
+      "U001899",
+      "U002403"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 26.34,
+      "avg_gap_hours": 316.12,
+      "bonus_claim_velocity_hours": 154.69,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 4,
+      "order_value_cv": 0.4381,
+      "post_signup_engagement": 4.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0049",
+    "detection_stage": "soft",
+    "members": [
+      "U001414",
+      "U001616",
+      "U003344"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 70.75,
+      "avg_gap_hours": 849.03,
+      "bonus_claim_velocity_hours": 224.53,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 7,
+      "order_value_cv": 0.4322,
+      "post_signup_engagement": 5.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0050",
+    "detection_stage": "soft",
+    "members": [
+      "U001478",
+      "U001574",
+      "U002088"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 21.95,
+      "avg_gap_hours": 263.41,
+      "bonus_claim_velocity_hours": 182.33,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 6,
+      "order_value_cv": 0.4809,
+      "post_signup_engagement": 7.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0051",
+    "detection_stage": "soft",
+    "members": [
+      "U001781",
+      "U002161",
+      "U002416"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 37.12,
+      "avg_gap_hours": 445.45,
+      "bonus_claim_velocity_hours": 128.58,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 7,
+      "order_value_cv": 0.4254,
+      "post_signup_engagement": 15.0
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0052",
+    "detection_stage": "soft",
+    "members": [
+      "U001964",
+      "U003366",
+      "U003506"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 72.07,
+      "avg_gap_hours": 864.79,
+      "bonus_claim_velocity_hours": 49.3,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 7,
+      "order_value_cv": 0.4189,
+      "post_signup_engagement": 7.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0053",
+    "detection_stage": "soft",
+    "members": [
+      "U001965",
+      "U002489",
+      "U003875"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 76.29,
+      "avg_gap_hours": 915.48,
+      "bonus_claim_velocity_hours": 307.67,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 9,
+      "order_value_cv": 0.4664,
+      "post_signup_engagement": 7.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0054",
+    "detection_stage": "soft",
+    "members": [
+      "U002117",
+      "U002651",
+      "U003162"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "ip_subnet_overlap",
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 176.91,
+      "avg_gap_hours": 2122.97,
+      "bonus_claim_velocity_hours": 255.78,
+      "claim_frac": 0.333,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 5,
+      "order_value_cv": 0.3415,
+      "post_signup_engagement": 6.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0055",
+    "detection_stage": "soft",
+    "members": [
+      "U002120",
+      "U002331",
+      "U002553"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 13.89,
+      "avg_gap_hours": 166.71,
+      "bonus_claim_velocity_hours": 178.84,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 5,
+      "order_value_cv": 0.7969,
+      "post_signup_engagement": 10.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 2,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0056",
+    "detection_stage": "soft",
+    "members": [
+      "U002123",
+      "U003438",
+      "U003537"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 65.93,
+      "avg_gap_hours": 791.14,
+      "bonus_claim_velocity_hours": 209.47,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 4,
+      "order_value_cv": 0.5611,
+      "post_signup_engagement": 5.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0057",
+    "detection_stage": "soft",
+    "members": [
+      "U002545",
+      "U003039",
+      "U003318"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 62.02,
+      "avg_gap_hours": 744.25,
+      "bonus_claim_velocity_hours": 229.71,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 8,
+      "order_value_cv": 0.3383,
+      "post_signup_engagement": 9.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0058",
+    "detection_stage": "soft",
+    "members": [
+      "U002832",
+      "U003440",
+      "U003715"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 88.09,
+      "avg_gap_hours": 1057.03,
+      "bonus_claim_velocity_hours": 212.41,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 11,
+      "order_value_cv": 0.4406,
+      "post_signup_engagement": 9.667
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  },
+  {
+    "cluster_id": "C0059",
+    "detection_stage": "soft",
+    "members": [
+      "U003155",
+      "U003236",
+      "U003954"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 2,
+      "edge_density": 0.6667,
+      "signals_present": [
+        "referral_link"
+      ],
+      "shared_device": false,
+      "shared_device_frac": 0.333,
+      "shared_instrument": false,
+      "shared_instrument_frac": 0.333,
+      "signup_span_days": 42.45,
+      "avg_gap_hours": 509.39,
+      "bonus_claim_velocity_hours": 62.87,
+      "claim_frac": 0.667,
+      "claim_then_dormant_frac": 0.0,
+      "n_orders": 4,
+      "order_value_cv": 0.2885,
+      "post_signup_engagement": 10.333
+    },
+    "flagged": false,
+    "filter_reason": "No shared device or instrument; spread-out timing, diverse orders, and ongoing engagement dominate -- looks like an organic cluster (office network, hostel wifi, or influencer referral tree).",
+    "organic_score": 3,
+    "suspicion_score": 0
+  }
+]

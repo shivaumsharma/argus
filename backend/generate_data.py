@@ -279,18 +279,27 @@ def gen_hard_ring(size):
     return members
 
 
-def gen_soft_ring(size):
-    """No shared device/instrument. Shared IP subnet + tight referral-chain timing +
+def gen_soft_ring(size, hard_mode=False):
+    """No shared device/instrument. Shared IP subnet + referral-chain timing +
     templated order values. claim-then-dormant. Only catchable via weighted community
-    detection (Stage 3), not hard-signal connected components (Stage 2)."""
+    detection (Stage 3), not hard-signal connected components (Stage 2).
+
+    hard_mode=True loosens every parameter (slower referral claims, wider signup
+    spread, noisier order templating, more follow-up activity) to simulate a more
+    patient/careful ring -- the genuinely harder case the soft-signal stage may miss."""
     subnet = rand_subnet()
     burst_start = rand_signup_within_span(SPAN_DAYS - 30)
     order_template = round(random.uniform(150, 2500), 2)
 
+    gap_hours = (4, 20) if hard_mode else (0.5, 4)
+    claim_hours = (6, 36) if hard_mode else (0.2, 4)
+    order_noise = order_template * 0.12 if hard_mode else 15
+    followup_chance = 0.4 if hard_mode else 0.15
+
     members = []
     prev = None
     for i in range(size):
-        signup = burst_start + timedelta(hours=i * random.uniform(0.5, 4))
+        signup = burst_start + timedelta(hours=i * random.uniform(*gap_hours))
         device_id = rand_device_id()
         ip = rand_ip(subnet)
         instrument = rand_instrument_hash()
@@ -303,20 +312,23 @@ def gen_soft_ring(size):
         members.append(uid)
 
         if referred_by:
-            claim_ts = signup + timedelta(hours=random.uniform(0.2, 4))
+            claim_ts = signup + timedelta(hours=random.uniform(*claim_hours))
             add_referral(referred_by, uid, claim_ts, status_weights=(0.85, 0.15, 0.0))
             sessions.append(session_row(uid, device_id, ip, claim_ts, "referral_claim"))
 
         ts = signup
         for _ in range(random.randint(1, 2)):
             ts = ts + timedelta(hours=random.uniform(1, 24))
-            value = order_template + random.uniform(-15, 15)
+            value = order_template + random.uniform(-order_noise, order_noise)
             orders.append(order_row(uid, ts, value, acct["home_pincode"]))
             sessions.append(session_row(uid, device_id, ip, ts, "order_placed"))
-        if random.random() < 0.15:
-            ts2 = signup + timedelta(days=random.uniform(5, 20))
-            if ts2 <= TODAY:
-                sessions.append(session_row(uid, device_id, ip, ts2, "login"))
+        if random.random() < followup_chance:
+            n_followups = random.randint(1, 3) if hard_mode else 1
+            ts2 = signup
+            for _ in range(n_followups):
+                ts2 = ts2 + timedelta(days=random.uniform(5, 25))
+                if ts2 <= TODAY:
+                    sessions.append(session_row(uid, device_id, ip, ts2, "login"))
         prev = uid
     return members
 
@@ -325,22 +337,29 @@ def gen_soft_ring(size):
 # Planted legitimate confounder clusters
 # --------------------------------------------------------------------------
 
-def gen_household(size):
+def gen_household(size, tight=False):
     """Shared device (family tablet) or shared IP. Organic, spread-out activity
-    over months, diverse order values, no referral-timing pattern."""
+    over months, diverse order values, no referral-timing pattern.
+
+    tight=True compresses the signup window and order-value diversity toward the
+    low end of "still organic" -- a genuinely borderline household (everyone signed
+    up during one weekend setting up the new tablet) that stress-tests Stage 5."""
     shared_device = rand_device_id() if random.random() < 0.5 else None
     subnet = rand_subnet()
-    start = rand_signup_within_span(SPAN_DAYS - 200)
+    span_days = 25 if tight else 180
+    start = rand_signup_within_span(SPAN_DAYS - span_days - 20)
 
     members = []
     for _ in range(size):
-        signup = start + timedelta(days=random.uniform(0, 180))
+        signup = start + timedelta(days=random.uniform(0, span_days))
         device_id = shared_device or rand_device_id()
         ip = rand_ip(subnet)
         acct = make_account(signup, device_id=device_id, ip=ip)
         uid = acct["user_id"]
         members.append(uid)
-        _add_organic_activity(acct, signup, n_orders_range=(3, 12), n_logins_range=(5, 25))
+        n_orders_range = (2, 6) if tight else (3, 12)
+        n_logins_range = (3, 10) if tight else (5, 25)
+        _add_organic_activity(acct, signup, n_orders_range=n_orders_range, n_logins_range=n_logins_range)
     return members
 
 
@@ -448,32 +467,40 @@ def main():
         }
         labels += [{"user_id": u, "cluster_type": "ring_hard", "cluster_id": ring_id} for u in members]
 
-    # --- Soft-signal rings ---
+    # --- Soft-signal rings --- (4 of 9 run in hard_mode: slower/noisier, the genuinely hard case)
     n_soft = 9
+    hard_mode_indices = {2, 4, 6, 8}
     for i in range(1, n_soft + 1):
         size = random.randint(4, 15)
-        members = gen_soft_ring(size)
+        hard_mode = i in hard_mode_indices
+        members = gen_soft_ring(size, hard_mode=hard_mode)
         ring_id = f"RING_SOFT_{i:02d}"
         rings_gt[ring_id] = {
             "type": "soft",
+            "difficulty": "hard" if hard_mode else "easy",
             "members": members,
-            "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; "
-                            "claim-then-dormant. No shared device or instrument.",
+            "description": ("Shared IP subnet + slow/loose referral-chain timing + noisier templated order "
+                             "values; occasional follow-up activity. No shared device or instrument. Deliberately "
+                             "harder to catch."
+                             if hard_mode else
+                             "Shared IP subnet + tight referral-chain timing (hours) + templated order values; "
+                             "claim-then-dormant. No shared device or instrument."),
         }
         labels += [{"user_id": u, "cluster_type": "ring_soft", "cluster_id": ring_id} for u in members]
 
-    # --- Confounders ---
+    # --- Confounders --- (one household runs "tight": borderline organic, stress-tests Stage 5)
     conf_specs = (
-        [("household", gen_household, (3, 6)) for _ in range(4)]
-        + [("hostel", gen_hostel, (12, 25)) for _ in range(3)]
-        + [("influencer", gen_influencer_tree, (25, 50)) for _ in range(2)]
-        + [("office", gen_office, (15, 35)) for _ in range(3)]
+        [("household", gen_household, (3, 6), {"tight": True})]
+        + [("household", gen_household, (3, 6), {}) for _ in range(3)]
+        + [("hostel", gen_hostel, (12, 25), {}) for _ in range(3)]
+        + [("influencer", gen_influencer_tree, (25, 50), {}) for _ in range(2)]
+        + [("office", gen_office, (15, 35), {}) for _ in range(3)]
     )
     conf_counters = {}
-    for kind, fn, size_range in conf_specs:
+    for kind, fn, size_range, kwargs in conf_specs:
         conf_counters[kind] = conf_counters.get(kind, 0) + 1
         size = random.randint(*size_range)
-        members = fn(size)
+        members = fn(size, **kwargs)
         conf_id = f"CONF_{kind.upper()}_{conf_counters[kind]:02d}"
         descriptions = {
             "household": "Shared device or IP (family), organic spread-out activity over months, diverse order values.",
@@ -481,7 +508,9 @@ def main():
             "influencer": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement.",
             "office": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior.",
         }
-        confounders_gt[conf_id] = {"type": kind, "members": members, "description": descriptions[kind]}
+        difficulty = "tight" if kwargs.get("tight") else "easy"
+        desc = descriptions[kind] + (" Deliberately borderline (compressed signup window)." if kwargs.get("tight") else "")
+        confounders_gt[conf_id] = {"type": kind, "difficulty": difficulty, "members": members, "description": desc}
         labels += [{"user_id": u, "cluster_type": f"confounder_{kind}", "cluster_id": conf_id} for u in members]
 
     # --- Background noise ---
