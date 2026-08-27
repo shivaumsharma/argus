@@ -14,6 +14,7 @@ traceable back to a specific shared attribute (explainability requirement).
 from collections import defaultdict
 
 import networkx as nx
+import pandas as pd
 
 from .data_io import DataBundle
 
@@ -26,6 +27,14 @@ W_REFERRAL_WARM = 1.3    # claim within 48h
 W_REFERRAL_COLD = 0.8    # claim later, or no claim session found
 
 HARD_SIGNALS = {"shared_instrument", "shared_device"}
+
+
+def _valid(value) -> bool:
+    """A missing device_fingerprint_id / instrument_hash / IP is a data-quality gap, not
+    a shared value -- accounts with the same gap must never be treated as linked."""
+    if value is None or (isinstance(value, float) and pd.isna(value)):
+        return False
+    return str(value).strip() != ""
 
 
 def _add_edge(G, u, v, signal, weight):
@@ -45,7 +54,8 @@ def build_graph(data: DataBundle) -> nx.Graph:
     # --- shared instrument_hash ---
     groups = defaultdict(list)
     for uid, ih in zip(data.instruments.user_id, data.instruments.instrument_hash):
-        groups[ih].append(uid)
+        if _valid(ih):
+            groups[ih].append(uid)
     for members in groups.values():
         if len(members) < 2:
             continue
@@ -56,7 +66,8 @@ def build_graph(data: DataBundle) -> nx.Graph:
     # --- shared device_fingerprint_id ---
     groups = defaultdict(list)
     for uid, dev in zip(data.accounts.user_id, data.accounts.device_fingerprint_id):
-        groups[dev].append(uid)
+        if _valid(dev):
+            groups[dev].append(uid)
     for members in groups.values():
         if len(members) < 2:
             continue
@@ -67,7 +78,8 @@ def build_graph(data: DataBundle) -> nx.Graph:
     # --- IP-subnet overlap (first three octets of signup IP) ---
     groups = defaultdict(list)
     for uid, subnet in data.ip_subnet.items():
-        groups[subnet].append(uid)
+        if _valid(subnet):
+            groups[subnet].append(uid)
     for members in groups.values():
         if len(members) < 2:
             continue

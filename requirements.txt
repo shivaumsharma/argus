@@ -5,7 +5,6 @@ python-louvain>=0.16
 fastapi>=0.110
 uvicorn>=0.29
 streamlit>=1.57
-plotly>=5.20
 pyvis>=0.3.2
 anthropic>=0.40
 pydantic>=2.6
