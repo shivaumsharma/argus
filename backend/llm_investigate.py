@@ -10,21 +10,44 @@ a plain-English case, rate its own confidence, and pick ONE bounded action.
 Every field it can return is capped to HOLD_BONUS / MANUAL_REVIEW / NO_ACTION
 -- there is no code path here that can ban, block, or move money.
 
-If no Anthropic credentials are available, falls back to a deterministic
-template writeup (clearly labeled llm_mode="fallback_template") built
-directly from the same Stage 4 features, so the pipeline still runs end to
-end without an API key.
+Provider chain, tried in order, degrading on failure: Claude (BRD's specified
+provider, if ANTHROPIC_API_KEY is available) -> Gemini (a free-tier fallback,
+if GEMINI_API_KEY/GOOGLE_API_KEY is available) -> a deterministic template
+writeup built directly from the same Stage 4 features (clearly labeled
+llm_mode="fallback_template"). The pipeline always produces a full result set
+regardless of which credentials exist.
 """
 
 import json
+import logging
+import os
+import re
+import time
 from typing import Literal
 
 from pydantic import BaseModel
 
+logging.getLogger("google_genai.models").setLevel(logging.ERROR)  # silences the repeated AFC-usage notice
+
 from . import db
 from .pipeline.data_io import PROCESSED_DIR
 
-MODEL = "claude-opus-5"
+MODEL_ANTHROPIC = "claude-opus-5"
+# gemini-3.6-flash's free tier turned out to be a 20-requests/DAY quota (very new
+# model, presumably still rolling out broader limits) -- exhausted almost
+# immediately. gemini-flash-lite-latest carries its own, much larger free-tier
+# quota (per Google's docs: ~1000 requests/day, ~30/minute) and is a stable
+# rolling alias rather than a specific dated snapshot, so it won't go stale.
+MODEL_GEMINI = "gemini-flash-lite-latest"
+
+# Proactively spacing calls avoids hammering the per-minute limit; the reactive
+# retry below is the safety net for when spacing alone isn't enough (clock
+# jitter, a shared quota, etc). A per-day quota exhausting mid-run is NOT
+# retryable within the same run -- that's handled by giving up after
+# RATE_LIMIT_MAX_RETRIES and falling back to the template for the rest.
+GEMINI_MIN_INTERVAL_SECONDS = 3.0
+RATE_LIMIT_MAX_RETRIES = 3
+RATE_LIMIT_DEFAULT_DELAY = 15.0
 
 SYSTEM_PROMPT = """You are a fraud-risk case writer for a promo/referral bonus abuse detector at an Indian payments company.
 
@@ -39,7 +62,9 @@ Your job:
    - NO_ACTION: on reflection, despite passing the deterministic filter, the evidence here is too weak to act on.
 4. List key_evidence as 2-5 short strings, each citing a SPECIFIC data point from what you were given (e.g. "13 accounts share one device_fingerprint_id", "signup burst spans only 3 days", "order-value CV of 0.008 -- near-identical order amounts").
 
-You never recommend banning, blocking, suspending accounts, or any irreversible action -- that is permanently out of scope for this role, no matter how strong the evidence looks. A human always executes the final action."""
+You never recommend banning, blocking, suspending accounts, or any irreversible action -- that is permanently out of scope for this role, no matter how strong the evidence looks. A human always executes the final action.
+
+Respond with ONLY the JSON object matching the required schema -- no prose before or after it."""
 
 
 class CaseInvestigation(BaseModel):
@@ -111,43 +136,161 @@ def _fallback_investigation(cluster: dict) -> dict:
     return {"case_summary": summary, "confidence": confidence, "recommended_action": action, "key_evidence": evidence}
 
 
+# --------------------------------------------------------------------------
+# Provider chain: Claude -> Gemini (free tier) -> deterministic template
+# --------------------------------------------------------------------------
+
+def _try_anthropic_client(verbose=True):
+    try:
+        import anthropic
+        return anthropic.Anthropic()
+    except Exception as e:
+        if verbose:
+            print(f"Anthropic unavailable ({type(e).__name__}: {e}).")
+        return None
+
+
+def _get_env(name: str):
+    """os.environ first; on Windows, fall back to the User registry directly.
+
+    A `setx` from a terminal opened after this process started writes to the
+    registry but never reaches this process's inherited environment block --
+    Windows only propagates it to processes launched fresh after the write.
+    Reading the registry directly sidesteps needing anyone to restart anything.
+    """
+    val = os.environ.get(name)
+    if val:
+        return val
+    if os.name == "nt":
+        try:
+            import winreg
+            with winreg.OpenKey(winreg.HKEY_CURRENT_USER, "Environment") as key:
+                val, _ = winreg.QueryValueEx(key, name)
+                return val or None
+        except (FileNotFoundError, OSError):
+            return None
+    return None
+
+
+def _try_gemini_client(verbose=True):
+    key = _get_env("GEMINI_API_KEY") or _get_env("GOOGLE_API_KEY")
+    if not key:
+        if verbose:
+            print("Gemini unavailable (no GEMINI_API_KEY / GOOGLE_API_KEY set).")
+        return None
+    try:
+        from google import genai
+        return genai.Client(api_key=key)
+    except Exception as e:
+        if verbose:
+            print(f"Gemini client init failed ({type(e).__name__}: {e}).")
+        return None
+
+
+def _call_anthropic(client, prompt):
+    response = client.messages.parse(
+        model=MODEL_ANTHROPIC,
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        messages=[{"role": "user", "content": prompt}],
+        output_format=CaseInvestigation,
+    )
+    return response.parsed_output.model_dump()
+
+
+def _call_gemini(client, prompt):
+    from google.genai import types
+    response = client.models.generate_content(
+        model=MODEL_GEMINI,
+        contents=prompt,
+        config=types.GenerateContentConfig(
+            system_instruction=SYSTEM_PROMPT,
+            response_mime_type="application/json",
+            response_json_schema=CaseInvestigation.model_json_schema(),
+        ),
+    )
+    return CaseInvestigation.model_validate_json(response.text).model_dump()
+
+
+def _is_rate_limit_error(e: Exception) -> bool:
+    return getattr(e, "code", None) == 429
+
+
+def _parse_retry_delay(e: Exception, default: float = RATE_LIMIT_DEFAULT_DELAY) -> float:
+    """Extract the server-suggested retry delay (e.g. "retryDelay": "49s") if present."""
+    m = re.search(r"retryDelay['\"]?\s*[:=]\s*['\"]?(\d+(?:\.\d+)?)s", str(e))
+    if m:
+        return float(m.group(1)) + 1.0  # small buffer
+    return default
+
+
+def _build_provider_chain(verbose=True):
+    """Returns an ordered list of (mode_name, client, call_fn) for every provider with usable credentials."""
+    chain = []
+    anthropic_client = _try_anthropic_client(verbose)
+    if anthropic_client is not None:
+        chain.append(("anthropic", anthropic_client, _call_anthropic))
+    gemini_client = _try_gemini_client(verbose)
+    if gemini_client is not None:
+        chain.append(("gemini", gemini_client, _call_gemini))
+    return chain
+
+
 def investigate_all(clusters_path=None, verbose=True):
     with open(clusters_path or (PROCESSED_DIR / "clusters.json")) as f:
         all_clusters = json.load(f)
     flagged = [c for c in all_clusters if c["flagged"]]
 
-    use_llm = True
-    client = None
-    try:
-        import anthropic
-        client = anthropic.Anthropic()
-    except Exception as e:
-        use_llm = False
-        if verbose:
-            print(f"anthropic SDK unavailable ({e}); using template fallback for all cases.")
+    provider_chain = _build_provider_chain(verbose)
+    provider_idx = 0
+    if verbose:
+        if provider_chain:
+            print(f"LLM provider chain: {' -> '.join(m for m, _, _ in provider_chain)} -> fallback_template")
+        else:
+            print("No LLM credentials available at all; using template fallback for every cluster.")
+
+    last_call_ts = {}  # mode -> monotonic timestamp of the last call, for proactive rate-limit spacing
 
     results = []
     for i, cluster in enumerate(flagged):
         prompt = build_prompt(cluster)
-        mode = "llm" if use_llm else "fallback_template"
+        result = None
+        mode = "fallback_template"
 
-        if use_llm:
-            try:
-                response = client.messages.parse(
-                    model=MODEL,
-                    max_tokens=1024,
-                    system=SYSTEM_PROMPT,
-                    messages=[{"role": "user", "content": prompt}],
-                    output_format=CaseInvestigation,
-                )
-                result = response.parsed_output.model_dump()
-            except Exception as e:
-                use_llm = False
-                mode = "fallback_template"
-                if verbose:
-                    print(f"LLM call failed ({type(e).__name__}: {e}); switching to template fallback for remaining clusters.")
-                result = _fallback_investigation(cluster)
-        else:
+        while provider_idx < len(provider_chain):
+            mode, client, call_fn = provider_chain[provider_idx]
+
+            if mode == "gemini":
+                elapsed = time.monotonic() - last_call_ts.get(mode, 0)
+                if elapsed < GEMINI_MIN_INTERVAL_SECONDS:
+                    time.sleep(GEMINI_MIN_INTERVAL_SECONDS - elapsed)
+
+            retries_left = RATE_LIMIT_MAX_RETRIES
+            while True:
+                try:
+                    last_call_ts[mode] = time.monotonic()
+                    result = call_fn(client, prompt)
+                    break
+                except Exception as e:
+                    if _is_rate_limit_error(e) and retries_left > 0:
+                        delay = _parse_retry_delay(e)
+                        if verbose:
+                            print(f"{mode} rate-limited; waiting {delay:.0f}s and retrying ({retries_left} retries left)...")
+                        time.sleep(delay)
+                        retries_left -= 1
+                        continue
+                    if verbose:
+                        print(f"{mode} call failed ({type(e).__name__}: {e}); "
+                              f"{'trying next provider' if provider_idx + 1 < len(provider_chain) else 'falling back to template'} "
+                              f"for remaining clusters.")
+                    result = None
+                    break
+            if result is not None:
+                break
+            provider_idx += 1
+            mode = "fallback_template"
+
+        if result is None:
             result = _fallback_investigation(cluster)
 
         result["confidence"] = max(0.0, min(1.0, float(result["confidence"])))
@@ -161,8 +304,10 @@ def investigate_all(clusters_path=None, verbose=True):
         json.dump(results, f, indent=2)
 
     if verbose:
-        n_llm = sum(1 for r in results if r["mode"] == "llm")
-        print(f"\nInvestigated {len(results)} flagged clusters ({n_llm} via live LLM, {len(results) - n_llm} via template fallback).")
+        from collections import Counter
+        mode_counts = Counter(r["mode"] for r in results)
+        print(f"\nInvestigated {len(results)} flagged clusters: "
+              + ", ".join(f"{n} via {m}" for m, n in mode_counts.items()))
         print(f"Written -> {PROCESSED_DIR / 'cases.json'}")
 
     return results

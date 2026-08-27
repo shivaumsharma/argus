@@ -1,1000 +1,957 @@
 [
   {
     "cluster_id": "C0001",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0001 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This 13-account cluster exhibits classic referral abuse patterns, including a 100% shared device fingerprint, a tight signup burst spanning under 3 days, and rapid bonus claims averaging 4.64 hours post-signup. Furthermore, 73% of members went completely dormant after claiming their bonuses, and orders showed near-identical templated pricing with a coefficient of variation of 0.0076. These combined behavioral signals strongly indicate coordinated multi-account bonus farming.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.66 days",
-      "order-value CV of 0.0076 (near-identical amounts)",
-      "73% claim-then-dormant"
+      "100% of accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.66 days",
+      "73% claim-then-dormant fraction",
+      "Order-value CV of 0.0076 indicating near-identical templated orders"
     ]
   },
   {
     "cluster_id": "C0002",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0002 (12 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 12 accounts exhibits classic referral farming behavior, featuring a tight signup burst over 2.88 days and 100% sharing of a single payment instrument. All bonus-claiming members went completely dormant immediately after receiving their rewards, engaging in near-identical, templated transaction amounts. The combination of payment sharing and immediate post-bonus dormancy strongly indicates coordinated abuse.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members share the single most common payment instrument_hash",
       "signup burst spans only 2.88 days",
-      "order-value CV of 0.0044 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% claim-then-dormant fraction with zero post-signup engagement",
+      "order-value CV of 0.0044 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0003",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0003 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This 15-account cluster displays textbook referral bonus farming behavior, with 100% of accounts sharing a single device fingerprint and payment instrument. Accounts signed up in a tight 2.8-day burst, rapidly claimed bonuses averaging three hours post-signup, and exhibited a 91% dormancy rate alongside near-identical templated order values.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.81 days",
-      "order-value CV of 0.0048 (near-identical amounts)",
-      "91% claim-then-dormant"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.81 days with rapid bonus claims averaging 3.05 hours",
+      "91% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.0048, indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0004",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0004 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 14 accounts exhibits textbook referral farming behavior, showing 100% sharing of both a single device fingerprint and a single payment instrument. Accounts signed up in a tight 2.4-day burst, rapidly claimed bonuses, and immediately went dormant with zero post-signup engagement and near-identical order values.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.44 days",
-      "order-value CV of 0.0059 (near-identical amounts)",
-      "91% claim-then-dormant"
+      "100% of accounts share the single most common device_fingerprint_id",
+      "100% of accounts share the single most common payment instrument_hash",
+      "Signup burst spans only 2.44 days with rapid bonus claims averaging 3.14 hours",
+      "Order-value CV of 0.0059 indicates near-identical, templated order amounts",
+      "91% claim-then-dormant fraction with zero engagement past 7 days"
     ]
   },
   {
     "cluster_id": "C0005",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0005 (8 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 8 accounts exhibits strong coordinated referral farming behavior, characterized by 100% sharing of both a single device fingerprint and a payment instrument. All accounts signed up in a tight 2.3-day burst, rapidly claimed bonuses, and immediately went dormant with zero long-term engagement.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
       "signup burst spans only 2.3 days",
-      "order-value CV of 0.0133 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "order-value coefficient of variation is 0.0133 indicating near-identical order amounts",
+      "claim-then-dormant fraction is 100%"
     ]
   },
   {
     "cluster_id": "C0006",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0006 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 14 accounts displays classic referral farming behaviors, including a rapid signup burst within 2.08 days, 100% sharing of a single payment instrument hash, and nearly identical templated order amounts with a coefficient of variation of 0.006. Furthermore, 86% claimed referral bonuses shortly after signup and 75% immediately went dormant, indicating coordinated financial incentive exploitation rather than genuine usage.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.08 days",
-      "order-value CV of 0.006 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 2.08 days across the cluster",
+      "Order-value coefficient of variation of 0.006 indicates near-identical, templated order amounts",
+      "75% claim-then-dormant fraction showing accounts went silent for 3+ days after claiming bonuses"
     ]
   },
   {
     "cluster_id": "C0007",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0007 (6 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 6 accounts exhibits classic referral farming behavior, featuring a tight signup window of 1.53 days, 100% sharing of a single payment instrument, and identical order amounts indicated by a near-zero order-value CV of 0.004. Furthermore, all bonus claimants immediately went dormant following their payouts, matching the signature of automated bonus extraction.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.53 days",
-      "order-value CV of 0.004 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 1.53 days",
+      "Order-value CV of 0.004 indicates near-identical order amounts",
+      "Claim-then-dormant fraction is 100% for bonus-claiming accounts"
     ]
   },
   {
     "cluster_id": "C0008",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0008 (11 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 11 fully interconnected accounts exhibits classic bonus-farming behavior, characterized by a rapid signup burst within 2.24 days and 100% sharing of a payment instrument. Furthermore, 88% of bonus-claiming accounts immediately went dormant, and order amounts show near-identical templated values with a coefficient of variation of 0.0041.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.24 days",
-      "order-value CV of 0.0041 (near-identical amounts)",
-      "88% claim-then-dormant"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.24 days with tight intervals",
+      "88% claim-then-dormant fraction after bonus claims",
+      "Order-value coefficient of variation of 0.0041 indicates templated spending"
     ]
   },
   {
     "cluster_id": "C0009",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0009 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 accounts shows classic referral farming behavior, featuring a rapid signup burst within two days and 100% sharing of a single payment instrument. The majority of members claimed their bonuses quickly and immediately went dormant, supported by templated order amounts with low variance.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members on the single most common instrument",
       "signup burst spans only 2.05 days",
-      "order-value CV of 0.0382 (near-identical amounts)",
-      "78% claim-then-dormant"
+      "78% claim-then-dormant fraction",
+      "order-value coefficient of variation is 0.0382"
     ]
   },
   {
     "cluster_id": "C0010",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0010 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 fully interconnected accounts exhibits strong coordinated bonus farming behavior, highlighted by 100% shared device fingerprints and payment instruments. Signups occurred in a tight 2.7-day window followed by rapid bonus claims averaging 2.38 hours later. Near-identical order amounts and subsequent dormancy strongly indicate automated multi-accounting rather than organic usage.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.73 days",
-      "order-value CV of 0.0181 (near-identical amounts)"
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.73 days across the cluster",
+      "Order-value CV of 0.0181 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0011",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0011 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "Cluster C0011 exhibits strong indicators of coordinated referral bonus farming, with all 5 accounts sharing a single device fingerprint and payment instrument. Accounts signed up in a tight 2.57-day burst, quickly claimed bonuses, and immediately went dormant with near-identical transaction amounts. This high-confidence pattern warrants holding pending bonuses until human review.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.57 days",
-      "order-value CV of 0.0133 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "100% of accounts share the same device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.57 days",
+      "67% claim-then-dormant fraction with near-silent post-signup engagement",
+      "Order-value coefficient of variation is 0.0133 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0012",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0012 (11 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 11 accounts exhibits classic coordinated referral abuse with a fully interconnected structure and 100% of members sharing a single device fingerprint. Accounts registered in a tight 2.71-day burst, rapidly claimed bonuses averaging 3.17 hours post-signup, and immediately went dormant with zero long-term engagement. Additionally, the near-identical order amounts reflect templated, automated activity rather than organic usage.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.71 days",
-      "order-value CV of 0.0054 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.71 days with tight consecutive intervals",
+      "100% claim-then-dormant fraction with zero engagement past 7 days",
+      "Order-value coefficient of variation is 0.0054, indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0013",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0013 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 accounts exhibits strong indicators of coordinated referral bonus farming, characterized by full interconnection, 100% shared device fingerprints, and a single shared payment instrument. Accounts signed up in a tight 2.53-day burst and rapidly claimed bonuses before going dormant, accompanied by near-identical templated transaction amounts. Given the clear deterministic payment-instrument sharing flag, these bonuses should be held pending manual verification.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.53 days",
-      "order-value CV of 0.018 (near-identical amounts)",
-      "85% claim-then-dormant"
+      "100% of accounts share the single most common device_fingerprint_id",
+      "100% of accounts share the single most common instrument_hash",
+      "Signup burst spans only 2.53 days",
+      "85% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.018 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0014",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0014 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 accounts displays classic signs of coordinated referral bonus farming, characterized by full interconnectivity, a single shared device, and an identical shared payment instrument. The accounts were created in a tight 2.69-day burst, quickly claimed their bonuses, and subsequently went dormant with near-identical transaction amounts.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.69 days",
-      "order-value CV of 0.0053 (near-identical amounts)",
-      "92% claim-then-dormant"
+      "100% of accounts share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.69 days",
+      "92% claim-then-dormant fraction",
+      "Order-value CV of 0.0053 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0015",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0015 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 accounts exhibits strong coordinated bonus-abuse patterns, including a 100% shared device footprint and a tight signup burst spanning under 3 days. Furthermore, 80% of members went dormant immediately after claiming their referral bonuses, and orders show near-identical templated values with a coefficient of variation of 0.0038.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.57 days",
-      "order-value CV of 0.0038 (near-identical amounts)",
-      "80% claim-then-dormant"
+      "7 accounts share one device_fingerprint_id (100% overlap)",
+      "Signup burst spans only 2.57 days",
+      "80% claim-then-dormant fraction",
+      "Order-value CV of 0.0038 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0016",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0016 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 3 fully interconnected accounts exhibits classic referral bonus farming behavior, featuring 100% overlap in shared devices and payment instruments. All signups occurred within a tight window of under 24 hours, followed by immediate bonus claims and complete dormancy.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.86 days",
-      "order-value CV of 0.0064 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single device_fingerprint_id and instrument_hash",
+      "Signup burst spans only 0.86 days with an edge density of 1.0",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "Order-value CV of 0.0064 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0017",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0017 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 accounts shows strong indicators of coordinated referral abuse, featuring a 100% shared device fingerprint, a tight signup burst of 2.45 days, and near-identical order values with a coefficient of variation of 0.004. Furthermore, all bonus-claiming members exhibited immediate dormancy following their claims, and the deterministic filter confirmed high suspicion.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.45 days",
-      "order-value CV of 0.004 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single device_fingerprint_id",
+      "Signup burst spans only 2.45 days",
+      "Order-value coefficient of variation is 0.004 -- near-identical order amounts",
+      "100% claim-then-dormant fraction",
+      "Zero post-signup engagement after 7 days"
     ]
   },
   {
     "cluster_id": "C0018",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0018 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 14 accounts exhibits textbook referral farming behavior, featuring 100% sharing of both a single device fingerprint and a payment instrument. Accounts signed up in a tight 2.5-day burst, rapidly claimed bonuses, and went dormant, supported by templated order amounts with a near-zero coefficient of variation.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.52 days",
-      "order-value CV of 0.0073 (near-identical amounts)",
-      "78% claim-then-dormant"
+      "100% of accounts share the single most common device fingerprint",
+      "100% of accounts share the single most common payment instrument",
+      "Signup burst spans only 2.52 days",
+      "78% claim-then-dormant fraction with near-silent post-signup engagement",
+      "Order-value CV of 0.0073 indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0019",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0019 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 14 accounts exhibits textbook referral farming behavior, featuring a tight signup burst, 100% shared payment instrument usage, and immediate bonus claims followed by total dormancy. The near-identical order amounts and zero long-term engagement strongly indicate coordinated abuse. Therefore, pending bonuses should be held for human review.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members share a single payment instrument_hash",
       "signup burst spans only 2.53 days",
-      "order-value CV of 0.0117 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "claim-then-dormant fraction is 100%",
+      "order-value coefficient of variation is 0.0117 (near-identical amounts)"
     ]
   },
   {
     "cluster_id": "C0020",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0020 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This 15-account cluster displays textbook referral farming behavior, featuring a 100% shared device fingerprint and payment instrument combined with a tight 2.76-day signup burst. The vast majority of accounts claimed referral bonuses within hours and immediately went dormant, while maintaining near-identical order values with a coefficient of variation of 0.0046. Given the definitive shared instrument and lack of organic post-signup engagement, the bonus payout should be placed on hold pending human review.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.76 days",
-      "order-value CV of 0.0046 (near-identical amounts)",
-      "83% claim-then-dormant"
+      "100% of members share a single device fingerprint ID",
+      "100% of members share a single payment instrument hash",
+      "Signup burst spans only 2.76 days",
+      "83% claim-then-dormant fraction with near-identical order amounts (CV 0.0046)"
     ]
   },
   {
     "cluster_id": "C0021",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0021 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 fully interconnected accounts shows classic referral farming behavior, characterized by a rapid 2.47-day signup burst and 100% sharing of a single payment instrument. The majority of members claimed their bonus quickly and immediately went dormant, while placing near-identical orders indicating automated or templated activity. We recommend holding bonuses for this cluster pending manual review.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members share a single payment instrument_hash",
       "signup burst spans only 2.47 days",
-      "order-value CV of 0.0211 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "75% claim-then-dormant fraction with immediate bonus claims averaging 1.95 hours after signup",
+      "order-value CV of 0.0211 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0022",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0022 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 fully interconnected accounts exhibits classic referral farming behavior, featuring 100% shared payment instruments and near-identical templated order values. The accounts signed up in a tight 2.5-day burst, quickly claimed bonuses, and immediately went dormant with zero long-term engagement. Given the deterministic payment instrument sharing and high suspicion scores, these bonuses should be held pending review.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members share a single payment instrument_hash",
       "signup burst spans only 2.5 days",
-      "order-value CV of 0.005 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "order-value CV of 0.005 indicating near-identical order amounts",
+      "75% claim-then-dormant fraction with zero post-signup engagement after 7 days"
     ]
   },
   {
     "cluster_id": "C0023",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0023 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 fully interconnected accounts displays classic bonus-farming behavior, characterized by a shared payment instrument across all members and rapid signup bursts. Accounts claimed referral bonuses within two hours of creation and immediately went completely dormant. Near-identical order amounts and zero post-signup engagement further confirm this is a coordinated farming ring.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.0 days",
-      "order-value CV of 0.0069 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.0 days",
+      "100% claim-then-dormant fraction with bonuses claimed averaging 1.91 hours after signup",
+      "Order-value coefficient of variation of 0.0069 indicates near-identical order amounts",
+      "0.0 sessions per member occurring more than 7 days after signup"
     ]
   },
   {
     "cluster_id": "C0024",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0024 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This 13-account cluster exhibits classic coordinated referral abuse, characterized by a 100% shared device fingerprint, a tight signup burst spanning less than three days, and near-identical templated order amounts. Furthermore, 77 percent of members quickly claimed referral bonuses before going dormant, strongly indicating synthetic acquisition rather than organic growth.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
+      "100% of members share a single device_fingerprint_id",
       "signup burst spans only 2.66 days",
-      "order-value CV of 0.0064 (near-identical amounts)",
-      "70% claim-then-dormant"
+      "order-value coefficient of variation is 0.0064 indicating near-identical order amounts",
+      "70% claim-then-dormant fraction showing accounts went silent after claiming bonuses"
     ]
   },
   {
     "cluster_id": "C0025",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0025 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 3 accounts exhibits classic referral bonus farming behavior, highlighted by 100% sharing of a single payment instrument and a tight signup window of just 1.11 days. Members rapidly claimed bonuses shortly after registration and subsequently went dormant, supported by near-identical order amounts with a coefficient of variation of 0.0026. These combined indicators strongly point to coordinated abuse.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.11 days",
-      "order-value CV of 0.0026 (near-identical amounts)",
-      "50% claim-then-dormant"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 1.11 days across the cluster",
+      "Order-value CV of 0.0026 indicates near-identical, templated order amounts",
+      "Claim-then-dormant fraction is 50% following rapid bonus claims averaging 2.09 hours post-signup"
     ]
   },
   {
     "cluster_id": "C0026",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0026 (4 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 4 accounts exhibits classic referral farming behavior, showing full interconnection with a shared device fingerprint and payment instrument. Accounts signed up in a tight burst, rapidly claimed bonuses within an hour, and became completely dormant thereafter while executing near-identical order amounts.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.04 days",
-      "order-value CV of 0.0276 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup timing burst spans just 1.04 days",
+      "100% claim-then-dormant fraction with bonus claims averaging 0.94 hours after signup",
+      "Order-value coefficient of variation is 0.0276 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0027",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0027 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 fully interconnected accounts exhibits classic referral bonus farming behavior. All accounts share the exact same payment instrument and rapidly claim referral bonuses within hours of signing up, followed by immediate dormancy. The near-zero order-value variation further indicates automated or scripted transaction patterns.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.49 days",
-      "order-value CV of 0.005 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "100% of members share the single most common payment instrument",
+      "86% of members claimed a bonus averaging 3.07 hours after signup",
+      "67% claim-then-dormant fraction going silent for 3+ days",
+      "Order-value CV of 0.005 indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0028",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0028 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 fully interconnected accounts exhibits classic promo farming behavior, characterized by rapid signups sharing a single payment instrument and immediate bonus claims followed by total dormancy. All claiming members went silent immediately after payout, and order values are near-identical with zero long-term engagement.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.52 days",
-      "order-value CV of 0.012 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.52 days",
+      "100% claim-then-dormant fraction with zero post-signup engagement",
+      "Order-value coefficient of variation is 0.012, indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0029",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0029 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "Cluster C0029 exhibits strong coordination patterns, including a 100% shared device footprint and a tight signup burst spanning just 2.32 days. Furthermore, the accounts display near-identical templated order values with a very low coefficient of variation. These combined indicators strongly suggest bonus abuse rather than organic usage.",
+    "confidence": 0.89,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.32 days",
-      "order-value CV of 0.0026 (near-identical amounts)"
+      "100% of members share the single most common device fingerprint",
+      "Signup burst spans a tight window of only 2.32 days",
+      "Order-value CV of 0.0026 indicates near-identical templated order amounts",
+      "Edge density among cluster members is 1.0, showing full interconnection"
     ]
   },
   {
     "cluster_id": "C0030",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0030 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 fully interconnected accounts exhibits strong coordinated bonus farming behavior, highlighted by a 100% shared device fingerprint and a 100% shared payment instrument hash. The accounts were created in a tight 2-day burst with near-identical transaction amounts, followed by rapid bonus claims and subsequent dormancy.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.02 days",
-      "order-value CV of 0.0034 (near-identical amounts)"
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.02 days",
+      "Order-value coefficient of variation is 0.0034, showing near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0031",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0031 (6 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 6 accounts exhibits coordinated referral farming behavior characterized by full interconnectivity, signups tightly clustered within 1.93 days, and 100% sharing of a single payment instrument. Furthermore, 67% of members went dormant immediately after claiming their bonuses, and order amounts show near-identical templating with a coefficient of variation of 0.0067.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members on the single most common instrument",
       "signup burst spans only 1.93 days",
-      "order-value CV of 0.0067 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "order-value CV of 0.0067 -- near-identical order amounts",
+      "claim-then-dormant fraction of 67%"
     ]
   },
   {
     "cluster_id": "C0032",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0032 (13 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 accounts exhibits classic referral farming behavior, characterized by a rapid signup burst within 2 days, 100% sharing of a single payment instrument, and nearly identical templated order amounts. Over half of the accounts claimed their bonuses quickly and immediately went dormant. Therefore, we recommend holding pending bonuses while an analyst reviews the cluster.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members on the single most common payment instrument",
       "signup burst spans only 1.99 days",
-      "order-value CV of 0.0045 (near-identical amounts)",
-      "56% claim-then-dormant"
+      "order-value CV of 0.0045 -- near-identical order amounts",
+      "56% claim-then-dormant fraction"
     ]
   },
   {
     "cluster_id": "C0033",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0033 (10 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 10 accounts exhibits textbook coordinated bonus abuse, featuring fully interconnected members sharing a single device fingerprint and an IP subnet. The accounts were created in a tight 2.65-day burst, executed near-identical templated orders, and showed immediate dormancy after claiming referral bonuses.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet",
+      "10 accounts share one device_fingerprint_id",
       "signup burst spans only 2.65 days",
-      "order-value CV of 0.0067 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "order-value CV of 0.0067 -- near-identical order amounts",
+      "67% claim-then-dormant fraction"
     ]
   },
   {
     "cluster_id": "C0034",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0034 (9 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 9 interconnected accounts exhibits strong coordinated referral farming behavior. All members share a single payment instrument, claim bonuses within hours of a rapid 2.5-day signup burst, and subsequently go dormant. The near-identical order values and lack of post-signup engagement further confirm automated bonus harvesting.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.55 days",
-      "order-value CV of 0.046 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "100% of members share the single most common payment instrument_hash",
+      "rapid signup burst spans only 2.55 days",
+      "75% claim-then-dormant fraction with high dormancy after claiming bonuses",
+      "order-value coefficient of variation of 0.046 indicates near-identical templated orders"
     ]
   },
   {
     "cluster_id": "C0035",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0035 (3 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This tightly clustered group of 3 accounts exhibits classic bonus-farming behavior, characterized by 100% shared device fingerprints and payment instruments. Signups occurred in a rapid burst over 1.71 days, followed quickly by bonus claims and immediate dormancy. Near-identical order amounts further support automated or coordinated abuse.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
       "signup burst spans only 1.71 days",
-      "order-value CV of 0.0085 (near-identical amounts)",
-      "50% claim-then-dormant"
+      "order-value CV of 0.0085 -- near-identical order amounts",
+      "50% claim-then-dormant fraction"
     ]
   },
   {
     "cluster_id": "C0036",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0036 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 accounts displays classic bonus-farming behavior, characterized by 100% shared devices and payment instruments combined with a rapid signup burst spanning under three days. A high majority of accounts claimed referral bonuses almost immediately and subsequently went dormant, transacting in nearly identical order amounts. Due to the high-confidence deterministic signals indicating coordinated abuse, a bonus hold is recommended pending human analyst review.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.74 days",
-      "order-value CV of 0.0262 (near-identical amounts)",
-      "82% claim-then-dormant"
+      "15 accounts share one device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.74 days",
+      "82% claim-then-dormant fraction with rapid bonus claims averaging 3.18 hours post-signup",
+      "Order-value CV of 0.0262 indicating near-identical templated amounts"
     ]
   },
   {
     "cluster_id": "C0037",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0037 (7 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of seven accounts exhibits high coordination, featuring fully interconnected links, a shared IP subnet, a single shared device fingerprint, and a shared payment instrument across all members. Signups occurred in a tight 1.52-day burst followed by immediate bonus claims and absolute post-claim dormancy, accompanied by near-identical templated order amounts. These indicators strongly suggest automated referral bonus farming.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.52 days",
-      "order-value CV of 0.0055 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "7 accounts share one device_fingerprint_id and instrument_hash",
+      "Signup burst spans only 1.52 days",
+      "100% claim-then-dormant fraction with zero long-term engagement",
+      "Order-value coefficient of variation is 0.0055 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0038",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0038 (15 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 accounts displays classic signs of a coordinated referral bonus farming ring, featuring 100% device and payment instrument sharing combined with a tight signup burst over 2.5 days. All bonus-claiming members became entirely dormant immediately after cashing out, and near-identical order values suggest automated script control. We recommend holding pending bonuses while human analysts review the case.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "100% of members share one device",
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.51 days",
-      "order-value CV of 0.0094 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.51 days with rapid consecutive signups",
+      "100% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.0094, indicating near-identical templated amounts"
     ]
   },
   {
     "cluster_id": "C0039",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0039 (14 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This 14-account cluster exhibits classic bonus farming patterns, with all accounts sharing a single payment instrument and signing up in a tight 2.83-day window. Furthermore, 71% of members quickly claimed referral bonuses within an average of 1.78 hours and immediately went completely dormant. The near-identical order values and lack of post-signup engagement strongly indicate coordinated abuse.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
+      "100% of members share the single most common instrument_hash",
       "signup burst spans only 2.83 days",
-      "order-value CV of 0.0472 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "100% claim-then-dormant fraction -- all bonus claimants went silent",
+      "order-value coefficient of variation is 0.0472 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0040",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0040 (6 accounts, hard-signal detection) was flagged by the deterministic filter: Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it.",
-    "confidence": 0.85,
+    "mode": "gemini",
+    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates high-risk promotional abuse patterns, including a 100% shared payment instrument and rapid signups within a 1.79-day span. Furthermore, 83% of members claimed referral bonuses swiftly and 80% immediately went dormant, supported by templated order values.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share one payment instrument",
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.79 days",
-      "order-value CV of 0.0504 (near-identical amounts)",
-      "80% claim-then-dormant"
+      "100% of members share the exact same payment instrument_hash",
+      "Signup burst spans only 1.79 days",
+      "80% claim-then-dormant fraction showing immediate inactivity after bonus",
+      "Order-value CV of 0.0504 indicates near-identical, templated spending amounts"
     ]
   },
   {
     "cluster_id": "C0041",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0041 (5 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.4,
-    "recommended_action": "MANUAL_REVIEW",
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 fully interconnected accounts shares a single device fingerprint and exhibits a dense signup structure. However, zero bonus claims have been made, orders show normal variation in value, and members demonstrate strong post-signup engagement over time. Given the lack of suspicious bonus harvesting activity, the cluster does not warrant holding funds.",
+    "confidence": 0.85,
+    "recommended_action": "NO_ACTION",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet"
+      "100% of members share a single device_fingerprint_id",
+      "0% of members claimed a referral bonus",
+      "an average of 7.0 sessions per member occur more than 7 days after signup"
     ]
   },
   {
     "cluster_id": "C0042",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0042 (4 accounts, hard-signal detection) was flagged by the deterministic filter: Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use.",
-    "confidence": 0.4,
-    "recommended_action": "MANUAL_REVIEW",
+    "mode": "gemini",
+    "case_summary": "This cluster of 4 accounts shares a single device fingerprint and an IP subnet overlap with a signup span of 11 days. Despite being flagged by the deterministic filter for shared device use, no referral bonuses were claimed and members show consistent post-signup engagement with organic session activity. Given the lack of bonus abuse and active usage, the evidence does not support taking financial action.",
+    "confidence": 0.85,
+    "recommended_action": "NO_ACTION",
     "key_evidence": [
-      "100% of members share one device",
-      "cluster shares an IP subnet"
+      "4 accounts share a single device_fingerprint_id",
+      "0% of members claimed a referral bonus",
+      "average of 6.25 sessions per member occur more than 7 days after signup"
     ]
   },
   {
     "cluster_id": "C0047",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0047 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 accounts exhibits classic soft-signal referral farming with a tight signup burst spanning under two days and fast bonus claims averaging 1.41 hours. Furthermore, 90 percent of members went dormant immediately after claiming their bonuses and placed near-identical, templated order amounts. Although device and payment instruments are not shared, the behavioral patterns strongly indicate coordinated bonus abuse.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.92 days",
-      "order-value CV of 0.0151 (near-identical amounts)",
-      "90% claim-then-dormant"
+      "signup burst spans only 1.92 days across the cluster",
+      "77% of members claimed a bonus averaging 1.41 hours after signup",
+      "claim-then-dormant fraction is 90%",
+      "order-value coefficient of variation is 0.0151 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0048",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0048 (9 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 9 accounts exhibits a classic soft-signal referral farming pattern with full edge interconnectivity and an IP subnet overlap. Despite lacking shared devices or payment instruments, members display a tight signup burst, near-identical order values, rapid bonus claims, and immediate post-claim dormancy. Given the high suspicion score, pending bonuses should be held for human review.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 5.27 days",
-      "order-value CV of 0.0609 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "Edge density among members is 1.0, showing full interconnection",
+      "Signup burst spans only 5.27 days with shared IP subnet overlap",
+      "Order-value coefficient of variation of 0.0609 indicates near-identical order amounts",
+      "67% claim-then-dormant fraction with bonuses claimed averaging 15.89 hours after signup"
     ]
   },
   {
     "cluster_id": "C0049",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0049 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 accounts exhibits classic soft-signal referral farming behavior, featuring a rapid signup burst within 0.6 days and immediate bonus claims averaging just over two hours later. All members went entirely dormant after claiming their bonuses and placed orders with near-identical, templated values. A human analyst should review this coordinated activity to determine if referral bonuses should be temporarily withheld.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.6 days",
-      "order-value CV of 0.0027 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "signup burst spans only 0.6 days across the cluster",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "order-value CV of 0.0027 indicating near-identical templated order amounts",
+      "80% of members claimed a bonus averaging 2.06 hours after signup"
     ]
   },
   {
     "cluster_id": "C0051",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0051 (12 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 12 fully interconnected accounts exhibits classic referral farming behavior, characterized by a tight 1.5-hour signup burst, rapid bonus claims averaging 1.37 hours post-signup, and near-identical templated order amounts. A high dormancy rate following bonus collection and minimal long-term engagement further indicate coordinated exploitation of the referral program.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.52 days",
-      "order-value CV of 0.0064 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "signup burst spans only 1.52 days across the cluster",
+      "75% of members claimed a bonus averaging 1.37 hours after signup",
+      "67% claim-then-dormant fraction",
+      "order-value coefficient of variation is 0.0064 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0052",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0052 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 fully interconnected accounts exhibits a classic soft-signal referral farming pattern characterized by a tight 1.18-day signup burst, fast bonus claims averaging 1.59 hours post-signup, and an 80 percent post-claim dormancy rate. Furthermore, the orders placed show near-identical templated values with a coefficient of variation of 0.0113. Although there are no shared device fingerprints or payment instruments, the behavioral alignment strongly indicates coordinated bonus abuse.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 1.18 days",
-      "order-value CV of 0.0113 (near-identical amounts)",
-      "80% claim-then-dormant"
+      "77% of members claimed a bonus averaging 1.59 hours after signup",
+      "80% claim-then-dormant fraction",
+      "order-value coefficient of variation of 0.0113 indicates near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0054",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0054 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 10-account cluster exhibits classic soft-signal referral farming with a tight signup burst of under a day and near-identical order values. 80% of members rapidly claimed bonuses within hours, followed by complete post-claim dormancy and zero organic engagement.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 0.85 days",
-      "order-value CV of 0.0049 (near-identical amounts)",
-      "88% claim-then-dormant"
+      "order-value coefficient of variation is 0.0049 indicating templated amounts",
+      "88% claim-then-dormant fraction",
+      "average post-signup engagement is 0.0 sessions after 7 days"
     ]
   },
   {
     "cluster_id": "C0056",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0056 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 10 fully interconnected accounts exhibits classic coordinated bonus farming behavior, highlighted by a tight 1.16-day signup burst and rapid bonus claims averaging 2.68 hours post-signup. Furthermore, 67 percent of members went dormant immediately after claiming their bonuses, and all orders feature near-identical templated values with a coefficient of variation of 0.0078.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.16 days",
-      "order-value CV of 0.0078 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "signup burst spans only 1.16 days across the cluster",
+      "90 percent of members claimed a bonus averaging 2.68 hours after signup",
+      "claim-then-dormant fraction is 67 percent",
+      "order-value coefficient of variation is 0.0078 indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0057",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0057 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 fully interconnected accounts exhibits a classic soft-signal farming pattern with rapid signups within half a day and immediate bonus claims averaging under two hours. The accounts show near-identical templated order values and high post-claim dormancy, despite lacking shared devices or payment instruments. These behavioral indicators point to coordinated referral bonus abuse.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 0.49 days",
-      "order-value CV of 0.0109 (near-identical amounts)",
-      "83% claim-then-dormant"
+      "83% claim-then-dormant fraction",
+      "order-value CV of 0.0109 indicating near-identical order amounts",
+      "average gap between consecutive signups is 1.97 hours"
     ]
   },
   {
     "cluster_id": "C0059",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0059 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 13 fully interconnected accounts exhibits classic referral farming behavior, featuring a tight 1.65-day signup burst and rapid bonus claims averaging 2.68 hours post-signup. A high claim-then-dormant fraction of 75 percent combined with near-identical, templated order values (coefficient of variation of 0.0084) strongly indicates coordinated abuse despite the lack of shared devices or payment instruments.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.65 days",
-      "order-value CV of 0.0084 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "signup burst spans only 1.65 days with an average consecutive gap of 3.3 hours",
+      "order-value CV of 0.0084 indicates near-identical templated order amounts",
+      "92% of members claimed a bonus averaging 2.68 hours after signup",
+      "75% claim-then-dormant fraction showing immediate silence after bonus claim"
     ]
   },
   {
     "cluster_id": "C0061",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0061 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 4 fully interconnected accounts exhibits classic referral farming behavior with a rapid signup burst within half a day and near-identical order values. All members who claimed their bonuses went entirely dormant immediately afterward without any long-term engagement. Despite a lack of shared devices, the tight coordination, rapid bonus extraction, and zero post-signup retention strongly point to automated abuse.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.48 days",
-      "order-value CV of 0.0075 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "signup burst spans only 0.48 days across the cluster",
+      "order-value CV of 0.0075 -- near-identical order amounts",
+      "claim-then-dormant fraction is 100% with zero long-term engagement",
+      "100% edge density indicating fully interconnected accounts"
     ]
   },
   {
     "cluster_id": "C0062",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0062 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 fully interconnected accounts displays classic referral farming behavior, featuring a tight signup burst spanning under two days and rapid bonus claims averaging two hours post-signup. Furthermore, 90 percent of the claiming members went dormant immediately after, and their orders exhibited near-identical templated values with a coefficient of variation of 0.0042. Despite a lack of shared devices or payment instruments, the soft-signal indicators strongly suggest coordinated bonus abuse.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.75 days",
-      "order-value CV of 0.0042 (near-identical amounts)",
-      "90% claim-then-dormant"
+      "signup burst spans only 1.75 days across 15 fully interconnected accounts",
+      "67 percent of members claimed a bonus averaging 2.04 hours after signup",
+      "90 percent claim-then-dormant fraction showing silence after claiming",
+      "order-value coefficient of variation of 0.0042 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0063",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0063 (11 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 11-account cluster exhibits classic referral farming behavior with a tight signup burst spanning 6.27 days, rapid bonus claims averaging about 24 hours post-signup, and half of the members going dormant immediately after claiming. Furthermore, the low order-value coefficient of variation (0.0607) points to templated spending patterns typical of coordinated exploitation.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 6.27 days",
-      "order-value CV of 0.0607 (near-identical amounts)",
-      "50% claim-then-dormant"
+      "Signup burst spans only 6.27 days with a fully interconnected edge density of 1.0",
+      "73% of members claimed a bonus averaging 24.25 hours after signup",
+      "50% claim-then-dormant fraction with members going silent for 3+ days",
+      "Order-value CV of 0.0607 indicates near-identical, templated spending amounts"
     ]
   },
   {
     "cluster_id": "C0064",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0064 (14 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 14 accounts exhibits classic soft-signal referral farming behavior, featuring a tight signup burst of just over two days and extremely rapid bonus claims averaging 2.11 hours after registration. A high percentage of members went dormant immediately after claiming their bonuses, and their order values show near-identical templated amounts. Despite lacking shared devices or payment instruments, the behavioral patterns strongly indicate coordinated promotional abuse.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 2.06 days",
-      "order-value CV of 0.0149 (near-identical amounts)",
-      "82% claim-then-dormant"
+      "79% of members claimed a bonus averaging 2.11 hours after signup",
+      "82% of members went dormant for 3+ days after claiming",
+      "order-value CV of 0.0149 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0065",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0065 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 accounts exhibits a coordinated soft-signal farming pattern characterized by a tight signup burst over 4.93 days, near-identical templated order values, and fast referral bonus claims followed by post-claim dormancy. Although there is no shared device fingerprint or payment instrument, the behavioral overlap strongly indicates a referral bonus abuse ring.",
+    "confidence": 0.82,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 4.93 days",
-      "order-value CV of 0.065 (near-identical amounts)",
-      "50% claim-then-dormant"
+      "Signup burst spans only 4.93 days",
+      "Order-value CV of 0.065 indicates near-identical order amounts",
+      "50% claim-then-dormant fraction with fast bonus claims averaging 12.46 hours",
+      "Fully interconnected edge density of 1.0 among cluster members"
     ]
   },
   {
     "cluster_id": "C0066",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0066 (14 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 14-account cluster exhibits a classic referral farming pattern with a tight 1.21-day signup burst and near-identical order values with a coefficient of variation of 0.0074. A high percentage of members rapidly claimed bonuses and went dormant, supported by IP subnet overlap and shared referral links. The combination of swift bonus extraction and immediate inactivity strongly indicates coordinated manipulation.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 1.21 days",
-      "order-value CV of 0.0074 (near-identical amounts)",
-      "91% claim-then-dormant"
+      "order-value CV of 0.0074 -- near-identical order amounts",
+      "91% claim-then-dormant fraction",
+      "79% of members claimed a bonus averaging 2.57 hours after signup"
     ]
   },
   {
     "cluster_id": "C0067",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0067 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 7 fully interconnected accounts exhibits a classic soft-signal referral farming pattern with a tight signup burst spanning less than a day. Members rapidly claim referral bonuses within hours and subsequently go dormant, supported by near-identical templated order values and minimal long-term engagement.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.87 days",
-      "order-value CV of 0.0057 (near-identical amounts)",
-      "60% claim-then-dormant"
+      "signup burst spans only 0.87 days across all members",
+      "71% of members claimed a bonus averaging 1.95 hours after signup",
+      "order-value coefficient of variation is 0.0057 indicating near-identical order amounts",
+      "60% claim-then-dormant fraction showing immediate inactivity post-bonus"
     ]
   },
   {
     "cluster_id": "C0069",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0069 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "Cluster C0069 contains 10 fully interconnected accounts exhibiting classic soft-signal farming behavior. The group demonstrates a tight signup burst of under a day, rapid bonus claims averaging 2.67 hours after registration, high post-claim dormancy, and near-identical templated order values.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.77 days",
-      "order-value CV of 0.0079 (near-identical amounts)",
-      "62% claim-then-dormant"
+      "Signup timing span of 0.77 days across the cluster",
+      "Order-value coefficient of variation is 0.0079, showing near-identical order amounts",
+      "80% of members claimed a bonus averaging 2.67 hours after signup",
+      "Claim-then-dormant fraction of 62% indicating high post-claim abandonment"
     ]
   },
   {
     "cluster_id": "C0071",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0071 (13 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 13-account cluster exhibits classic referral farming behavior with a tight 1.39-day signup burst and 77% of members rapidly claiming bonuses within hours. Almost all members (90%) went dormant immediately after claiming, supported by near-identical templated order values with a low CV of 0.0049. Despite the lack of shared device or payment instrument hashes, the coordinated timing and post-claim dormancy strongly indicate automated promotional abuse.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 1.39 days",
-      "order-value CV of 0.0049 (near-identical amounts)",
-      "90% claim-then-dormant"
+      "order-value CV of 0.0049 -- near-identical order amounts",
+      "90% claim-then-dormant fraction",
+      "77% of members claimed a bonus averaging 2.47 hours after signup"
     ]
   },
   {
     "cluster_id": "C0072",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0072 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of four fully interconnected accounts exhibits classic referral farming behavior with a tight signup burst spanning under seven hours and near-identical order values. Fifty percent of the members rapidly claimed referral bonuses before instantly going entirely dormant. Despite lacking shared hardware or payment instruments, the combination of sub-day registration timing and post-claim silence strongly indicates coordinated bonus abuse.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 0.29 days",
-      "order-value CV of 0.0049 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "order-value CV of 0.005 -- near-identical order amounts",
+      "claim-then-dormant fraction is 100%",
+      "average gap between consecutive signups is 2.31 hours"
     ]
   },
   {
     "cluster_id": "C0074",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0074 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 8 fully interconnected accounts exhibits a tight signup burst spanning under 16 hours and rapid referral bonus claims averaging less than 2 hours post-signup. Furthermore, 60 percent of claiming accounts went dormant immediately, and order amounts are near-identical with a coefficient of variation of 0.0075. These behaviors strongly indicate coordinated soft-signal bonus farming.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.62 days",
-      "order-value CV of 0.0075 (near-identical amounts)",
-      "60% claim-then-dormant"
+      "Signup burst spans only 0.62 days with an average gap of 2.14 hours",
+      "60% of claiming members went dormant immediately after bonus claim",
+      "Order-value CV of 0.0075 indicates near-identical templated order amounts",
+      "Fully interconnected cluster with an edge density of 1.0"
     ]
   },
   {
     "cluster_id": "C0075",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0075 (7 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 7-account cluster exhibits classic soft-signal referral farming behavior, featuring a tight signup burst, 100% claim-then-dormant activity, and near-identical order values. Despite lacking shared devices or payment instruments, the fully interconnected referral links and rapid bonus claims within 23 hours strongly indicate coordinated abuse. We recommend holding the pending referral bonuses for human review.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 4.05 days",
-      "order-value CV of 0.0778 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "Fully interconnected cluster with 1.0 edge density utilizing shared referral links",
+      "Signup burst spans a tight 4.05 days with fast bonus claims averaging 23.28 hours",
+      "100% claim-then-dormant fraction with zero long-term engagement",
+      "Order-value coefficient of variation of 0.0778 indicating templated spending"
     ]
   },
   {
     "cluster_id": "C0076",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0076 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 5 fully interconnected accounts exhibits classic referral farming behavior with a tight signup burst spanning under 10 hours and rapid bonus claims averaging just over two hours. The majority of members went dormant immediately after claiming their bonuses and placed orders with near-identical, templated values. Given the strong soft-signal indicators, pending bonuses should be held for human review.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.39 days",
-      "order-value CV of 0.0082 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "signup burst spans only 0.39 days across the cluster",
+      "80% of members claimed a bonus averaging 2.21 hours after signup",
+      "75% claim-then-dormant fraction",
+      "order-value coefficient of variation of 0.0082 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0077",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0077 (11 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 11 fully interconnected accounts exhibits classic referral farming behavior, featuring a tight 1.42-day signup burst and rapid bonus claims averaging 2.39 hours after creation. All members went immediately dormant after claiming their bonuses and placed orders with near-identical values, despite lacking shared devices or payment instruments. Human review is recommended to place a temporary hold on pending referral bonuses.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.42 days",
-      "order-value CV of 0.0112 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "signup burst spans only 1.42 days across the cluster",
+      "100% claim-then-dormant fraction -- all members went silent for 3+ days after claiming",
+      "order-value coefficient of variation is 0.0112 -- near-identical order amounts",
+      "64% of members claimed a bonus averaging 2.39 hours after signup"
     ]
   },
   {
     "cluster_id": "C0078",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0078 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of eight accounts exhibits a classic soft-signal referral farming pattern, featuring a tight signup burst via shared referral links and IP subnets. The accounts demonstrate rapid bonus claims followed by high post-claim dormancy and near-identical order values, strongly indicating coordinated bonus abuse. Human review is recommended to place a temporary hold on pending referral bonuses.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 4.39 days",
-      "order-value CV of 0.0829 (near-identical amounts)",
-      "71% claim-then-dormant"
+      "signup burst spans only 4.39 days across the cluster",
+      "88% of members claimed a bonus averaging 24.09 hours after signup",
+      "71% claim-then-dormant fraction with near-silent post-signup engagement",
+      "order-value CV of 0.0829 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0079",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0079 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 15-account cluster exhibits classic soft-signal referral farming with a fully interconnected structure and a tight 2.17-day signup burst. All members rapidly claimed bonuses shortly after creation and immediately went dormant, supported by near-identical templated order values. Given the high suspicion score and complete post-claim inactivity, bonuses for this cluster should be temporarily held pending review.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 2.17 days",
-      "order-value CV of 0.0522 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "Fully interconnected cluster with an edge density of 1.0",
+      "Tight signup burst spanning only 2.17 days",
+      "100% of bonus-claiming members went dormant immediately after the claim",
+      "Order-value CV of 0.0522 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0080",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0080 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 15-account cluster exhibits coordinated soft-signal referral farming, characterized by fully interconnected members sharing an IP subnet and referral link. Despite lacking shared devices or payment instruments, the cluster shows rapid signups, templated order values, fast bonus claims averaging 18.85 hours, and a 46% dormancy rate post-claim.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 6.63 days",
-      "order-value CV of 0.0587 (near-identical amounts)",
-      "46% claim-then-dormant"
+      "edge density among members is 1.0",
+      "signup burst spans 6.63 days with average gaps of 11.37 hours",
+      "order-value coefficient of variation is 0.0587 indicating near-identical amounts",
+      "46% of members went dormant for 3+ days after claiming bonuses"
     ]
   },
   {
     "cluster_id": "C0081",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0081 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of four fully interconnected accounts exhibits strong soft-signal referral farming behavior, including a tight signup burst spanning under seven hours and rapid bonus claims averaging 2.61 hours after signup. All members went immediately dormant after claiming their bonuses and placed orders with near-identical templated values (CV of 0.0068). Despite lacking shared devices or payment instruments, the coordination is highly indicative of automated bonus abuse.",
+    "confidence": 0.9,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.29 days",
-      "order-value CV of 0.0068 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "Signup timing spans only 0.29 days across the cluster",
+      "75% of members claimed a bonus averaging 2.61 hours after signup",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "Order-value coefficient of variation of 0.0068 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0082",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0082 (12 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This 12-account cluster exhibits classic soft-signal farming behavior, characterized by a tight 1.56-day signup burst via shared referral links and IP subnets. Rapid bonus claims averaging within 2.7 hours followed by immediate dormancy in 90% of cases, combined with near-identical order values, strongly indicate coordinated referral bonus abuse.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 1.56 days",
-      "order-value CV of 0.042 (near-identical amounts)",
-      "90% claim-then-dormant"
+      "83% of members claimed a bonus averaging 2.69 hours after signup",
+      "90% claim-then-dormant fraction",
+      "order-value CV of 0.042 indicating near-identical templated amounts"
     ]
   },
   {
     "cluster_id": "C0083",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0083 (4 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of four interconnected accounts exhibits strong soft-signal farming patterns, including a tight signup burst spanning less than a day via a shared referral link, fast bonus claims, and subsequent dormancy. While there are no shared device fingerprints or payment instruments, the templated order values and high post-claim dormancy warrant holding the pending bonuses for manual verification.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 0.71 days",
-      "order-value CV of 0.104 (near-identical amounts)",
-      "67% claim-then-dormant"
+      "signup burst spans a tight window of 0.71 days",
+      "75% of members claimed a bonus averaging 27.0 hours after signup",
+      "claim-then-dormant fraction is 67%",
+      "low order-value CV of 0.104 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0084",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0084 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 10 accounts exhibits strong soft-signal farming behavior, characterized by a tight signup burst spanning just 1.23 days and rapid bonus claims averaging 2.33 hours post-signup. A high claim-then-dormant fraction of 75 percent combined with near-identical order amounts strongly indicates coordinated bonus abuse. Therefore, pending referral bonuses should be held for human review.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
       "signup burst spans only 1.23 days",
-      "order-value CV of 0.0093 (near-identical amounts)",
-      "75% claim-then-dormant"
+      "80 percent of members claimed a bonus averaging 2.33 hours after signup",
+      "claim-then-dormant fraction is 75 percent",
+      "order-value coefficient of variation is 0.0093 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0086",
-    "mode": "fallback_template",
-    "case_summary": "[template fallback -- no LLM available] Cluster C0086 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
-    "confidence": 0.72,
+    "mode": "gemini",
+    "case_summary": "This cluster of 15 accounts shows strong behavioral indicators of coordinated referral farming despite lacking shared devices or payment instruments. Accounts were created in a tight 1.87-day burst using a shared referral link, immediately claimed bonuses, and went 100% dormant. Furthermore, their 21 orders exhibited near-identical templated amounts with a coefficient of variation of 0.004.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "cluster shares an IP subnet",
-      "signup burst spans only 1.87 days",
-      "order-value CV of 0.004 (near-identical amounts)",
-      "100% claim-then-dormant"
+      "signup burst spans only 1.87 days with an average gap of 3.2 hours",
+      "100% claim-then-dormant fraction",
+      "order-value CV of 0.004 indicating near-identical templated order amounts",
+      "fully interconnected edge density of 1.0 with shared referral_link"
     ]
   }
 ]
