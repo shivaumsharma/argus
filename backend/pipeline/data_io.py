@@ -26,12 +26,13 @@ class DataBundle:
     ip_subnet: dict       # user_id -> "a.b.c" (first three octets of signup IP)
 
 
-def load_data() -> DataBundle:
-    accounts = pd.read_csv(RAW_DIR / "accounts.csv", dtype=str)
-    sessions = pd.read_csv(RAW_DIR / "sessions.csv", dtype=str)
-    referrals = pd.read_csv(RAW_DIR / "referrals.csv", dtype=str)
-    instruments = pd.read_csv(RAW_DIR / "payment_instruments.csv", dtype=str)
-    orders = pd.read_csv(RAW_DIR / "orders.csv", dtype=str)
+def load_data(raw_dir: Path = None) -> DataBundle:
+    raw_dir = raw_dir or RAW_DIR
+    accounts = pd.read_csv(raw_dir / "accounts.csv", dtype=str)
+    sessions = pd.read_csv(raw_dir / "sessions.csv", dtype=str)
+    referrals = pd.read_csv(raw_dir / "referrals.csv", dtype=str)
+    instruments = pd.read_csv(raw_dir / "payment_instruments.csv", dtype=str)
+    orders = pd.read_csv(raw_dir / "orders.csv", dtype=str)
 
     sessions["timestamp"] = pd.to_datetime(sessions["timestamp"])
     accounts["signup_date"] = pd.to_datetime(accounts["signup_date"])
@@ -49,10 +50,12 @@ def load_data() -> DataBundle:
     claim_sessions = sessions[sessions.action_type == "referral_claim"].sort_values("timestamp")
     claim_ts = claim_sessions.groupby("user_id")["timestamp"].first().to_dict()
 
-    ip_subnet = {
-        uid: ".".join(str(ip).split(".")[:3])
-        for uid, ip in zip(accounts.user_id, accounts.ip_address_at_signup)
-    }
+    def _subnet(ip):
+        if not isinstance(ip, str) or ip.count(".") != 3:
+            return None
+        return ".".join(ip.split(".")[:3])
+
+    ip_subnet = {uid: _subnet(ip) for uid, ip in zip(accounts.user_id, accounts.ip_address_at_signup)}
 
     return DataBundle(
         accounts=accounts,
