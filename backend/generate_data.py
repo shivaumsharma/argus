@@ -30,7 +30,12 @@ import pandas as pd
 # Config
 # --------------------------------------------------------------------------
 
-SEED = 42
+# A fresh seed, never used during threshold tuning or debugging this session --
+# SEED=42 was used throughout development (Days 1-7, the 40/40/40 scale-up, and
+# every debugging iteration), so a held-out claim on that data is weaker than it
+# looks even without explicit retuning. This one has not been looked at before
+# Stage 5's thresholds and Stage 3's Louvain resolution were already frozen.
+SEED = 20260828
 random.seed(SEED)
 np.random.seed(SEED)
 
