@@ -33,6 +33,8 @@ Every miss is individually traceable, not a bug: all 7 missed soft rings are the
 
 This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point for the dashboard's live-injection demo (see below) — injecting a ring during a demo mutates the live data on purpose; resetting restores precisely this run.
 
+**Tested on real, independently-labeled fraud data too, not just our own construction.** The unmodified Stage 2/3 clustering, run against YelpChi (99.2% precision, 6.8x lift over base rate on real fake-review collusion), Amazon (81.8% precision, 11.9x lift), and Elliptic (72.0% precision, 7.3x lift on a real Bitcoin transaction graph — the deliberately weakest-fit domain tested). Full methodology and honest numbers, including the materially weaker Amazon result, in [`docs/EXTERNAL_VALIDATION.md`](docs/EXTERNAL_VALIDATION.md).
+
 ## Quickstart
 
 ```bash
@@ -50,6 +52,9 @@ python -m backend.demo_failure_injection                 # proves the pipeline s
 python -m backend.adversarial_stress_test                 # finds where detection actually breaks (see Known Limitations)
 python -m backend.snapshot                                  # freezes data/raw + the DB as the live-injection demo's reset point
 python -m backend.live_injection hard 9                      # CLI version of the dashboard's live-injection control
+
+python -m backend.external_validation.run both              # same Stage 2/3 clustering vs. real YelpChi + Amazon fraud labels
+python -m backend.external_validation.elliptic                # same clustering vs. a real Bitcoin transaction graph
 
 streamlit run frontend/streamlit_app.py                    # dashboard, including the live-injection demo page
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
@@ -81,6 +86,7 @@ backend/
   confidence_calibration.py           buckets real LLM confidence into deciles and checks it against ground truth
   compliance_report.py                 auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
   cod_collusion/                        second loss type (stretch) — reuses Stage 2/3 clustering unchanged
+  external_validation/                   same Stage 2/3 clustering vs. real YelpChi/Amazon/Elliptic fraud data
 frontend/
   streamlit_app.py             entry point — page config, sidebar pipeline controls, navigation
   shared.py                     shared cached loaders (graph, clusters, eval report) used by every page
@@ -98,12 +104,14 @@ data/
   processed/                      pipeline output (clusters.json, eval_report.json, cases.json)
   frozen_snapshot/                 reset point for the live-injection demo (see backend/snapshot.py)
   cod/                              second loss type's own separate dataset — never touches the above
+  external/                          real third-party fraud datasets (gitignored, ~831MB — see below)
 docs/
   explainer.html                   standalone visual explainer — open this first
   ARCHITECTURE.md                   Stage 1-8 diagram + design rationale + known limitations
   SECOND_LOSS_TYPE.md                COD serial-refusal collusion — what's reused vs. new, and why
-  COMPLIANCE_SUMMARY.md               auto-generated RBI FREE-AI alignment report (regenerate after any run)
-  PITCH_SCRIPT.md                      5-minute pitch video script
+  EXTERNAL_VALIDATION.md              same clustering tested on real labeled fraud data (YelpChi/Amazon/Elliptic)
+  COMPLIANCE_SUMMARY.md                auto-generated RBI FREE-AI alignment report (regenerate after any run)
+  PITCH_SCRIPT.md                       5-minute pitch video script
 ```
 
 ## Scope
