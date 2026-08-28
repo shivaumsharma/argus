@@ -1,0 +1,517 @@
+[
+  {
+    "cluster_id": "CC0001",
+    "detection_stage": "hard",
+    "members": [
+      "C000001",
+      "C000002",
+      "C000003",
+      "C000004",
+      "C000005",
+      "C000006",
+      "C000007"
+    ],
+    "features": {
+      "size": 7,
+      "n_edges": 21,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 33,
+      "n_cod_orders": 33,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.97,
+      "avg_order_value": 6411.23,
+      "order_value_cv": 0.4054
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 97% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0002",
+    "detection_stage": "hard",
+    "members": [
+      "C000008",
+      "C000009",
+      "C000010"
+    ],
+    "features": {
+      "size": 3,
+      "n_edges": 3,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix",
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 14,
+      "n_cod_orders": 14,
+      "cod_fraction": 1.0,
+      "refusal_rate": 1.0,
+      "avg_order_value": 5029.07,
+      "order_value_cv": 0.4723
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 100% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0003",
+    "detection_stage": "hard",
+    "members": [
+      "C000011",
+      "C000012",
+      "C000013",
+      "C000014",
+      "C000015",
+      "C000016",
+      "C000017"
+    ],
+    "features": {
+      "size": 7,
+      "n_edges": 21,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix",
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 23,
+      "n_cod_orders": 23,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.783,
+      "avg_order_value": 8239.77,
+      "order_value_cv": 0.3365
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 78% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0004",
+    "detection_stage": "hard",
+    "members": [
+      "C000018",
+      "C000019",
+      "C000020",
+      "C000021",
+      "C000022"
+    ],
+    "features": {
+      "size": 5,
+      "n_edges": 10,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 23,
+      "n_cod_orders": 23,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.913,
+      "avg_order_value": 6745.7,
+      "order_value_cv": 0.5079
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 91% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0005",
+    "detection_stage": "hard",
+    "members": [
+      "C000023",
+      "C000024",
+      "C000025",
+      "C000026"
+    ],
+    "features": {
+      "size": 4,
+      "n_edges": 6,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix",
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 14,
+      "n_cod_orders": 14,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.571,
+      "avg_order_value": 7299.5,
+      "order_value_cv": 0.4686
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 57% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0006",
+    "detection_stage": "hard",
+    "members": [
+      "C000033",
+      "C000034",
+      "C000035",
+      "C000036",
+      "C000037",
+      "C000038",
+      "C000039",
+      "C000040",
+      "C000041",
+      "C000042"
+    ],
+    "features": {
+      "size": 10,
+      "n_edges": 45,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix",
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 45,
+      "n_cod_orders": 45,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.978,
+      "avg_order_value": 7006.55,
+      "order_value_cv": 0.3602
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 98% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0007",
+    "detection_stage": "hard",
+    "members": [
+      "C000051",
+      "C000052",
+      "C000053",
+      "C000054",
+      "C000055",
+      "C000056"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix",
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 19,
+      "n_cod_orders": 19,
+      "cod_fraction": 1.0,
+      "refusal_rate": 1.0,
+      "avg_order_value": 6026.79,
+      "order_value_cv": 0.4659
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 100% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0008",
+    "detection_stage": "hard",
+    "members": [
+      "C000057",
+      "C000058",
+      "C000059",
+      "C000060",
+      "C000061",
+      "C000062"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 21,
+      "n_cod_orders": 21,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.81,
+      "avg_order_value": 7275.68,
+      "order_value_cv": 0.3499
+    },
+    "flagged": true,
+    "filter_reason": "Shared delivery address with a 81% COD refusal rate -- far above what organic customers refuse; consistent with a reshipping/collusion drop point."
+  },
+  {
+    "cluster_id": "CC0009",
+    "detection_stage": "hard",
+    "members": [
+      "C000063",
+      "C000064",
+      "C000065",
+      "C000066",
+      "C000067",
+      "C000068",
+      "C000069",
+      "C000070",
+      "C000071",
+      "C000072",
+      "C000073"
+    ],
+    "features": {
+      "size": 11,
+      "n_edges": 55,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 57,
+      "n_cod_orders": 20,
+      "cod_fraction": 0.351,
+      "refusal_rate": 0.2,
+      "avg_order_value": 946.95,
+      "order_value_cv": 0.4497
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (20%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0010",
+    "detection_stage": "hard",
+    "members": [
+      "C000074",
+      "C000075",
+      "C000076",
+      "C000077",
+      "C000078",
+      "C000079",
+      "C000080",
+      "C000081",
+      "C000082",
+      "C000083",
+      "C000084",
+      "C000085"
+    ],
+    "features": {
+      "size": 12,
+      "n_edges": 66,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 54,
+      "n_cod_orders": 29,
+      "cod_fraction": 0.537,
+      "refusal_rate": 0.103,
+      "avg_order_value": 808.94,
+      "order_value_cv": 0.5974
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (10%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0011",
+    "detection_stage": "hard",
+    "members": [
+      "C000086",
+      "C000087",
+      "C000088",
+      "C000089",
+      "C000090",
+      "C000091"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 34,
+      "n_cod_orders": 12,
+      "cod_fraction": 0.353,
+      "refusal_rate": 0.083,
+      "avg_order_value": 1039.11,
+      "order_value_cv": 0.5086
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (8%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0012",
+    "detection_stage": "hard",
+    "members": [
+      "C000092",
+      "C000093",
+      "C000094",
+      "C000095",
+      "C000096",
+      "C000097",
+      "C000098",
+      "C000099",
+      "C000100",
+      "C000101",
+      "C000102",
+      "C000103"
+    ],
+    "features": {
+      "size": 12,
+      "n_edges": 66,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 66,
+      "n_cod_orders": 29,
+      "cod_fraction": 0.439,
+      "refusal_rate": 0.103,
+      "avg_order_value": 800.68,
+      "order_value_cv": 0.5979
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (10%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0013",
+    "detection_stage": "hard",
+    "members": [
+      "C000104",
+      "C000105",
+      "C000106",
+      "C000107",
+      "C000108",
+      "C000109",
+      "C000110",
+      "C000111",
+      "C000112",
+      "C000113"
+    ],
+    "features": {
+      "size": 10,
+      "n_edges": 45,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 55,
+      "n_cod_orders": 27,
+      "cod_fraction": 0.491,
+      "refusal_rate": 0.074,
+      "avg_order_value": 991.63,
+      "order_value_cv": 0.4236
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (7%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0014",
+    "detection_stage": "hard",
+    "members": [
+      "C000114",
+      "C000115",
+      "C000116",
+      "C000117",
+      "C000118",
+      "C000119",
+      "C000120",
+      "C000121",
+      "C000122",
+      "C000123",
+      "C000124",
+      "C000125",
+      "C000126"
+    ],
+    "features": {
+      "size": 13,
+      "n_edges": 78,
+      "edge_density": 1.0,
+      "signals_present": [
+        "shared_address"
+      ],
+      "shared_address": true,
+      "shared_address_frac": 1.0,
+      "n_orders": 75,
+      "n_cod_orders": 29,
+      "cod_fraction": 0.387,
+      "refusal_rate": 0.103,
+      "avg_order_value": 998.62,
+      "order_value_cv": 0.4758
+    },
+    "flagged": false,
+    "filter_reason": "Shared delivery address, but refusal rate (10%) is within the normal range for organic customers -- looks like a real multi-tenant address."
+  },
+  {
+    "cluster_id": "CC0015",
+    "detection_stage": "soft",
+    "members": [
+      "C000027",
+      "C000028",
+      "C000029",
+      "C000030",
+      "C000031",
+      "C000032"
+    ],
+    "features": {
+      "size": 6,
+      "n_edges": 15,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix"
+      ],
+      "shared_address": false,
+      "shared_address_frac": 0.167,
+      "n_orders": 34,
+      "n_cod_orders": 34,
+      "cod_fraction": 1.0,
+      "refusal_rate": 0.853,
+      "avg_order_value": 6590.33,
+      "order_value_cv": 0.438
+    },
+    "flagged": true,
+    "filter_reason": "No shared address, but a shared phone-number block with 85% refusal rate and 100% COD-only ordering -- classic burner-SIM collusion pattern."
+  },
+  {
+    "cluster_id": "CC0016",
+    "detection_stage": "soft",
+    "members": [
+      "C000043",
+      "C000044",
+      "C000045",
+      "C000046",
+      "C000047",
+      "C000048",
+      "C000049",
+      "C000050"
+    ],
+    "features": {
+      "size": 8,
+      "n_edges": 28,
+      "edge_density": 1.0,
+      "signals_present": [
+        "phone_prefix"
+      ],
+      "shared_address": false,
+      "shared_address_frac": 0.125,
+      "n_orders": 33,
+      "n_cod_orders": 33,
+      "cod_fraction": 1.0,
+      "refusal_rate": 1.0,
+      "avg_order_value": 7218.21,
+      "order_value_cv": 0.4381
+    },
+    "flagged": true,
+    "filter_reason": "No shared address, but a shared phone-number block with 100% refusal rate and 100% COD-only ordering -- classic burner-SIM collusion pattern."
+  }
+]

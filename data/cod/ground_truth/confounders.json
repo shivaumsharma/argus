@@ -1,0 +1,96 @@
+{
+  "COD_CONF_01": {
+    "members": [
+      "C000063",
+      "C000064",
+      "C000065",
+      "C000066",
+      "C000067",
+      "C000068",
+      "C000069",
+      "C000070",
+      "C000071",
+      "C000072",
+      "C000073"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  },
+  "COD_CONF_02": {
+    "members": [
+      "C000074",
+      "C000075",
+      "C000076",
+      "C000077",
+      "C000078",
+      "C000079",
+      "C000080",
+      "C000081",
+      "C000082",
+      "C000083",
+      "C000084",
+      "C000085"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  },
+  "COD_CONF_03": {
+    "members": [
+      "C000086",
+      "C000087",
+      "C000088",
+      "C000089",
+      "C000090",
+      "C000091"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  },
+  "COD_CONF_04": {
+    "members": [
+      "C000092",
+      "C000093",
+      "C000094",
+      "C000095",
+      "C000096",
+      "C000097",
+      "C000098",
+      "C000099",
+      "C000100",
+      "C000101",
+      "C000102",
+      "C000103"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  },
+  "COD_CONF_05": {
+    "members": [
+      "C000104",
+      "C000105",
+      "C000106",
+      "C000107",
+      "C000108",
+      "C000109",
+      "C000110",
+      "C000111",
+      "C000112",
+      "C000113"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  },
+  "COD_CONF_06": {
+    "members": [
+      "C000114",
+      "C000115",
+      "C000116",
+      "C000117",
+      "C000118",
+      "C000119",
+      "C000120",
+      "C000121",
+      "C000122",
+      "C000123",
+      "C000124",
+      "C000125",
+      "C000126"
+    ],
+    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+  }
+}
