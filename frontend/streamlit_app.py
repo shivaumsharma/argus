@@ -16,6 +16,7 @@ pages = [
     st.Page("app_pages/flagged_clusters.py", title="Flagged clusters", icon=":material/flag:"),
     st.Page("app_pages/confounders.py", title="Confounders left alone", icon=":material/verified_user:"),
     st.Page("app_pages/graph_explorer.py", title="Graph explorer", icon=":material/share:"),
+    st.Page("app_pages/live_injection.py", title="Live injection", icon=":material/bolt:"),
     st.Page("app_pages/metrics.py", title="Metrics", icon=":material/monitoring:"),
     st.Page("app_pages/audit_log.py", title="Audit log", icon=":material/history:"),
 ]

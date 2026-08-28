@@ -236,58 +236,57 @@ def _build_provider_chain(verbose=True):
     return chain
 
 
-def investigate_all(clusters_path=None, verbose=True):
-    with open(clusters_path or (PROCESSED_DIR / "clusters.json")) as f:
-        all_clusters = json.load(f)
-    flagged = [c for c in all_clusters if c["flagged"]]
+class ProviderRunner:
+    """Owns the provider chain, the degrade-on-failure position, and per-provider rate-limit
+    spacing across a batch of calls. Shared by investigate_all() (a full batch) and
+    investigate_single() (one cluster injected live during a demo), so both get the same
+    proactive spacing + retry-on-429 + degrade-to-next-provider behavior."""
 
-    provider_chain = _build_provider_chain(verbose)
-    provider_idx = 0
-    if verbose:
-        if provider_chain:
-            print(f"LLM provider chain: {' -> '.join(m for m, _, _ in provider_chain)} -> fallback_template")
-        else:
-            print("No LLM credentials available at all; using template fallback for every cluster.")
+    def __init__(self, verbose=True):
+        self.verbose = verbose
+        self.chain = _build_provider_chain(verbose)
+        self.idx = 0
+        self.last_call_ts = {}
+        if verbose:
+            if self.chain:
+                print(f"LLM provider chain: {' -> '.join(m for m, _, _ in self.chain)} -> fallback_template")
+            else:
+                print("No LLM credentials available at all; using template fallback for every cluster.")
 
-    last_call_ts = {}  # mode -> monotonic timestamp of the last call, for proactive rate-limit spacing
-
-    results = []
-    for i, cluster in enumerate(flagged):
+    def investigate(self, cluster: dict):
         prompt = build_prompt(cluster)
-        result = None
-        mode = "fallback_template"
+        result, mode = None, "fallback_template"
 
-        while provider_idx < len(provider_chain):
-            mode, client, call_fn = provider_chain[provider_idx]
+        while self.idx < len(self.chain):
+            mode, client, call_fn = self.chain[self.idx]
 
             if mode == "gemini":
-                elapsed = time.monotonic() - last_call_ts.get(mode, 0)
+                elapsed = time.monotonic() - self.last_call_ts.get(mode, 0)
                 if elapsed < GEMINI_MIN_INTERVAL_SECONDS:
                     time.sleep(GEMINI_MIN_INTERVAL_SECONDS - elapsed)
 
             retries_left = RATE_LIMIT_MAX_RETRIES
             while True:
                 try:
-                    last_call_ts[mode] = time.monotonic()
+                    self.last_call_ts[mode] = time.monotonic()
                     result = call_fn(client, prompt)
                     break
                 except Exception as e:
                     if _is_rate_limit_error(e) and retries_left > 0:
                         delay = _parse_retry_delay(e)
-                        if verbose:
+                        if self.verbose:
                             print(f"{mode} rate-limited; waiting {delay:.0f}s and retrying ({retries_left} retries left)...")
                         time.sleep(delay)
                         retries_left -= 1
                         continue
-                    if verbose:
+                    if self.verbose:
                         print(f"{mode} call failed ({type(e).__name__}: {e}); "
-                              f"{'trying next provider' if provider_idx + 1 < len(provider_chain) else 'falling back to template'} "
-                              f"for remaining clusters.")
+                              f"{'trying next provider' if self.idx + 1 < len(self.chain) else 'falling back to template'}.")
                     result = None
                     break
             if result is not None:
                 break
-            provider_idx += 1
+            self.idx += 1
             mode = "fallback_template"
 
         if result is None:
@@ -295,6 +294,28 @@ def investigate_all(clusters_path=None, verbose=True):
 
         result["confidence"] = max(0.0, min(1.0, float(result["confidence"])))
         db.write_llm_result(cluster["cluster_id"], prompt, result, mode)
+        return result, mode
+
+
+def investigate_single(cluster: dict, verbose=True):
+    """Investigate exactly one cluster -- used by the live-injection demo control so clicking
+    'inject a ring' doesn't re-run the LLM over every already-investigated cluster."""
+    runner = ProviderRunner(verbose=verbose)
+    result, mode = runner.investigate(cluster)
+    if verbose:
+        print(f"{cluster['cluster_id']} ({mode}) -> {result['recommended_action']} (confidence {result['confidence']:.2f})")
+    return {"cluster_id": cluster["cluster_id"], "mode": mode, **result}
+
+
+def investigate_all(clusters_path=None, verbose=True):
+    with open(clusters_path or (PROCESSED_DIR / "clusters.json")) as f:
+        all_clusters = json.load(f)
+    flagged = [c for c in all_clusters if c["flagged"]]
+
+    runner = ProviderRunner(verbose=verbose)
+    results = []
+    for i, cluster in enumerate(flagged):
+        result, mode = runner.investigate(cluster)
         results.append({"cluster_id": cluster["cluster_id"], "mode": mode, **result})
         if verbose:
             print(f"[{i+1}/{len(flagged)}] {cluster['cluster_id']} ({mode}) -> {result['recommended_action']} "
