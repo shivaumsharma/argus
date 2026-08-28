@@ -8,7 +8,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_confounder_rows, cached_eval_report, cached_ring_rows, ensure_version  # noqa: E402
+from shared import cached_calibration_report, cached_confounder_rows, cached_eval_report, cached_ring_rows, ensure_version  # noqa: E402
 
 st.title(":material/monitoring: Metrics")
 st.caption(
@@ -113,3 +113,34 @@ st.dataframe(
      for r in rows_to_show],
     hide_index=True, width="stretch", height=min(420, 46 + 35 * len(rows_to_show)),
 )
+
+st.space("large")
+
+# --- Confidence calibration ---
+st.subheader("Does stated confidence track ground truth?")
+calib = cached_calibration_report(version)
+if not calib:
+    st.info("Run `python -m backend.confidence_calibration` after a live LLM investigation pass to generate this.",
+             icon=":material/info:")
+else:
+    st.caption(
+        f"{calib['n_flagged']} flagged clusters carry a real (non-template) LLM confidence score. "
+        f"{calib['n_true_rings']} match a planted ring; {calib['n_not_true_ring']} don't."
+    )
+    bucket_rows = [b for b in calib["buckets"] if b["n"] > 0]
+    st.dataframe(
+        [{"Confidence": b["range"], "Clusters": b["n"],
+          "Accuracy": b["accuracy"], "False positives": ", ".join(b.get("false_positives") or []) or "—"}
+         for b in bucket_rows],
+        hide_index=True, width="stretch",
+        column_config={"Accuracy": st.column_config.ProgressColumn(min_value=0, max_value=1, format="%.0%%")},
+    )
+    n_neg = calib["n_not_true_ring"]
+    st.caption(
+        f":material/info: Only {n_neg} negative example{'s' if n_neg != 1 else ''} exist{'s' if n_neg == 1 else ''} "
+        f"across {calib['n_flagged']} flagged clusters — most buckets show 100% simply because they contain zero "
+        "negative examples to miss, not because confidence has been validated against a meaningful number of "
+        "counter-examples. This is a real signal (confidence does correlate with the Stage 4/5 evidence strength "
+        "the LLM was given), but with this few negative examples it is not a statistically meaningful calibration "
+        "curve, and that's stated plainly rather than blended into one clean number."
+    )

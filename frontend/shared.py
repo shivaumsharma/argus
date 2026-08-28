@@ -56,3 +56,14 @@ def cached_ring_rows(_version: int):
 @st.cache_data(show_spinner=False)
 def cached_eval_report(_version: int):
     return reporting.load_eval_report()
+
+
+@st.cache_data(show_spinner=False)
+def cached_calibration_report(_version: int):
+    import json
+    from backend.pipeline.data_io import PROCESSED_DIR
+    path = PROCESSED_DIR / "confidence_calibration.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
