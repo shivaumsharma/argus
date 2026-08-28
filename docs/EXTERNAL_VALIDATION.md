@@ -8,6 +8,12 @@ Same discipline as the [COD collusion extension](SECOND_LOSS_TYPE.md): Stage 2 (
 
 Stage 4/5's specific behavioral features (order-value templating, referral-claim timing) don't transfer — there's no order or referral concept in a review dataset — and that substitution is stated here explicitly rather than papered over.
 
+## Methodology note: this is node-level, not ring-level — a real difference from the primary eval
+
+The primary submission's headline numbers (`README.md`) are **ring-level**: "100% hard-signal recall" means 40 of 40 *planted rings*, as whole units, were detected — computed by matching a candidate cluster against a known ring's exact membership with a bidirectional overlap threshold.
+
+The numbers below are **node-level** (account/review/transaction), not ring-level, and that is a genuine methodological difference, not a labeling choice. It happened because it had to: YelpChi, Amazon, and Elliptic only provide a fraud/not-fraud label per individual node — there is no "these 8 accounts are one ring" grouping in the ground truth to match against the way there is in our own synthetic data. So "precision" here means *what fraction of the accounts inside flagged clusters are individually labeled fraud*, not *what fraction of flagged clusters correspond to a whole real ring*. **These numbers are not directly comparable to the primary system's 100% / 82.5% / 2.5% ring-level figures, and shouldn't be read as if they were.** What they validate is narrower but still real: whether the same graph-clustering mechanism concentrates real fraud above the base rate on data we didn't construct.
+
 ## 1. YelpChi (Rayana & Akoglu, KDD 2015)
 
 45,954 Yelp reviews (Chicago restaurants/hotels), independently labeled genuine or filtered-as-fake-spam by Yelp's own detection system. Graph relations from the paper, used as Stage 1's edges directly (via [github.com/YingtongDou/CARE-GNN](https://github.com/YingtongDou/CARE-GNN)):
@@ -18,21 +24,23 @@ Stage 4/5's specific behavioral features (order-value templating, referral-claim
 | Same product + month (R-T-R) | soft | 1.2 | Circumstantial timing overlap |
 | Same product + rating + week (R-S-R) | soft | 0.4 | Broader, denser, down-weighted |
 
-**Result** (base rate: 14.5% of all reviews are labeled fraud):
+**Raw counts** (base rate: 6,677 / 45,954 reviews independently labeled fraud, 14.5%):
+
+- 7,398 candidate clusters (7,308 hard, 90 soft)
+- 492 flagged (fraud density > 50%): 491 hard, 1 soft
+- Those 492 flagged clusters contain **1,143 accounts total, of which 1,134 are independently labeled fraud** — a real, large-enough sample for the resulting percentages to mean something.
 
 | Metric | Value |
 |---|---|
-| Candidate clusters | 7,398 (7,308 hard, 90 soft) |
-| Flagged (fraud density > 50%) | 492 (491 hard, 1 soft) |
-| Fraud recall | **17.0%** (1,134 / 6,677 fraud reviews captured) |
-| Flagged-cluster precision | **99.2%** |
+| Node-level recall (fraud accounts captured / all fraud accounts) | **17.0%** (1,134 / 6,677) |
+| Node-level precision (fraud accounts / all accounts in flagged clusters) | **99.2%** (1,134 / 1,143) |
 | Lift over base rate | **6.8x** |
 
-**Read honestly:** precision is almost perfect — when the pipeline flags a cluster on real data, it is almost never wrong. Recall is modest, and that's not a failure to hide: most of Yelp's labeled fake reviews are isolated one-off spam with no shared reviewer identity or product-timing pattern — structurally invisible to a graph-clustering approach, exactly the limitation already stated in [`ARCHITECTURE.md`](ARCHITECTURE.md#known-limitations-honest) before this test ever ran. 99.2% precision / 17% recall on real, independently-labeled data is direct empirical support for the whole thesis: this approach finds *coordinated* fraud with very high confidence and makes no claim about *isolated* fraud.
+**Read honestly:** precision is almost perfect on a sample large enough (1,143 accounts) to trust — when the pipeline flags a cluster on real data, it is almost never wrong. Recall is modest, and that's not a failure to hide: most of Yelp's labeled fake reviews are isolated one-off spam with no shared reviewer identity or product-timing pattern — structurally invisible to a graph-clustering approach, exactly the limitation already stated in [`ARCHITECTURE.md`](ARCHITECTURE.md#known-limitations-honest) before this test ever ran. 99.2% precision / 17% recall on real, independently-labeled data is direct empirical support for the whole thesis: this approach finds *coordinated* fraud with very high confidence and makes no claim about *isolated* fraud.
 
 Soft-signal clustering added almost nothing here (1 of 492 flagged clusters) — stated plainly rather than blended into the headline number.
 
-## 2. Amazon (McAuley & Leskovec)
+## 2. Amazon (McAuley & Leskovec) — small sample, read the counts before the percentage
 
 11,944 users on musical-instrument reviews, same source repo.
 
@@ -42,34 +50,52 @@ Soft-signal clustering added almost nothing here (1 of 492 flagged clusters) —
 | Top-5% TF-IDF text similarity (U-V-U) | soft | 1.0 | Circumstantial |
 | Same rating within a week (U-S-U) | — | **excluded** | Avg degree ~597 across 11,944 nodes — a near-complete graph. Not a discriminating signal at that density, and computationally prohibitive for Louvain. The same judgment Stage 5's philosophy already makes on our own data: an overly-broad shared attribute earns suspicion, not weight. |
 
-**Result** (base rate: 6.9%):
+**Raw counts, in full** (base rate: 821 / 11,944 users independently labeled fraud, 6.9%):
 
-| Metric | Value |
-|---|---|
-| Candidate clusters | 351 (331 hard, 20 soft) |
-| Flagged (fraud density > 50%) | 4 (all hard) |
-| Fraud recall | **1.1%** (9 / 821) |
-| Flagged-cluster precision | **81.8%** |
-| Lift over base rate | **11.9x** |
+- 351 candidate clusters (331 hard, 20 soft)
+- Exactly **4 flagged clusters**, sizes 2, 2, 4, and 3 accounts:
 
-**Read honestly, not cherry-picked:** this is a materially weaker result than YelpChi, and it's reported as such rather than averaged away. The reason is visible in the data, not mysterious: "same reviewer" (Yelp) is a strong identity signal — few legitimate reasons two accounts share it. "Same product reviewed" (Amazon, the closest available hard-signal analog) is common and only weakly suspicious on its own — popular products get reviewed by thousands of unrelated people. That weak signal produces one dominant **9,314-node giant component** (78% of the entire graph), diluting fraud density everywhere inside it and leaving almost all fraud nodes uncaptured by the >50%-density flag. Precision on the few small, genuinely concentrated clusters that do get flagged is still well above the base rate (11.9x lift), but the sample is tiny (4 clusters, 9 fraud nodes) and shouldn't be read as a strong claim either way.
+  | Cluster | Size | Fraud accounts | Density |
+  |---|---|---|---|
+  | 1 | 2 | 2 | 100% |
+  | 2 | 2 | 2 | 100% |
+  | 3 | 4 | 3 | 75% |
+  | 4 | 3 | 2 | 67% |
 
-**The finding that matters:** hard-signal precision is only as strong as the identity signal actually available in the domain. Yelp had one; Amazon's closest analog was much weaker; the results tracked that difference exactly, which is what an honest validation is supposed to do.
+- Total across all 4: **11 accounts, 9 of them independently labeled fraud.**
+
+That is the entire sample the "82% precision" figure was computed from. **9 correct out of 11 is not a statistically meaningful precision estimate** — it's close enough to "flip a coin 11 times, get 9 heads" that the percentage shouldn't be trusted as a rate, only read as the raw count it is: on this dataset, the hard-signal stage flagged four small clusters, and most of the accounts in them turned out to really be fraud. Recall (1.1%, 9 of 821) is a real, if small, number — 821 is a large-enough denominator for that fraction to be meaningful; it's the *precision* percentage on a numerator of 9 that shouldn't be treated as a rate.
+
+**Why the sample is so small, which is the more informative finding:** "same reviewer" (Yelp) is a strong identity signal — few legitimate reasons two accounts share it. "Same product reviewed" (Amazon, the closest available hard-signal analog) is common and only weakly suspicious on its own — popular products get reviewed by thousands of unrelated people. That weak signal produces one dominant **9,314-node giant component** (78% of the entire graph) that never clears the 50%-density bar, which is *why* only 11 accounts ever end up in a flagged cluster at all. The real result here isn't "82% precision" — it's "this hard-signal analog is too weak to produce a large enough flagged sample to trust a rate from," which is itself a genuine, useful finding about how much the whole approach depends on having a real identity-linking relation available in a given domain.
 
 ## 3. Elliptic (Weber et al., 2019)
 
 Real Bitcoin transaction graph, transaction-level illicit/licit labels, via [huggingface.co/datasets/yhoma/elliptic-bitcoin-dataset](https://huggingface.co/datasets/yhoma/elliptic-bitcoin-dataset) (a mirror covering 114,634 of the original 203,769 transactions — a real subset, not a corrupted file; every row that exists has a matching label).
 
-Lowest priority, run because the top two finished with time to spare — and structurally the weakest match on purpose: this is a **single-relation** transaction-flow graph (payment A → payment B), not a multi-relation graph like Yelp/Amazon. There's no natural hard-vs-soft split to build — this dataset is exactly the shape of "transaction-level, not ring/community-labeled" that makes it a weaker fit to what this system claims. What can be tested honestly: whether Stage 2 and Stage 3, imported unchanged, find anything at all on a real, single-relation financial graph.
+Lowest priority, run because the top two finished with time to spare — and structurally the weakest match on purpose: this is a **single-relation** transaction-flow graph (payment A → payment B), not a multi-relation graph like Yelp/Amazon.
+
+**Why Stage 2 correctly finds nothing (confirmed, not assumed):** a payment edge ("A paid B") is not an identity signal — it's the same *kind* of relation as this system's own `referral_link` edge (a transaction between two distinct entities), never treated as hard-signal-worthy anywhere in this repo, unlike `device_fingerprint`/`instrument_hash` (which indicate the *same* underlying identity behind two accounts). Running Stage 2 on a payment-flow graph was checking whether an inherently soft-shaped relation behaves like a hard one — and the data says no, precisely:
+
+Reproduced directly by `python -m backend.external_validation.elliptic` (5 largest components by size):
+
+| Component size | Labeled members | Illicit | Density |
+|---|---|---|---|
+| 7,880 (largest) | 2,147 | 17 | 0.8% |
+| 6,803 | 1,882 | 8 | 0.4% |
+| 6,727 | 972 | 18 | 1.9% |
+| 6,621 | 1,279 | 11 | 0.9% |
+| 6,048 | 1,203 | 102 | 8.5% |
+
+Ten components land between roughly 4,500 and 7,880 nodes (the densest of them, 4,996 nodes with 248 illicit, still only 31.9%) — every one diluted well under the 50% flag threshold. This is not one dominant giant component, it's several large ones, each a long transaction chain that mixes illicit funds moving *through* mostly-ordinary intermediary transactions. That's exactly what a payment-flow graph should do: trace money movement across a mixed population, not isolate a ring. Of the 29 components with any labeled members, **zero** clear 50% density. The null result is explained, not just asserted.
 
 **Result** (114,634 nodes, 133,700 edges, 46,564 labeled — 9.8% illicit base rate):
 
-| Stage | Clusters scored | Flagged | Recall | Precision | Lift |
+| Stage | Clusters scored | Flagged | Node-level recall | Node-level precision | Lift |
 |---|---|---|---|---|---|
 | Stage 2 — connected components (unchanged) | 29 | 0 | 0.0% | n/a | — |
 | Stage 3 — Louvain (unchanged) | 261 | 21 | **13.1%** (597/4,545) | **72.0%** | **7.3x** |
 
-**Read honestly:** Stage 2 finds nothing here, and that's the correct, expected outcome, not a failure — a Bitcoin transaction-flow graph has no "same device" / "same reviewer" style identity relation for connected components to exploit; the graph structure itself already breaks into 40 components (largest is only 6.9% of all nodes), so there's no giant-component problem, just no hard signal to find. Stage 3's Louvain community detection, the same unmodified function used everywhere else in this repo, does find real signal even here: 72% precision and 7.3x lift over base rate on a real financial crime graph, in a domain with no ring-shaped ground truth this system was designed around. That's a genuine, if modest, positive result in the weakest-fit domain tested — evidence the underlying clustering mechanism generalizes beyond "domains that look like our synthetic data," not just a repeat of the primary claim.
+Stage 3's flagged clusters contain a much larger sample (829 transactions, 597 of them illicit — 21 flagged communities) than Amazon's 11, so its 72% figure rests on firmer ground than Amazon's 82% does. Stage 3's Louvain community detection, the same unmodified function used everywhere else in this repo, finds real signal even in the domain deliberately picked to be the weakest match — evidence the clustering mechanism itself generalizes, not just a repeat of the primary claim.
 
 ## External design validation (cited, not run against)
 
@@ -88,10 +114,12 @@ Data sources: `data/external/{yelpchi,amazon}/*.mat`, fetched from [github.com/Y
 
 ## Summary
 
-| Dataset | Domain | Fit to our claim | Base rate | Best recall | Best precision | Lift |
-|---|---|---|---|---|---|---|
-| YelpChi | Fake-review collusion | Strong (clean identity relation) | 14.5% | 17.0% | 99.2% | 6.8x |
-| Amazon | Fake-review collusion | Moderate (weak identity relation) | 6.9% | 1.1% | 81.8% | 11.9x |
-| Elliptic | Bitcoin transaction flow | Weak (single relation, no ring labels) | 9.8% | 13.1% | 72.0% | 7.3x |
+Node-level, not ring-level — see the methodology note above before comparing these to the primary system's numbers.
 
-Precision beats base rate by a wide margin on all three, every time — including the domain deliberately chosen to be the worst fit. Recall varies a lot, and tracks exactly what the domain's available signals predict, not chance: strong when a real identity-linking relation exists (Yelp), weak when it doesn't (Amazon), and moderate-from-clustering-alone when there's no identity relation at all (Elliptic). That's what an honest external validation is supposed to show.
+| Dataset | Domain | Sample flagged (accounts) | Node recall | Node precision | Trust the percentage? |
+|---|---|---|---|---|---|
+| YelpChi | Fake-review collusion | 1,143 (1,134 fraud) | 17.0% | 99.2% | Yes — large sample |
+| Amazon | Fake-review collusion | 11 (9 fraud) | 1.1% | 82% (raw: 9/11) | **No — too small; read the count, not the rate** |
+| Elliptic | Bitcoin transaction flow | 829 (597 illicit) | 13.1% | 72.0% | Yes — sample large enough |
+
+Precision beats base rate on every dataset where the sample is large enough to say so. Amazon's weak result is real and reported at face value — a weak identity-signal analog produces both a low recall *and* too small a flagged sample to trust the resulting precision as a rate, and that's the honest finding, not a percentage to lead with.

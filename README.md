@@ -33,7 +33,7 @@ Every miss is individually traceable, not a bug: all 7 missed soft rings are the
 
 This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point for the dashboard's live-injection demo (see below) — injecting a ring during a demo mutates the live data on purpose; resetting restores precisely this run.
 
-**Tested on real, independently-labeled fraud data too, not just our own construction.** The unmodified Stage 2/3 clustering, run against YelpChi (99.2% precision, 6.8x lift over base rate on real fake-review collusion), Amazon (81.8% precision, 11.9x lift), and Elliptic (72.0% precision, 7.3x lift on a real Bitcoin transaction graph — the deliberately weakest-fit domain tested). Full methodology and honest numbers, including the materially weaker Amazon result, in [`docs/EXTERNAL_VALIDATION.md`](docs/EXTERNAL_VALIDATION.md).
+**Tested on real, independently-labeled fraud data too, not just our own construction — node-level, not ring-level, and reported with raw counts, not just rates.** The unmodified Stage 2/3 clustering, run against YelpChi (99.2% precision, 6.8x lift over base rate on real fake-review collusion, 1,143 flagged accounts — large enough to trust) and Elliptic (72.0% precision, 7.3x lift on a real Bitcoin transaction graph, 829 flagged accounts — the deliberately weakest-fit domain tested). Amazon's result doesn't make that list: only 4 clusters / 11 accounts total were ever flagged, so its 82%-looking figure is reported as the raw count it is (9 of 11 correct) rather than a rate — too small a sample to trust either way. Full methodology, raw counts, and the node-vs-ring-level distinction in [`docs/EXTERNAL_VALIDATION.md`](docs/EXTERNAL_VALIDATION.md).
 
 ## Quickstart
 
