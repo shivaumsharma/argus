@@ -18,18 +18,20 @@ So this isn't a classifier. It's a graph problem:
 
 This is also, not incidentally, what the RBI's FREE-AI framework (Aug 2025) asks for: AI used in fraud detection should be explainable and auditable by design. Every flag here traces back to a specific graph edge and a specific feature score — not a black-box judgment call.
 
-## Results (held-out split, never used to tune thresholds)
+## Results (frozen, single-pass, fresh-seed holdout)
 
-Synthetic cohort: **7,500 accounts** — 40 hard-signal rings, 40 soft-signal rings, and 40 planted legitimate confounders (120 planted cases, ~1,536 labeled accounts), plus ~5,964 unconnected background accounts as noise.
+Synthetic cohort: **7,500 accounts** — 40 hard-signal rings, 40 soft-signal rings, and 40 planted legitimate confounders (120 planted cases, ~1,536 labeled accounts), plus ~5,964 unconnected background accounts as noise. Generated with `SEED=20260828`, never seen while Stage 5's thresholds or Stage 3's Louvain resolution were being set — `generate -> pipeline -> eval` was run exactly once and these numbers are reported as-is, not iterated on.
 
 | Metric | Value |
 |---|---|
 | Hard-signal ring recall | **100%** (40/40) |
-| Soft-signal ring recall | **77.5%** (31/40) — the real test of the approach |
-| Confounder false-positive rate | **5.0%** (2/40) |
-| Cluster-level precision | **97.3%** |
+| Soft-signal ring recall | **82.5%** (33/40) — the real test of the approach |
+| Confounder false-positive rate | **2.5%** (1/40) |
+| Cluster-level precision | **98.6%** |
 
-Every miss is individually traceable, not a bug: all 9 missed soft rings are the deliberately "hard mode" variant (slower referral claims, noisier order-value templating); both wrongly-flagged confounders are "tight" households (a compressed, borderline-organic signup window). Zero misses on the easy cases of either category — see [`data/processed/eval_report.json`](data/processed/eval_report.json) and [Known Limitations](docs/ARCHITECTURE.md#known-limitations-honest) below.
+Every miss is individually traceable, not a bug: all 7 missed soft rings are the deliberately "hard mode" variant (slower referral claims, noisier order-value templating); the 1 wrongly-flagged confounder is a "tight" household (a compressed, borderline-organic signup window). Zero misses on the easy cases of either category — see [`data/processed/eval_report.json`](data/processed/eval_report.json) and [Known Limitations](docs/ARCHITECTURE.md#known-limitations-honest) below.
+
+This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point for the dashboard's live-injection demo (see below) — injecting a ring during a demo mutates the live data on purpose; resetting restores precisely this run.
 
 ## Quickstart
 
@@ -42,9 +44,14 @@ python -m backend.generate_data                        # Day 1 — synthetic acc
 python -m backend.pipeline.run_pipeline                 # Stages 1-5 — graph, clustering, scoring, filter
 python -m backend.pipeline.eval                          # precision/recall vs. ground truth
 python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY or GEMINI_API_KEY for live mode)
+python -m backend.confidence_calibration                 # does self-reported LLM confidence track ground truth?
+python -m backend.compliance_report                      # auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
 python -m backend.demo_failure_injection                 # proves the pipeline survives missing device/IP/instrument data
+python -m backend.adversarial_stress_test                 # finds where detection actually breaks (see Known Limitations)
+python -m backend.snapshot                                  # freezes data/raw + the DB as the live-injection demo's reset point
+python -m backend.live_injection hard 9                      # CLI version of the dashboard's live-injection control
 
-streamlit run frontend/streamlit_app.py                    # dashboard
+streamlit run frontend/streamlit_app.py                    # dashboard, including the live-injection demo page
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
 ```
 
@@ -68,6 +75,12 @@ backend/
   reporting.py                  cross-cutting queries joining ground truth with detector output
   api.py                         FastAPI read-only service over the same store
   demo_failure_injection.py       Day 7 — proves graceful handling of missing device/IP/instrument fields
+  adversarial_stress_test.py       finds where detection actually breaks: a ring that fakes every organic tell
+  live_injection.py                 drops a brand-new ring into the live dataset and detects it in real time
+  snapshot.py                        freeze/reset the live dataset around live-injection demos
+  confidence_calibration.py           buckets real LLM confidence into deciles and checks it against ground truth
+  compliance_report.py                 auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
+  cod_collusion/                        second loss type (stretch) — reuses Stage 2/3 clustering unchanged
 frontend/
   streamlit_app.py             entry point — page config, sidebar pipeline controls, navigation
   shared.py                     shared cached loaders (graph, clusters, eval report) used by every page
@@ -76,22 +89,29 @@ frontend/
     flagged_clusters.py           filterable/searchable table + case detail with embedded graph
     confounders.py                 filterable confounder callout — correctly-left-alone vs. wrongly-flagged
     graph_explorer.py               free-form subgraph viewer
-    metrics.py                       precision/recall, dev/holdout split, recall-by-difficulty breakdown
-    audit_log.py                      full input-evidence/output audit trail
+    live_injection.py                drop a new ring into the running system and watch it get flagged
+    metrics.py                        precision/recall, dev/holdout split, recall-by-difficulty, confidence calibration
+    audit_log.py                       full input-evidence/output audit trail
 data/
   raw/                          synthetic accounts/sessions/referrals/instruments/orders
   ground_truth/                  planted rings + confounders (never read by the detector)
   processed/                      pipeline output (clusters.json, eval_report.json, cases.json)
+  frozen_snapshot/                 reset point for the live-injection demo (see backend/snapshot.py)
+  cod/                              second loss type's own separate dataset — never touches the above
 docs/
   explainer.html                   standalone visual explainer — open this first
   ARCHITECTURE.md                   Stage 1-8 diagram + design rationale + known limitations
-  PITCH_SCRIPT.md                    5-minute pitch video script
+  SECOND_LOSS_TYPE.md                COD serial-refusal collusion — what's reused vs. new, and why
+  COMPLIANCE_SUMMARY.md               auto-generated RBI FREE-AI alignment report (regenerate after any run)
+  PITCH_SCRIPT.md                      5-minute pitch video script
 ```
 
 ## Scope
 
-**In scope:** synthetic data with planted rings *and* planted legitimate confounders (both with known ground truth), deterministic graph clustering, cluster feature scoring, a rule-based confounder filter, a bounded LLM narrative layer, a confounder-aware eval harness, and a graph-visualization dashboard.
+**In scope:** synthetic data with planted rings *and* planted legitimate confounders (both with known ground truth), deterministic graph clustering, cluster feature scoring, a rule-based confounder filter, a bounded LLM narrative layer, a confounder-aware eval harness, a graph-visualization dashboard, a live ring-injection demo control, and an adversarial stress test that measures — not just asserts — where detection breaks.
 
-**Explicitly out of scope:** any auto-ban/auto-block/auto-clawback action path (recommendations only — a human executes), real device-fingerprinting/IP-intelligence integration (synthetic data only), multi-loss-type coverage beyond promo/referral abuse, real-time streaming detection (this is batch analysis of a synthetic cohort).
+**Explicitly out of scope:** any auto-ban/auto-block/auto-clawback action path (recommendations only — a human executes), real device-fingerprinting/IP-intelligence integration (synthetic data only), real-time streaming detection (this is batch analysis of a synthetic cohort).
+
+**Stretch, built but not held to the same rigor as the primary system:** a second loss type (COD serial-refusal collusion) proving the graph/clustering architecture generalizes — see [`docs/SECOND_LOSS_TYPE.md`](docs/SECOND_LOSS_TYPE.md).
 
 See [`docs/ARCHITECTURE.md`](docs/ARCHITECTURE.md) for the full stage-by-stage design and the honest limitations section.
