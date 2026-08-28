@@ -55,15 +55,31 @@ def run(verbose=True):
         print(f"Nodes with features: {len(node_ids):,} | Edges (both endpoints in subset): {len(edges_sub):,}")
         print(f"Labeled nodes: {n_labeled:,} (illicit: {n_illicit:,}, {base_rate:.1%} base rate)")
 
-    # Stage 2 -- connected components on the raw single-relation graph. Reported honestly whichever
-    # way it comes out: a transaction-flow graph tends to chain into one dominant component, which
-    # is exactly the structural reason this dataset is a weaker match than Yelp/Amazon.
+    # Stage 2 -- connected components on the raw single-relation graph. A payment edge ("A paid B")
+    # is the same KIND of relation as this system's own referral_link -- a transaction between two
+    # distinct entities, never treated as hard-signal-worthy anywhere in this repo, unlike
+    # device_fingerprint/instrument_hash (which indicate the SAME identity). Reported honestly
+    # whichever way it comes out, with the per-component density breakdown that actually explains it
+    # (not just asserted): a payment-flow graph produces several large, low-density transaction
+    # chains that mix illicit funds moving through mostly-ordinary intermediaries, not one clean
+    # signal to exploit.
     hard_clusters = stage2_hard_clusters(G)  # unmodified import
-    sizes = sorted((len(c) for c in hard_clusters), reverse=True)
-    largest_cc = sizes[0] if sizes else 0
+    hard_diag = []
+    for members in hard_clusters:
+        labeled_members = [m for m in members if m in label_map]
+        if not labeled_members:
+            continue
+        illicit = sum(label_map[m] for m in labeled_members)
+        hard_diag.append((len(members), len(labeled_members), illicit, illicit / len(labeled_members)))
+    hard_diag.sort(key=lambda r: -r[0])
+    largest_cc = hard_diag[0][0] if hard_diag else 0
     if verbose:
         print(f"\nStage 2 (connected components, unchanged): {len(hard_clusters)} components, "
-              f"largest = {largest_cc:,} nodes ({largest_cc/len(node_ids):.1%} of the graph)")
+              f"{len(hard_diag)} with >=1 labeled member, largest = {largest_cc:,} nodes "
+              f"({largest_cc/len(node_ids):.1%} of the graph)")
+        print("  size, labeled, illicit, density -- 5 largest components:")
+        for size, n_lab, illicit, density in hard_diag[:5]:
+            print(f"    {size:>6,}  {n_lab:>6,}  {illicit:>6,}  {density:>6.1%}")
 
     # Stage 3 -- Louvain on the same graph (no separate "full weighted graph" exists here since
     # there's only one relation; this IS the full graph).
