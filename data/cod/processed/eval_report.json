@@ -1,0 +1,8 @@
+{
+  "n_rings": 10,
+  "rings_detected": 10,
+  "ring_recall": 1.0,
+  "n_confounders": 6,
+  "confounders_wrongly_flagged": 0,
+  "confounder_fp_rate": 0.0
+}
