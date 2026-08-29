@@ -48,6 +48,36 @@ CREATE TABLE IF NOT EXISTS audit_log (
     output_json TEXT,
     timestamp TEXT NOT NULL
 );
+
+-- backend/adversarial_recommender/: proposals only, never auto-applied. See that
+-- package's README section in ARCHITECTURE.md for the full status lifecycle:
+-- pending -> (approved_pending_reeval | rejected) -> (validated_approved | rejected_after_reeval).
+CREATE TABLE IF NOT EXISTS recommendations (
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    round_number INTEGER NOT NULL,
+    attack_id TEXT NOT NULL,
+    attack_description TEXT NOT NULL,
+    attack_members_json TEXT NOT NULL,
+    gap_parameter TEXT NOT NULL,
+    current_value TEXT NOT NULL,
+    proposed_value TEXT NOT NULL,
+    rationale TEXT NOT NULL,
+    sim_rings_caught_before INTEGER,
+    sim_rings_caught_after INTEGER,
+    sim_confounder_fp_before INTEGER,
+    sim_confounder_fp_after INTEGER,
+    sim_report_json TEXT,
+    status TEXT NOT NULL DEFAULT 'pending',
+    created_at TEXT NOT NULL,
+    reviewed_by TEXT,
+    reviewed_at TEXT,
+    review_note TEXT,
+    reeval_seed INTEGER,
+    reeval_report_json TEXT,
+    final_reviewed_by TEXT,
+    final_reviewed_at TEXT,
+    final_note TEXT
+);
 """
 
 
@@ -151,3 +181,119 @@ def get_audit_log(cluster_id: str = None, limit: int = 500) -> list[dict]:
         else:
             rows = conn.execute("SELECT * FROM audit_log ORDER BY id DESC LIMIT ?", (limit,)).fetchall()
         return [dict(r) for r in rows]
+
+
+# --------------------------------------------------------------------------
+# backend/adversarial_recommender/ -- proposals only, never auto-applied.
+# Every write here also logs to audit_log (event_type "recommendation_*"),
+# extending the existing audit mechanism rather than creating a parallel one.
+# --------------------------------------------------------------------------
+
+def insert_recommendation(rec: dict) -> int:
+    """rec keys: round_number, attack_id, attack_description, attack_members (list),
+    gap_parameter, current_value, proposed_value, rationale, sim_rings_caught_before,
+    sim_rings_caught_after, sim_confounder_fp_before, sim_confounder_fp_after, sim_report (dict).
+    Returns the new recommendation's id."""
+    init_db()
+    with get_conn() as conn:
+        cur = conn.execute(
+            """INSERT INTO recommendations
+               (round_number, attack_id, attack_description, attack_members_json, gap_parameter,
+                current_value, proposed_value, rationale, sim_rings_caught_before, sim_rings_caught_after,
+                sim_confounder_fp_before, sim_confounder_fp_after, sim_report_json, status, created_at)
+               VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, 'pending', ?)""",
+            (rec["round_number"], rec["attack_id"], rec["attack_description"],
+             json.dumps(rec["attack_members"]), rec["gap_parameter"], str(rec["current_value"]),
+             str(rec["proposed_value"]), rec["rationale"], rec["sim_rings_caught_before"],
+             rec["sim_rings_caught_after"], rec["sim_confounder_fp_before"], rec["sim_confounder_fp_after"],
+             json.dumps(rec["sim_report"]), _now()),
+        )
+        rec_id = cur.lastrowid
+        conn.execute(
+            """INSERT INTO audit_log (event_type, cluster_id, input_evidence_json, output_json, timestamp)
+               VALUES (?, ?, ?, ?, ?)""",
+            ("recommendation_proposed", f"REC{rec_id:05d}", json.dumps({"attack_id": rec["attack_id"]}),
+             json.dumps({"gap_parameter": rec["gap_parameter"], "proposed_value": str(rec["proposed_value"]),
+                         "rings_delta": rec["sim_rings_caught_after"] - rec["sim_rings_caught_before"],
+                         "confounder_fp_delta": rec["sim_confounder_fp_after"] - rec["sim_confounder_fp_before"]}),
+             _now()),
+        )
+        return rec_id
+
+
+def get_all_recommendations() -> list[dict]:
+    init_db()
+    with get_conn() as conn:
+        rows = conn.execute("SELECT * FROM recommendations ORDER BY id DESC").fetchall()
+        out = []
+        for r in rows:
+            d = dict(r)
+            d["attack_members"] = json.loads(d.pop("attack_members_json"))
+            d["sim_report"] = json.loads(d["sim_report_json"]) if d["sim_report_json"] else None
+            d["reeval_report"] = json.loads(d["reeval_report_json"]) if d["reeval_report_json"] else None
+            out.append(d)
+        return out
+
+
+def get_recommendation(rec_id: int) -> dict | None:
+    for r in get_all_recommendations():
+        if r["id"] == rec_id:
+            return r
+    return None
+
+
+def review_recommendation(rec_id: int, decision: str, reviewer: str, note: str = ""):
+    """First gate. decision: 'approved_pending_reeval' or 'rejected'."""
+    assert decision in ("approved_pending_reeval", "rejected")
+    init_db()
+    with get_conn() as conn:
+        conn.execute(
+            "UPDATE recommendations SET status=?, reviewed_by=?, reviewed_at=?, review_note=? WHERE id=?",
+            (decision, reviewer, _now(), note, rec_id),
+        )
+        conn.execute(
+            """INSERT INTO audit_log (event_type, cluster_id, input_evidence_json, output_json, timestamp)
+               VALUES (?, ?, ?, ?, ?)""",
+            ("recommendation_reviewed", f"REC{rec_id:05d}", json.dumps({"reviewer": reviewer, "note": note}),
+             json.dumps({"decision": decision}), _now()),
+        )
+
+
+def record_reeval(rec_id: int, seed: int, reeval_report: dict):
+    """Stage 5 governance result: a fresh, never-used-seed dataset generated and evaluated
+    exactly once with the proposed change applied. Moves status to pending_final_confirmation
+    regardless of outcome -- a bad reeval result is still shown to the human, never hidden."""
+    init_db()
+    with get_conn() as conn:
+        conn.execute(
+            "UPDATE recommendations SET status='pending_final_confirmation', reeval_seed=?, reeval_report_json=? "
+            "WHERE id=?",
+            (seed, json.dumps(reeval_report), rec_id),
+        )
+        conn.execute(
+            """INSERT INTO audit_log (event_type, cluster_id, input_evidence_json, output_json, timestamp)
+               VALUES (?, ?, ?, ?, ?)""",
+            ("recommendation_reevaluated", f"REC{rec_id:05d}", json.dumps({"fresh_seed": seed}),
+             json.dumps(reeval_report), _now()),
+        )
+
+
+def finalize_recommendation(rec_id: int, decision: str, reviewer: str, note: str = ""):
+    """Second gate, after the human has seen the fresh-seed reeval numbers.
+    decision: 'validated_approved' or 'rejected_after_reeval'. This is where this
+    subsystem's responsibility ends -- validated_approved means the change is fully
+    vetted and ready for a human developer to apply manually; nothing here writes to
+    backend/pipeline/ itself, ever."""
+    assert decision in ("validated_approved", "rejected_after_reeval")
+    init_db()
+    with get_conn() as conn:
+        conn.execute(
+            "UPDATE recommendations SET status=?, final_reviewed_by=?, final_reviewed_at=?, final_note=? WHERE id=?",
+            (decision, reviewer, _now(), note, rec_id),
+        )
+        conn.execute(
+            """INSERT INTO audit_log (event_type, cluster_id, input_evidence_json, output_json, timestamp)
+               VALUES (?, ?, ?, ?, ?)""",
+            ("recommendation_finalized", f"REC{rec_id:05d}", json.dumps({"reviewer": reviewer, "note": note}),
+             json.dumps({"decision": decision}), _now()),
+        )
