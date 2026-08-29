@@ -110,6 +110,41 @@ so the detection mechanism stayed genuinely blind throughout, but
 including that story and a real stopping-rule bug found and fixed while
 building it, in [`FRAUDAR_CROSSCHECK.md`](FRAUDAR_CROSSCHECK.md).
 
+## Continuous adversarial recommendation engine
+
+A different question from the FRAUDAR/external-validation sections above:
+not "does the same data support a different method" but "does detection
+keep breaking as an adversary adapts, round over round." `backend/adversarial_recommender/`
+is a five-stage subsystem -- attack generation, gap characterization,
+recommendation drafting, mandatory impact simulation, and a two-gate human
+approval -- built around one hard rule that is never relaxed: **it
+recommends, it never modifies live detection logic.** No code path in this
+package writes to `backend/pipeline/*.py`, `data/raw/`, or
+`data/frozen_snapshot/`; applying a validated recommendation to production
+remains a separate, manual, human action. Round 1 reuses
+`adversarial_stress_test.py`'s existing evasion ring unchanged; later
+rounds follow the round-over-round methodology of "A multi-rounded
+adversarial scenario for graph-based promo fraud detection" (Springer,
+*Social Network Analysis and Mining*, Dec 2025, DOI
+10.1007/s13278-025-01566-0 -- fetched and verified before citing).
+
+Real result from testing it: round 2 found a genuine gap (`spread_out_days`,
+attack value 22.96 vs. threshold 21) and drafted a bounded fix -- simulated
+impact on the full 80-ring/40-confounder set was a clean **73->73 rings,
+1->1 confounder FPs (zero change either way)**, and Stage 4's mandatory
+"does this actually flag the attack" check caught something a less
+rigorous simulator would have missed: **the fix doesn't actually flag the
+attack that motivated it** -- it only stops actively clearing it as
+organic, landing it in Stage 5's conservative default-no-flag middle
+ground instead. Approved and re-validated on a fresh, never-used seed
+anyway (identical zero-delta result), and reported exactly as that: a
+real, bounded, fully-simulated recommendation that still doesn't close the
+gap it was drafted for. Full design, the SNAM citation, cadence
+justification, and both required limitations (this can only imagine
+evasions within the attack generator's own designed family, and an
+unmanaged review cadence risks becoming a rubber-stamp) in
+[`ADVERSARIAL_RECOMMENDER.md`](ADVERSARIAL_RECOMMENDER.md).
+
 ## Known limitations (honest)
 
 - **Real fraud rings are adversarial, not static.** They actively evolve to evade exactly this kind of detection. The planted rings here are necessarily more obvious than a real ring built by someone who has seen a system like this before — this is a demonstration of the *technique*, not a claim that it's evasion-proof.

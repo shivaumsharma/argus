@@ -10,3 +10,4 @@ data/processed/graph_cache/
 lib/
 data/external/
 data/scale_test/
+data/adversarial_recommender/fresh_runs/

@@ -43,6 +43,8 @@ This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point 
 
 **FRAUDAR cross-check**: an independent, published, camouflage-resistant densest-subgraph method (Hooi et al., KDD 2016 best paper) run standalone against the same frozen dataset's device/instrument/subnet attributes only — no referral timing, no order data, which means this specific check is scoped to hard-signal rings only (soft rings are defined by having no device/instrument signal at all, so they're structurally out of scope here). Algorithm verified against a public reference implementation, not approximated from memory. The one comparable number: **FRAUDAR recovers 15 of the 40 planted hard-signal rings exactly (37.5%), against Stage 2's 100% (40/40) on the identical 40 rings from the identical underlying signals** — real cross-validation for those 15 from a detection mechanism that never sees ground truth, and a concrete, measured illustration of why connected components (extracted whole regardless of relative density) outperforms generic density-peeling (which dilutes smaller rings into a larger residual block) for this specific problem. It also never cleanly flags a single one of the 40 planted confounders. "Independent" carries one honest asterisk though — building this surfaced a case where the stopping rule for how many blocks to report was first tuned using inside knowledge of our own ground truth, caught, and fixed to a dataset-blind threshold (verified to give an identical result). Full writeup, including that story and a real bug found and fixed along the way, in [`docs/FRAUDAR_CROSSCHECK.md`](docs/FRAUDAR_CROSSCHECK.md).
 
+**Continuous adversarial recommendation engine**: a five-stage subsystem — attack generation, gap characterization, recommendation drafting, mandatory impact simulation, two-gate human approval — that probes the frozen pipeline round over round, following the methodology of a real, verified paper ("A multi-rounded adversarial scenario for graph-based promo fraud detection," SNAM, Dec 2025, DOI 10.1007/s13278-025-01566-0). One hard rule, never relaxed: **it recommends, it never modifies live detection logic.** Real result: round 2 found a genuine gap and drafted a bounded fix with a clean **73→73 rings, 1→1 confounder FPs (zero change)** simulated impact — and the mandatory Stage 4 check caught something easy to miss: **the fix doesn't actually flag the attack that motivated it**, landing it in Stage 5's conservative middle ground instead of a true flag. Approved and re-validated on a fresh, never-used seed anyway, reported exactly as what it is. Full design and both required limitations in [`docs/ADVERSARIAL_RECOMMENDER.md`](docs/ADVERSARIAL_RECOMMENDER.md).
+
 ## Quickstart
 
 ```bash
@@ -59,6 +61,7 @@ python -m backend.fairness_audit                          # does the confounder 
 python -m backend.cost_threshold_sensitivity               # real ₹ FN cost + assumption-labeled FP cost -> does the "right" threshold shift?
 python -m backend.scale_stress_test                        # reruns the pipeline at 10x/50x account count, reports real runtime
 python -m backend.fraudar_analysis                         # independent FRAUDAR densest-subgraph cross-check (standalone, read-only)
+python -m backend.adversarial_recommender.run --force        # one round: generate attack, characterize gap, draft + simulate a recommendation
 python -m backend.compliance_report                      # auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
 python -m backend.demo_failure_injection                 # proves the pipeline survives missing device/IP/instrument data
 python -m backend.adversarial_stress_test                 # finds where detection actually breaks (see Known Limitations)
@@ -101,6 +104,7 @@ backend/
   scale_stress_test.py                   reruns Stages 1-5 at 10x/50x account count, measures real runtime
   fraudar_analysis.py                     independent FRAUDAR densest-subgraph cross-check (standalone, Stages 1-5 untouched)
   compliance_report.py                 auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
+  adversarial_recommender/               5-stage recommend-only engine: probes for gaps, never modifies live logic
   cod_collusion/                        second loss type (stretch) — reuses Stage 2/3 clustering unchanged
   external_validation/                   same Stage 2/3 clustering vs. real YelpChi/Amazon/Elliptic fraud data
 frontend/
@@ -113,6 +117,7 @@ frontend/
     graph_explorer.py               free-form subgraph viewer
     live_injection.py                drop a new ring into the running system and watch it get flagged
     metrics.py                        precision/recall, dev/holdout split, recall-by-difficulty, confidence calibration
+    recommendations.py                 pending/awaiting-confirmation/history queue for the recommendation engine
     audit_log.py                       full input-evidence/output audit trail
 data/
   raw/                          synthetic accounts/sessions/referrals/instruments/orders
@@ -122,6 +127,7 @@ data/
   cod/                              second loss type's own separate dataset — never touches the above
   external/                          real third-party fraud datasets (gitignored, ~831MB — see below)
   scale_test/                         10x/50x synthetic cohorts for the scale stress test — never touches the above
+  adversarial_recommender/             used-seed manifest, cadence state, disposable fresh-eval runs (gitignored)
 docs/
   explainer.html                   standalone visual explainer — open this first
   ARCHITECTURE.md                   Stage 1-8 diagram + design rationale + known limitations
@@ -131,6 +137,7 @@ docs/
   COST_THRESHOLD_SENSITIVITY.md          real-₹ cost sweep of Stage 5's two judgment-call thresholds
   SCALE_STRESS_TEST.md                    real 10x/50x runtime curve, two real bottlenecks found and fixed
   FRAUDAR_CROSSCHECK.md                   independent densest-subgraph method vs. our own flagged clusters
+  ADVERSARIAL_RECOMMENDER.md               5-stage recommend-only engine: design, SNAM citation, real results
   COMPLIANCE_SUMMARY.md                auto-generated RBI FREE-AI alignment report (regenerate after any run)
   PITCH_SCRIPT.md                       5-minute pitch video script
 ```

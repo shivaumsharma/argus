@@ -253,7 +253,7 @@ class ProviderRunner:
             else:
                 print("No LLM credentials available at all; using template fallback for every cluster.")
 
-    def investigate(self, cluster: dict):
+    def investigate(self, cluster: dict, persist: bool = True):
         prompt = build_prompt(cluster)
         result, mode = None, "fallback_template"
 
@@ -293,15 +293,19 @@ class ProviderRunner:
             result = _fallback_investigation(cluster)
 
         result["confidence"] = max(0.0, min(1.0, float(result["confidence"])))
-        db.write_llm_result(cluster["cluster_id"], prompt, result, mode)
+        if persist:
+            db.write_llm_result(cluster["cluster_id"], prompt, result, mode)
         return result, mode
 
 
-def investigate_single(cluster: dict, verbose=True):
+def investigate_single(cluster: dict, verbose=True, persist: bool = True):
     """Investigate exactly one cluster -- used by the live-injection demo control so clicking
-    'inject a ring' doesn't re-run the LLM over every already-investigated cluster."""
+    'inject a ring' doesn't re-run the LLM over every already-investigated cluster.
+    persist=False (used by backend/custom_scenario.py's scratch-space runs, which must never
+    write to data/app.db) skips the db.write_llm_result call entirely -- the real LLM call
+    still happens, only the persistence step is skipped."""
     runner = ProviderRunner(verbose=verbose)
-    result, mode = runner.investigate(cluster)
+    result, mode = runner.investigate(cluster, persist=persist)
     if verbose:
         print(f"{cluster['cluster_id']} ({mode}) -> {result['recommended_action']} (confidence {result['confidence']:.2f})")
     return {"cluster_id": cluster["cluster_id"], "mode": mode, **result}
