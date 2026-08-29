@@ -17,6 +17,7 @@ Day 4's evaluation harness (precision/recall against rings, false-positive
 rate against confounders).
 """
 
+import argparse
 import json
 import random
 import string
@@ -215,11 +216,17 @@ def add_organic_referrals(background_uids, fraction=0.08):
     """Sparse, non-clustered referral links among ordinary users -- realistic noise."""
     signup_dt = {uid: datetime.strptime(accounts_by_uid[uid]["signup_date"], "%Y-%m-%d") for uid in background_uids}
     ordered = sorted(background_uids, key=lambda u: signup_dt[u])
+    # A precomputed index dict, not ordered.index(uid) inside the loop -- list.index() is O(n)
+    # per call, making this O(n_chosen x n_background) overall (quadratic in background account
+    # count). Found by scale_stress_test.py: this alone accounted for most of the superlinear
+    # generation-time growth at 50x scale. Pure lookup optimization, no change to which referrer
+    # gets picked or to any random-number-generator call sequence.
+    index_of = {uid: i for i, uid in enumerate(ordered)}
     n = int(len(background_uids) * fraction)
     chosen = random.sample(background_uids, min(n, len(background_uids)))
     for uid in chosen:
         signup = signup_dt[uid]
-        idx = ordered.index(uid)
+        idx = index_of[uid]
         earlier = ordered[:idx]
         if not earlier:
             continue
@@ -453,13 +460,40 @@ def _add_organic_activity(acct, signup, n_orders_range, n_logins_range):
 # Assembly
 # --------------------------------------------------------------------------
 
-def main():
+def _reset_state():
+    """Clear module-level generation state so `generate()` can be called more than
+    once in the same process without accounts/sessions/etc. accumulating across calls."""
+    counters.update({"user": 0, "session": 0, "referral": 0, "order": 0})
+    accounts.clear()
+    sessions.clear()
+    referrals.clear()
+    payment_instruments.clear()
+    orders.clear()
+    accounts_by_uid.clear()
+    referral_codes.clear()
+
+
+def generate(scale: int = 1, raw_dir: Path = None, gt_dir: Path = None, seed: int = None, verbose: bool = True):
+    """Generate a full synthetic cohort. scale=1 (default) reproduces the exact
+    frozen dataset byte-for-byte (same seed, same counts, same output paths) --
+    this is the only mode ever used for the primary eval numbers. scale=N
+    multiplies every planted ring/confounder count and the background-noise
+    target by N, for the scale stress test (backend/scale_stress_test.py),
+    which always passes its own raw_dir/gt_dir so it never writes here."""
+    raw_dir = raw_dir or RAW_DIR
+    gt_dir = gt_dir or GT_DIR
+    raw_dir.mkdir(parents=True, exist_ok=True)
+    gt_dir.mkdir(parents=True, exist_ok=True)
+    random.seed(seed if seed is not None else SEED)
+    np.random.seed(seed if seed is not None else SEED)
+    _reset_state()
+
     rings_gt = {}
     confounders_gt = {}
     labels = []  # user_id, cluster_type, cluster_id
 
     # --- Hard-signal rings ---
-    n_hard = 40
+    n_hard = 40 * scale
     for i in range(1, n_hard + 1):
         size = random.randint(3, 15)
         members = gen_hard_ring(size)
@@ -473,7 +507,7 @@ def main():
         labels += [{"user_id": u, "cluster_type": "ring_hard", "cluster_id": ring_id} for u in members]
 
     # --- Soft-signal rings --- (~40% run in hard_mode: slower/noisier, the genuinely hard case)
-    n_soft = 40
+    n_soft = 40 * scale
     hard_mode_indices = {i for i in range(1, n_soft + 1) if i % 5 in (2, 4)}
     for i in range(1, n_soft + 1):
         size = random.randint(4, 15)
@@ -495,11 +529,11 @@ def main():
 
     # --- Confounders --- (a few households run "tight": borderline organic, stress-tests Stage 5)
     conf_specs = (
-        [("household", gen_household, (3, 6), {"tight": True}) for _ in range(3)]
-        + [("household", gen_household, (3, 6), {}) for _ in range(10)]
-        + [("hostel", gen_hostel, (12, 25), {}) for _ in range(10)]
-        + [("influencer", gen_influencer_tree, (25, 50), {}) for _ in range(7)]
-        + [("office", gen_office, (15, 35), {}) for _ in range(10)]
+        [("household", gen_household, (3, 6), {"tight": True}) for _ in range(3 * scale)]
+        + [("household", gen_household, (3, 6), {}) for _ in range(10 * scale)]
+        + [("hostel", gen_hostel, (12, 25), {}) for _ in range(10 * scale)]
+        + [("influencer", gen_influencer_tree, (25, 50), {}) for _ in range(7 * scale)]
+        + [("office", gen_office, (15, 35), {}) for _ in range(10 * scale)]
     )
     conf_counters = {}
     for kind, fn, size_range, kwargs in conf_specs:
@@ -520,41 +554,55 @@ def main():
 
     # --- Background noise ---
     planted_count = sum(len(v["members"]) for v in rings_gt.values()) + sum(len(v["members"]) for v in confounders_gt.values())
-    n_background = max(TARGET_TOTAL_ACCOUNTS - planted_count, 0)
+    n_background = max(TARGET_TOTAL_ACCOUNTS * scale - planted_count, 0)
     background_uids = gen_background(n_background)
     add_organic_referrals(background_uids)
     labels += [{"user_id": u, "cluster_type": "background", "cluster_id": ""} for u in background_uids]
 
     # --- Write raw CSVs ---
-    pd.DataFrame(accounts).to_csv(RAW_DIR / "accounts.csv", index=False)
-    pd.DataFrame(sessions).to_csv(RAW_DIR / "sessions.csv", index=False)
-    pd.DataFrame(referrals).to_csv(RAW_DIR / "referrals.csv", index=False)
-    pd.DataFrame(payment_instruments).to_csv(RAW_DIR / "payment_instruments.csv", index=False)
-    pd.DataFrame(orders).to_csv(RAW_DIR / "orders.csv", index=False)
+    pd.DataFrame(accounts).to_csv(raw_dir / "accounts.csv", index=False)
+    pd.DataFrame(sessions).to_csv(raw_dir / "sessions.csv", index=False)
+    pd.DataFrame(referrals).to_csv(raw_dir / "referrals.csv", index=False)
+    pd.DataFrame(payment_instruments).to_csv(raw_dir / "payment_instruments.csv", index=False)
+    pd.DataFrame(orders).to_csv(raw_dir / "orders.csv", index=False)
 
     # --- Write ground truth ---
-    with open(GT_DIR / "rings.json", "w") as f:
+    with open(gt_dir / "rings.json", "w") as f:
         json.dump(rings_gt, f, indent=2)
-    with open(GT_DIR / "confounders.json", "w") as f:
+    with open(gt_dir / "confounders.json", "w") as f:
         json.dump(confounders_gt, f, indent=2)
-    pd.DataFrame(labels).to_csv(GT_DIR / "labels.csv", index=False)
+    pd.DataFrame(labels).to_csv(gt_dir / "labels.csv", index=False)
 
     # --- Summary ---
-    print("=== Synthetic data generation complete ===")
-    print(f"Total accounts:        {len(accounts)}")
-    print(f"  Hard-signal rings:    {n_hard} rings, {sum(len(v['members']) for k,v in rings_gt.items() if v['type']=='hard')} accounts")
-    print(f"  Soft-signal rings:    {n_soft} rings, {sum(len(v['members']) for k,v in rings_gt.items() if v['type']=='soft')} accounts")
-    for kind in ["household", "hostel", "influencer", "office"]:
-        n = sum(1 for v in confounders_gt.values() if v["type"] == kind)
-        acc = sum(len(v["members"]) for v in confounders_gt.values() if v["type"] == kind)
-        print(f"  Confounder ({kind}):{'':1} {n} clusters, {acc} accounts")
-    print(f"  Background noise:     {n_background} accounts")
-    print(f"Sessions:               {len(sessions)}")
-    print(f"Referrals:              {len(referrals)}")
-    print(f"Payment instruments:    {len(payment_instruments)}")
-    print(f"Orders:                 {len(orders)}")
-    print(f"\nRaw data ->        {RAW_DIR}")
-    print(f"Ground truth ->    {GT_DIR}")
+    if verbose:
+        print("=== Synthetic data generation complete ===")
+        print(f"Total accounts:        {len(accounts)}")
+        print(f"  Hard-signal rings:    {n_hard} rings, {sum(len(v['members']) for k,v in rings_gt.items() if v['type']=='hard')} accounts")
+        print(f"  Soft-signal rings:    {n_soft} rings, {sum(len(v['members']) for k,v in rings_gt.items() if v['type']=='soft')} accounts")
+        for kind in ["household", "hostel", "influencer", "office"]:
+            n = sum(1 for v in confounders_gt.values() if v["type"] == kind)
+            acc = sum(len(v["members"]) for v in confounders_gt.values() if v["type"] == kind)
+            print(f"  Confounder ({kind}):{'':1} {n} clusters, {acc} accounts")
+        print(f"  Background noise:     {n_background} accounts")
+        print(f"Sessions:               {len(sessions)}")
+        print(f"Referrals:              {len(referrals)}")
+        print(f"Payment instruments:    {len(payment_instruments)}")
+        print(f"Orders:                 {len(orders)}")
+        print(f"\nRaw data ->        {raw_dir}")
+        print(f"Ground truth ->    {gt_dir}")
+
+    return {"n_accounts": len(accounts), "n_sessions": len(sessions), "n_referrals": len(referrals),
+            "n_payment_instruments": len(payment_instruments), "n_orders": len(orders)}
+
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--scale", type=int, default=1)
+    parser.add_argument("--raw-dir", type=Path, default=None)
+    parser.add_argument("--gt-dir", type=Path, default=None)
+    parser.add_argument("--seed", type=int, default=None)
+    args = parser.parse_args()
+    generate(scale=args.scale, raw_dir=args.raw_dir, gt_dir=args.gt_dir, seed=args.seed)
 
 
 if __name__ == "__main__":

@@ -35,6 +35,14 @@ This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point 
 
 **Tested on real, independently-labeled fraud data too, not just our own construction — node-level, not ring-level, and reported with raw counts, not just rates.** The unmodified Stage 2/3 clustering, run against YelpChi (99.2% precision, 6.8x lift over base rate on real fake-review collusion, 1,143 flagged accounts — large enough to trust) and Elliptic (72.0% precision, 7.3x lift on a real Bitcoin transaction graph, 829 flagged accounts — the deliberately weakest-fit domain tested). Amazon's result doesn't make that list: only 4 clusters / 11 accounts total were ever flagged, so its 82%-looking figure is reported as the raw count it is (9 of 11 correct) rather than a rate — too small a sample to trust either way. Full methodology, raw counts, and the node-vs-ring-level distinction in [`docs/EXTERNAL_VALIDATION.md`](docs/EXTERNAL_VALIDATION.md).
 
+**Fairness audit against RBI FREE-AI's "Fair" pillar**: shared device/IP is also just how families and hostel residents live, not fraud — so does Stage 5's confounder false-positive rate skew by geography? Code-level check confirms `home_pincode` is never read anywhere in Stages 1-5 (no direct bias path); tagging the 40 planted confounders by real Tier-1-metro pincode prefixes finds 0 FP in 4 Tier-1-linked confounders vs. 1 FP in 36 Tier-2/3 confounders — a real result, honestly reported as **too small a sample to mean anything either way** (1 total false positive across the whole dataset), with the indirect real-world risk named explicitly rather than papered over. Full methodology and the "what production would need" gap in [`docs/FAIRNESS_AUDIT.md`](docs/FAIRNESS_AUDIT.md).
+
+**Cost-calibrated threshold sensitivity**: Stage 5's two judgment-call thresholds are swept 1-4 by replaying the exact production filter function against real evidence — with a false-negative cost computed from real data (Rs 1,041 average fraudulent payout per missed ring, from `data/raw/referrals.csv`) and a false-positive cost swept across 3 labeled assumption scenarios (support review time, plus a churn-risk estimate grounded in real order values). Real finding: the device-branch threshold has a strict, same-recall, fewer-false-positive improvement available (3→2) that the frozen defaults leave on the table — reported as a testable hypothesis for the next dev-split tuning pass, not applied here, to preserve the held-out discipline used everywhere else in this project. Full breakdown in [`docs/COST_THRESHOLD_SENSITIVITY.md`](docs/COST_THRESHOLD_SENSITIVITY.md).
+
+**Scale stress test**: the exact same pipeline rerun at 10x and 50x this dataset's account count (75,000 and 375,000 accounts), measured, not asserted. Building it surfaced two real performance bugs — an unindexed per-cluster pandas scan in Stage 4 and an O(n²) list scan in the generator — both root-caused, fixed, and verified byte-identical against the frozen dataset's output before and after. Clean result: **under 80 seconds end to end at 375,000 accounts**, scaling close to linearly with volume. One anomalous 8,294-second measurement was caught, investigated, and confirmed as a one-off system artifact rather than reported as-is. Full writeup in [`docs/SCALE_STRESS_TEST.md`](docs/SCALE_STRESS_TEST.md).
+
+**FRAUDAR cross-check**: an independent, published, camouflage-resistant densest-subgraph method (Hooi et al., KDD 2016 best paper) run standalone against the same frozen dataset's device/instrument/subnet attributes only — no referral timing, no order data, which means this specific check is scoped to hard-signal rings only (soft rings are defined by having no device/instrument signal at all, so they're structurally out of scope here). Algorithm verified against a public reference implementation, not approximated from memory. The one comparable number: **FRAUDAR recovers 15 of the 40 planted hard-signal rings exactly (37.5%), against Stage 2's 100% (40/40) on the identical 40 rings from the identical underlying signals** — real cross-validation for those 15 from a detection mechanism that never sees ground truth, and a concrete, measured illustration of why connected components (extracted whole regardless of relative density) outperforms generic density-peeling (which dilutes smaller rings into a larger residual block) for this specific problem. It also never cleanly flags a single one of the 40 planted confounders. "Independent" carries one honest asterisk though — building this surfaced a case where the stopping rule for how many blocks to report was first tuned using inside knowledge of our own ground truth, caught, and fixed to a dataset-blind threshold (verified to give an identical result). Full writeup, including that story and a real bug found and fixed along the way, in [`docs/FRAUDAR_CROSSCHECK.md`](docs/FRAUDAR_CROSSCHECK.md).
+
 ## Quickstart
 
 ```bash
@@ -47,6 +55,10 @@ python -m backend.pipeline.run_pipeline                 # Stages 1-5 — graph, 
 python -m backend.pipeline.eval                          # precision/recall vs. ground truth
 python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY or GEMINI_API_KEY for live mode)
 python -m backend.confidence_calibration                 # does self-reported LLM confidence track ground truth?
+python -m backend.fairness_audit                          # does the confounder false-positive rate skew by geographic tier?
+python -m backend.cost_threshold_sensitivity               # real ₹ FN cost + assumption-labeled FP cost -> does the "right" threshold shift?
+python -m backend.scale_stress_test                        # reruns the pipeline at 10x/50x account count, reports real runtime
+python -m backend.fraudar_analysis                         # independent FRAUDAR densest-subgraph cross-check (standalone, read-only)
 python -m backend.compliance_report                      # auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
 python -m backend.demo_failure_injection                 # proves the pipeline survives missing device/IP/instrument data
 python -m backend.adversarial_stress_test                 # finds where detection actually breaks (see Known Limitations)
@@ -84,6 +96,10 @@ backend/
   live_injection.py                 drops a brand-new ring into the live dataset and detects it in real time
   snapshot.py                        freeze/reset the live dataset around live-injection demos
   confidence_calibration.py           buckets real LLM confidence into deciles and checks it against ground truth
+  fairness_audit.py                    checks confounder false-positive rate by geographic tier (RBI FREE-AI "Fair")
+  cost_threshold_sensitivity.py         real-₹ cost sweep of Stage 5's two judgment-call thresholds
+  scale_stress_test.py                   reruns Stages 1-5 at 10x/50x account count, measures real runtime
+  fraudar_analysis.py                     independent FRAUDAR densest-subgraph cross-check (standalone, Stages 1-5 untouched)
   compliance_report.py                 auto-generates docs/COMPLIANCE_SUMMARY.md from the live audit_log
   cod_collusion/                        second loss type (stretch) — reuses Stage 2/3 clustering unchanged
   external_validation/                   same Stage 2/3 clustering vs. real YelpChi/Amazon/Elliptic fraud data
@@ -105,11 +121,16 @@ data/
   frozen_snapshot/                 reset point for the live-injection demo (see backend/snapshot.py)
   cod/                              second loss type's own separate dataset — never touches the above
   external/                          real third-party fraud datasets (gitignored, ~831MB — see below)
+  scale_test/                         10x/50x synthetic cohorts for the scale stress test — never touches the above
 docs/
   explainer.html                   standalone visual explainer — open this first
   ARCHITECTURE.md                   Stage 1-8 diagram + design rationale + known limitations
   SECOND_LOSS_TYPE.md                COD serial-refusal collusion — what's reused vs. new, and why
   EXTERNAL_VALIDATION.md              same clustering tested on real labeled fraud data (YelpChi/Amazon/Elliptic)
+  FAIRNESS_AUDIT.md                     confounder false-positive rate by geographic tier (RBI FREE-AI "Fair")
+  COST_THRESHOLD_SENSITIVITY.md          real-₹ cost sweep of Stage 5's two judgment-call thresholds
+  SCALE_STRESS_TEST.md                    real 10x/50x runtime curve, two real bottlenecks found and fixed
+  FRAUDAR_CROSSCHECK.md                   independent densest-subgraph method vs. our own flagged clusters
   COMPLIANCE_SUMMARY.md                auto-generated RBI FREE-AI alignment report (regenerate after any run)
   PITCH_SCRIPT.md                       5-minute pitch video script
 ```

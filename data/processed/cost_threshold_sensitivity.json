@@ -1,0 +1,296 @@
+{
+  "fn_cost_per_missed_ring": 1040.56,
+  "fn_cost_methodology": "Mean of actual paid referral-bonus amounts (data/raw/referrals.csv) touching each of the 80 planted rings' members -- real, computed, not assumed.",
+  "fp_cost_scenarios": {
+    "review_only": 150.0,
+    "review_plus_moderate_churn": 328.62,
+    "review_plus_high_value_churn": 1221.71
+  },
+  "fp_cost_methodology": "Not present in the synthetic data (no support-ticket or churn log exists to compute it from) -- explicit, labeled assumptions: analyst review time, plus a churn-risk estimate grounded in this dataset's real order values, swept across 3 scenarios rather than asserted as one true number.",
+  "soft_signal_suspicion_threshold": {
+    "current_production_value": 3,
+    "sweep": {
+      "1": {
+        "n_flagged_total": 85,
+        "rings_detected": 80,
+        "rings_total": 80,
+        "rings_missed": 0,
+        "recall": 1.0,
+        "confounders_fp": 1,
+        "confounders_total": 40,
+        "fp_rate": 0.025
+      },
+      "2": {
+        "n_flagged_total": 82,
+        "rings_detected": 80,
+        "rings_total": 80,
+        "rings_missed": 0,
+        "recall": 1.0,
+        "confounders_fp": 1,
+        "confounders_total": 40,
+        "fp_rate": 0.025
+      },
+      "3": {
+        "n_flagged_total": 74,
+        "rings_detected": 73,
+        "rings_total": 80,
+        "rings_missed": 7,
+        "recall": 0.9125,
+        "confounders_fp": 1,
+        "confounders_total": 40,
+        "fp_rate": 0.025
+      },
+      "4": {
+        "n_flagged_total": 65,
+        "rings_detected": 64,
+        "rings_total": 80,
+        "rings_missed": 16,
+        "recall": 0.8,
+        "confounders_fp": 1,
+        "confounders_total": 40,
+        "fp_rate": 0.025
+      }
+    },
+    "cost_by_scenario": {
+      "review_only": {
+        "fp_cost": 150.0,
+        "assumption": "Analyst review time only; assumes zero customers who are delayed ever churn.",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 150.0,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 2,
+            "total_cost": 150.0,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 3,
+            "total_cost": 7433.89,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 16798.88,
+            "rings_missed": 16,
+            "confounders_fp": 1
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 150.0
+      },
+      "review_plus_moderate_churn": {
+        "fp_cost": 328.62,
+        "assumption": "Review cost + 5% churn probability on an assumed 5-future-order LTV (5 x mean order value Rs 714 = Rs 3572).",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 328.62,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 2,
+            "total_cost": 328.62,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 3,
+            "total_cost": 7612.51,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 16977.5,
+            "rings_missed": 16,
+            "confounders_fp": 1
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 328.62
+      },
+      "review_plus_high_value_churn": {
+        "fp_cost": 1221.71,
+        "assumption": "Review cost + 15% churn probability on an assumed 10-future-order LTV, for a higher-value customer segment (10 x mean order value Rs 714 = Rs 7145).",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 1221.71,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 2,
+            "total_cost": 1221.71,
+            "rings_missed": 0,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 3,
+            "total_cost": 8505.6,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 17870.59,
+            "rings_missed": 16,
+            "confounders_fp": 1
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 1221.71
+      }
+    }
+  },
+  "device_clear_organic_threshold": {
+    "current_production_value": 3,
+    "sweep": {
+      "1": {
+        "n_flagged_total": 73,
+        "rings_detected": 73,
+        "rings_total": 80,
+        "rings_missed": 7,
+        "recall": 0.9125,
+        "confounders_fp": 0,
+        "confounders_total": 40,
+        "fp_rate": 0.0
+      },
+      "2": {
+        "n_flagged_total": 73,
+        "rings_detected": 73,
+        "rings_total": 80,
+        "rings_missed": 7,
+        "recall": 0.9125,
+        "confounders_fp": 0,
+        "confounders_total": 40,
+        "fp_rate": 0.0
+      },
+      "3": {
+        "n_flagged_total": 74,
+        "rings_detected": 73,
+        "rings_total": 80,
+        "rings_missed": 7,
+        "recall": 0.9125,
+        "confounders_fp": 1,
+        "confounders_total": 40,
+        "fp_rate": 0.025
+      },
+      "4": {
+        "n_flagged_total": 79,
+        "rings_detected": 73,
+        "rings_total": 80,
+        "rings_missed": 7,
+        "recall": 0.9125,
+        "confounders_fp": 6,
+        "confounders_total": 40,
+        "fp_rate": 0.15
+      }
+    },
+    "cost_by_scenario": {
+      "review_only": {
+        "fp_cost": 150.0,
+        "assumption": "Analyst review time only; assumes zero customers who are delayed ever churn.",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 2,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 3,
+            "total_cost": 7433.89,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 8183.89,
+            "rings_missed": 7,
+            "confounders_fp": 6
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 7283.89
+      },
+      "review_plus_moderate_churn": {
+        "fp_cost": 328.62,
+        "assumption": "Review cost + 5% churn probability on an assumed 5-future-order LTV (5 x mean order value Rs 714 = Rs 3572).",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 2,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 3,
+            "total_cost": 7612.51,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 9255.61,
+            "rings_missed": 7,
+            "confounders_fp": 6
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 7283.89
+      },
+      "review_plus_high_value_churn": {
+        "fp_cost": 1221.71,
+        "assumption": "Review cost + 15% churn probability on an assumed 10-future-order LTV, for a higher-value customer segment (10 x mean order value Rs 714 = Rs 7145).",
+        "rows": [
+          {
+            "threshold": 1,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 2,
+            "total_cost": 7283.89,
+            "rings_missed": 7,
+            "confounders_fp": 0
+          },
+          {
+            "threshold": 3,
+            "total_cost": 8505.6,
+            "rings_missed": 7,
+            "confounders_fp": 1
+          },
+          {
+            "threshold": 4,
+            "total_cost": 14614.15,
+            "rings_missed": 7,
+            "confounders_fp": 6
+          }
+        ],
+        "optimal_threshold": 1,
+        "optimal_cost": 7283.89
+      }
+    }
+  }
+}

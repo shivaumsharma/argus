@@ -17,8 +17,17 @@ BURST_DAYS = 7
 FAST_CLAIM_HOURS = 12
 DORMANT_FRAC = 0.4
 
+# The two decision-boundary constants a threshold-sensitivity sweep varies (see
+# backend/cost_threshold_sensitivity.py). Kept as named defaults, not hardcoded
+# inline, so that script calls this exact production function with an
+# overridden threshold rather than reimplementing the decision logic.
+DEVICE_CLEAR_ORGANIC_THRESHOLD = 3   # shared-device cluster clears if organic_score >= this
+SOFT_CLEAR_ORGANIC_THRESHOLD = 2     # soft-only cluster clears if organic_score >= this
+SOFT_FLAG_SUSPICION_THRESHOLD = 3    # soft-only cluster flags if suspicion_score >= this
 
-def evaluate_cluster(features: dict) -> dict:
+
+def evaluate_cluster(features: dict, soft_flag_suspicion_threshold: int = SOFT_FLAG_SUSPICION_THRESHOLD,
+                      device_clear_organic_threshold: int = DEVICE_CLEAR_ORGANIC_THRESHOLD) -> dict:
     f = features
     cv = f["order_value_cv"]
     dormant = f["claim_then_dormant_frac"]
@@ -41,7 +50,7 @@ def evaluate_cluster(features: dict) -> dict:
                          "legitimate reason for this is rare, so organic behavior does not override it.")
 
     if f["shared_device"]:
-        if organic_score >= 3:
+        if organic_score >= device_clear_organic_threshold:
             return _verdict(False, organic_score, suspicion_score,
                              "Shared device, but activity is spread out, order values are diverse, and members "
                              "stay engaged for months after signup -- consistent with a shared household device.")
@@ -50,12 +59,12 @@ def evaluate_cluster(features: dict) -> dict:
                          "does not look like organic shared-device use.")
 
     # soft-signal only: IP overlap and/or referral edges, no device or instrument sharing
-    if organic_score >= 2:
+    if organic_score >= SOFT_CLEAR_ORGANIC_THRESHOLD:
         return _verdict(False, organic_score, suspicion_score,
                          "No shared device or instrument; spread-out timing, diverse orders, and ongoing "
                          "engagement dominate -- looks like an organic cluster (office network, hostel wifi, "
                          "or influencer referral tree).")
-    if suspicion_score >= 3:
+    if suspicion_score >= soft_flag_suspicion_threshold:
         return _verdict(True, organic_score, suspicion_score,
                          "No shared device or instrument, but signup burst, templated order values, fast bonus "
                          "claims, and dormancy after claim line up -- classic soft-signal farming pattern.")

@@ -1,0 +1,59 @@
+{
+  "1x": {
+    "timings_sec": {
+      "load_data": 1.372,
+      "stage1_graph_build": 0.225,
+      "stage2_hard_clustering": 0.01,
+      "stage3_louvain": 0.569,
+      "stage4_feature_scoring": 0.247,
+      "stage5_confounder_filter": 0.001,
+      "total_pipeline": 2.423
+    },
+    "n_accounts": 7500,
+    "n_graph_nodes": 7500,
+    "n_graph_edges": 9018,
+    "n_hard_subgraph_edges": 1676,
+    "n_hard_clusters": 46,
+    "n_soft_clusters": 174,
+    "n_candidate_clusters": 174,
+    "generation_time_sec": null
+  },
+  "10x": {
+    "timings_sec": {
+      "load_data": 13.34,
+      "stage1_graph_build": 2.287,
+      "stage2_hard_clustering": 0.115,
+      "stage3_louvain": 8.41,
+      "stage4_feature_scoring": 2.497,
+      "stage5_confounder_filter": 0.005,
+      "total_pipeline": 26.654
+    },
+    "n_accounts": 75000,
+    "n_graph_nodes": 75000,
+    "n_graph_edges": 89998,
+    "n_hard_subgraph_edges": 17982,
+    "n_hard_clusters": 461,
+    "n_soft_clusters": 1700,
+    "n_candidate_clusters": 1700,
+    "generation_time_sec": 29.62
+  },
+  "50x": {
+    "timings_sec": {
+      "load_data": 32.669,
+      "stage1_graph_build": 6.09,
+      "stage2_hard_clustering": 0.347,
+      "stage3_louvain": 33.255,
+      "stage4_feature_scoring": 6.893,
+      "stage5_confounder_filter": 0.013,
+      "total_pipeline": 79.266
+    },
+    "n_accounts": 375000,
+    "n_graph_nodes": 375000,
+    "n_graph_edges": 469352,
+    "n_hard_subgraph_edges": 91123,
+    "n_hard_clusters": 2328,
+    "n_soft_clusters": 9043,
+    "n_candidate_clusters": 9043,
+    "generation_time_sec": 190.58
+  }
+}
