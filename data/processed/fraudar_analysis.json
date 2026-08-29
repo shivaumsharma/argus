@@ -1,0 +1,455 @@
+{
+  "scope": "device/instrument/subnet attributes only -- no referral timing, no order data. This means the result is only ever comparable to hard-signal rings; soft-signal rings have no shared device/instrument by definition and are structurally out of scope for this cross-check, not a capability finding.",
+  "headline": {
+    "description": "FRAUDAR recall on the 40 planted hard-signal rings, counted straight (>=50% bidirectional member overlap, same threshold eval.py uses everywhere else) -- the one number directly comparable to Stage 2's recall on the identical 40 rings from the identical underlying signals.",
+    "hard_rings_matched": 15,
+    "hard_rings_total": 40,
+    "fraudar_hard_ring_recall": 0.375,
+    "our_stage2_hard_ring_recall": 1.0
+  },
+  "graph": {
+    "n_users": 7500,
+    "n_attributes": 20914,
+    "n_edges": 22500
+  },
+  "n_blocks_found": 18,
+  "n_blocks_requested": 80,
+  "blocks": [
+    {
+      "block_index": 0,
+      "n_users": 55,
+      "n_attributes": 18,
+      "score": 0.8443,
+      "vs_our_flagged": {
+        "id": "C0019",
+        "intersection": 12,
+        "block_size": 55,
+        "candidate_size": 12,
+        "recall": 1.0,
+        "precision": 0.218
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_19",
+        "intersection": 12,
+        "block_size": 55,
+        "candidate_size": 12,
+        "recall": 1.0,
+        "precision": 0.218
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 1,
+      "n_users": 13,
+      "n_attributes": 3,
+      "score": 0.8433,
+      "vs_our_flagged": {
+        "id": "C0040",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_40",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 2,
+      "n_users": 13,
+      "n_attributes": 3,
+      "score": 0.8433,
+      "vs_our_flagged": {
+        "id": "C0037",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_37",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 3,
+      "n_users": 13,
+      "n_attributes": 3,
+      "score": 0.8433,
+      "vs_our_flagged": {
+        "id": "C0021",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_21",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 4,
+      "n_users": 13,
+      "n_attributes": 3,
+      "score": 0.8433,
+      "vs_our_flagged": {
+        "id": "C0009",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_09",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 5,
+      "n_users": 14,
+      "n_attributes": 3,
+      "score": 0.8391,
+      "vs_our_flagged": {
+        "id": "C0006",
+        "intersection": 14,
+        "block_size": 14,
+        "candidate_size": 14,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_06",
+        "intersection": 14,
+        "block_size": 14,
+        "candidate_size": 14,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 6,
+      "n_users": 15,
+      "n_attributes": 3,
+      "score": 0.8345,
+      "vs_our_flagged": {
+        "id": "C0015",
+        "intersection": 15,
+        "block_size": 15,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_15",
+        "intersection": 15,
+        "block_size": 15,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 7,
+      "n_users": 140,
+      "n_attributes": 50,
+      "score": 0.6177,
+      "vs_our_flagged": {
+        "id": "C0010",
+        "intersection": 9,
+        "block_size": 140,
+        "candidate_size": 9,
+        "recall": 1.0,
+        "precision": 0.064
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_10",
+        "intersection": 9,
+        "block_size": 140,
+        "candidate_size": 9,
+        "recall": 1.0,
+        "precision": 0.064
+      },
+      "vs_ground_truth_confounder": {
+        "id": "CONF_HOUSEHOLD_03",
+        "intersection": 6,
+        "block_size": 140,
+        "candidate_size": 6,
+        "recall": 1.0,
+        "precision": 0.043
+      }
+    },
+    {
+      "block_index": 8,
+      "n_users": 10,
+      "n_attributes": 2,
+      "score": 0.6154,
+      "vs_our_flagged": {
+        "id": "C0038",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_38",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 9,
+      "n_users": 10,
+      "n_attributes": 2,
+      "score": 0.6154,
+      "vs_our_flagged": {
+        "id": "C0028",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_28",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 10,
+      "n_users": 10,
+      "n_attributes": 2,
+      "score": 0.6154,
+      "vs_our_flagged": {
+        "id": "C0018",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_18",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 11,
+      "n_users": 10,
+      "n_attributes": 2,
+      "score": 0.6154,
+      "vs_our_flagged": {
+        "id": "C0017",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_17",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 12,
+      "n_users": 10,
+      "n_attributes": 2,
+      "score": 0.6154,
+      "vs_our_flagged": {
+        "id": "C0012",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_12",
+        "intersection": 10,
+        "block_size": 10,
+        "candidate_size": 10,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 13,
+      "n_users": 12,
+      "n_attributes": 2,
+      "score": 0.6051,
+      "vs_our_flagged": {
+        "id": "C0013",
+        "intersection": 12,
+        "block_size": 12,
+        "candidate_size": 12,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_13",
+        "intersection": 12,
+        "block_size": 12,
+        "candidate_size": 12,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 14,
+      "n_users": 13,
+      "n_attributes": 2,
+      "score": 0.5997,
+      "vs_our_flagged": {
+        "id": "C0020",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_20",
+        "intersection": 13,
+        "block_size": 13,
+        "candidate_size": 13,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 15,
+      "n_users": 14,
+      "n_attributes": 2,
+      "score": 0.5943,
+      "vs_our_flagged": {
+        "id": "C0033",
+        "intersection": 14,
+        "block_size": 14,
+        "candidate_size": 14,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_33",
+        "intersection": 14,
+        "block_size": 14,
+        "candidate_size": 14,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 16,
+      "n_users": 15,
+      "n_attributes": 2,
+      "score": 0.5891,
+      "vs_our_flagged": {
+        "id": "C0011",
+        "intersection": 15,
+        "block_size": 15,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_HARD_11",
+        "intersection": 15,
+        "block_size": 15,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 1.0
+      },
+      "vs_ground_truth_confounder": null
+    },
+    {
+      "block_index": 17,
+      "n_users": 7120,
+      "n_attributes": 20566,
+      "score": 0.4238,
+      "vs_our_flagged": {
+        "id": "C0051",
+        "intersection": 15,
+        "block_size": 7120,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 0.002
+      },
+      "vs_ground_truth_ring": {
+        "id": "RING_SOFT_02",
+        "intersection": 15,
+        "block_size": 7120,
+        "candidate_size": 15,
+        "recall": 1.0,
+        "precision": 0.002
+      },
+      "vs_ground_truth_confounder": {
+        "id": "CONF_INFLUENCER_07",
+        "intersection": 47,
+        "block_size": 7120,
+        "candidate_size": 47,
+        "recall": 1.0,
+        "precision": 0.007
+      }
+    }
+  ],
+  "summary": {
+    "n_blocks_matching_our_flagged_clusters": 15,
+    "n_blocks_matching_ground_truth_rings": 15,
+    "n_blocks_matching_ground_truth_confounders": 0,
+    "n_our_flagged_clusters_also_found_by_fraudar": 15,
+    "n_our_flagged_clusters_total": 74
+  },
+  "confounders_fraudar_flags_that_we_correctly_left_alone": []
+}

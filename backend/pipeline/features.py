@@ -12,6 +12,7 @@ from collections import Counter
 from datetime import timedelta
 
 import networkx as nx
+import pandas as pd
 
 from .data_io import DataBundle
 
@@ -71,7 +72,8 @@ def compute_features(G: nx.Graph, members: set, data: DataBundle, device_by_user
             continue
         claim_hours.append((claim - signup).total_seconds() / 3600.0)
         cutoff = claim + timedelta(days=3)
-        further = data.sessions[(data.sessions.user_id == u) & (data.sessions.timestamp > cutoff)]
+        user_session_ts = data.session_timestamps_by_user.get(u, [])
+        further = [t for t in user_session_ts if t > cutoff]
         dormant_flags.append(len(further) == 0)
 
     bonus_claim_velocity_hours = sum(claim_hours) / len(claim_hours) if claim_hours else None
@@ -79,20 +81,33 @@ def compute_features(G: nx.Graph, members: set, data: DataBundle, device_by_user
     claim_then_dormant_frac = sum(dormant_flags) / len(dormant_flags) if dormant_flags else None
 
     # --- order-value templating ---
-    orders_sub = data.orders[data.orders.user_id.isin(members)]
-    n_orders = len(orders_sub)
+    # Plain per-member list lookups + a single small pd.Series at the end, instead of
+    # scanning/concatenating/mapping over the full orders/sessions tables per cluster --
+    # that un-indexed version dominates Stage 4's runtime by two orders of magnitude at
+    # scale (profiled in scale_stress_test.py; pandas .map() against a plain dict on an
+    # Arrow-backed string column in particular is pathologically slow in this pandas
+    # version).
+    member_order_values = []
+    for u in members:
+        member_order_values.extend(data.order_values_by_user.get(u, []))
+    n_orders = len(member_order_values)
     if n_orders >= 2:
-        mean_val = orders_sub.order_value.mean()
-        std_val = orders_sub.order_value.std()
+        order_series = pd.Series(member_order_values)
+        mean_val = order_series.mean()
+        std_val = order_series.std()
         order_value_cv = (std_val / mean_val) if mean_val > 0 else None
     else:
         order_value_cv = None
 
     # --- post-signup engagement (activity beyond the first week) ---
-    sessions_sub = data.sessions[data.sessions.user_id.isin(members)].copy()
-    sessions_sub["signup_ref"] = sessions_sub.user_id.map(data.signup_ts)
-    late = sessions_sub[sessions_sub.timestamp > (sessions_sub["signup_ref"] + timedelta(days=7))]
-    post_signup_engagement = len(late) / size
+    late_count = 0
+    for u in members:
+        signup_ref = data.signup_ts.get(u)
+        if signup_ref is None:
+            continue
+        cutoff = signup_ref + timedelta(days=7)
+        late_count += sum(1 for t in data.session_timestamps_by_user.get(u, []) if t > cutoff)
+    post_signup_engagement = late_count / size
 
     return {
         "size": size,

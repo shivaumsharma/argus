@@ -8,7 +8,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_calibration_report, cached_confounder_rows, cached_eval_report, cached_ring_rows, ensure_version  # noqa: E402
+from shared import cached_calibration_report, cached_confounder_rows, cached_cost_sensitivity_report, cached_eval_report, cached_fairness_report, cached_ring_rows, ensure_version  # noqa: E402
 
 st.title(":material/monitoring: Metrics")
 st.caption(
@@ -143,4 +143,102 @@ else:
         "counter-examples. This is a real signal (confidence does correlate with the Stage 4/5 evidence strength "
         "the LLM was given), but with this few negative examples it is not a statistically meaningful calibration "
         "curve, and that's stated plainly rather than blended into one clean number."
+    )
+
+st.space("large")
+
+# --- Fairness audit ---
+st.subheader("Fairness audit — does the false-positive rate skew by geography?")
+fairness = cached_fairness_report(version)
+if not fairness:
+    st.info("Run `python -m backend.fairness_audit` to generate this.", icon=":material/info:")
+else:
+    st.caption(
+        "RBI's FREE-AI framework names 'Fair' as a pillar. The concrete risk: shared device/IP is also "
+        "just how families and hostel residents live, not fraud — if Stage 5 clears those legitimately "
+        "shared-attribute clusters unevenly by geography, that's a fairness failure this system's own "
+        "signals could cause. Tagged by home_pincode against 8 verified Tier-1 metro postal prefixes "
+        "(confirmed by grep: pincode is never read by Stages 1-5, so no direct bias path exists — this "
+        "checks for an indirect one)."
+    )
+    by_tier = fairness["confounder_fp_rate_by_tier"]
+    cols = st.columns(2)
+    for col, (tier, d) in zip(cols, by_tier.items()):
+        label = "Tier-1 metro" if tier == "tier1_metro" else "Tier-2/3 / other"
+        rate_str = f"{d['fp_rate']:.1%}" if d["fp_rate"] is not None else "n/a"
+        col.metric(f"{label} confounders", f"{d['fp']} / {d['n']} flagged", rate_str)
+
+    st.dataframe(
+        [{"Confounder type": ctype, "Tier-1 (n / FP)": f"{v['tier1_metro']['n']} / {v['tier1_metro']['fp']}",
+          "Tier-2/3 (n / FP)": f"{v['tier2_3_other']['n']} / {v['tier2_3_other']['fp']}"}
+         for ctype, v in fairness["confounder_fp_rate_by_type_and_tier"].items()],
+        hide_index=True, width="stretch",
+    )
+    acct = fairness["account_level"]
+    st.caption(
+        f":material/info: Only {acct['n_confounder_accounts_in_tier1_metro']} of "
+        f"{acct['n_confounder_accounts_with_pincode']} confounder-cluster accounts land in one of the 8 "
+        "Tier-1 metro prefixes checked — with 40 confounders and 1 total false positive in the frozen set, "
+        "no split of this data has enough false positives to support a statistically meaningful rate "
+        "comparison either direction. What this does confirm: there's no code path today where geography "
+        "can bias a flag directly. The indirect risk is still real and correctly named even though this "
+        "dataset can't yet measure it — shared device/IP genuinely correlates with hostel and lower-income "
+        "shared housing in the real world, and Stage 5's organic-evidence thresholds have never been tested "
+        "against a sample where that correlation is present, because pincode is generated independently at "
+        "random here (see `backend/fairness_audit.py` for the full methodology)."
+    )
+
+st.space("large")
+
+# --- Cost-calibrated threshold sensitivity ---
+st.subheader("Cost-calibrated threshold sensitivity")
+cost = cached_cost_sensitivity_report(version)
+if not cost:
+    st.info("Run `python -m backend.cost_threshold_sensitivity` to generate this.", icon=":material/info:")
+else:
+    st.caption(
+        f"What does a threshold choice cost in real rupees? False-negative cost is computed, not assumed: "
+        f"Rs {cost['fn_cost_per_missed_ring']:,.0f} average fraudulent bonus payout per missed ring, from "
+        "actual paid referral claims in data/raw/referrals.csv. False-positive cost isn't in the data, so "
+        "it's swept across 3 labeled assumption scenarios instead of asserted as one number."
+    )
+    device = cost["device_clear_organic_threshold"]
+    soft = cost["soft_signal_suspicion_threshold"]
+
+    tab_device, tab_soft = st.tabs(["Shared-device organic-clear threshold", "Soft-signal suspicion threshold"])
+    for tab, sweep_data, param_label in [
+        (tab_device, device, "DEVICE_CLEAR_ORGANIC_THRESHOLD"),
+        (tab_soft, soft, "SOFT_FLAG_SUSPICION_THRESHOLD"),
+    ]:
+        with tab:
+            cur = sweep_data["current_production_value"]
+            rows = []
+            for T_str, s in sweep_data["sweep"].items():
+                rows.append({
+                    "Threshold": f"{T_str}{' (current)' if int(T_str) == cur else ''}",
+                    "Recall": s["recall"], "FP rate": s["fp_rate"],
+                    "Rings missed": s["rings_missed"], "Confounder FPs": s["confounders_fp"],
+                })
+            st.dataframe(rows, hide_index=True, width="stretch",
+                        column_config={
+                            "Recall": st.column_config.ProgressColumn(min_value=0, max_value=1, format="%.0%%"),
+                            "FP rate": st.column_config.ProgressColumn(min_value=0, max_value=1, format="%.0%%"),
+                        })
+            st.caption(f"`{param_label}` — current production default = {cur}")
+
+    st.markdown(
+        "**Real finding**: recall is completely flat (73/80 rings) across every shared-device threshold "
+        "tested — no real ring in this dataset has a high enough organic_score for this threshold to ever "
+        "cost recall. Only the confounder FP count moves: 0 at threshold 1-2, 1 at the current default (3), "
+        "6 at threshold 4. That makes threshold=2 a strict improvement on every metric measured here — same "
+        "recall, fewer false positives — regardless of any FP-cost assumption."
+    )
+    st.caption(
+        ":material/info: This finding is **not applied to production** here — it was found by evaluating "
+        "against the full ring/confounder set, including the holdout split this project has deliberately "
+        "never tuned against anywhere else. Reported as a testable hypothesis for the next dev-split tuning "
+        "pass, not a change made on the strength of this script alone. See "
+        "`docs/COST_THRESHOLD_SENSITIVITY.md` for the full breakdown, including the soft-signal branch's "
+        "own honest finding: its sole real false positive sits on a different branch entirely, so that "
+        "sweep shows no FP trade-off on this dataset."
     )

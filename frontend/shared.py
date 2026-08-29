@@ -67,3 +67,25 @@ def cached_calibration_report(_version: int):
         return None
     with open(path) as f:
         return json.load(f)
+
+
+@st.cache_data(show_spinner=False)
+def cached_fairness_report(_version: int):
+    import json
+    from backend.pipeline.data_io import PROCESSED_DIR
+    path = PROCESSED_DIR / "fairness_audit.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
+
+
+@st.cache_data(show_spinner=False)
+def cached_cost_sensitivity_report(_version: int):
+    import json
+    from backend.pipeline.data_io import PROCESSED_DIR
+    path = PROCESSED_DIR / "cost_threshold_sensitivity.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)

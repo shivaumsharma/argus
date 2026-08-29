@@ -9,3 +9,4 @@ data/app.db
 data/processed/graph_cache/
 lib/
 data/external/
+data/scale_test/

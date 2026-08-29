@@ -24,6 +24,8 @@ class DataBundle:
     signup_ts: dict       # user_id -> pandas.Timestamp (precise, from sessions)
     claim_ts: dict        # user_id -> pandas.Timestamp of referral_claim session (first one), or None
     ip_subnet: dict       # user_id -> "a.b.c" (first three octets of signup IP)
+    session_timestamps_by_user: dict  # user_id -> list of pandas.Timestamp (that user's session times)
+    order_values_by_user: dict        # user_id -> list of float (that user's order values)
 
 
 def load_data(raw_dir: Path = None) -> DataBundle:
@@ -57,6 +59,15 @@ def load_data(raw_dir: Path = None) -> DataBundle:
 
     ip_subnet = {uid: _subnet(ip) for uid, ip in zip(accounts.user_id, accounts.ip_address_at_signup)}
 
+    # Grouped once here rather than re-scanning the full sessions/orders table on every
+    # per-cluster or per-member lookup in features.py -- at scale (see scale_stress_test.py)
+    # the un-indexed version dominates Stage 4's runtime by two orders of magnitude.
+    # Plain lists of the one column each caller actually needs, not per-user
+    # DataFrames -- constructing ~account-count-many small DataFrame objects has
+    # enough per-object overhead of its own to become the next bottleneck.
+    session_timestamps_by_user = sessions.groupby("user_id")["timestamp"].apply(list).to_dict()
+    order_values_by_user = orders.groupby("user_id")["order_value"].apply(list).to_dict()
+
     return DataBundle(
         accounts=accounts,
         sessions=sessions,
@@ -66,4 +77,6 @@ def load_data(raw_dir: Path = None) -> DataBundle:
         signup_ts=signup_ts,
         claim_ts=claim_ts,
         ip_subnet=ip_subnet,
+        session_timestamps_by_user=session_timestamps_by_user,
+        order_values_by_user=order_values_by_user,
     )
