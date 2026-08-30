@@ -55,6 +55,46 @@ TARGET_TOTAL_ACCOUNTS = 7500
 EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com", "rediffmail.com", "hotmail.com"]
 
 # --------------------------------------------------------------------------
+# Real-statistics grounding for device-sharing probabilities. NOT applied to
+# the frozen SEED=20260828 dataset by default -- USE_GROUNDED_DEVICE_SHARING
+# defaults to False specifically so `python -m backend.generate_data` keeps
+# reproducing the exact frozen dataset byte-for-byte (verified). Flip it and
+# use a genuinely fresh, never-used seed for the next full freeze-and
+# -reevaluate cycle; per this project's eval integrity protocol, that's the
+# only way these values are allowed to affect any reported headline number.
+#
+# Real sources, fetched and verified via web search before use, not assumed:
+#   - IAMAI-KANTAR "Internet in India Report 2025" (Jan 2025, ~100,000-consumer
+#     survey across 400+ towns and 1,000+ villages): 18% of Indian internet
+#     users go online through someone else's mobile device, ~80% of them rural.
+#   - NSO Comprehensive Annual Modular Survey (CAMS), Round 79, 2022-23: "a
+#     majority of Indian phone users share their phone with a family member,
+#     and are not exclusive users of the device."
+#
+# Current frozen values were invented, not grounded: household=0.5 (close to
+# defensible given the NSO "majority" finding, left as-is), hostel=0.0 (the
+# function's own docstring already claims "rarely shared device" but the code
+# never implemented any sharing at all -- a real gap, not just an arbitrary
+# choice), background=0.0 (ordinary accounts never share a device at all,
+# which is the least realistic of the three -- real device-sharing is not
+# confined to planted confounder archetypes). Raising these makes the
+# detection problem *more* honest, not easier, per the same logic already
+# applied to backend/cod_collusion/'s COD refusal rate.
+USE_GROUNDED_DEVICE_SHARING = False
+GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB = 0.55   # NSO CAMS "majority" finding; modest rise from the current 0.5
+GROUNDED_HOSTEL_DEVICE_SHARE_PROB = 0.15      # roughly the 18% IAMAI-KANTAR national average
+# GROUNDED_BACKGROUND_DEVICE_SHARE_PROB is declared but deliberately NOT wired into
+# gen_background() yet: household/hostel archetypes already generate members in a
+# shared group, so adding a shared-device draw is a one-line probability change.
+# Background accounts are generated independently, one at a time, with no grouping
+# structure at all -- giving them realistic device-sharing means pairing a fraction
+# of otherwise-unrelated background accounts into small device-sharing clusters,
+# which is a real structural change (new pairing logic, not a probability tweak)
+# and a larger blast radius than the household/hostel fix. Flagged here as a
+# recommended next step, not rushed in to check a box.
+GROUNDED_BACKGROUND_DEVICE_SHARE_PROB = 0.18  # the 18% IAMAI-KANTAR figure, for whenever that structural change is made
+
+# --------------------------------------------------------------------------
 # Global state
 # --------------------------------------------------------------------------
 
@@ -120,6 +160,16 @@ def session_row(uid, device_id, ip, ts, action_type):
 
 
 def order_row(uid, ts, value, pincode):
+    # `order_value` here is a raw GMV figure -- this dataset does not model a
+    # settlement/fee layer on top of it. If that layer is ever added: credit-card
+    # MDR in India typically runs 1.5-2.5% (~2% is a defensible midpoint --
+    # Razorpay's own blog, cross-checked against getswipe.in/justt.ai/au.bank.in),
+    # plus 18% GST charged on the MDR/platform fee itself, not on the transaction
+    # value (Razorpay's own blog; standard GST rate on services). Both verified via
+    # web search before citing here, not assumed. Recorded as a documented gap,
+    # not implemented speculatively -- nothing downstream (ring detection, eval,
+    # cost-threshold sensitivity) currently needs settlement-adjusted amounts,
+    # and adding one would be a generator change requiring its own freeze cycle.
     return {
         "user_id": uid,
         "order_id": next_id("O", "order"),
@@ -355,8 +405,16 @@ def gen_household(size, tight=False):
 
     tight=True compresses the signup window and order-value diversity toward the
     low end of "still organic" -- a genuinely borderline household (everyone signed
-    up during one weekend setting up the new tablet) that stress-tests Stage 5."""
-    shared_device = rand_device_id() if random.random() < 0.5 else None
+    up during one weekend setting up the new tablet) that stress-tests Stage 5.
+
+    Device-share probability is 0.5 by default (invented). USE_GROUNDED_DEVICE_SHARING
+    swaps it for GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB (0.55), grounded in the NSO CAMS
+    "majority of Indian phone users share their phone with a family member" finding --
+    see the constant's definition near the top of this file for the full citation.
+    Off by default so the frozen SEED=20260828 dataset stays byte-identical; flip it
+    only as part of a fresh freeze-and-reevaluate cycle."""
+    share_prob = GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB if USE_GROUNDED_DEVICE_SHARING else 0.5
+    shared_device = rand_device_id() if random.random() < share_prob else None
     subnet = rand_subnet()
     span_days = 25 if tight else 180
     start = rand_signup_within_span(SPAN_DAYS - span_days - 20)
@@ -377,14 +435,26 @@ def gen_household(size, tight=False):
 
 def gen_hostel(size):
     """Same idea as household but larger, shared IP subnet (campus/hostel wifi),
-    rarely shared device. Organic, spread-out activity."""
+    rarely shared device. Organic, spread-out activity.
+
+    The docstring has always said "rarely shared device," but the code never
+    actually modeled any sharing -- a real gap, not a deliberate choice. Behind
+    USE_GROUNDED_DEVICE_SHARING, a subset of members now share one of a small
+    number of devices within the hostel (roommates sharing a laptop/tablet) at
+    GROUNDED_HOSTEL_DEVICE_SHARE_PROB (0.15, ~ the 18% IAMAI-KANTAR national
+    device-sharing average -- see the constant's definition for the full
+    citation). Off by default so the frozen dataset stays byte-identical."""
     subnet = rand_subnet()
     start = rand_signup_within_span(SPAN_DAYS - 250)
+    shared_pool = [rand_device_id() for _ in range(max(1, size // 4))] if USE_GROUNDED_DEVICE_SHARING else []
 
     members = []
     for _ in range(size):
         signup = start + timedelta(days=random.uniform(0, 240))
-        device_id = rand_device_id()
+        if USE_GROUNDED_DEVICE_SHARING and random.random() < GROUNDED_HOSTEL_DEVICE_SHARE_PROB:
+            device_id = random.choice(shared_pool)
+        else:
+            device_id = rand_device_id()
         ip = rand_ip(subnet)
         acct = make_account(signup, device_id=device_id, ip=ip)
         uid = acct["user_id"]

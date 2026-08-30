@@ -18,7 +18,10 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-SEED = 2026828
+# Fresh seed, never used before -- generator parameters changed (real-statistics
+# grounding of ORGANIC_COD_REFUSAL_RATE), so per this project's eval integrity
+# protocol this is a new freeze, not a patch on top of the old one.
+SEED = 48391027
 random.seed(SEED)
 np.random.seed(SEED)
 
@@ -32,6 +35,19 @@ TODAY = datetime(2026, 8, 28)
 START = datetime(2025, 9, 1)
 SPAN_DAYS = (TODAY - START).days
 TARGET_ACCOUNTS = 1500
+
+# Real-world COD return/refusal rate, grounded, not invented: India's average COD
+# Return-to-Origin (RTO) rate is commonly cited at 20-25%, rising to 28-35% for less
+# -optimized operations and up to 30-50% for unoptimized ones -- sources: GoKwik 2026
+# data (20-25% average, 15-20% "good", 30-50% unoptimized), and Razorpay's own
+# published guide on Cash on Delivery in India (cash-on-delivery blog post), both
+# fetched and verified via web search before use here, not assumed. The organic
+# (non-colluding) refusal rate below was previously 10-12%, well under this real
+# range -- understating how often ordinary COD orders are genuinely refused, which
+# made the collusion ring's 70-100% refusal rate look more artificially distinct
+# from normal behavior than it would be in reality. Raised to sit inside the real
+# 20-40% band; this makes the detection problem *more* honest, not easier.
+ORGANIC_COD_REFUSAL_RATE = (0.20, 0.40)
 
 counters = {"user": 0, "order": 0}
 accounts, orders = [], []
@@ -124,7 +140,7 @@ def gen_shared_address_confounder(size):
                 break
             value = max(99, np.random.normal(900, 500))
             payment = random.choices(["COD", "prepaid"], weights=[0.4, 0.6])[0]
-            refused = payment == "COD" and random.random() < 0.12  # normal organic refusal rate
+            refused = payment == "COD" and random.random() < random.uniform(*ORGANIC_COD_REFUSAL_RATE)
             add_order(uid, ts, value, payment, "refused" if refused else "delivered")
     return members
 
@@ -143,7 +159,7 @@ def gen_background(n):
                 break
             value = max(99, np.random.normal(700, 400))
             payment = random.choices(["COD", "prepaid"], weights=[0.35, 0.65])[0]
-            refused = payment == "COD" and random.random() < 0.10
+            refused = payment == "COD" and random.random() < random.uniform(*ORGANIC_COD_REFUSAL_RATE)
             add_order(uid, ts, value, payment, "refused" if refused else "delivered")
     return uids
 
@@ -164,7 +180,7 @@ def main():
         size = random.randint(6, 16)
         members = gen_shared_address_confounder(size)
         cid = f"COD_CONF_{i:02d}"
-        confounders_gt[cid] = {"members": members, "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."}
+        confounders_gt[cid] = {"members": members, "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."}
         labels += [{"user_id": u, "cluster_type": "cod_confounder", "cluster_id": cid} for u in members]
 
     planted = sum(len(v["members"]) for v in rings_gt.values()) + sum(len(v["members"]) for v in confounders_gt.values())

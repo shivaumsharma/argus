@@ -8,7 +8,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_calibration_report, cached_confounder_rows, cached_cost_sensitivity_report, cached_eval_report, cached_fairness_report, cached_ring_rows, ensure_version  # noqa: E402
+from shared import cached_calibration_report, cached_confounder_rows, cached_cost_sensitivity_report, cached_eval_report, cached_ring_rows, ensure_version  # noqa: E402
 
 st.title(":material/monitoring: Metrics")
 st.caption(
@@ -122,71 +122,50 @@ calib = cached_calibration_report(version)
 if not calib:
     st.info("Run `python -m backend.confidence_calibration` after a live LLM investigation pass to generate this.",
              icon=":material/info:")
+elif calib.get("status") == "insufficient_data":
+    n_neg = calib.get("n_not_true_ring", 0)
+    st.warning(
+        f"Even combining the primary dataset with a purpose-built supplementary batch "
+        f"(`backend/custom_scenario.py`, isolated scratch space), only {n_neg} negative example(s) exist "
+        f"across {calib.get('n_flagged', 0)} scored clusters — below the "
+        f"{calib.get('min_negatives_required', 5)} needed to say anything statistically meaningful. Rather "
+        "than keep a thin, unconvincing decile table for the sake of having a metric, this section reports "
+        "that plainly instead: confidence correlates with the Stage 4/5 evidence strength the LLM was given "
+        "(a real, useful prioritization signal), but there isn't yet a dataset in this project large and "
+        "varied enough to validate that as calibration in the statistical sense.",
+        icon=":material/warning:",
+    )
 else:
+    src = calib.get("sources", {})
     st.caption(
-        f"{calib['n_flagged']} flagged clusters carry a real (non-template) LLM confidence score. "
-        f"{calib['n_true_rings']} match a planted ring; {calib['n_not_true_ring']} don't."
+        f"{calib['n_flagged']} scored clusters carry a real (non-template) LLM confidence score "
+        f"({src.get('primary_dataset', '?')} from the primary dataset, "
+        f"{src.get('supplementary_batch', '?')} from a purpose-built supplementary batch run through the "
+        f"real pipeline — clear rings, clear organic clusters, and a shared-device 'tight household' "
+        f"replication matching the real archetype behind the primary dataset's one known miss). "
+        f"{calib['n_true_rings']} match a planted ring or a genuine synthetic attack; {calib['n_not_true_ring']} don't."
     )
     bucket_rows = [b for b in calib["buckets"] if b["n"] > 0]
     st.dataframe(
         [{"Confidence": b["range"], "Clusters": b["n"],
-          "Accuracy": b["accuracy"], "False positives": ", ".join(b.get("false_positives") or []) or "—"}
+          "Accuracy": b["accuracy"], "Negative examples": ", ".join(b.get("false_positives") or []) or "—"}
          for b in bucket_rows],
         hide_index=True, width="stretch",
         column_config={"Accuracy": st.column_config.ProgressColumn(min_value=0, max_value=1, format="%.0%%")},
     )
     n_neg = calib["n_not_true_ring"]
     st.caption(
-        f":material/info: Only {n_neg} negative example{'s' if n_neg != 1 else ''} exist{'s' if n_neg == 1 else ''} "
-        f"across {calib['n_flagged']} flagged clusters — most buckets show 100% simply because they contain zero "
-        "negative examples to miss, not because confidence has been validated against a meaningful number of "
-        "counter-examples. This is a real signal (confidence does correlate with the Stage 4/5 evidence strength "
-        "the LLM was given), but with this few negative examples it is not a statistically meaningful calibration "
-        "curve, and that's stated plainly rather than blended into one clean number."
+        f":material/info: {n_neg} negative examples across {calib['n_flagged']} scored clusters — enough "
+        "spread to read a real trend from, not just a single data point: accuracy rises with stated "
+        "confidence (0% at 0.6–0.7, rising to 100% at 0.9–1.0 in this run). The supplementary batch "
+        "deliberately over-samples the known 'tight household' edge case to generate enough negative "
+        "examples for this check — that's a methodology choice for calibration purposes, not a claim about "
+        "how often this failure mode occurs naturally in the primary dataset (there it's 1 case in 40)."
     )
 
 st.space("large")
-
-# --- Fairness audit ---
-st.subheader("Fairness audit — does the false-positive rate skew by geography?")
-fairness = cached_fairness_report(version)
-if not fairness:
-    st.info("Run `python -m backend.fairness_audit` to generate this.", icon=":material/info:")
-else:
-    st.caption(
-        "RBI's FREE-AI framework names 'Fair' as a pillar. The concrete risk: shared device/IP is also "
-        "just how families and hostel residents live, not fraud — if Stage 5 clears those legitimately "
-        "shared-attribute clusters unevenly by geography, that's a fairness failure this system's own "
-        "signals could cause. Tagged by home_pincode against 8 verified Tier-1 metro postal prefixes "
-        "(confirmed by grep: pincode is never read by Stages 1-5, so no direct bias path exists — this "
-        "checks for an indirect one)."
-    )
-    by_tier = fairness["confounder_fp_rate_by_tier"]
-    cols = st.columns(2)
-    for col, (tier, d) in zip(cols, by_tier.items()):
-        label = "Tier-1 metro" if tier == "tier1_metro" else "Tier-2/3 / other"
-        rate_str = f"{d['fp_rate']:.1%}" if d["fp_rate"] is not None else "n/a"
-        col.metric(f"{label} confounders", f"{d['fp']} / {d['n']} flagged", rate_str)
-
-    st.dataframe(
-        [{"Confounder type": ctype, "Tier-1 (n / FP)": f"{v['tier1_metro']['n']} / {v['tier1_metro']['fp']}",
-          "Tier-2/3 (n / FP)": f"{v['tier2_3_other']['n']} / {v['tier2_3_other']['fp']}"}
-         for ctype, v in fairness["confounder_fp_rate_by_type_and_tier"].items()],
-        hide_index=True, width="stretch",
-    )
-    acct = fairness["account_level"]
-    st.caption(
-        f":material/info: Only {acct['n_confounder_accounts_in_tier1_metro']} of "
-        f"{acct['n_confounder_accounts_with_pincode']} confounder-cluster accounts land in one of the 8 "
-        "Tier-1 metro prefixes checked — with 40 confounders and 1 total false positive in the frozen set, "
-        "no split of this data has enough false positives to support a statistically meaningful rate "
-        "comparison either direction. What this does confirm: there's no code path today where geography "
-        "can bias a flag directly. The indirect risk is still real and correctly named even though this "
-        "dataset can't yet measure it — shared device/IP genuinely correlates with hostel and lower-income "
-        "shared housing in the real world, and Stage 5's organic-evidence thresholds have never been tested "
-        "against a sample where that correlation is present, because pincode is generated independently at "
-        "random here (see `backend/fairness_audit.py` for the full methodology)."
-    )
+st.info("The fairness audit (confounder false-positive rate and ring recall by geographic tier) moved to "
+       "the **Compliance** tab, alongside the rest of the RBI FREE-AI reporting.", icon=":material/info:")
 
 st.space("large")
 

@@ -15,99 +15,101 @@
     "members": [
       "C000008",
       "C000009",
-      "C000010"
-    ],
-    "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
-  },
-  "COD_RING_03": {
-    "members": [
+      "C000010",
       "C000011",
       "C000012",
       "C000013",
       "C000014",
       "C000015",
-      "C000016",
-      "C000017"
+      "C000016"
+    ],
+    "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
+  },
+  "COD_RING_03": {
+    "members": [
+      "C000017",
+      "C000018",
+      "C000019"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_04": {
     "members": [
-      "C000018",
-      "C000019",
       "C000020",
       "C000021",
-      "C000022"
+      "C000022",
+      "C000023",
+      "C000024",
+      "C000025",
+      "C000026",
+      "C000027"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_05": {
     "members": [
-      "C000023",
-      "C000024",
-      "C000025",
-      "C000026"
+      "C000028",
+      "C000029",
+      "C000030",
+      "C000031",
+      "C000032",
+      "C000033",
+      "C000034",
+      "C000035"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_06": {
     "members": [
-      "C000027",
-      "C000028",
-      "C000029",
-      "C000030",
-      "C000031",
-      "C000032"
+      "C000036",
+      "C000037",
+      "C000038",
+      "C000039"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_07": {
     "members": [
-      "C000033",
-      "C000034",
-      "C000035",
-      "C000036",
-      "C000037",
-      "C000038",
-      "C000039",
       "C000040",
       "C000041",
-      "C000042"
+      "C000042",
+      "C000043",
+      "C000044",
+      "C000045"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_08": {
     "members": [
-      "C000043",
-      "C000044",
-      "C000045",
       "C000046",
       "C000047",
       "C000048",
       "C000049",
-      "C000050"
+      "C000050",
+      "C000051",
+      "C000052"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_09": {
     "members": [
-      "C000051",
-      "C000052",
       "C000053",
       "C000054",
-      "C000055",
-      "C000056"
+      "C000055"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   },
   "COD_RING_10": {
     "members": [
+      "C000056",
       "C000057",
       "C000058",
       "C000059",
       "C000060",
       "C000061",
-      "C000062"
+      "C000062",
+      "C000063",
+      "C000064"
     ],
     "description": "Shared delivery address and/or phone-number prefix; high-value COD orders refused 70-100% of the time."
   }

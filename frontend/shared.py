@@ -89,3 +89,9 @@ def cached_cost_sensitivity_report(_version: int):
         return None
     with open(path) as f:
         return json.load(f)
+
+
+@st.cache_data(show_spinner=False)
+def cached_compliance_data(_version: int):
+    from backend.compliance_report import compute_compliance_data
+    return compute_compliance_data()
