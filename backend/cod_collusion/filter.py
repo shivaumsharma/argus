@@ -4,8 +4,15 @@ behavior: a shared address alone (a real hostel, a real family) is common and
 legitimate; what's not legitimate is a shared address or phone block paired
 with an abnormally high COD refusal rate."""
 
-NORMAL_REFUSAL_RATE = 0.30   # organic e-commerce refusal is roughly 5-15%; 30% is already generous headroom
-SUSPICIOUS_REFUSAL_RATE = 0.55
+# Real-world COD return/refusal rate is 20-40% (India's average COD Return-to-Origin
+# rate: GoKwik 2026 data, 20-25% average rising to 28-35%/30-50% for less-optimized
+# operations; Razorpay's own published Cash-on-Delivery guide -- both verified via web
+# search, not assumed), matching backend/cod_collusion/generate_data.py's
+# ORGANIC_COD_REFUSAL_RATE. NORMAL_REFUSAL_RATE sits comfortably above that real ceiling
+# so a genuinely organic multi-tenant address still clears even at the top of its real
+# range, while staying well below the collusion ring's 70-100% floor.
+NORMAL_REFUSAL_RATE = 0.45
+SUSPICIOUS_REFUSAL_RATE = 0.60
 SUSPICIOUS_COD_FRACTION = 0.75
 
 
@@ -24,7 +31,7 @@ def evaluate_cluster(features: dict) -> dict:
         if refusal >= SUSPICIOUS_REFUSAL_RATE:
             return _verdict(True, f"Shared delivery address with a {refusal:.0%} COD refusal rate -- "
                                    "far above what organic customers refuse; consistent with a reshipping/collusion drop point.")
-        return _verdict(refusal >= 0.4 and cod_frac >= SUSPICIOUS_COD_FRACTION,
+        return _verdict(refusal >= NORMAL_REFUSAL_RATE and cod_frac >= SUSPICIOUS_COD_FRACTION,
                          f"Shared address, borderline refusal rate ({refusal:.0%}); "
                          f"{'also nearly all-COD ordering tips this to suspicious' if cod_frac >= SUSPICIOUS_COD_FRACTION else 'mixed payment methods keep this ambiguous, left unflagged by default'}.")
 

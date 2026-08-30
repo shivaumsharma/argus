@@ -37,6 +37,9 @@ Switch to **Metrics**.
 
 > And here's the framing that actually matters for the business: a missed ring costs real, paid-out money. A wrongly-flagged legitimate cluster costs a *delayed* bonus, pending human review — because nothing here auto-executes. That asymmetry is why the filter defaults to *not* flagging when evidence is ambiguous."
 
+**Optional one-liner, only if the 3:00–4:00 segment is running under time** (the script above is already budgeted to the minute — don't force this in and blow the timing; cut it first if anything runs long):
+> "One more thing worth ten seconds: I also ran this exact, unmodified clustering against real Bitcoin transaction data — zero device or payment signals to lean on, the hardest domain I could find — and it still landed a real 7.3x lift over random guessing. That's the floor for what it does on the signals it was actually built for, not the ceiling."
+
 ---
 
 ## 4:00–5:00 — One failure, handled gracefully

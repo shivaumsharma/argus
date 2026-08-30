@@ -1,8 +1,6 @@
 {
   "COD_CONF_01": {
     "members": [
-      "C000063",
-      "C000064",
       "C000065",
       "C000066",
       "C000067",
@@ -13,7 +11,7 @@
       "C000072",
       "C000073"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   },
   "COD_CONF_02": {
     "members": [
@@ -24,16 +22,16 @@
       "C000078",
       "C000079",
       "C000080",
-      "C000081",
-      "C000082",
-      "C000083",
-      "C000084",
-      "C000085"
+      "C000081"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   },
   "COD_CONF_03": {
     "members": [
+      "C000082",
+      "C000083",
+      "C000084",
+      "C000085",
       "C000086",
       "C000087",
       "C000088",
@@ -41,7 +39,7 @@
       "C000090",
       "C000091"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   },
   "COD_CONF_04": {
     "members": [
@@ -56,27 +54,27 @@
       "C000100",
       "C000101",
       "C000102",
-      "C000103"
+      "C000103",
+      "C000104",
+      "C000105",
+      "C000106"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   },
   "COD_CONF_05": {
     "members": [
-      "C000104",
-      "C000105",
-      "C000106",
       "C000107",
       "C000108",
       "C000109",
       "C000110",
       "C000111",
-      "C000112",
-      "C000113"
+      "C000112"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   },
   "COD_CONF_06": {
     "members": [
+      "C000113",
       "C000114",
       "C000115",
       "C000116",
@@ -89,8 +87,9 @@
       "C000123",
       "C000124",
       "C000125",
-      "C000126"
+      "C000126",
+      "C000127"
     ],
-    "description": "Real multi-tenant address (hostel/apartment); normal ~12% refusal rate, mixed COD/prepaid."
+    "description": "Real multi-tenant address (hostel/apartment); normal 20-40% refusal rate (grounded in India's real COD RTO rate, see ORGANIC_COD_REFUSAL_RATE), mixed COD/prepaid."
   }
 }
