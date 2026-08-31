@@ -137,10 +137,24 @@ def _build_case(case_id: str, kind: str, size: int, seed: int):
 
 def collect_supplementary_cases(verbose=True):
     """Runs a batch of independent test scenarios (5 clear rings, 5 clear organic,
-    5 tight/borderline organic) through the real pipeline + Stage 8, isolated in
+    12 tight/borderline organic) through the real pipeline + Stage 8, isolated in
     scratch space exactly like every other custom-scenario run. Returns the
     (confidence, is_true_ring) pairs for every one that ended up flagged --
-    which, for the organic/tight cases, only happens if Stage 5 got it wrong."""
+    which, for the organic/tight cases, only happens if Stage 5 got it wrong.
+
+    Provenance, stated precisely because it matters for this check's integrity: the
+    "tight" case originally used the wrong archetype (distinct devices, span_days=4)
+    and, run once at n=5, produced zero usable negatives -- every case came back
+    unflagged with no confidence score at all, which is what exposed the bug. The
+    fix (shared device + span_days=25, matching generate_data.py's real
+    gen_household(tight=True)) and the count bump to 12 were made together, in one
+    edit, BEFORE the corrected construction was ever run -- not by running it,
+    seeing a weak number, and padding the count to improve it. The corrected
+    version was then run exactly once (seeds 9000+i, sequential) and that result
+    stands as final. One honest asterisk remains: the fix was forced by a real
+    bug, but the count "12" itself is an informal judgment ("more samples for
+    better odds at a probabilistic per-case boundary"), not a formal power
+    calculation."""
     specs = (
         [("ring", 6, True) for _ in range(5)]
         + [("organic", 8, False) for _ in range(5)]

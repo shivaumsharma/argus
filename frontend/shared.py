@@ -95,3 +95,25 @@ def cached_cost_sensitivity_report(_version: int):
 def cached_compliance_data(_version: int):
     from backend.compliance_report import compute_compliance_data
     return compute_compliance_data()
+
+
+@st.cache_data(show_spinner=False)
+def cached_fraudar_report(_version: int):
+    import json
+    from backend.pipeline.data_io import PROCESSED_DIR
+    path = PROCESSED_DIR / "fraudar_analysis.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
+
+
+@st.cache_data(show_spinner=False)
+def cached_scale_stress_report(_version: int):
+    import json
+    from backend.pipeline.data_io import PROCESSED_DIR
+    path = PROCESSED_DIR / "scale_stress_test.json"
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)

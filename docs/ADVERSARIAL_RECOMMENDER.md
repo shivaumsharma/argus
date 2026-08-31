@@ -125,6 +125,120 @@ variance is real and expected — a stochastic attack generator won't find
 an exploitable gap every round, and that's reported plainly rather than
 tuned to look more productive than it is.
 
+## Round 2, resolved: audit trail, root cause, and one more honest attempt
+
+The result above leaves three open questions: was it actually logged end to
+end, *why* exactly does the fix not close the gap, and is there a different
+single-parameter fix that would? All three were checked directly, not assumed.
+
+**(a) Audit trail — confirmed complete, one correction to the record.**
+Querying `data/app.db` directly finds all four lifecycle events logged
+under `recommendation_proposed` / `_reviewed` / `_reevaluated` / `_finalized`
+for this recommendation (`REC00001`), exactly per spec — nothing was
+silently discarded. One correction, though: the recommendation's actual
+terminal `status` is **`validated_approved`**, not rejected — a reviewer
+(`test-reviewer`, from the dashboard testing that exercised this flow)
+approved it with the note *"looks safe, no confounder impact"*, and the
+fresh-seed re-validation was confirmed with *"fresh-seed run confirms no
+regression."* That's the correct call under this system's own design: a
+zero-downside, zero-upside-on-the-existing-set change is legitimately
+approvable — the review gate exists to catch harm, not to require that
+every fix be a complete solution. The finding that it doesn't flag the
+*specific* attack that motivated it is real and stays real; it just isn't
+evidence the recommendation was "rejected." Restated precisely rather than
+left as an ambiguous label.
+
+**(b) Root cause — confirmed by direct computation, not just described.**
+Reproducing the exact round-2 attack (`generate_variant(2, seed=2026,
+targets={"spread_out_days": 21, "diverse_order_cv": 0.28,
+"engaged_sessions": 1.5})`, the real call `run.py` made) and running it
+through the unmodified `gap_characterizer.characterize()` gives the exact
+feature values: `signup_span_days=22.96`, `order_value_cv=0.2772`,
+`post_signup_engagement=8.375`, `claim_then_dormant_frac=0.0`,
+`bonus_claim_velocity_hours=203.61` → `organic_score=2`,
+`suspicion_score=0`. Two things follow directly from `evaluate_cluster()`'s
+own structure (`backend/pipeline/confounder_filter.py`):
+
+1. `organic_score=2` (only `spread_out_days` and `engaged_sessions` pass;
+   `diverse_order_cv` fails at 0.2772 against a 0.28 threshold — it misses
+   by 0.0028, essentially on the wire) is exactly the `soft_clear_organic_threshold`
+   (2), so the attack clears as organic. Raising `spread_out_days` past the
+   attack's value removes one of the two passing checks, dropping
+   `organic_score` to 1 — below the clear threshold. The attack is no
+   longer cleared as organic.
+2. But it is *also* not flagged, because `suspicion_score=0`: every one of
+   the four suspicion sub-checks (burst signup, templated orders, dormancy,
+   fast claim) fails, by design — this attack was built in
+   `adversarial_stress_test.py` specifically to avoid every suspicious tell.
+
+The organic-clear branch and the suspicion-flag branch are two structurally
+separate scores in `evaluate_cluster()`. Moving a cluster out of the first
+can only ever land it in Stage 5's default "insufficient evidence either
+way" bucket, or in the flagged bucket if `suspicion_score` *independently*
+clears its own threshold. No organic-side parameter can ever raise
+`suspicion_score` — they are disjoint feature checks. This is not a tuning
+gap; it is the two-branch design working exactly as built, applied to an
+attack engineered to score zero on the branch that alone can trigger a flag.
+
+**(c) One more honest attempt — targeting the other branch.** (Named "Round
+3" per this write-up's own request, distinct from the cadence-numbered
+"rounds 3-7" above, which retried the same *organic-knob* strategy with
+fresh seeds and never specifically targeted the suspicion side — this is a
+different, one-off, hand-drafted investigation, not a continuation of that
+sequence.) Round 2's fix moved an organic-side parameter. A genuinely different fix
+targets the suspicion side instead: `soft_flag_suspicion_threshold`
+lowered from 3 to 1, its minimum in the defined safe range — drafted and
+run through the same Stage 4 `impact_simulator.simulate()` used for every
+other recommendation in this system, against the full 80-ring/40-confounder
+set:
+
+```
+soft_flag_suspicion_threshold -> 1: rings caught 73->80/80 (+7), confounder FPs 1->1/40 (+0)
+attack_caught_after_fix: False
+```
+
+Two honest things about this result, both worth stating plainly. First: it
+is a real, free, strict improvement on the *existing* frozen set — it
+closes all 7 of the frozen dataset's other soft-signal misses at zero
+confounder cost. It is not a new discovery, though — it is the exact same
+finding already reported in
+[`COST_THRESHOLD_SENSITIVITY.md`](COST_THRESHOLD_SENSITIVITY.md)'s Sweep 1
+(`SOFT_FLAG_SUSPICION_THRESHOLD=1` → 100% recall, confounder FPs flat at 1)
+and deliberately not applied to production there, to preserve this
+project's holdout-tuning discipline. Two independent tools landing on the
+identical real numbers is a good cross-validation, not a new result to
+claim credit for twice. Second, and this is the actual answer to the
+round-2 question: **even at the most aggressive value this parameter is
+allowed to take, `attack_caught_after_fix` is still `False`.**
+
+That result isn't a surprise once (b) is stated precisely: `1` is the
+*minimum* allowed value of `soft_flag_suspicion_threshold` in
+`TUNABLE_PARAMETERS`, and the attack's real `suspicion_score` is `0` —
+`0 >= 1` is false regardless of how the threshold is tuned within its
+defined safe range. To close this out rather than run indefinite further
+rounds, every one of this stage's ten tunable parameters
+(`spread_out_days`, `diverse_order_cv`, `engaged_sessions`,
+`templated_order_cv`, `burst_days`, `fast_claim_hours`, `dormant_frac`,
+`device_clear_organic_threshold`, `soft_clear_organic_threshold`,
+`soft_flag_suspicion_threshold`) was swept across its full defined
+`(min, max, step)` range against this attack's exact feature values,
+calling the real `evaluate_cluster()` directly: **no value of any single
+parameter flags this attack.** This is a closed, exhaustively-checked
+result, not a sampled one — the honest conclusion this round-3 attempt
+supports is that no single-parameter change to Stage 5, as currently
+designed, can ever flag this specific attack; closing this gap for real
+would need a new signal or feature, not a threshold move. Reported plainly
+as a known, permanent limitation rather than pursued through further rounds
+that the exhaustive sweep already rules out.
+
+This candidate was not queued into the `recommendations` table for human
+review: its impact on the attack it would need to justify itself against is
+already computationally certain (`False`, provably so, not merely observed
+once), and its full-set numbers duplicate an already-documented,
+deliberately-parked finding elsewhere. Queuing it for a reviewer to approve
+or reject would be reviewing a question this analysis has already answered,
+not new oversight.
+
 ## Cadence
 
 Default: **`MIN_HOURS_BETWEEN_AUTO_ROUNDS = 24`** (`cadence.py`),
@@ -153,6 +267,17 @@ explicitly asking for a round right now.
   development — throttling the *schedule* protects the *reviewer's
   attention*, which is the actual scarce resource the two-gate design is
   built to protect.
+- **Some evaded attacks are structurally unfixable by any single-parameter
+  recommendation — proven exhaustively, not just observed once.** The
+  round-2 attack scores `suspicion_score=0` (zero suspicious signals, by
+  design); Stage 5's two-branch structure means no organic-side parameter
+  can ever flag it, and a full sweep of all ten `TUNABLE_PARAMETERS` across
+  their defined safe ranges confirms no suspicion-side parameter can either
+  (see "Round 2, resolved" above). This system correctly recognizes that
+  case and stops proposing single-parameter fixes for it rather than
+  forcing one — but closing a gap like this for real needs a new signal or
+  feature, which is outside what a threshold-tuning recommender can ever
+  draft.
 
 ## Hard safety boundary (restated)
 

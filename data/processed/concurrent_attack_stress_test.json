@@ -1,0 +1,65 @@
+{
+  "master_seed": 86358735,
+  "n_rings_injected": 8,
+  "n_masking_hard_signals": 4,
+  "n_masking_soft_signals": 4,
+  "n_caught": 1,
+  "per_ring": [
+    {
+      "attack_id": "CHM00",
+      "strategy": "masks_hard_signals",
+      "caught": false,
+      "candidate_stage": "soft"
+    },
+    {
+      "attack_id": "CHM01",
+      "strategy": "masks_hard_signals",
+      "caught": false,
+      "candidate_stage": "soft"
+    },
+    {
+      "attack_id": "CHM02",
+      "strategy": "masks_hard_signals",
+      "caught": false,
+      "candidate_stage": "soft"
+    },
+    {
+      "attack_id": "CHM03",
+      "strategy": "masks_hard_signals",
+      "caught": false,
+      "candidate_stage": "soft"
+    },
+    {
+      "attack_id": "CSM00",
+      "strategy": "masks_soft_signals",
+      "caught": true,
+      "candidate_stage": "hard"
+    },
+    {
+      "attack_id": "CSM01",
+      "strategy": "masks_soft_signals",
+      "caught": false,
+      "candidate_stage": "hard"
+    },
+    {
+      "attack_id": "CSM02",
+      "strategy": "masks_soft_signals",
+      "caught": false,
+      "candidate_stage": "hard"
+    },
+    {
+      "attack_id": "CSM03",
+      "strategy": "masks_soft_signals",
+      "caught": false,
+      "candidate_stage": "hard"
+    }
+  ],
+  "n_confounders": 40,
+  "confounders_flagged_baseline": [
+    "CONF_HOUSEHOLD_03"
+  ],
+  "confounders_flagged_with_attacks": [
+    "CONF_HOUSEHOLD_03"
+  ],
+  "new_interference_confounders": []
+}
