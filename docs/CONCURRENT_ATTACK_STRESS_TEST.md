@@ -66,13 +66,19 @@ Run: `python -m backend.concurrent_attack_stress_test`
 
 ## Interference check — the actual point of this test
 
+*(Re-run against the re-frozen `SEED=51238923` dataset — see
+`ARCHITECTURE.md`'s Known Limitations for why. The baseline confounder count
+below moved from 1 to 2 as a direct, honest consequence: real household
+device-sharing statistics now put a second household confounder over the
+device-branch clear threshold, unrelated to anything this test itself
+does.)*
+
 A naive check ("is any confounder flagged in this run?") would have found
-1 of 40 confounders flagged (`CONF_HOUSEHOLD_03`) and risked reporting it
-as evidence of interference. It isn't — verified directly with a proper
-control, not assumed: `CONF_HOUSEHOLD_03` is this dataset's one
-**pre-existing, already-known** false positive (the "tight" household
-variant documented in `ARCHITECTURE.md`'s Known Limitations — compressed
-signup window, fails the spread-out check). It is flagged in a **zero
+2 of 40 confounders flagged (`CONF_HOUSEHOLD_02`, `CONF_HOUSEHOLD_03`) and
+risked reporting it as evidence of interference. It isn't — verified
+directly with a proper control, not assumed: both are this dataset's
+**pre-existing, already-known** false positives (documented in
+`ARCHITECTURE.md`'s Known Limitations). They are flagged in a **zero
 -rings-injected baseline pass** run against the identical unmodified data,
 before any of the 8 attacks are added. Any interference check that skips
 this control would misattribute an unrelated, already-documented miss to
@@ -80,8 +86,8 @@ this test's own finding.
 
 | | Confounders flagged |
 |---|---|
-| Baseline (0 rings injected) | `CONF_HOUSEHOLD_03` (1) |
-| With 8 concurrent attacks injected | `CONF_HOUSEHOLD_03` (1) |
+| Baseline (0 rings injected) | `CONF_HOUSEHOLD_02`, `CONF_HOUSEHOLD_03` (2) |
+| With 8 concurrent attacks injected | `CONF_HOUSEHOLD_02`, `CONF_HOUSEHOLD_03` (2) |
 | **New interference** (flagged with attacks, not in baseline) | **none** |
 
 **Result: zero new interference found in this run.** Every confounder

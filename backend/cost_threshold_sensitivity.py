@@ -198,28 +198,48 @@ def run(verbose=True):
         _print_sweep_table(soft_sweep, THRESHOLDS, SOFT_FLAG_SUSPICION_THRESHOLD)
         print("\nTotal cost by FP-cost scenario:")
         _print_cost_table(soft_cost, THRESHOLDS, SOFT_FLAG_SUSPICION_THRESHOLD)
-        print(
-            "\nReal finding: confounder FPs stay flat at 1 across every threshold value on this branch. "
-            "The one real false positive in the frozen dataset (a 'tight' household) has shared_device=True, "
-            "so it never reaches this branch's decision at all -- this specific sweep has no effect on it "
-            "either way. Cost-optimal threshold is therefore always 1 in every FP-cost scenario, but not "
-            "because aggressive flagging is free in general -- only because this particular dataset's sole "
-            "known false positive happens to sit on a different branch. Reported exactly as found, not "
-            "stretched into a general claim this data can't support."
-        )
+        soft_fp_values = {soft_sweep[T]["confounders_fp"] for T in THRESHOLDS}
+        soft_optimal_Ts = sorted({c["optimal_threshold"] for c in soft_cost.values()})
+        if len(soft_fp_values) == 1:
+            fp_n = next(iter(soft_fp_values))
+            print(
+                f"\nReal finding: confounder FPs stay flat at {fp_n} across every threshold value on this "
+                f"branch -- every current false positive sits on the shared-device branch instead (mutually "
+                f"exclusive with this one in evaluate_cluster()), so this sweep has no effect on it either way. "
+                f"Cost-optimal threshold is therefore {'always ' + str(soft_optimal_Ts[0]) if len(soft_optimal_Ts) == 1 else 'threshold ' + '/'.join(map(str, soft_optimal_Ts))} "
+                f"in every FP-cost scenario, but not because aggressive flagging is free in general -- only "
+                f"because this particular dataset's known false positives happen to sit on a different branch. "
+                f"Reported exactly as found, not stretched into a general claim this data can't support."
+            )
+        else:
+            soft_fp_by_T = ", ".join(f"{T}->{soft_sweep[T]['confounders_fp']}" for T in THRESHOLDS)
+            print(f"\nReal finding: confounder FPs move with this threshold on this run ({soft_fp_by_T}) -- "
+                  f"unlike a prior run of this same script, at least one current false positive does sit on "
+                  f"this branch. Reported as measured, not assumed flat.")
 
         print("\n--- Sweep 2: shared-device organic-clear threshold (DEVICE_CLEAR_ORGANIC_THRESHOLD, current=3) ---")
         _print_sweep_table(device_sweep, THRESHOLDS, DEVICE_CLEAR_ORGANIC_THRESHOLD)
         print("\nTotal cost by FP-cost scenario:")
         _print_cost_table(device_cost, THRESHOLDS, DEVICE_CLEAR_ORGANIC_THRESHOLD)
-        print(
-            "\nReal finding: recall is completely flat (73/80 rings) across all four threshold values tested -- "
-            "no real ring in this dataset has a high enough organic_score for this threshold to ever cost "
-            "recall in either direction. Only the confounder FP count moves: 0 at threshold=1 or 2, 1 at the "
-            "current production threshold=3, 6 (15%) at threshold=4. That makes threshold=2 a strict "
-            "improvement over the current default on every metric measured here -- same recall, fewer false "
-            "positives -- true regardless of any FP-cost assumption, not just in the high-churn scenario."
-        )
+        device_recalls = {device_sweep[T]["rings_detected"] for T in THRESHOLDS}
+        n_rings_total = len(rings)
+        fp_by_T = ", ".join(f"{T}={device_sweep[T]['confounders_fp']}" for T in THRESHOLDS)
+        if len(device_recalls) == 1:
+            rc = next(iter(device_recalls))
+            print(
+                f"\nReal finding: recall is completely flat ({rc}/{n_rings_total} rings) across all four "
+                f"threshold values tested -- no real ring in this dataset has a high enough organic_score for "
+                f"this threshold to ever cost recall in either direction. Only the confounder FP count moves: "
+                f"{fp_by_T}. Sweeping threshold=2 against the current default (3) is therefore a strict "
+                f"improvement on every metric measured here whenever it has fewer FPs at equal recall -- true "
+                f"regardless of any FP-cost assumption, not just in the high-churn scenario."
+            )
+        else:
+            device_recall_by_T = ", ".join(f"{T}->{device_sweep[T]['rings_detected']}/{n_rings_total}" for T in THRESHOLDS)
+            print(f"\nReal finding: recall varies with this threshold on this run ({device_recall_by_T}) -- "
+                  f"unlike a prior run of this same script, at least one real ring's organic_score is now "
+                  f"sensitive to this threshold. Confounder FPs by threshold: {fp_by_T}. Reported as measured, "
+                  f"not assumed flat.")
         print(
             "\nThis finding is NOT applied to production here. It was found by evaluating against the full "
             "80-ring/40-confounder set, including the holdout split this project has deliberately never "

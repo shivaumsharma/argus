@@ -36,7 +36,11 @@ import pandas as pd
 # every debugging iteration), so a held-out claim on that data is weaker than it
 # looks even without explicit retuning. This one has not been looked at before
 # Stage 5's thresholds and Stage 3's Louvain resolution were already frozen.
-SEED = 20260828
+SEED = 51238923  # re-frozen: USE_GROUNDED_DEVICE_SHARING flipped True below, a generator-logic
+                  # change, so per this project's eval integrity protocol this is a fresh seed
+                  # (registered in data/adversarial_recommender/used_seeds.json), not a patch on
+                  # top of the prior SEED=20260828 freeze. Original frozen dataset recoverable at
+                  # that seed / commit 4e36d8f if ever needed.
 random.seed(SEED)
 np.random.seed(SEED)
 
@@ -80,7 +84,8 @@ EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com", "rediffmail.com", "hot
 # confined to planted confounder archetypes). Raising these makes the
 # detection problem *more* honest, not easier, per the same logic already
 # applied to backend/cod_collusion/'s COD refusal rate.
-USE_GROUNDED_DEVICE_SHARING = False
+USE_GROUNDED_DEVICE_SHARING = True  # flipped on for the SEED=51238923 re-freeze -- household/hostel
+                                     # device-sharing now uses the grounded probabilities below
 GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB = 0.55   # NSO CAMS "majority" finding; modest rise from the current 0.5
 GROUNDED_HOSTEL_DEVICE_SHARE_PROB = 0.15      # roughly the 18% IAMAI-KANTAR national average
 # GROUNDED_BACKGROUND_DEVICE_SHARE_PROB is declared but deliberately NOT wired into

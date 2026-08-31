@@ -3,12 +3,12 @@
     "type": "household",
     "difficulty": "tight",
     "members": [
-      "U000758",
-      "U000759",
-      "U000760",
-      "U000761",
-      "U000762",
-      "U000763"
+      "U000738",
+      "U000739",
+      "U000740",
+      "U000741",
+      "U000742",
+      "U000743"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values. Deliberately borderline (compressed signup window)."
   },
@@ -16,10 +16,12 @@
     "type": "household",
     "difficulty": "tight",
     "members": [
-      "U000764",
-      "U000765",
-      "U000766",
-      "U000767"
+      "U000744",
+      "U000745",
+      "U000746",
+      "U000747",
+      "U000748",
+      "U000749"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values. Deliberately borderline (compressed signup window)."
   },
@@ -27,12 +29,10 @@
     "type": "household",
     "difficulty": "tight",
     "members": [
-      "U000768",
-      "U000769",
-      "U000770",
-      "U000771",
-      "U000772",
-      "U000773"
+      "U000750",
+      "U000751",
+      "U000752",
+      "U000753"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values. Deliberately borderline (compressed signup window)."
   },
@@ -40,12 +40,12 @@
     "type": "household",
     "difficulty": "easy",
     "members": [
-      "U000774",
-      "U000775",
-      "U000776",
-      "U000777",
-      "U000778",
-      "U000779"
+      "U000754",
+      "U000755",
+      "U000756",
+      "U000757",
+      "U000758",
+      "U000759"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
@@ -53,6 +53,54 @@
     "type": "household",
     "difficulty": "easy",
     "members": [
+      "U000760",
+      "U000761",
+      "U000762",
+      "U000763",
+      "U000764"
+    ],
+    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
+  },
+  "CONF_HOUSEHOLD_06": {
+    "type": "household",
+    "difficulty": "easy",
+    "members": [
+      "U000765",
+      "U000766",
+      "U000767",
+      "U000768"
+    ],
+    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
+  },
+  "CONF_HOUSEHOLD_07": {
+    "type": "household",
+    "difficulty": "easy",
+    "members": [
+      "U000769",
+      "U000770",
+      "U000771",
+      "U000772"
+    ],
+    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
+  },
+  "CONF_HOUSEHOLD_08": {
+    "type": "household",
+    "difficulty": "easy",
+    "members": [
+      "U000773",
+      "U000774",
+      "U000775",
+      "U000776",
+      "U000777",
+      "U000778"
+    ],
+    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
+  },
+  "CONF_HOUSEHOLD_09": {
+    "type": "household",
+    "difficulty": "easy",
+    "members": [
+      "U000779",
       "U000780",
       "U000781",
       "U000782",
@@ -61,30 +109,30 @@
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
-  "CONF_HOUSEHOLD_06": {
+  "CONF_HOUSEHOLD_10": {
     "type": "household",
     "difficulty": "easy",
     "members": [
       "U000785",
       "U000786",
       "U000787",
-      "U000788",
-      "U000789",
-      "U000790"
+      "U000788"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
-  "CONF_HOUSEHOLD_07": {
+  "CONF_HOUSEHOLD_11": {
     "type": "household",
     "difficulty": "easy",
     "members": [
+      "U000789",
+      "U000790",
       "U000791",
       "U000792",
       "U000793"
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
-  "CONF_HOUSEHOLD_08": {
+  "CONF_HOUSEHOLD_12": {
     "type": "household",
     "difficulty": "easy",
     "members": [
@@ -97,7 +145,7 @@
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
-  "CONF_HOUSEHOLD_09": {
+  "CONF_HOUSEHOLD_13": {
     "type": "household",
     "difficulty": "easy",
     "members": [
@@ -108,59 +156,38 @@
     ],
     "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
   },
-  "CONF_HOUSEHOLD_10": {
-    "type": "household",
+  "CONF_HOSTEL_01": {
+    "type": "hostel",
     "difficulty": "easy",
     "members": [
       "U000804",
       "U000805",
       "U000806",
-      "U000807"
-    ],
-    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
-  },
-  "CONF_HOUSEHOLD_11": {
-    "type": "household",
-    "difficulty": "easy",
-    "members": [
+      "U000807",
       "U000808",
       "U000809",
       "U000810",
       "U000811",
       "U000812",
-      "U000813"
-    ],
-    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
-  },
-  "CONF_HOUSEHOLD_12": {
-    "type": "household",
-    "difficulty": "easy",
-    "members": [
+      "U000813",
       "U000814",
       "U000815",
       "U000816",
-      "U000817"
-    ],
-    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
-  },
-  "CONF_HOUSEHOLD_13": {
-    "type": "household",
-    "difficulty": "easy",
-    "members": [
+      "U000817",
       "U000818",
       "U000819",
       "U000820",
       "U000821",
       "U000822",
-      "U000823"
+      "U000823",
+      "U000824"
     ],
-    "description": "Shared device or IP (family), organic spread-out activity over months, diverse order values."
+    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_01": {
+  "CONF_HOSTEL_02": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
-      "U000824",
       "U000825",
       "U000826",
       "U000827",
@@ -177,17 +204,17 @@
       "U000838",
       "U000839",
       "U000840",
-      "U000841",
-      "U000842",
-      "U000843",
-      "U000844"
+      "U000841"
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_02": {
+  "CONF_HOSTEL_03": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
+      "U000842",
+      "U000843",
+      "U000844",
       "U000845",
       "U000846",
       "U000847",
@@ -206,16 +233,16 @@
       "U000860",
       "U000861",
       "U000862",
-      "U000863"
+      "U000863",
+      "U000864",
+      "U000865"
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_03": {
+  "CONF_HOSTEL_04": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
-      "U000864",
-      "U000865",
       "U000866",
       "U000867",
       "U000868",
@@ -232,18 +259,18 @@
       "U000879",
       "U000880",
       "U000881",
-      "U000882"
-    ],
-    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
-  },
-  "CONF_HOSTEL_04": {
-    "type": "hostel",
-    "difficulty": "easy",
-    "members": [
+      "U000882",
       "U000883",
       "U000884",
       "U000885",
-      "U000886",
+      "U000886"
+    ],
+    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
+  },
+  "CONF_HOSTEL_05": {
+    "type": "hostel",
+    "difficulty": "easy",
+    "members": [
       "U000887",
       "U000888",
       "U000889",
@@ -259,7 +286,7 @@
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_05": {
+  "CONF_HOSTEL_06": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
@@ -285,7 +312,7 @@
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_06": {
+  "CONF_HOSTEL_07": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
@@ -303,17 +330,17 @@
       "U000929",
       "U000930",
       "U000931",
-      "U000932",
-      "U000933",
-      "U000934",
-      "U000935"
+      "U000932"
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_07": {
+  "CONF_HOSTEL_08": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
+      "U000933",
+      "U000934",
+      "U000935",
       "U000936",
       "U000937",
       "U000938",
@@ -329,7 +356,7 @@
     ],
     "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
   },
-  "CONF_HOSTEL_08": {
+  "CONF_HOSTEL_09": {
     "type": "hostel",
     "difficulty": "easy",
     "members": [
@@ -349,19 +376,19 @@
       "U000961",
       "U000962",
       "U000963",
-      "U000964",
+      "U000964"
+    ],
+    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
+  },
+  "CONF_HOSTEL_10": {
+    "type": "hostel",
+    "difficulty": "easy",
+    "members": [
       "U000965",
       "U000966",
       "U000967",
       "U000968",
-      "U000969"
-    ],
-    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
-  },
-  "CONF_HOSTEL_09": {
-    "type": "hostel",
-    "difficulty": "easy",
-    "members": [
+      "U000969",
       "U000970",
       "U000971",
       "U000972",
@@ -373,20 +400,20 @@
       "U000978",
       "U000979",
       "U000980",
-      "U000981"
-    ],
-    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
-  },
-  "CONF_HOSTEL_10": {
-    "type": "hostel",
-    "difficulty": "easy",
-    "members": [
+      "U000981",
       "U000982",
       "U000983",
       "U000984",
       "U000985",
       "U000986",
-      "U000987",
+      "U000987"
+    ],
+    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
+  },
+  "CONF_INFLUENCER_01": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U000988",
       "U000989",
       "U000990",
@@ -396,14 +423,7 @@
       "U000994",
       "U000995",
       "U000996",
-      "U000997"
-    ],
-    "description": "Shared IP subnet (campus/hostel wifi), organic spread-out activity, no referral-timing pattern."
-  },
-  "CONF_INFLUENCER_01": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U000997",
       "U000998",
       "U000999",
       "U001000",
@@ -420,7 +440,14 @@
       "U001011",
       "U001012",
       "U001013",
-      "U001014",
+      "U001014"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_INFLUENCER_02": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U001015",
       "U001016",
       "U001017",
@@ -434,14 +461,7 @@
       "U001025",
       "U001026",
       "U001027",
-      "U001028"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_INFLUENCER_02": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U001028",
       "U001029",
       "U001030",
       "U001031",
@@ -469,7 +489,14 @@
       "U001053",
       "U001054",
       "U001055",
-      "U001056",
+      "U001056"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_INFLUENCER_03": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U001057",
       "U001058",
       "U001059",
@@ -482,14 +509,7 @@
       "U001066",
       "U001067",
       "U001068",
-      "U001069"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_INFLUENCER_03": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U001069",
       "U001070",
       "U001071",
       "U001072",
@@ -517,7 +537,14 @@
       "U001094",
       "U001095",
       "U001096",
-      "U001097",
+      "U001097"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_INFLUENCER_04": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U001098",
       "U001099",
       "U001100",
@@ -529,14 +556,7 @@
       "U001106",
       "U001107",
       "U001108",
-      "U001109"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_INFLUENCER_04": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U001109",
       "U001110",
       "U001111",
       "U001112",
@@ -552,7 +572,14 @@
       "U001122",
       "U001123",
       "U001124",
-      "U001125",
+      "U001125"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_INFLUENCER_05": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U001126",
       "U001127",
       "U001128",
@@ -568,14 +595,7 @@
       "U001138",
       "U001139",
       "U001140",
-      "U001141"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_INFLUENCER_05": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U001141",
       "U001142",
       "U001143",
       "U001144",
@@ -603,7 +623,14 @@
       "U001166",
       "U001167",
       "U001168",
-      "U001169",
+      "U001169"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_INFLUENCER_06": {
+    "type": "influencer",
+    "difficulty": "easy",
+    "members": [
       "U001170",
       "U001171",
       "U001172",
@@ -612,14 +639,7 @@
       "U001175",
       "U001176",
       "U001177",
-      "U001178"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_INFLUENCER_06": {
-    "type": "influencer",
-    "difficulty": "easy",
-    "members": [
+      "U001178",
       "U001179",
       "U001180",
       "U001181",
@@ -653,11 +673,7 @@
       "U001209",
       "U001210",
       "U001211",
-      "U001212",
-      "U001213",
-      "U001214",
-      "U001215",
-      "U001216"
+      "U001212"
     ],
     "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
   },
@@ -665,6 +681,10 @@
     "type": "influencer",
     "difficulty": "easy",
     "members": [
+      "U001213",
+      "U001214",
+      "U001215",
+      "U001216",
       "U001217",
       "U001218",
       "U001219",
@@ -700,7 +720,14 @@
       "U001249",
       "U001250",
       "U001251",
-      "U001252",
+      "U001252"
+    ],
+    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
+  },
+  "CONF_OFFICE_01": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001253",
       "U001254",
       "U001255",
@@ -711,19 +738,19 @@
       "U001260",
       "U001261",
       "U001262",
-      "U001263"
-    ],
-    "description": "One hub referrer with large organic fan-out spread over months; genuine varied post-signup engagement."
-  },
-  "CONF_OFFICE_01": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001263",
       "U001264",
       "U001265",
       "U001266",
       "U001267",
-      "U001268",
+      "U001268"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_02": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001269",
       "U001270",
       "U001271",
@@ -745,20 +772,20 @@
       "U001287",
       "U001288",
       "U001289",
-      "U001290",
+      "U001290"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_03": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001291",
       "U001292",
       "U001293",
       "U001294",
       "U001295",
-      "U001296"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_02": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001296",
       "U001297",
       "U001298",
       "U001299",
@@ -781,19 +808,19 @@
       "U001316",
       "U001317",
       "U001318",
-      "U001319"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_03": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001319",
       "U001320",
       "U001321",
       "U001322",
       "U001323",
-      "U001324",
+      "U001324"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_04": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001325",
       "U001326",
       "U001327",
@@ -811,14 +838,7 @@
       "U001339",
       "U001340",
       "U001341",
-      "U001342"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_04": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001342",
       "U001343",
       "U001344",
       "U001345",
@@ -828,7 +848,14 @@
       "U001349",
       "U001350",
       "U001351",
-      "U001352",
+      "U001352"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_05": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001353",
       "U001354",
       "U001355",
@@ -850,18 +877,18 @@
       "U001371",
       "U001372",
       "U001373",
-      "U001374"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_05": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001374",
       "U001375",
       "U001376",
       "U001377",
-      "U001378",
+      "U001378"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_06": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001379",
       "U001380",
       "U001381",
@@ -876,17 +903,17 @@
       "U001390",
       "U001391",
       "U001392",
-      "U001393",
-      "U001394",
-      "U001395",
-      "U001396"
+      "U001393"
     ],
     "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
   },
-  "CONF_OFFICE_06": {
+  "CONF_OFFICE_07": {
     "type": "office",
     "difficulty": "easy",
     "members": [
+      "U001394",
+      "U001395",
+      "U001396",
       "U001397",
       "U001398",
       "U001399",
@@ -902,17 +929,17 @@
       "U001409",
       "U001410",
       "U001411",
-      "U001412"
+      "U001412",
+      "U001413",
+      "U001414",
+      "U001415"
     ],
     "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
   },
-  "CONF_OFFICE_07": {
+  "CONF_OFFICE_08": {
     "type": "office",
     "difficulty": "easy",
     "members": [
-      "U001413",
-      "U001414",
-      "U001415",
       "U001416",
       "U001417",
       "U001418",
@@ -935,21 +962,21 @@
       "U001435",
       "U001436",
       "U001437",
-      "U001438"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_08": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001438",
       "U001439",
       "U001440",
       "U001441",
       "U001442",
       "U001443",
       "U001444",
-      "U001445",
+      "U001445"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_09": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001446",
       "U001447",
       "U001448",
@@ -962,18 +989,18 @@
       "U001455",
       "U001456",
       "U001457",
-      "U001458"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_09": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
+      "U001458",
       "U001459",
       "U001460",
       "U001461",
-      "U001462",
+      "U001462"
+    ],
+    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
+  },
+  "CONF_OFFICE_10": {
+    "type": "office",
+    "difficulty": "easy",
+    "members": [
       "U001463",
       "U001464",
       "U001465",
@@ -994,37 +1021,7 @@
       "U001480",
       "U001481",
       "U001482",
-      "U001483",
-      "U001484",
-      "U001485",
-      "U001486",
-      "U001487",
-      "U001488"
-    ],
-    "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
-  },
-  "CONF_OFFICE_10": {
-    "type": "office",
-    "difficulty": "easy",
-    "members": [
-      "U001489",
-      "U001490",
-      "U001491",
-      "U001492",
-      "U001493",
-      "U001494",
-      "U001495",
-      "U001496",
-      "U001497",
-      "U001498",
-      "U001499",
-      "U001500",
-      "U001501",
-      "U001502",
-      "U001503",
-      "U001504",
-      "U001505",
-      "U001506"
+      "U001483"
     ],
     "description": "Shared IP subnet only (office wifi); zero other shared attributes; unrelated independent purchase behavior."
   }
