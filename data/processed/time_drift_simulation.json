@@ -1,0 +1,86 @@
+{
+  "seed": 55019284,
+  "n_periods": 4,
+  "rings_per_population_per_period": 8,
+  "periods": [
+    {
+      "period": 1,
+      "sophistication_no_shared_device": 0.0,
+      "knobs_shared_device": {
+        "spread_out_days": 3,
+        "diverse_order_cv": 0.05,
+        "engaged_sessions": 0.2
+      },
+      "n_rings_no_shared_device": 8,
+      "n_caught_no_shared_device": 8,
+      "recall_no_shared_device": 1.0,
+      "n_rings_shared_device": 8,
+      "n_caught_shared_device": 8,
+      "recall_shared_device": 1.0,
+      "n_confounders": 40,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
+      "new_interference_confounders": []
+    },
+    {
+      "period": 2,
+      "sophistication_no_shared_device": 0.333,
+      "knobs_shared_device": {
+        "spread_out_days": 9.0,
+        "diverse_order_cv": 0.12666666666666668,
+        "engaged_sessions": 0.6333333333333333
+      },
+      "n_rings_no_shared_device": 8,
+      "n_caught_no_shared_device": 0,
+      "recall_no_shared_device": 0.0,
+      "n_rings_shared_device": 8,
+      "n_caught_shared_device": 8,
+      "recall_shared_device": 1.0,
+      "n_confounders": 40,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
+      "new_interference_confounders": []
+    },
+    {
+      "period": 3,
+      "sophistication_no_shared_device": 0.333,
+      "knobs_shared_device": {
+        "spread_out_days": 15.0,
+        "diverse_order_cv": 0.20333333333333337,
+        "engaged_sessions": 1.0666666666666667
+      },
+      "n_rings_no_shared_device": 8,
+      "n_caught_no_shared_device": 0,
+      "recall_no_shared_device": 0.0,
+      "n_rings_shared_device": 8,
+      "n_caught_shared_device": 8,
+      "recall_shared_device": 1.0,
+      "n_confounders": 40,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
+      "new_interference_confounders": []
+    },
+    {
+      "period": 4,
+      "sophistication_no_shared_device": 0.333,
+      "knobs_shared_device": {
+        "spread_out_days": 21.0,
+        "diverse_order_cv": 0.28,
+        "engaged_sessions": 1.5
+      },
+      "n_rings_no_shared_device": 8,
+      "n_caught_no_shared_device": 0,
+      "recall_no_shared_device": 0.0,
+      "n_rings_shared_device": 8,
+      "n_caught_shared_device": 2,
+      "recall_shared_device": 0.25,
+      "n_confounders": 40,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
+      "new_interference_confounders": []
+    }
+  ],
+  "trend_no_shared_device": "decaying",
+  "trend_shared_device": "decaying",
+  "trend_confounder_fp_rate": "flat"
+}

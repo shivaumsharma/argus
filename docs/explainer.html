@@ -351,20 +351,20 @@
       <div class="exhibit-no">EXHIBIT 02</div>
       <div>
         <h2>The verdict, held-out and unblended</h2>
-        <p class="section-sub">Measured on a split of the planted ground truth never used to pick any threshold. 7,500 synthetic accounts — 40 hard-signal rings, 40 soft-signal rings, 40 legitimate lookalike clusters, and 5,964 ordinary background accounts as noise.</p>
+        <p class="section-sub">Measured on a split of the planted ground truth never used to pick any threshold. 7,500 synthetic accounts — 40 hard-signal rings, 40 soft-signal rings, 40 legitimate lookalike clusters, and 5,994 ordinary background accounts as noise.</p>
       </div>
     </div>
 
     <div class="kpi-grid">
       <div class="kpi"><div class="num tabular">100%</div><div class="lbl">hard-signal ring recall — 40 of 40</div></div>
-      <div class="kpi"><div class="num tabular">77.5%</div><div class="lbl">soft-signal ring recall — 31 of 40</div></div>
-      <div class="kpi"><div class="num tabular">5.0%</div><div class="lbl">confounder false-positive rate — 2 of 40</div></div>
-      <div class="kpi"><div class="num tabular">97.3%</div><div class="lbl">cluster-level precision</div></div>
+      <div class="kpi"><div class="num tabular">82.5%</div><div class="lbl">soft-signal ring recall — 33 of 40</div></div>
+      <div class="kpi"><div class="num tabular">2.5%</div><div class="lbl">confounder false-positive rate — 1 of 40</div></div>
+      <div class="kpi"><div class="num tabular">98.6%</div><div class="lbl">cluster-level precision</div></div>
     </div>
 
     <div class="honesty-box">
       <h4>The honest part</h4>
-      <p>Soft-signal recall is lower on purpose — it's the case with no shared device or instrument, only IP overlap and referral timing, and it's the real test of the approach. It is not a scattered failure rate hiding behind an average: every single one of the 9 missed rings is the dataset's deliberately "hard mode" variant (slower claims, noisier order values), and both wrongly-flagged confounders are the deliberately "tight" household variant (a compressed, borderline-organic signup window). Zero misses on the easy case of either category.</p>
+      <p>Soft-signal recall is lower on purpose — it's the case with no shared device or instrument, only IP overlap and referral timing, and it's the real test of the approach. It is not a scattered failure rate hiding behind an average: every single one of the 7 missed rings is the dataset's deliberately "hard mode" variant (slower claims, noisier order values), and the single wrongly-flagged confounder is the deliberately "tight" household variant (a compressed, borderline-organic signup window). Zero misses on the easy case of either category.</p>
     </div>
 
     <div class="table-scroll">
@@ -373,9 +373,9 @@
         <tbody>
           <tr><td>Hard-signal rings</td><td>—</td><td class="num tabular">40</td><td class="num tabular">40 detected, 0 missed</td></tr>
           <tr><td>Soft-signal rings</td><td>easy</td><td class="num tabular">24</td><td class="num tabular">24 detected, 0 missed</td></tr>
-          <tr><td>Soft-signal rings</td><td>hard mode</td><td class="num tabular">16</td><td class="num tabular">7 detected, 9 missed</td></tr>
+          <tr><td>Soft-signal rings</td><td>hard mode</td><td class="num tabular">16</td><td class="num tabular">9 detected, 7 missed</td></tr>
           <tr><td>Confounders</td><td>easy</td><td class="num tabular">37</td><td class="num tabular">37 spared, 0 wrongly flagged</td></tr>
-          <tr><td>Confounders</td><td>tight</td><td class="num tabular">3</td><td class="num tabular">1 spared, 2 wrongly flagged</td></tr>
+          <tr><td>Confounders</td><td>tight</td><td class="num tabular">3</td><td class="num tabular">2 spared, 1 wrongly flagged</td></tr>
         </tbody>
       </table>
     </div>

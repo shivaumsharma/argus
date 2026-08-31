@@ -1,6 +1,6 @@
 # Compliance summary — RBI FREE-AI alignment
 
-*Auto-generated from the live audit_log and clusters store — 2026-08-30 10:08 UTC. Every number below is computed from this run, not asserted. Also rendered live in the dashboard's **Compliance** tab, from this exact same computed data.*
+*Auto-generated from the live audit_log and clusters store — 2026-08-31 05:23 UTC. Every number below is computed from this run, not asserted. Also rendered live in the dashboard's **Compliance** tab, from this exact same computed data.*
 
 The RBI's FREE-AI framework (August 2025) sets explicit expectations that AI used in fraud detection be **F**air, **R**eliable, **E**xplainable, and **E**thical — responsible, auditable, "safety by design, not safety as an afterthought," in a former RBI Deputy Governor's words. This report is the concrete evidence for each of those, drawn from the system's own audit trail rather than claimed in prose.
 

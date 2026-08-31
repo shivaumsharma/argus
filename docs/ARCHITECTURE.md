@@ -110,6 +110,78 @@ so the detection mechanism stayed genuinely blind throughout, but
 including that story and a real stopping-rule bug found and fixed while
 building it, in [`FRAUDAR_CROSSCHECK.md`](FRAUDAR_CROSSCHECK.md).
 
+## Time-drift simulation
+
+Every other eval is a single point in time. `backend/time_drift_simulation.py`
+runs 4 sequential periods, injecting an evolving pair of ring populations
+(shared-device and no-shared-device) alongside the real frozen background,
+with Stage 1-5 held completely unmodified in every period -- no retraining,
+no threshold change applied mid-run, isolating "does static logic decay
+against an adapting adversary" from "did detection improve." Each
+population's knobs only escalate toward the already-proven evasive
+archetype if it was still being caught the period before (outcome
+-conditioned, not a pre-baked ramp). The first construction of this test
+had a real bug -- reusing `attack_generator.generate_variant()` for the
+"naive" baseline population, which structurally can never be caught
+(hardcoded organic-range claim timing regardless of input), giving 0%
+recall in period 1 with nowhere to decay from -- diagnosed and fixed with a
+new generator (`build_naive_to_evasive_ring()`) whose suspicion-relevant
+parameters are all driven by one continuous sophistication scalar. Real
+result after the fix: no-shared-device recall collapses 100%->0% in one
+step (period 1 to 2) -- a real hard-threshold cliff in `is_burst`'s binary
+condition, not a smoothed slope; shared-device recall holds at 100% through
+period 3 before dropping to 25% at period 4, once its knobs reach the exact
+real production thresholds. Confounder false positives stayed flat at 2.5%
+throughout -- no new interference from either evolving population. Full
+methodology and the honest per-period table in
+[`TIME_DRIFT_SIMULATION.md`](TIME_DRIFT_SIMULATION.md).
+
+## Infrastructure failure resilience test
+
+Not a detection-accuracy check -- does the *system* hold up under realistic
+mid-run failures. `backend/infra_resilience_test.py` runs two scenarios for
+real against the production code. (a) LLM call resilience during Stage 8:
+white-box tests the real `ProviderRunner.investigate()` retry/degrade/
+fallback loop with stubbed providers (no network calls) against a
+rate-limit, a generic timeout, and total provider failure -- all four
+checks passed with no code change needed; the existing design already
+handled this correctly. (b) Malformed records spliced into the *middle* of
+a batch (wrong type, missing field, out-of-range value) -- this found two
+real bugs in `backend/pipeline/data_io.py`: one malformed value anywhere in
+16,000+ rows crashed the entire `load_data()` call (a hard `.astype(float)`/
+`pd.to_datetime()` cast with no error handling), and a missing/negative
+order value or missing `user_id` passed through *silently*, with no crash
+and no log line. Both fixed (`errors="coerce"` plus a validate-drop-and-log
+helper, `DataBundle.data_quality_report`) and re-verified, not just
+documented: the same 5 injected corruptions are now dropped and logged with
+zero crash, and -- the regression check that actually matters -- run
+against the real frozen dataset, the fix drops **zero** rows and reproduces
+identical headline numbers to before the fix. Full writeup in
+[`INFRASTRUCTURE_RESILIENCE_TEST.md`](INFRASTRUCTURE_RESILIENCE_TEST.md).
+
+## Concurrent multi-ring attack stress test
+
+A different axis from every adversarial test above: not "is one evasive
+ring caught" but "does detection interfere with itself when several
+sophisticated, evasive rings run at once." `backend/concurrent_attack_stress_test.py`
+injects 8 rings simultaneously -- 4 reusing `attack_generator.generate_variant()`
+completely unchanged (masking hard signals: no shared device/instrument),
+4 using a new shared-device archetype that dials signup spread, order-value
+diversity, and engagement to try to clear all three organic checks on the
+device branch at once (masking soft signals) -- into one disposable copy of
+the dataset, run once through the unmodified pipeline. Raw result: 1/8
+caught (0/4 masking hard signals, 1/4 masking soft signals -- the new
+archetype's own recall against itself, not a guaranteed bypass). The
+interference check required a genuine zero-attack baseline control: a naive
+check would have misattributed the dataset's one pre-existing known false
+positive (the "tight" household confounder, already flagged with nothing
+injected) to interference. With that control, **zero new confounder false
+positives** resulted from adding 8 concurrent attacks -- Stage 2's connected
+components and Stage 3's Louvain partition both held steady under
+concurrent, mixed adversarial load in this run. Full methodology and honest
+scope (one run, one concurrency level, not a sweep) in
+[`CONCURRENT_ATTACK_STRESS_TEST.md`](CONCURRENT_ATTACK_STRESS_TEST.md).
+
 ## Continuous adversarial recommendation engine
 
 A different question from the FRAUDAR/external-validation sections above:
@@ -139,10 +211,27 @@ organic, landing it in Stage 5's conservative default-no-flag middle
 ground instead. Approved and re-validated on a fresh, never-used seed
 anyway (identical zero-delta result), and reported exactly as that: a
 real, bounded, fully-simulated recommendation that still doesn't close the
-gap it was drafted for. Full design, the SNAM citation, cadence
-justification, and both required limitations (this can only imagine
-evasions within the attack generator's own designed family, and an
-unmanaged review cadence risks becoming a rubber-stamp) in
+gap it was drafted for.
+
+Resolved, not left open: the audit trail was checked directly against
+`data/app.db` (all four lifecycle events present; the recommendation's real
+terminal status is `validated_approved`, not rejected). The root cause was
+computed, not just described -- the attack's `suspicion_score=0` by design,
+and Stage 5's organic-clear and suspicion-flag branches are structurally
+disjoint, so no organic-side fix can ever reach the flag branch. A genuinely
+different fix targeting the suspicion side (`soft_flag_suspicion_threshold`
+-> 1, its minimum) was drafted and simulated: a real, free +7-ring
+improvement on the existing frozen set (73->80/80, confounder FPs unchanged
+at 1/40, matching `COST_THRESHOLD_SENSITIVITY.md`'s already-parked Sweep 1
+finding) -- but it still does not flag the motivating attack, and an
+exhaustive sweep of all ten `TUNABLE_PARAMETERS` across their full defined
+ranges confirms no single-parameter change ever can. Reported as a closed,
+proven structural limitation, not pursued through further rounds the sweep
+already rules out. Full design, the SNAM citation, cadence justification,
+the full round-2 resolution, and all required limitations (this can only
+imagine evasions within the attack generator's own designed family, an
+unmanaged review cadence risks becoming a rubber-stamp, and some evasions
+are provably unfixable by any single-parameter recommendation) in
 [`ADVERSARIAL_RECOMMENDER.md`](ADVERSARIAL_RECOMMENDER.md).
 
 ## Known limitations (honest)
