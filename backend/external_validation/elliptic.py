@@ -87,7 +87,7 @@ def run(verbose=True):
     if verbose:
         print(f"Stage 3 (Louvain, unchanged): {len(soft_clusters)} communities")
 
-    def score(clusters, label):
+    def _rows(clusters):
         rows = []
         for members in clusters:
             labeled_members = [m for m in members if m in label_map]
@@ -96,20 +96,53 @@ def run(verbose=True):
             illicit = sum(label_map[m] for m in labeled_members)
             rows.append({"size": len(members), "n_labeled": len(labeled_members), "illicit": illicit,
                          "density": illicit / len(labeled_members)})
-        flagged = [r for r in rows if r["density"] > FLAG_THRESHOLD and r["n_labeled"] >= 3]
+        return rows
+
+    def score(clusters, label, threshold: float = FLAG_THRESHOLD, min_labeled: int = 3, rows=None, announce: bool = False):
+        """threshold/min_labeled are exposed as overrides -- default behavior (0.5, 3) is
+        unchanged from every prior run -- so sweep_thresholds() below can call this exact
+        function repeatedly instead of reimplementing the scoring rule. announce=False by
+        default so the sweep (which also scores threshold=0.5) doesn't reprint the same
+        line twice; the two direct calls below pass announce=True for the original output."""
+        rows = _rows(clusters) if rows is None else rows
+        flagged = [r for r in rows if r["density"] > threshold and r["n_labeled"] >= min_labeled]
         captured_illicit = sum(r["illicit"] for r in flagged)
         captured_total = sum(r["n_labeled"] for r in flagged)
         recall = captured_illicit / n_illicit if n_illicit else float("nan")
         precision = captured_illicit / captured_total if captured_total else float("nan")
-        if verbose:
+        if verbose and announce:
             print(f"\n{label}: {len(rows)} clusters with >=1 labeled member; "
-                  f"{len(flagged)} flagged (density > {FLAG_THRESHOLD:.0%}, >=3 labeled members)")
+                  f"{len(flagged)} flagged (density > {threshold:.0%}, >={min_labeled} labeled members)")
             print(f"  Recall: {recall:.1%} ({captured_illicit}/{n_illicit}) | "
                   f"Precision: {precision:.1%} (vs {base_rate:.1%} base rate)")
-        return {"n_clusters": len(rows), "n_flagged": len(flagged), "recall": recall, "precision": precision}
+        return {"n_clusters": len(rows), "n_flagged": len(flagged), "n_captured": captured_total,
+                "n_illicit_captured": captured_illicit, "recall": recall, "precision": precision}
 
-    hard_report = score(hard_clusters, "Stage 2 (connected components)")
-    soft_report = score(soft_clusters, "Stage 3 (Louvain)")
+    hard_rows, soft_rows = _rows(hard_clusters), _rows(soft_clusters)
+    hard_report = score(hard_clusters, "Stage 2 (connected components)", rows=hard_rows, announce=True)
+    soft_report = score(soft_clusters, "Stage 3 (Louvain)", rows=soft_rows, announce=True)
+
+    def sweep_thresholds(rows, label):
+        """Is FLAG_THRESHOLD=0.5 -- a convention borrowed unchanged from YelpChi/Amazon's own
+        scoring, never independently checked against this dataset -- capping recall on the
+        SAME already-computed clusters? Re-scores the identical rows at lower thresholds,
+        no re-clustering, using the exact scoring function above with only the threshold
+        argument changed."""
+        sweep = []
+        for t in (0.5, 0.4, 0.3, 0.2, 0.1):
+            r = score(None, label, threshold=t, rows=rows)
+            sweep.append({"threshold": t, **r})
+        if verbose:
+            print(f"\n{label} threshold sweep (same clusters, same rows, only the flag threshold moves):")
+            for r in sweep:
+                lift = r["precision"] / base_rate if base_rate else float("nan")
+                print(f"  threshold={r['threshold']:.1f}: {r['n_flagged']:3d} flagged, {r['n_captured']:5d} "
+                      f"accounts, {r['n_illicit_captured']:5d} illicit -> recall={r['recall']:.1%}, "
+                      f"precision={r['precision']:.1%} ({lift:.1f}x base rate)")
+        return sweep
+
+    hard_sweep = sweep_thresholds(hard_rows, "Stage 2 (connected components)")
+    soft_sweep = sweep_thresholds(soft_rows, "Stage 3 (Louvain)")
 
     return {
         "n_nodes": len(node_ids), "n_edges": len(edges_sub), "n_labeled": n_labeled,
@@ -117,6 +150,7 @@ def run(verbose=True):
         "largest_component": largest_cc, "largest_component_frac": round(largest_cc / len(node_ids), 4),
         "n_components": len(hard_clusters), "n_communities": len(soft_clusters),
         "hard": hard_report, "soft": soft_report,
+        "hard_threshold_sweep": hard_sweep, "soft_threshold_sweep": soft_sweep,
     }
 
 
