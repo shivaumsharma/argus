@@ -2,971 +2,1007 @@
   {
     "cluster_id": "C0001",
     "mode": "gemini",
-    "case_summary": "This cluster of 8 accounts exhibits textbook bonus-farming behavior, characterized by 100% device and payment instrument sharing, a tight 2.39-day signup burst, and immediate bonus claims followed by total dormancy. The near-identical order values with an extremely low CV of 0.0034 further confirm automated or coordinated operations. Therefore, holding pending bonuses is strongly recommended for human review.",
+    "case_summary": "This cluster of 3 fully interconnected accounts exhibits classic referral farming behavior, featuring a shared device fingerprint, a shared payment instrument, and an extremely tight signup window. Furthermore, all bonus-claiming members went completely dormant immediately after receiving their rewards and executed near-identical order values with zero long-term engagement.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id and payment instrument_hash",
-      "Signup burst spans only 2.39 days",
-      "100% claim-then-dormant fraction",
-      "Order-value coefficient of variation is 0.0034 indicating templated spending"
+      "100% of members share a single device_fingerprint_id and instrument_hash",
+      "Signup burst spans only 1.89 days across the cluster",
+      "Claim-then-dormant fraction is 100% with zero sessions after 7 days",
+      "Order-value CV of 0.0067 indicates near-identical, templated transaction amounts"
     ]
   },
   {
     "cluster_id": "C0002",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits classic coordinated referral abuse, with 100% sharing a single device fingerprint and signing up in a tight burst. Every account that claimed a bonus went completely dormant immediately afterward, and all placed near-identical templated orders. The deterministic confounder filter correctly flagged this as inorganic.",
+    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates high-risk referral abuse patterns, including a tight signup burst over 1.79 days and 100% device sharing. Furthermore, all bonus claimants immediately went dormant and placed near-identical templated orders. This strongly indicates a coordinated farming operation.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share the single most common device_fingerprint_id",
+      "100% of members share a single device_fingerprint_id",
+      "Signup burst spans only 1.79 days",
       "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
-      "Order-value CV of 0.0063 indicates near-identical templated order amounts",
-      "Signup burst spans only 2.33 days"
+      "Order-value CV of 0.0086 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0003",
     "mode": "gemini",
-    "case_summary": "This cluster of 7 accounts exhibits classic coordinated bonus-farming behavior, characterized by full device sharing, a rapid signup burst within 2.53 days, and near-identical order values with a coefficient of variation of 0.0068. Furthermore, 86% of members claimed their referral bonuses quickly and entered a 100% claim-then-dormant state without ongoing engagement.",
+    "case_summary": "This 15-account cluster exhibits classic coordinated bonus-farming characteristics, featuring 100% device sharing and a rapid signup burst spanning under 3 days. Furthermore, 80% of members quickly claimed referral bonuses within a few hours and immediately went dormant, bolstered by templated near-identical order values.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "100% of members share a single device_fingerprint_id",
-      "signup burst spans only 2.53 days",
-      "order-value CV of 0.0068 indicates near-identical order amounts",
-      "100% claim-then-dormant fraction with zero sustained engagement"
+      "Signup burst spans only 2.81 days with rapid consecutive creation",
+      "75% claim-then-dormant fraction with bonuses claimed averaging 2.85 hours after signup",
+      "Order-value coefficient of variation of 0.0251 indicates near-identical templated orders"
     ]
   },
   {
     "cluster_id": "C0004",
     "mode": "gemini",
-    "case_summary": "This cluster of 5 accounts exhibits near-certain promotional bonus farming behavior. All accounts share the exact same device and payment instrument, sign up in a tight burst, rapidly claim referral bonuses within hours, and immediately go dormant with zero post-signup engagement.",
-    "confidence": 0.98,
+    "case_summary": "This 7-account cluster exhibits classic coordinated bonus-farming behavior, featuring a 100% shared device fingerprint, a tight signup burst spanning under 3 days, and near-identical templated order values (CV of 0.0051). Furthermore, 86% of members rapidly claimed bonuses and half went dormant immediately after. The high edge density and deterministic filter confirmation strongly indicate an organized abuse ring.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share the single most common device_fingerprint_id",
-      "100% of accounts share the single most common payment instrument_hash",
-      "Signup timing is tightly clustered within a span of 1.69 days",
-      "Order-value coefficient of variation is 0.0051, indicating near-identical templated order amounts",
-      "100% claim-then-dormant fraction with zero post-signup engagement after claiming bonuses"
+      "100% of members share a single device_fingerprint_id",
+      "signup burst spans only 2.57 days",
+      "order-value CV of 0.0051 -- near-identical order amounts",
+      "86% of members claimed a bonus averaging 3.07 hours after signup"
     ]
   },
   {
     "cluster_id": "C0005",
     "mode": "gemini",
-    "case_summary": "This 8-account cluster exhibits classic coordinated referral abuse signatures, featuring 100% device sharing and a tight 2.74-day signup burst. Every single bonus-claiming account went immediately dormant after payout, and their transactions show near-identical templated order values with a low coefficient of variation of 0.0083.",
+    "case_summary": "This cluster of 3 accounts displays classic coordinated bonus abuse indicators, including a shared device fingerprint, a tight signup burst, and identical order amounts. Furthermore, all bonus-claiming accounts immediately went dormant after securing their rewards, with zero post-signup engagement beyond 7 days. The deterministic filter and high suspicion score strongly support holding bonuses pending human review.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share a single device_fingerprint_id",
-      "Signup burst spans only 2.74 days",
-      "100% claim-then-dormant fraction",
-      "Order-value CV of 0.0083 -- near-identical order amounts"
+      "3 accounts share a single device_fingerprint_id",
+      "signup burst spans only 1.76 days",
+      "order-value CV of 0.0052 indicates near-identical order amounts",
+      "100% claim-then-dormant fraction with zero long-term engagement"
     ]
   },
   {
     "cluster_id": "C0006",
     "mode": "gemini",
-    "case_summary": "This cluster of 14 accounts exhibits textbook referral farming behavior, featuring 100% sharing of both a single device fingerprint and a payment instrument. Signups occurred in a tight 2.7-day burst, with 80% of bonus claimants going immediately dormant, and near-identical order values further confirming automated orchestration.",
-    "confidence": 0.98,
+    "case_summary": "This 7-account cluster exhibits classic referral farming behavior, featuring a 100% shared payment instrument and rapid signups within a 2.1-day window. All claiming accounts went immediately dormant after bonus collection, placing near-identical orders with an order-value CV of 0.0068. The combination of shared payment details and immediate post-bonus dormancy strongly indicates coordinated abuse.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "100% of members share a single payment instrument_hash",
-      "signup burst spans only 2.72 days",
-      "80% claim-then-dormant fraction",
-      "order-value CV of 0.0122 indicating near-identical order amounts"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 2.1 days",
+      "100% claim-then-dormant fraction -- all members went silent for 3+ days after claiming",
+      "Order-value CV of 0.0068 indicates near-identical, templated order amounts"
     ]
   },
   {
     "cluster_id": "C0007",
     "mode": "gemini",
-    "case_summary": "This cluster of 4 fully interconnected accounts exhibits classic referral farming behavior, characterized by a shared payment instrument across all members and a tight signup burst spanning just 1.27 hours. All bonus-claiming members became completely dormant immediately after claiming their rewards, engaging in zero post-signup sessions with near-identical, templated order values.",
+    "case_summary": "This cluster of four accounts exhibits textbook bonus farming behavior, characterized by a shared payment instrument across all members and rapid sequential signups within a 1.67-day window. All participating accounts claimed referral bonuses shortly after creation and immediately went dormant with zero long-term engagement. Furthermore, near-identical order amounts confirm automated or scripted activity designed solely to extract sign-up incentives.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share the single most common payment instrument_hash",
-      "Signup burst spans only 1.27 days",
-      "100% claim-then-dormant fraction with zero post-signup sessions after 7 days",
-      "Order-value CV of 0.0042 indicating near-identical order amounts"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 1.67 days",
+      "100% claim-then-dormant fraction with zero post-signup engagement",
+      "Order-value CV of 0.0106 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0008",
     "mode": "gemini",
-    "case_summary": "This 4-account cluster exhibits classic coordinated referral abuse with a 100% shared device fingerprint, a tight signup burst spanning under 36 hours, and near-identical templated order values (CV of 0.0159). Furthermore, 100% of bonus-claiming accounts immediately went dormant after collecting their reward. The deterministic confounder filter correctly flagged this as inorganic.",
+    "case_summary": "This 5-account cluster exhibits textbook referral bonus farming behavior, with 100% of members sharing a single device fingerprint and payment instrument. Accounts signed up in a tight 2.5-day window, rapidly claimed bonuses, and immediately went dormant with zero long-term engagement. Templated order amounts with near-zero coefficient of variation further confirm automated or coordinated manipulation.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share a single device_fingerprint_id",
-      "Signup burst spans only 1.47 days",
-      "Order-value CV of 0.0159 indicates near-identical order amounts",
-      "100% claim-then-dormant fraction"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.54 days with rapid bonus claims averaging 3.59 hours",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "Order-value CV of 0.0055 indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0009",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts exhibits classic referral farming behavior, characterized by a fully interconnected graph, 100% sharing of a single device fingerprint and payment instrument, and an extremely tight signup window of just over two days. Furthermore, 77 percent of members quickly claimed bonuses and 90 percent went completely dormant immediately afterward, supported by nearly identical templated order amounts. These strong automated signals warrant holding pending bonuses until human review.",
+    "case_summary": "This 4-account cluster exhibits classic referral farming behavior, showing 100% overlap in shared devices and payment instruments with a rapid signup burst within a span of less than two days. Most members quickly claimed their bonuses within hours before going entirely dormant. Given the near-identical order amounts and zero organic ongoing engagement, this represents coordinated promotional bonus abuse.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share the single most common device_fingerprint_id",
-      "100% of accounts share the single most common payment instrument_hash",
-      "Signup burst spans only 2.21 days across all 13 accounts",
-      "90% claim-then-dormant fraction with near-identical templated order values (CV 0.004)"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 1.89 days",
+      "67% claim-then-dormant fraction with immediate bonus claims averaging 5.31 hours post-signup",
+      "Order-value CV of 0.0071 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0010",
     "mode": "gemini",
-    "case_summary": "This 9-account cluster exhibits classic coordinated referral abuse signatures, including 100% device fingerprint sharing, a tight 2-day signup burst, and near-identical templated order values with a coefficient of variation of 0.0045. Furthermore, all bonus-claiming accounts immediately went dormant after cashing out. The strict behavioral alignment strongly indicates an organized farming ring.",
+    "case_summary": "This 15-account cluster exhibits classic referral farming behavior, characterized by full interconnection, a shared device fingerprint, and a single shared payment instrument across all members. Rapid signups over 2.69 days are followed by immediate bonus claims and subsequent dormancy, compounded by near-identical order amounts.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "Signup burst spans only 2.09 days",
-      "Order-value coefficient of variation is 0.0045, indicating templated amounts",
-      "100% claim-then-dormant fraction with bonuses claimed an average of 3.09 hours after signup"
+      "100% of members share the same device_fingerprint_id",
+      "100% of members share the same payment instrument_hash",
+      "Signup burst spans only 2.69 days",
+      "Order-value coefficient of variation is 0.0039, indicating near-identical templated amounts"
     ]
   },
   {
     "cluster_id": "C0011",
     "mode": "gemini",
-    "case_summary": "This cluster of 15 accounts exhibits strong indicators of coordinated referral abuse, including a 100% shared device fingerprint and an extremely tight signup window of 2.52 days. Furthermore, 73% of members claimed a bonus quickly and immediately went dormant, backed by near-identical templated order values. We recommend holding the bonuses while a human reviewer inspects the cluster.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 3 accounts exhibits classic coordinated referral abuse, marked by a shared device fingerprint, a tight signup window of 2.16 days, and near-identical order amounts with a low coefficient of variation of 0.0103. Furthermore, all bonus-claiming members showed immediate claim-then-dormant behavior and zero post-signup engagement after seven days. The deterministic filter confirms this pattern does not align with organic shared-device usage.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "Signup burst spans only 2.52 days",
-      "Claim-then-dormant fraction is 73%",
-      "Order-value coefficient of variation is 0.0302 -- near-identical order amounts"
+      "3 accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.16 days",
+      "Order-value coefficient of variation of 0.0103 indicates near-identical order amounts",
+      "100% claim-then-dormant fraction with zero post-signup engagement past 7 days"
     ]
   },
   {
     "cluster_id": "C0012",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits classic coordinated referral abuse, featuring 100% device fingerprint sharing, a tight signup burst spanning just 2.49 hours, and near-identical templated order values with a coefficient of variation of 0.0048. Furthermore, 71% of bonus-claiming accounts immediately went dormant, strongly indicating a synthetic ring.",
+    "case_summary": "This cluster of 9 fully interconnected accounts exhibits textbook referral bonus abuse, characterized by a tight signup burst over 2.43 days on a single shared device and near-identical order amounts. All bonus-claiming members became completely dormant immediately after claiming. Recommend holding pending bonuses until human review.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "10 accounts share one device_fingerprint_id",
-      "signup burst spans only 2.49 days",
-      "order-value CV of 0.0048 -- near-identical order amounts",
-      "71% claim-then-dormant fraction"
+      "100% of accounts share the single most common device_fingerprint_id",
+      "signup burst spans only 2.43 days with fully interconnected edges",
+      "order-value CV of 0.0037 indicates near-identical templated order amounts",
+      "100% claim-then-dormant fraction with zero engagement past 7 days"
     ]
   },
   {
     "cluster_id": "C0013",
     "mode": "gemini",
-    "case_summary": "This cluster of 12 interconnected accounts exhibits classic coordinated referral abuse patterns, including a tight signup burst over 2.82 days and 100% device fingerprint sharing. All bonus-claiming members became completely dormant immediately after receiving their reward, supported by near-identical templated order values. These behavioral indicators strongly point to a single operator farming referral bonuses.",
+    "case_summary": "This cluster of 9 accounts exhibits classic referral farming behavior, showing 100% overlap in device fingerprints and payment instruments alongside a tight 2.8-day signup burst. The accounts rapidly claim bonuses within hours and subsequently go dormant, backed by near-identical order amounts with a coefficient of variation of 0.0086.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share the single most common device_fingerprint_id",
+      "9 accounts share a single device_fingerprint_id and payment instrument_hash",
       "Signup burst spans only 2.82 days",
-      "100% claim-then-dormant fraction with zero post-signup engagement",
-      "Order-value coefficient of variation of 0.0057 indicates near-identical templated amounts"
+      "83% claim-then-dormant fraction with average bonus claim 2.95 hours after signup",
+      "Order-value coefficient of variation is 0.0086 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0014",
     "mode": "gemini",
-    "case_summary": "This cluster of 7 accounts exhibits strong coordinated referral bonus abuse, characterized by 100% device fingerprint sharing, a tight signup burst spanning under 3 days, and near-identical templated order values. Additionally, 75% of bonus claimants went immediately dormant after receiving their payout. We recommend holding pending bonuses while human analysts investigate further.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 5 accounts exhibits strong coordinated farming behavior, characterized by 100% sharing of a payment instrument and near-identical order amounts with a coefficient of variation of 0.0038. Although no referral bonuses have been claimed yet, the tight signup window of under two days and zero post-signup engagement warrant holding any pending payouts.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "7 accounts share one device_fingerprint_id",
-      "signup burst spans only 2.48 days",
-      "order-value CV of 0.0187 -- near-identical order amounts",
-      "claim-then-dormant fraction of 75%"
+      "100% of members share the single most common payment instrument_hash",
+      "order-value CV of 0.0038 -- near-identical order amounts",
+      "signup burst spans only 1.81 days",
+      "0.0 sessions per member happen more than 7 days after signup"
     ]
   },
   {
     "cluster_id": "C0015",
     "mode": "gemini",
-    "case_summary": "This 15-account cluster exhibits textbook referral bonus farming behavior, characterized by 100% shared device fingerprints and payment instruments combined with a tight 1.86-day signup burst. Furthermore, 89% of bonus claimants went completely dormant immediately after receiving their payout, and order values show near-identical templated amounts with a CV of 0.0038. These strong deterministic signals strongly indicate coordinated multi-account abuse.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 10 accounts exhibits strong coordination, with 100% sharing a single device fingerprint and payment instrument alongside tight 1.69-day signup clustering. The majority rapidly claimed referral bonuses before going dormant, supported by near-identical templated order values. This strongly indicates a coordinated bonus-farming operation.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of cluster members share a single device_fingerprint_id and payment instrument_hash",
-      "Signup burst spans only 1.86 days with an average gap of 3.19 hours",
-      "89% claim-then-dormant fraction indicating rapid bonus extraction followed by inactivity",
-      "Extremely low order-value coefficient of variation at 0.0038 denoting templated spending"
+      "10 accounts share one device_fingerprint_id",
+      "10 accounts share one payment instrument_hash",
+      "signup burst spans only 1.69 days",
+      "order-value CV of 0.0035 -- near-identical order amounts",
+      "71% of bonus-claiming members went dormant immediately after"
     ]
   },
   {
     "cluster_id": "C0016",
     "mode": "gemini",
-    "case_summary": "This cluster of 11 fully interconnected accounts exhibits classic referral farming behavior, characterized by 100 percent sharing of device fingerprints and payment instruments within a tight signup window. The majority of accounts claimed bonuses shortly after creation and immediately went dormant, while maintaining near-identical templated order values.",
-    "confidence": 0.98,
+    "case_summary": "This 7-account cluster exhibits classic coordinated referral abuse, with fully interconnected members sharing a single device fingerprint and signing up in a tight 2.6-day burst. All accounts claimed their bonuses rapidly and immediately went dormant, supported by near-identical templated order amounts and zero long-term engagement.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of accounts share a single device_fingerprint_id",
-      "100% of accounts share a single payment instrument_hash",
-      "88% claim-then-dormant fraction",
-      "Order-value coefficient of variation is 0.0265 indicating templated amounts"
+      "7 accounts share one device_fingerprint_id",
+      "signup burst spans only 2.59 days",
+      "100% claim-then-dormant fraction",
+      "order-value CV of 0.0032 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0017",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits strong indicators of coordinated referral bonus abuse, characterized by a fully connected network, a 100% shared device fingerprint, and an extremely tight signup burst spanning under a day. Furthermore, 70% of members rapidly claimed bonuses and immediately went dormant, accompanied by near-identical templated order values.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 8 accounts shows textbook bonus-farming behavior, with all members sharing a single device fingerprint and payment instrument. Accounts registered in a tight 2-day burst, quickly claimed their referral bonuses, and immediately went dormant with zero long-term engagement. The near-identical order amounts and complete lack of ongoing activity strongly indicate coordinated referral abuse.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "10 accounts share one device_fingerprint_id",
-      "Signup burst spans only 0.89 days",
-      "Order-value coefficient of variation is 0.0103 indicating near-identical order amounts",
-      "71% of bonus claimants went dormant for 3+ days"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.09 days with an average gap of 7.17 hours",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "Order-value coefficient of variation is 0.0071 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0018",
     "mode": "gemini",
-    "case_summary": "This 10-account cluster exhibits classic coordinated referral abuse, with all members sharing a single device fingerprint and registering within a tight 2.28-day window. Following rapid bonus claims averaging 2.22 hours post-signup, 100% of the accounts went dormant with near-identical templated order values and zero long-term engagement. Given the strong structural overlap and lack of organic usage, we recommend holding pending bonuses for human review.",
+    "case_summary": "This cluster of 12 fully interconnected accounts exhibits classic bonus farming patterns, including a tight signup window and 100% shared payment instruments. Every member claimed their referral bonus within hours and immediately went dormant. Additionally, the near-identical order values point to automated, templated activity rather than genuine user behavior.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "10 accounts share one device_fingerprint_id",
-      "signup burst spans only 2.28 days",
+      "100% of members share a single payment instrument_hash",
+      "signup burst spans only 2.57 days",
       "100% claim-then-dormant fraction",
-      "order-value CV of 0.028 -- near-identical order amounts",
-      "0.0 post-signup sessions per member more than 7 days after signup"
+      "order-value CV of 0.0182 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0019",
     "mode": "gemini",
-    "case_summary": "This cluster of 12 accounts exhibits classic coordinated referral farming behavior, characterized by 100% device and payment instrument sharing, an extremely tight signup burst of under 3 days, and near-identical templated order amounts. Furthermore, 83% of members rapidly claimed referral bonuses before going dormant, strongly indicating synthetic abuse rather than organic engagement.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 12 accounts exhibits classic referral farming behavior, featuring a tight signup window of 2.51 days and 100% sharing of a single payment instrument. Furthermore, 80% of members claimed bonuses rapidly and immediately went dormant, accompanied by near-identical templated order values.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id and payment instrument_hash",
-      "Signup burst spans only 2.73 days across all 12 accounts",
-      "Order-value CV of 0.0048 indicates near-identical, templated order amounts",
-      "60% claim-then-dormant fraction with bonuses claimed within hours of signup"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 2.51 days",
+      "80% claim-then-dormant fraction with rapid bonus claims averaging 3.56 hours post-signup",
+      "Order-value CV of 0.0059 indicates near-identical, templated order amounts"
     ]
   },
   {
     "cluster_id": "C0020",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts exhibits classic coordinated referral abuse, with 100% sharing a single device fingerprint and signing up in a tight 2.73-day burst. All bonus claimants immediately went dormant, and orders show near-identical templated values with zero long-term engagement. The deterministic stage properly flagged this as non-organic behavior.",
-    "confidence": 0.98,
+    "case_summary": "This 12-account cluster shows classic referral bonus farming behavior, characterized by a rapid 3-day signup burst and 100% shared payment instrument usage. A massive majority of members claimed their referral bonus within hours and immediately went dormant, bolstered by near-identical order amounts with a coefficient of variation of 0.0061.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "13 accounts share a single device_fingerprint_id",
-      "signup burst spans only 2.73 days",
-      "claim-then-dormant fraction is 100%",
-      "order-value CV of 0.0049 -- near-identical order amounts"
+      "100% of members share the single most common payment instrument_hash",
+      "Rapid signup burst spanning only 2.83 days",
+      "89% claim-then-dormant fraction",
+      "Order-value CV of 0.0061 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0021",
     "mode": "gemini",
-    "case_summary": "This 13-account cluster exhibits classic referral farming behavior, characterized by full interconnection, a single shared device fingerprint, and an identical shared payment instrument across all members. Accounts were created in a tight 2.3-day burst, rapidly claimed bonuses, and went almost entirely dormant thereafter with near-identical transaction amounts. This high-confidence coordinated abuse pattern warrants holding pending bonuses until human review.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 9 fully interconnected accounts shows strong signs of coordinated referral bonus abuse. All members share a single device fingerprint and registered in a tight burst over 2.64 days, with 86% going dormant immediately after claiming their bonuses. Furthermore, the orders placed exhibit near-identical amounts with a coefficient of variation of 0.0041.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of cluster members share a single device_fingerprint_id and payment instrument_hash",
-      "Signup burst spans only 2.31 days with an edge density of 1.0",
-      "82% claim-then-dormant fraction showing accounts went silent after claiming referral bonuses",
-      "Order-value coefficient of variation is 0.0109, indicating near-identical templated order amounts"
+      "9 accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.64 days",
+      "86% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.0041"
     ]
   },
   {
     "cluster_id": "C0022",
     "mode": "gemini",
-    "case_summary": "This cluster of 9 fully interconnected accounts exhibits classic bonus-farming behavior, characterized by 100% sharing of a payment instrument and rapid signup clustering over a 2.65-day span. Every member claimed a referral bonus quickly and immediately went dormant, accompanied by near-identical templated order amounts. These strong deterministic signals strongly outweigh any legitimate organic likelihood.",
+    "case_summary": "This cluster of 15 accounts exhibits strong coordinated bonus abuse behavior, characterized by a tight 2.21-day signup burst and 100% device sharing. Nearly all members claimed referral bonuses almost immediately and went dormant thereafter, supported by near-identical templated order values. The deterministic filter confirms this is not organic shared-device usage.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single payment instrument_hash",
-      "Signup burst spans only 2.65 days",
-      "100% claim-then-dormant fraction with average bonus claim time of 1.99 hours",
-      "Order-value CV of 0.005 indicating near-identical order amounts",
-      "Zero post-signup engagement after 7 days"
+      "15 accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.21 days",
+      "91% claim-then-dormant fraction",
+      "Order-value CV of 0.0037 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0023",
     "mode": "gemini",
-    "case_summary": "This cluster of 7 accounts displays classic coordinated referral abuse, featuring 100% device sharing and a tight signup burst spanning under two days. All members claimed referral bonuses rapidly and immediately went dormant without organic post-signup engagement. Furthermore, near-identical order amounts with a coefficient of variation of 0.0101 strongly suggest automated or templated activity.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 9 accounts exhibits definitive referral farming behavior, featuring 100% shared device and payment instrument fingerprints alongside a tight 48-hour signup window. Accounts rapidly claim bonuses within hours of registration and immediately go dormant without organic post-signup engagement. The identical transaction amounts and deterministic payment sharing confirm coordinated bonus abuse.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "7 accounts share one device_fingerprint_id",
-      "signup burst spans only 1.91 days",
-      "100% claim-then-dormant fraction",
-      "order-value CV of 0.0101 -- near-identical order amounts"
+      "100% of members share a single device_fingerprint_id",
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.01 days",
+      "88% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.0055 indicating templated spending"
     ]
   },
   {
     "cluster_id": "C0024",
     "mode": "gemini",
-    "case_summary": "This cluster of 12 accounts exhibits classic referral farming characteristics, featuring complete device and payment instrument sharing alongside a tight 2.16-day signup burst. Most members claimed bonuses within hours and immediately went dormant, while executing near-identical order amounts. Given the hard signal of shared payment instruments and high claim-dormancy rates, these bonuses should be held pending review.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 13 accounts exhibits high coordination, featuring 100% shared device fingerprints and payment instruments alongside a tight signup window under 3 days. Furthermore, 78% of the members went dormant immediately after claiming their referral bonuses, and their order values are near-identical with a coefficient of variation of 0.0051. These combined patterns strongly indicate automated referral bonus farming.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "100% of members share a single payment instrument_hash",
-      "signup burst spans only 2.16 days",
-      "78% claim-then-dormant fraction",
-      "order-value coefficient of variation is 0.0058 indicating templated amounts"
+      "100% of members share the single most common device fingerprint",
+      "100% of members share the single most common payment instrument hash",
+      "Signup burst spans only 2.87 days",
+      "78% claim-then-dormant fraction going silent after bonus",
+      "Order-value coefficient of variation is 0.0051 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0025",
     "mode": "gemini",
-    "case_summary": "This 6-account cluster exhibits classic coordinated referral abuse with a fully interconnected structure and 100% device sharing. All members signed up in a tight 1.24-day burst, placed near-identical templated orders, and immediately went dormant after claiming their bonuses.",
+    "case_summary": "This cluster of 10 accounts exhibits strong indicators of coordinated referral bonus abuse, featuring fully interconnected members sharing a single device fingerprint and an IP subnet. The accounts were created in a tight 2.5-day burst, rapidly claimed bonuses, and immediately went dormant with near-identical templated order amounts. The deterministic filter confirms this pattern is inconsistent with organic shared-device usage.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "6 accounts share a single device_fingerprint_id",
-      "Signup burst spans only 1.24 days",
-      "Order-value coefficient of variation is 0.0035 indicating near-identical amounts",
-      "100% claim-then-dormant fraction with zero long-term engagement"
+      "100% of members share a single device_fingerprint_id",
+      "Signup burst spans only 2.53 days with high edge density",
+      "86% claim-then-dormant fraction with immediate bonus claims averaging 3.0 hours post-signup",
+      "Order-value CV of 0.0124 indicating near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0026",
     "mode": "gemini",
-    "case_summary": "This 4-account cluster exhibits coordinated referral bonus abuse characterized by a shared device fingerprint, a tight 2-day signup burst, and near-identical order values with an order-value CV of 0.0077. Furthermore, 100% of bonus-claiming members went completely dormant immediately after receiving their payouts, with zero ongoing engagement. The deterministic filter confirms this pattern does not align with organic shared-device usage.",
-    "confidence": 0.95,
+    "case_summary": "This 8-account cluster displays strong deterministic indicators of coordinated referral farming. All members share a single device fingerprint and payment instrument, complete signup within a 2.7-day window, claim bonuses rapidly, and immediately go dormant. Additionally, the near-zero order-value variation confirms automated, templated activity.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "Signup burst spans only 2.08 days",
-      "Order-value coefficient of variation is 0.0077, indicating templated amounts",
-      "100% claim-then-dormant fraction with zero post-signup engagement"
+      "100% of members share the single most common device_fingerprint_id",
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 2.69 days",
+      "100% claim-then-dormant fraction -- all members went silent immediately after claiming bonuses",
+      "Order-value CV of 0.0065 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0027",
     "mode": "gemini",
-    "case_summary": "This 6-account cluster demonstrates strong coordinated bonus abuse, characterized by 100% device sharing and a tight 1.62-day signup burst. The accounts show near-identical templated order values alongside an 80% claim-then-dormant rate, strongly indicating a single actor farming referral incentives.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 11 accounts shows strong coordination, with 100% sharing a single device fingerprint and signing up in a tight burst over less than three days. Over 70 percent of members quickly claimed referral bonuses before going dormant, supported by near-identical templated order amounts. These combined behaviors strongly indicate automated bonus abuse rather than organic usage.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "Signup burst spans only 1.62 days",
-      "Order-value CV of 0.0045 indicates near-identical templated amounts",
-      "80% claim-then-dormant fraction with bonuses claimed within hours of signup"
+      "100% of accounts share the single most common device_fingerprint_id",
+      "Signup burst spans only 2.7 days",
+      "Order-value coefficient of variation is 0.0061, indicating near-identical order amounts",
+      "62% of members exhibited claim-then-dormant behavior"
     ]
   },
   {
     "cluster_id": "C0028",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits strong referral farming behavior, characterized by a tight 2.6-day signup burst and 100% shared payment instrument usage. All members quickly claimed their bonuses within hours of registration and immediately went dormant. The near-identical order values further indicate automated or coordinated multi-accounting.",
+    "case_summary": "This cluster of 6 fully interconnected accounts exhibits classic referral farming behavior, featuring 100% device and payment instrument sharing within a tight 2.48-day signup burst. All bonus claimants immediately went dormant, and their order values are nearly identical with a low coefficient of variation of 0.0082. Given the hard payment instrument sharing signal and total lack of post-signup engagement, the accounts strongly indicate coordinated bonus abuse.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single payment instrument_hash",
-      "Signup burst spans only 2.61 days",
-      "100% claim-then-dormant fraction",
-      "Order-value CV of 0.0354 indicating templated spending"
+      "100% of members share a single device_fingerprint_id and payment instrument_hash",
+      "Signup burst spans only 2.48 days",
+      "Claim-then-dormant fraction is 100%",
+      "Order-value coefficient of variation is 0.0082, indicating templated orders"
     ]
   },
   {
     "cluster_id": "C0029",
     "mode": "gemini",
-    "case_summary": "This cluster of 3 accounts exhibits classic coordinated referral abuse, featuring fully interconnected links, a shared device fingerprint, and a tight 1.7-day signup burst. All bonus-claiming accounts went dormant immediately and placed near-identical templated orders. Human review is recommended to hold pending bonuses.",
+    "case_summary": "This cluster of 3 fully interconnected accounts exhibits classic bonus-farming behavior characterized by a shared payment instrument, a tight signup burst spanning just over two days, and immediate bonus claims followed by total dormancy. The near-identical order amounts and complete lack of long-term engagement further confirm coordinated abuse.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "Signup burst spans only 1.7 days",
-      "Order-value CV of 0.0031 indicates near-identical order amounts",
-      "100% claim-then-dormant fraction with zero post-signup engagement"
+      "100% of members share the single most common payment instrument_hash",
+      "Signup burst spans only 2.06 days",
+      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
+      "Order-value CV of 0.007 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0030",
     "mode": "gemini",
-    "case_summary": "This cluster of 3 interconnected accounts exhibits strong coordinated referral bonus farming behavior, highlighted by a 100% shared payment instrument and rapid signup bursts spanning just 1.44 days. All bonus-claiming members became completely dormant immediately after payout and placed near-identical orders with a coefficient of variation of 0.0021. Given the high suspicion score and deterministic confounder flag, pending bonuses should be held for human review.",
+    "case_summary": "This cluster of 4 interconnected accounts shows strong structural coordination, with 100% sharing a payment instrument and IP subnet overlap. All claiming accounts went immediately dormant after a rapid signup burst and quick bonus claim. The near-identical order amounts and zero long-term engagement further indicate automated referral farming.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share the single most common payment instrument_hash",
-      "signup burst spans only 1.44 days",
-      "100% claim-then-dormant fraction -- all members went silent immediately after claiming the bonus",
-      "order-value coefficient of variation of 0.0021 -- near-identical order amounts"
+      "100% of members share a single payment instrument_hash",
+      "signup burst spans only 1.64 days",
+      "order-value CV of 0.0026 indicates near-identical templated orders",
+      "100% claim-then-dormant fraction with zero post-signup engagement"
     ]
   },
   {
     "cluster_id": "C0031",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 interconnected accounts exhibits strong coordinated referral farming behavior, featuring 100% payment instrument sharing and a rapid signup burst within 2.7 days. All bonus-claiming members went completely dormant immediately after payout and show zero organic post-signup engagement. Furthermore, the order values have a very low coefficient of variation, indicating templated transactions.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 11 accounts exhibits classic referral farming behavior, featuring 100% sharing of both a single device fingerprint and a payment instrument. Signups occurred in a tight 2.86-day burst followed by immediate bonus claims and complete dormancy. Additionally, near-identical order values with a coefficient of variation of 0.0053 further confirm automated or coordinated abuse.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single payment instrument_hash",
-      "signup burst spans only 2.68 days",
-      "claim-then-dormant fraction is 100% with zero long-term engagement",
-      "order-value coefficient of variation is 0.0452 indicating templated amounts"
+      "100% of accounts share the single most common device_fingerprint_id",
+      "100% of accounts share the same payment instrument_hash",
+      "Signup burst spans only 2.86 days",
+      "100% claim-then-dormant fraction",
+      "Order-value coefficient of variation is 0.0053 -- near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0032",
     "mode": "gemini",
-    "case_summary": "This cluster of 7 accounts displays classic coordinated referral farming behavior, featuring a 100% shared device fingerprint and a shared payment instrument across all members. The accounts were created in a tight signup burst spanning under 3 days, quickly claimed their bonuses within hours, and immediately went dormant with zero long-term engagement. Furthermore, all 13 placed orders exhibit near-identical templated order values with a coefficient of variation of just 0.0078.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates strong coordination by sharing a single device fingerprint and payment instrument. Signups occurred in a tight 2-day burst followed by rapid bonus claims and subsequent dormancy, strongly indicating referral bonus farming.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "7 accounts share one device_fingerprint_id and one instrument_hash",
-      "Signup burst spans only 2.89 days",
-      "83% of members became dormant immediately after claiming their referral bonus",
-      "Order-value coefficient of variation is 0.0078, indicating near-identical templated order amounts"
+      "Edge density among members is 1.0, showing full interconnection",
+      "100% of accounts share the single most common device_fingerprint_id",
+      "100% of accounts share the single most common payment instrument_hash",
+      "Order-value coefficient of variation is 0.0114, indicating near-identical templated amounts",
+      "67% claim-then-dormant fraction following rapid bonus claims"
     ]
   },
   {
     "cluster_id": "C0033",
     "mode": "gemini",
-    "case_summary": "This cluster of 14 accounts exhibits highly coordinated referral bonus abuse, characterized by a 100% shared device fingerprint, a tight signup burst spanning under 3 days, and immediate bonus claims averaging 3.65 hours post-signup. Furthermore, all members went completely dormant after claiming their bonuses and placed orders with near-identical values. The behavioral patterns strongly indicate a single actor systematically milking the referral program.",
+    "case_summary": "This cluster of 14 accounts exhibits classic referral farming behavior, featuring a tight signup burst spanning less than three days and 100% sharing of a single payment instrument. The majority of accounts rapidly claimed referral bonuses before going completely dormant. Furthermore, near-identical transaction amounts and very low post-signup engagement strongly indicate automated, coordinated exploitation of promo incentives.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share the single most common device_fingerprint_id",
-      "Signup burst spans only 2.89 days across the entire cluster",
-      "100% claim-then-dormant fraction with zero engagement after 7 days",
-      "Order-value coefficient of variation is 0.0153 indicating templated order amounts"
+      "100% of members on the single most common payment instrument_hash",
+      "Signup burst spans only 2.74 days",
+      "82% claim-then-dormant fraction",
+      "Order-value coefficient of variation of 0.0035 showing near-identical amounts"
     ]
   },
   {
     "cluster_id": "C0034",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits classic referral abuse patterns, including a tight 2.36-day signup burst and 100% device sharing. All bonus-claiming accounts went completely dormant immediately after receiving their rewards, and order values are nearly identical with a low coefficient of variation of 0.0155. The behavioral profile strongly points to a coordinated ring rather than organic usage.",
+    "case_summary": "This cluster of 15 fully interconnected accounts exhibits classic referral bonus farming behavior, highlighted by a 100% shared payment instrument and a tight 2.5-day signup burst. The majority of members claimed their bonuses quickly and immediately went dormant, supported by templated order amounts with a near-zero coefficient of variation. Consequently, we recommend holding pending bonuses while human analysts investigate further.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single device_fingerprint_id",
-      "signup burst spans only 2.36 days",
-      "100% claim-then-dormant fraction",
-      "order-value CV of 0.0155 indicating near-identical order amounts"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 2.5 days across the cluster",
+      "64% of members went dormant for 3+ days immediately after claiming bonuses",
+      "Order-value CV of 0.02 indicates near-identical, templated order amounts"
     ]
   },
   {
     "cluster_id": "C0035",
     "mode": "gemini",
-    "case_summary": "This cluster of 5 fully interconnected accounts exhibits classic referral abuse patterns, including a tight signup burst over 2.27 days, a 100% shared device fingerprint, and rapid bonus claims averaging 1.26 hours after registration. Furthermore, 75% of the accounts went dormant immediately after claiming their bonuses, and near-identical order amounts with a coefficient of variation of 0.0104 strongly suggest automated or coordinated activity.",
+    "case_summary": "This cluster of 6 accounts exhibits classic referral bonus farming behavior, with 100% sharing a single payment instrument and all bonus-claiming members going completely dormant immediately after. The rapid signup burst and near-identical templated transaction amounts further confirm coordinated abuse.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of cluster members share a single device_fingerprint_id",
-      "Signup burst spans only 2.27 days with an average gap of 13.6 hours",
-      "80% of members claimed a bonus averaging 1.26 hours after signup",
-      "75% claim-then-dormant fraction showing immediate silence after bonus claim",
-      "Order-value coefficient of variation of 0.0104 indicates near-identical templated orders"
+      "100% of members on the single most common payment instrument_hash",
+      "Signup burst spans only 2.46 days",
+      "100% claim-then-dormant fraction with zero engagement after signup",
+      "Order-value CV of 0.0064 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0036",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates high-risk referral farming behavior characterized by 100% shared payment instrument usage and rapid bonus claims averaging 2.67 hours post-signup. Furthermore, 60% of the accounts went dormant immediately after claiming their bonuses, and near-identical order values with a coefficient of variation of 0.0043 further confirm automated or coordinated abuse.",
+    "case_summary": "This cluster of four accounts shows strong coordinated referral abuse. All accounts share a single device fingerprint, signed up within a tight 1.1-day burst, placed near-identical orders, and went completely dormant immediately after claiming their bonuses.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share a single payment instrument_hash",
-      "referral bonus claims average 2.67 hours after signup",
-      "order-value CV of 0.0043 indicates near-identical templated order amounts",
-      "60% claim-then-dormant fraction showing immediate silence after bonus payout"
+      "100% of accounts share a single device_fingerprint_id",
+      "signup burst spans only 1.11 days",
+      "order-value CV of 0.0044 -- near-identical order amounts",
+      "100% claim-then-dormant fraction"
     ]
   },
   {
     "cluster_id": "C0037",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts exhibits textbook referral farming behavior, featuring 100% shared device fingerprints and a shared payment instrument across all members. Accounts were created in a rapid signup burst within 2.37 days, rapidly claimed bonuses, and immediately went dormant. These strong structural links strongly indicate a coordinated attack rather than organic usage.",
+    "case_summary": "This cluster of 4 fully interconnected accounts exhibits classic referral farming behavior, featuring a 100% shared payment instrument and a tight signup burst spanning under 2 days. Bonuses were claimed rapidly after signup, followed by low long-term engagement and near-identical templated order amounts. Due to the high-confidence deterministic payment-sharing signal, the cluster is recommended for bonus holds.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "100% of members share the single most common device_fingerprint_id",
-      "100% of members share the single most common payment instrument_hash",
-      "Signup burst spans only 2.37 days with an average gap of 4.75 hours",
-      "Order-value coefficient of variation is 0.0181 indicating templated amounts",
-      "75% claim-then-dormant fraction showing rapid abandonment after bonus claims"
+      "100% of members share a single payment instrument_hash",
+      "Signup burst spans only 1.87 days across the cluster",
+      "Order-value CV of 0.0043 indicates near-identical templated order amounts",
+      "Rapid bonus claims averaging 2.95 hours after signup with minimal post-signup engagement"
     ]
   },
   {
     "cluster_id": "C0038",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits classic coordinated referral abuse, with 100% sharing a single device fingerprint and signing up in a tight 2.87-day burst. The accounts quickly claimed their referral bonuses within hours and showed a 75% claim-then-dormant rate accompanied by near-identical templated order values.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 12 accounts shows textbook coordinated referral farming, characterized by full interconnectivity, a shared payment instrument, and identical device fingerprints. The accounts registered in a tight 2.3-day burst, quickly claimed their bonuses, and subsequently went dormant. Near-identical order amounts and zero post-signup engagement further confirm this is an automated farming ring rather than organic user growth.",
+    "confidence": 0.98,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "10 accounts share a single device_fingerprint_id",
-      "signup burst spans only 2.87 days",
-      "order-value CV of 0.0059 indicates near-identical order amounts",
-      "75% claim-then-dormant fraction"
+      "12 accounts share one device_fingerprint_id and one payment instrument_hash",
+      "signup burst spans only 2.32 days with 83% claiming bonuses quickly",
+      "80% claim-then-dormant fraction with almost zero post-signup engagement",
+      "order-value coefficient of variation is 0.004, indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0039",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates high-risk referral abuse patterns, including a tight signup burst over 2.65 days and 100% device sharing. Furthermore, 75% of bonus claimants went dormant immediately after receiving their rewards and executed nearly identical order amounts.",
+    "case_summary": "This 8-account cluster displays textbook signs of coordinated referral bonus farming through a fully interconnected network. All members share a single device fingerprint, signed up in a tight 2.9-day burst, placed near-identical templated orders, and immediately went dormant after claiming their bonuses.",
     "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "6 accounts fully interconnected with 100% device sharing",
-      "Signup burst spans only 2.65 days",
-      "Order-value coefficient of variation is 0.0064 indicating templated amounts",
-      "75% claim-then-dormant fraction showing post-bonus inactivity"
+      "100% of accounts share a single device_fingerprint_id",
+      "Signup burst spans only 2.9 days",
+      "Order-value coefficient of variation is 0.0069, indicating near-identical order amounts",
+      "83% claim-then-dormant fraction with bonuses claimed within hours of signup"
     ]
   },
   {
     "cluster_id": "C0040",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts shows classic coordinated referral bonus abuse, characterized by a 100% shared device fingerprint and payment instrument. Accounts registered in a tight two-day burst, rapidly claimed bonuses within hours, and immediately went dormant with near-identical templated transaction amounts.",
-    "confidence": 0.98,
+    "case_summary": "This cluster of 5 fully interconnected accounts exhibits strong coordinated referral abuse behavior. All accounts share a single device fingerprint, signed up in a tight 2.2-hour span, and immediately claimed bonuses before becoming entirely dormant. Furthermore, their orders show near-identical templated values with zero long-term engagement.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
       "100% of members share a single device_fingerprint_id",
-      "100% of members share a single payment instrument_hash",
-      "Signup burst spans only 2.06 days",
-      "78% claim-then-dormant fraction indicating bonus farming",
-      "Order-value coefficient of variation is 0.0048 showing templated amounts"
+      "Signup burst spans only 2.22 days",
+      "100% claim-then-dormant fraction with average bonus claim time of 2.36 hours",
+      "Order-value CV of 0.0578 indicates near-identical templated order amounts",
+      "Zero post-signup engagement after 7 days"
     ]
   },
   {
-    "cluster_id": "C0041",
+    "cluster_id": "C0042",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits full connectivity with a shared device fingerprint and a 16.51-day signup span. However, no referral bonuses were claimed and members show healthy post-signup engagement with an average of 9.833 ongoing sessions. Despite the shared device flag, the absence of bonus claims and active session history indicate organic shared-device usage rather than coordinated abuse.",
+    "case_summary": "Cluster C0042 consists of 6 fully interconnected accounts sharing a single device fingerprint. However, signup timing is spread over nearly 21 days with no bonus claims made, and the organic score combined with post-signup session activity indicates natural shared-device usage rather than coordinated abuse. Therefore, the deterministic flag appears to be a false positive.",
+    "confidence": 0.85,
+    "recommended_action": "NO_ACTION",
+    "key_evidence": [
+      "100% of members share a single device_fingerprint_id",
+      "0% of members claimed a bonus",
+      "Signup timing spans 20.82 days",
+      "Average 6.5 sessions per member occur more than 7 days after signup"
+    ]
+  },
+  {
+    "cluster_id": "C0043",
+    "mode": "gemini",
+    "case_summary": "This cluster of 4 accounts shares a single device fingerprint and IP subnet, but exhibits no referral bonus claims and shows healthy post-signup engagement with 9.5 sessions per member occurring more than 7 days after signup. Despite the Stage 5 confounder filter flag, the lack of bonus abuse activity and organic usage patterns indicate weak evidence of malicious intent. Therefore, no action is recommended.",
     "confidence": 0.85,
     "recommended_action": "NO_ACTION",
     "key_evidence": [
       "100% of members share a single device_fingerprint_id",
       "0% of members claimed a referral bonus",
-      "Average of 9.833 sessions per member occurring more than 7 days after signup"
-    ]
-  },
-  {
-    "cluster_id": "C0047",
-    "mode": "gemini",
-    "case_summary": "This cluster of 14 accounts exhibits a classic soft-signal referral farming pattern with a dense interconnected structure and a tight signup burst spanning just 1.64 hours. Members rapidly claim bonuses shortly after creation and subsequently go dormant, supported by near-identical templated order values and minimal long-term engagement.",
-    "confidence": 0.92,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans a tight interval of 1.64 days with consecutive signups averaging 3.03 hours apart",
-      "93% of members claimed a bonus averaging 1.9 hours after signup",
-      "85% of members went dormant for 3+ days immediately after claiming their bonus",
-      "order-value coefficient of variation is 0.0187 indicating near-identical templated amounts"
-    ]
-  },
-  {
-    "cluster_id": "C0049",
-    "mode": "gemini",
-    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates classic soft-signal referral farming. The accounts were created in a tight 0.5-day burst, quickly claimed bonuses, and immediately went dormant with near-identical templated order values. A human analyst should review the cluster to confirm coordinated bonus abuse.",
-    "confidence": 0.85,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "Signup burst spans only 0.51 days",
-      "75% claim-then-dormant fraction",
-      "Order-value coefficient of variation is 0.0103 indicating near-identical amounts",
-      "Average bonus claim timing is 1.65 hours after signup"
-    ]
-  },
-  {
-    "cluster_id": "C0050",
-    "mode": "gemini",
-    "case_summary": "This cluster of 5 fully interconnected accounts displays classic soft-signal referral farming behaviors, including a tight signup burst spanning less than two days, near-identical order amounts, and rapid bonus claims followed by complete dormancy. Although there are no shared devices or payment instruments, the combination of IP subnet overlap and immediate post-claim abandonment strongly suggests coordinated abuse.",
-    "confidence": 0.85,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 1.88 days",
-      "order-value CV of 0.0587 indicating near-identical order amounts",
-      "100% claim-then-dormant fraction",
-      "shared ip_subnet_overlap and referral_link"
-    ]
-  },
-  {
-    "cluster_id": "C0051",
-    "mode": "gemini",
-    "case_summary": "This 15-account cluster exhibits a classic soft-signal referral farming pattern featuring a tight signup burst over 1.83 days and rapid bonus claims averaging 2.25 hours post-signup. A massive 92% of claiming accounts went dormant immediately after receiving the bonus, supported by near-identical templated order values (CV of 0.0053). Despite lacking shared devices or payment instruments, the behavioral alignment strongly indicates coordinated bonus abuse.",
-    "confidence": 0.92,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 1.83 days with consecutive gaps averaging 3.14 hours",
-      "80% of members claimed a bonus averaging 2.25 hours after signup",
-      "claim-then-dormant fraction is 92%",
-      "order-value CV of 0.0053 indicates near-identical templated order amounts"
-    ]
-  },
-  {
-    "cluster_id": "C0052",
-    "mode": "gemini",
-    "case_summary": "This 9-account cluster shows classic soft-signal referral farming with a 1.14-day signup burst and 89% of members claiming bonuses within hours. High dormancy (75%) after bonus collection and near-identical order amounts (CV of 0.004) further indicate automated coordination without genuine ongoing usage.",
-    "confidence": 0.92,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 1.14 days across the cluster",
-      "89% of members claimed a bonus averaging 2.39 hours after signup",
-      "75% claim-then-dormant fraction",
-      "order-value CV of 0.004 indicating near-identical order amounts"
+      "healthy post-signup engagement averaging 9.5 sessions per member past 7 days"
     ]
   },
   {
     "cluster_id": "C0053",
     "mode": "gemini",
-    "case_summary": "This cluster of seven accounts exhibits strong soft-signal referral farming indicators, including a tight signup burst over 3.6 days and identical low-variance order values. All accounts claimed bonuses quickly and immediately went dormant. Although there are no shared devices or payment instruments, the behavioral patterns strongly suggest coordinated bonus abuse.",
+    "case_summary": "This cluster consists of only 2 accounts sharing an IP subnet and a device fingerprint. However, zero referral bonus claims were made, and post-signup engagement shows healthy ongoing usage with an average of 16.5 sessions per member after 7 days. Because no bonuses were claimed and there is no dormant behavior, the evidence of abuse is insufficient.",
     "confidence": 0.85,
-    "recommended_action": "HOLD_BONUS",
+    "recommended_action": "NO_ACTION",
     "key_evidence": [
-      "signup burst spans only 3.62 days across the cluster",
-      "order-value coefficient of variation is 0.0692 indicating near-identical order amounts",
-      "100% claim-then-dormant fraction with accounts going silent after bonus claims",
-      "high suspicion score of 3/4 from the deterministic stage 5 filter"
+      "Cluster size of only 2 accounts",
+      "0% of members claimed a referral bonus",
+      "High post-signup engagement averaging 16.5 sessions per member after 7 days"
     ]
   },
   {
-    "cluster_id": "C0054",
+    "cluster_id": "C0060",
     "mode": "gemini",
-    "case_summary": "This 11-account cluster exhibits classic soft-signal farming behavior, characterized by an exceptionally tight signup burst spanning just 1.24 days and rapid bonus claims averaging 2.68 hours post-signup. Furthermore, the accounts demonstrate near-identical templated order values with a coefficient of variation of 0.0046, followed by a high post-claim dormancy rate. These aggregated indicators strongly suggest coordinated promotional abuse despite the absence of shared device fingerprints.",
+    "case_summary": "This cluster of 14 accounts exhibits classic soft-signal referral farming behavior, featuring a tight signup burst of under two days, rapid bonus claims averaging 1.97 hours post-signup, and subsequent dormancy in 75% of members. Furthermore, the accounts display near-identical templated order values with a low coefficient of variation of 0.0149. Despite lacking shared hardware or payment instruments, the behavioral alignment strongly indicates coordinated bonus abuse.",
     "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.24 days across 11 accounts",
-      "order-value CV of 0.0046 indicates near-identical, templated order amounts",
-      "67% claim-then-dormant fraction after rapid bonus claims averaging 2.68 hours",
-      "edge density of 1.0 showing full interconnection via referral links and IP subnet overlap"
-    ]
-  },
-  {
-    "cluster_id": "C0055",
-    "mode": "gemini",
-    "case_summary": "This cluster of 6 fully interconnected accounts demonstrates classic soft-signal farming behavior, featuring a tight signup burst spanning under 3 days, fast bonus claims, and subsequent dormancy in 60% of members. Additionally, low order-value variation indicates templated purchasing patterns. We recommend holding pending bonuses until human review.",
-    "confidence": 0.85,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "Signup burst spans only 2.95 days",
-      "83% of members claimed a bonus averaging 22.95 hours after signup",
-      "Claim-then-dormant fraction is 60%",
-      "Order-value coefficient of variation is 0.0752, indicating near-identical order amounts"
-    ]
-  },
-  {
-    "cluster_id": "C0056",
-    "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts exhibits classic soft-signal referral farming with a 1.59-day signup burst and 77% of members claiming bonuses within hours. Nearly all claim-and-dormant behavior (90%) and near-identical order amounts (CV of 0.0103) further point to coordinated bonus exploitation despite a lack of shared devices.",
-    "confidence": 0.88,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 1.59 days with consecutive gaps averaging 3.18 hours",
-      "order-value coefficient of variation is 0.0103, indicating templated order amounts",
-      "90% claim-then-dormant fraction showing accounts went silent after claiming bonuses",
-      "77% of members claimed a bonus averaging 2.4 hours after signup"
-    ]
-  },
-  {
-    "cluster_id": "C0057",
-    "mode": "gemini",
-    "case_summary": "This cluster of seven accounts exhibits strong soft-signal farming behavior, characterized by an extremely tight signup burst, fast referral bonus claims, and 100% dormancy following the claims. Furthermore, the accounts placed orders with near-identical values and show zero post-signup engagement after seven days, strongly indicating automated coordination.",
-    "confidence": 0.92,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 0.95 days across all cluster members",
-      "order-value CV of 0.0044 indicating near-identical templated order amounts",
-      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
-      "86% of members claimed bonuses averaging 2.87 hours after signup"
-    ]
-  },
-  {
-    "cluster_id": "C0059",
-    "mode": "gemini",
-    "case_summary": "This cluster of 12 accounts exhibits a classic soft-signal referral farming pattern characterized by a tight signup burst spanning just 1.25 days and rapid bonus claims averaging 2 hours post-signup. Furthermore, 56 percent of the members went dormant after claiming their bonuses, and order amounts showed near-identical templated values with a coefficient of variation of 0.0076.",
-    "confidence": 0.88,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 1.25 days",
-      "75% of members claimed a bonus averaging 2.06 hours after signup",
-      "56% claim-then-dormant fraction",
-      "order-value CV of 0.0076 indicating near-identical order amounts"
-    ]
-  },
-  {
-    "cluster_id": "C0061",
-    "mode": "gemini",
-    "case_summary": "This cluster of 8 fully interconnected accounts displays classic soft-signal referral farming behavior, characterized by an extremely tight 1.1-day signup burst and near-identical templated order values with a coefficient of variation of 0.004. Furthermore, 75 percent of the members rapidly claimed their referral bonuses within hours of registration, and 100 percent of those claimers immediately went dormant. These combined indicators point strongly to coordinated bonus abuse rather than organic user acquisition.",
-    "confidence": 0.92,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "Signup burst spans only 1.1 days",
-      "Order-value CV of 0.0039 -- near-identical order amounts",
-      "100% claim-then-dormant fraction",
-      "Average gap between consecutive signups is 3.76 hours"
+      "signup timing span of only 1.87 days across the cluster",
+      "86% of members claimed a bonus averaging 1.97 hours after signup",
+      "75% claim-then-dormant fraction",
+      "order-value CV of 0.0149 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0062",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits classic soft-signal referral farming, characterized by a rapid signup burst within half a day and near-identical templated order values. The majority of members claimed bonuses quickly and subsequently went dormant, showing minimal long-term engagement.",
-    "confidence": 0.85,
+    "case_summary": "This 11-account cluster exhibits classic soft-signal referral farming with a tight 1.39-day signup burst and identical order amounts (CV of 0.0057). All members rapidly claimed bonuses within hours and immediately went dormant, indicating coordinated non-organic activity despite the lack of shared device fingerprints.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.54 days across the cluster",
-      "order-value CV of 0.0043 indicating near-identical order amounts",
-      "75% claim-then-dormant fraction with fast bonus claims averaging 1.62 hours",
-      "fully interconnected edge density of 1.0 sharing IP subnet and referral links"
+      "signup burst spans only 1.39 days",
+      "order-value CV of 0.0057 -- near-identical order amounts",
+      "100% claim-then-dormant fraction",
+      "average gap between consecutive signups is 3.33 hours"
     ]
   },
   {
     "cluster_id": "C0063",
     "mode": "gemini",
-    "case_summary": "This cluster of 5 fully interconnected accounts exhibits classic soft-signal referral farming behavior, marked by a tight signup burst spanning under three days and fast bonus claims averaging 20 hours. Half of the members went dormant immediately after claiming their bonuses, and order values show low variation suggesting templated transactions. Given the absence of hard shared devices or payment instruments, a human analyst should review the case before bonuses are fully disbursed.",
+    "case_summary": "This cluster of 11 fully interconnected accounts exhibits a coordinated soft-signal farming pattern characterized by a tight signup burst over 4.57 days, near-identical order values with a low coefficient of variation, and rapid bonus claims averaging under 24 hours. Over half of the members became dormant immediately after claiming their bonuses, pointing to deliberate promotional abuse despite the lack of shared physical devices or payment instruments.",
     "confidence": 0.82,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 2.78 days across the cluster",
-      "80% of members claimed a bonus averaging 20.29 hours after signup",
-      "claim-then-dormant fraction is 50%",
-      "order-value coefficient of variation is 0.0864, indicating near-identical order amounts"
+      "signup burst spans only 4.57 days with fully interconnected member edges",
+      "order-value coefficient of variation is low at 0.066",
+      "56% claim-then-dormant fraction showing immediate inactivity post-bonus",
+      "suspicion score of 3/4 from the deterministic filter"
     ]
   },
   {
     "cluster_id": "C0064",
     "mode": "gemini",
-    "case_summary": "This cluster of 14 accounts exhibits a classic soft-signal referral farming pattern with a tight signup burst spanning under two days and rapid bonus claims averaging 2.61 hours. The accounts display near-identical order amounts with a very low coefficient of variation and an 80 percent post-claim dormancy rate. Given the fully interconnected network and lack of ongoing engagement, this warrants holding pending referral bonuses.",
-    "confidence": 0.89,
+    "case_summary": "This 12-account cluster exhibits classic soft-signal farming behavior, characterized by a tight 1.45-day signup burst and rapid referral bonus claims averaging 1.8 hours. The accounts show near-identical templated order values with a low coefficient of variation of 0.0031 and an 82% claim-then-dormant rate. Despite the absence of shared device fingerprints or payment instruments, the dense interconnection and behavioral patterns strongly indicate coordinated bonus abuse.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.63 days across the cluster",
-      "71% of members claimed a bonus averaging 2.61 hours after signup",
-      "order-value coefficient of variation is 0.0038 indicating near-identical order amounts",
-      "80% claim-then-dormant fraction going silent for 3+ days"
+      "signup burst spans only 1.45 days",
+      "92% of members claimed a bonus averaging 1.8 hours after signup",
+      "order-value CV of 0.0031 indicating near-identical order amounts",
+      "82% claim-then-dormant fraction going silent for 3+ days"
     ]
   },
   {
-    "cluster_id": "C0066",
+    "cluster_id": "C0065",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 fully interconnected accounts shows classic soft-signal referral farming behavior, featuring an ultra-tight signup burst of less than a day and rapid bonus claims averaging 2.36 hours. Every single account went completely dormant immediately after claiming their bonus, while placing near-identical orders with a coefficient of variation of 0.008. These coordinated indicators strongly suggest automated bonus abuse rather than organic usage.",
+    "case_summary": "This 10-account cluster exhibits classic soft-signal referral farming behavior, featuring a tight 1.21-day signup burst and 100% claim-then-dormant activity. Accounts show near-identical templated order values with a coefficient of variation of 0.0093 and rapid bonus claims averaging 2.5 hours post-signup. Despite lacking shared hardware or payment instruments, the dense interconnection via IP subnet and referral links strongly indicates coordinated abuse.",
     "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.8 days across the cluster",
-      "100% claim-then-dormant fraction with zero post-signup engagement after 7 days",
-      "order-value CV of 0.008 showing near-identical templated order amounts",
-      "referral bonus claims averaged 2.36 hours after signup"
+      "signup burst spans only 1.21 days",
+      "claim-then-dormant fraction is 100%",
+      "order-value CV of 0.0093 -- near-identical order amounts",
+      "70% of members claimed a bonus averaging 2.5 hours after signup"
     ]
   },
   {
     "cluster_id": "C0067",
     "mode": "gemini",
-    "case_summary": "This cluster of 5 fully interconnected accounts exhibits classic referral farming behavior with a tight signup burst spanning under half a day and rapid bonus claims averaging 2.4 hours later. The accounts show near-identical templated order values with an order-value coefficient of variation of 0.008, and 75% of bonus claimants went completely dormant immediately after. Given the lack of shared device or payment fingerprints, this soft-signal pattern warrants holding pending bonuses for human review.",
-    "confidence": 0.92,
+    "case_summary": "This cluster of 4 accounts demonstrates a coordinated bonus-farming pattern characterized by an extremely tight signup burst, rapid referral bonus claims, and subsequent dormancy. Members utilized identical order amounts and showed minimal long-term engagement, strongly matching soft-signal farming behavior despite a lack of shared device fingerprints.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.49 days across the cluster",
-      "80% of members claimed a bonus averaging 2.4 hours after signup",
-      "order-value CV of 0.008 indicates near-identical templated order amounts",
-      "75% claim-then-dormant fraction with zero sessions occurring more than 7 days after signup"
+      "signup burst spans only 0.41 days",
+      "75% of members claimed a bonus averaging 2.73 hours after signup",
+      "order-value CV of 0.0037 -- near-identical order amounts",
+      "claim-then-dormant fraction of 67%"
     ]
   },
   {
     "cluster_id": "C0069",
     "mode": "gemini",
-    "case_summary": "This 13-account cluster exhibits classic coordinated soft-signal referral farming. Accounts were created in a tight 1.74-day burst using shared IP subnets and referral links, with 92% rapidly claiming bonuses and immediately going dormant. Furthermore, near-identical templated order values (coefficient of variation 0.0086) confirm automated, programmatic abuse.",
-    "confidence": 0.95,
+    "case_summary": "This cluster of 15 fully interconnected accounts exhibits a classic soft-signal referral farming pattern. The accounts were created in a rapid 1.78-day burst, swiftly claimed bonuses averaging under two hours after signup, and immediately went dormant with low post-signup engagement. Furthermore, the total 25 orders placed show near-identical, templated amounts with an exceptionally low coefficient of variation of 0.0045.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "Signup burst spans only 1.74 days across the 13 accounts",
-      "92% of members claimed a bonus averaging 2.15 hours after signup",
-      "92% of members went dormant for 3+ days after claiming",
-      "Order-value coefficient of variation is 0.0086, indicating near-identical templated amounts"
+      "Signup burst spans only 1.78 days across the entire cluster",
+      "87% of members claimed a bonus averaging 1.99 hours after signup",
+      "85% claim-then-dormant fraction going silent for 3+ days",
+      "Order-value coefficient of variation of 0.0045 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0070",
     "mode": "gemini",
-    "case_summary": "This cluster of 11 fully interconnected accounts exhibits classic referral farming behavior characterized by a tight signup burst, fast bonus claims, and subsequent dormancy. While they do not share device fingerprints or payment instruments, the combination of IP subnet overlap, templated order values, and high post-claim inactivity strongly indicates coordinated bonus abuse.",
-    "confidence": 0.85,
+    "case_summary": "This cluster of 6 accounts exhibits a tight signup burst spanning just 0.55 days via shared referral links and IP subnets. Rapid bonus claims averaging 2.32 hours post-signup, combined with near-identical order amounts and immediate post-claim dormancy, strongly indicate coordinated soft-signal referral bonus farming.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "Edge density among members is 1.0 showing full interconnection",
-      "Signup burst spans only 4.77 days",
-      "Order-value CV of 0.0565 indicates near-identical templated order amounts",
-      "62% claim-then-dormant fraction with fast bonus claims averaging 20.54 hours after signup"
+      "signup burst spans only 0.55 days",
+      "83% of members claimed a bonus averaging 2.32 hours after signup",
+      "80% claim-then-dormant fraction",
+      "order-value coefficient of variation is 0.0084 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0071",
     "mode": "gemini",
-    "case_summary": "This 12-account cluster demonstrates a classic soft-signal referral farming pattern characterized by a tight 1.52-day signup burst and rapid bonus claims averaging 2.08 hours post-signup. Furthermore, 64 percent of members went dormant immediately after claiming their bonuses, and orders exhibited near-identical templated values with a coefficient of variation of 0.0234. We recommend holding bonuses for this cluster pending manual human review.",
-    "confidence": 0.89,
+    "case_summary": "This cluster of 12 fully interconnected accounts exhibits classic referral farming behavior, featuring a tight signup burst over 5.66 days and rapid bonus claims averaging 22.21 hours. Furthermore, 90 percent of members went dormant immediately after claiming their bonus, supported by low order-value variation indicative of templated spending.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.52 days across the cluster",
-      "92 percent of members claimed a bonus averaging 2.08 hours after signup",
-      "claim-then-dormant fraction is 64 percent",
-      "order-value coefficient of variation is 0.0234 indicating near-identical amounts"
+      "signup burst spans 5.66 days with fully interconnected edges",
+      "83 percent of members claimed bonuses averaging 22.21 hours after signup",
+      "claim-then-dormant fraction is 90 percent",
+      "order-value coefficient of variation is 0.0728 indicating near-identical amounts"
     ]
   },
   {
     "cluster_id": "C0072",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits classic soft-signal referral farming with a tight signup burst spanning under a day and near-instant bonus claims averaging 2.48 hours. The accounts show heavy dormancy after claiming and place near-identical orders with an extremely low coefficient of variation, indicating automated or coordinated activity despite the lack of a shared device fingerprint.",
+    "case_summary": "This cluster of 14 accounts exhibits classic soft-signal bonus farming behavior characterized by a tight signup burst of 1.26 days and rapid bonus claims averaging 2.2 hours after registration. Members show high post-claim dormancy alongside near-identical templated order values, despite lacking shared physical device fingerprints. Given the high suspicion score and soft-signal farming pattern, these pending bonuses should be held for human review.",
     "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup timing burst spans only 0.82 days",
-      "80% of members claimed a bonus averaging 2.48 hours after signup",
-      "88% claim-then-dormant fraction",
-      "order-value coefficient of variation of 0.0039 indicates near-identical order amounts"
-    ]
-  },
-  {
-    "cluster_id": "C0073",
-    "mode": "gemini",
-    "case_summary": "This cluster of 9 fully interconnected accounts exhibits a classic soft-signal farming pattern characterized by a tight signup burst over 5.64 days and fast referral bonus claims averaging 23.05 hours. Additionally, 57% of members went dormant after claiming their bonus and order amounts show templated consistency with a CV of 0.0763. We recommend holding pending bonuses while a human analyst reviews the cluster.",
-    "confidence": 0.85,
-    "recommended_action": "HOLD_BONUS",
-    "key_evidence": [
-      "signup burst spans only 5.64 days across the cluster",
-      "order-value CV of 0.0763 -- near-identical order amounts",
-      "57% claim-then-dormant fraction",
-      "fully interconnected edge density of 1.0"
+      "signup burst spans only 1.26 days across the cluster",
+      "order-value CV of 0.0053 -- near-identical order amounts",
+      "73% claim-then-dormant fraction",
+      "79% of members claimed a bonus averaging 2.2 hours after signup"
     ]
   },
   {
     "cluster_id": "C0074",
     "mode": "gemini",
-    "case_summary": "This cluster of 8 fully interconnected accounts exhibits classic referral farming behavior with a tight 1-day signup burst and near-identical order values with a CV of 0.0077. Members rapidly claim bonuses shortly after creation and subsequently go dormant, with 67 percent showing post-claim inactivity. Human review is recommended to hold pending bonuses for this soft-signal pattern.",
-    "confidence": 0.88,
+    "case_summary": "This cluster of 15 fully interconnected accounts exhibits strong soft-signal farming behavior, characterized by a rapid signup burst over 1.5 days and fast bonus claims averaging 1.42 hours after registration. The accounts demonstrate near-identical order amounts with a very low coefficient of variation and high subsequent dormancy, matching classic coordinated referral abuse patterns despite lacking shared devices or payment instruments.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.0 days",
-      "order-value CV of 0.0077 -- near-identical order amounts",
-      "claim-then-dormant fraction is 67%",
-      "fully interconnected edge density of 1.0"
+      "signup burst spans only 1.5 days with an average gap of 2.56 hours",
+      "80% of members claimed a bonus averaging 1.42 hours after signup",
+      "83% claim-then-dormant fraction showing silence for 3+ days",
+      "order-value coefficient of variation of 0.0035 indicates near-identical templated order amounts"
     ]
   },
   {
     "cluster_id": "C0075",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits classic soft-signal referral farming behavior, featuring a tight signup burst over 5.73 days, fully interconnected links, and templated order values with a low coefficient of variation of 0.0681. Furthermore, 70% of members claimed bonuses rapidly and a significant portion showed immediate dormancy post-claim.",
-    "confidence": 0.85,
+    "case_summary": "This cluster of seven accounts exhibits strong soft-signal farming behaviors, including a tight signup burst under one day, rapid referral bonus claims, and nearly identical templated order values with a coefficient of variation of 0.0035. Half of the members went dormant immediately after claiming their bonuses, fitting a coordinated bonus abuse pattern. While there are no shared devices or payment instruments, the combination of timing and behavioral indicators warrants holding pending bonuses for human review.",
+    "confidence": 0.88,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 5.73 days",
-      "order-value coefficient of variation of 0.0681 -- near-identical order amounts",
-      "70% of members claimed a bonus averaging 18.58 hours after signup",
-      "43% claim-then-dormant fraction"
+      "signup burst spans only 0.95 days across the cluster",
+      "order-value coefficient of variation is 0.0035, indicating near-identical order amounts",
+      "86% of members claimed a bonus averaging 1.79 hours after signup",
+      "50% claim-then-dormant fraction where members went silent for 3+ days after claiming"
     ]
   },
   {
     "cluster_id": "C0076",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 accounts exhibits a coordinated referral farming pattern characterized by a tight signup burst over 1.65 days and near-identical templated order values with a coefficient of variation of 0.0046. A majority of the members rapidly claimed their referral bonuses within hours of signup before immediately going dormant. Due to the strong behavioral indicators despite the lack of shared devices, these pending bonuses should be held for human verification.",
-    "confidence": 0.9,
+    "case_summary": "This cluster of 7 accounts exhibits a coordinated soft-signal referral farming pattern, featuring a tight signup burst over four days via a shared referral link, fast bonus claims, and subsequent dormancy in 67% of members. Furthermore, the low order-value coefficient of variation indicates templated transactions designed to hit minimum thresholds. Although there is no shared device or payment instrument, the combined behavioral indicators strongly suggest promotional abuse.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.65 days across the cluster",
-      "order-value CV of 0.0046 -- near-identical order amounts",
-      "62% of members claimed a bonus averaging 1.74 hours after signup",
-      "claim-then-dormant fraction of 62% for 3+ days"
+      "signup burst spans only 4.08 days",
+      "86% of members claimed a bonus averaging 19.63 hours after signup",
+      "67% claim-then-dormant fraction",
+      "order-value CV of 0.076 indicating near-identical order amounts"
     ]
   },
   {
     "cluster_id": "C0077",
     "mode": "gemini",
-    "case_summary": "This cluster of 13 fully interconnected accounts exhibits classic referral farming behavior characterized by a tight 1.48-day signup burst, fast bonus claims averaging under two hours, and high dormancy. Furthermore, 78% of claimants went silent immediately after claiming their bonus and order amounts show near-identical templated values with a CV of 0.0045.",
+    "case_summary": "This 14-account cluster exhibits classic soft-signal referral farming behavior, featuring an extremely tight signup burst across just 1.27 days and nearly identical, templated order values with a coefficient of variation of 0.004. Furthermore, 86% of members rapidly claimed referral bonuses within a couple of hours and immediately went dormant. Because bonuses were rapidly claimed and abandoned without organic engagement, holding the pending bonuses is recommended pending human review.",
     "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 1.48 days across the cluster",
-      "69% of members claimed a bonus averaging 1.93 hours after signup",
-      "claim-then-dormant fraction is 78%",
-      "order-value coefficient of variation is 0.0045 indicating near-identical amounts"
+      "signup burst spans only 1.27 days",
+      "order-value CV of 0.004 -- near-identical order amounts",
+      "86% of members claimed a bonus averaging 2.1 hours after signup",
+      "claim-then-dormant fraction is 83%"
     ]
   },
   {
     "cluster_id": "C0079",
     "mode": "gemini",
-    "case_summary": "This cluster of 9 accounts exhibits classic soft-signal bonus farming behavior characterized by an extremely tight signup burst of under 10 hours and rapid bonus claims averaging two hours post-signup. All members became entirely dormant immediately after claiming their bonuses, and transactions show near-identical templated order values with a coefficient of variation of 0.0034. Despite the lack of a shared device fingerprint, the unified behavioral pattern strongly indicates coordinated multi-account referral abuse.",
+    "case_summary": "This cluster of 13 accounts exhibits classic soft-signal referral farming, characterized by an extremely tight signup burst of under a day and near-identical templated order values. A significant majority of members rapidly claimed their referral bonuses shortly after creation and immediately went dormant. These behavioral patterns strongly indicate coordinated automated abuse rather than organic user acquisition.",
     "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.42 days across the cluster",
-      "100% claim-then-dormant fraction",
-      "order-value CV of 0.0034 -- near-identical order amounts",
-      "referral bonus claims average 2.04 hours after signup"
+      "Signup timing span of 0.83 days across the cluster",
+      "Order-value CV of 0.0037 indicating near-identical templated order amounts",
+      "88% claim-then-dormant fraction with rapid bonus claims averaging 2.26 hours after signup",
+      "Fully interconnected edge density of 1.0 sharing referral links and IP subnets"
+    ]
+  },
+  {
+    "cluster_id": "C0080",
+    "mode": "gemini",
+    "case_summary": "This 11-account cluster exhibits classic soft-signal referral farming behavior, characterized by a tight signup burst spanning under 36 hours and rapid bonus claims averaging just over two hours post-signup. Furthermore, 90 percent of the members went dormant immediately after claiming their bonuses, and all placed orders show near-identical templated values with a coefficient of variation of 0.0049. Given these strong behavioral red flags despite the lack of shared devices, bonuses should be held pending manual verification.",
+    "confidence": 0.92,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "signup burst spans a tight window of 1.48 days",
+      "91 percent of members claimed a bonus averaging 2.17 hours after signup",
+      "claim-then-dormant fraction is 90 percent",
+      "order-value coefficient of variation is 0.0049 indicating templated amounts"
     ]
   },
   {
     "cluster_id": "C0081",
     "mode": "gemini",
-    "case_summary": "This 7-account cluster exhibits classic soft-signal referral farming, featuring a tight 14-hour signup burst and a fully interconnected referral link graph. All members claimed bonuses within hours of registration and immediately went dormant, supported by near-identical templated order amounts. Although hardware and payment instruments are not shared, the coordinated behavioral patterns strongly indicate automated abuse.",
-    "confidence": 0.92,
+    "case_summary": "This cluster of 12 fully interconnected accounts exhibits a coordinated referral farming pattern characterized by a tight signup burst, fast bonus claims, and subsequent dormancy. The accounts show near-identical order amounts and a high claim-then-dormant rate, despite lacking shared devices or payment instruments.",
+    "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.58 days across the cluster",
-      "claim-then-dormant fraction is 100% with bonuses claimed averaging 2.08 hours after signup",
-      "order-value coefficient of variation is 0.0104 indicating near-identical order amounts",
-      "post-signup engagement averages 0.0 sessions more than 7 days after signup"
+      "Edge density among members is 1.0, showing full interconnection",
+      "Signup burst spans only 5.63 days with rapid consecutive signups",
+      "Order-value CV of 0.0675 indicates near-identical templated order amounts",
+      "56% claim-then-dormant fraction with bonuses claimed averaging 17.87 hours after signup"
     ]
   },
   {
     "cluster_id": "C0082",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits classic soft-signal referral farming behavior with fully interconnected links and a tight 0.55-day signup burst. The accounts rapidly claim bonuses within hours, show near-identical templated order values with a low coefficient of variation, and largely go dormant immediately after. Despite lacking shared hardware or payment identifiers, the behavioral alignment strongly suggests coordinated abuse.",
-    "confidence": 0.88,
+    "case_summary": "This cluster of 14 accounts exhibits classic soft-signal referral farming behavior, featuring an extremely tight signup burst of 1.65 days and near-identical templated order values with a low coefficient of variation of 0.0044. Furthermore, 86 percent of members rapidly claimed referral bonuses shortly after signup and immediately went dormant. These coordinated patterns strongly indicate automated farming activity despite the absence of shared device fingerprints.",
+    "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.55 days across the cluster",
-      "order-value coefficient of variation is 0.0109 indicating near-identical order amounts",
-      "83% of members claimed a bonus averaging 2.16 hours after signup",
-      "80% claim-then-dormant fraction showing silence for 3+ days after claiming"
+      "signup burst spans only 1.65 days across the cluster",
+      "order-value coefficient of variation is 0.0044 indicating near-identical order amounts",
+      "86 percent of members claimed a bonus averaging 1.89 hours after signup",
+      "83 percent of members went dormant for 3+ days after claiming the bonus"
     ]
   },
   {
     "cluster_id": "C0083",
     "mode": "gemini",
-    "case_summary": "This cluster of 8 fully interconnected accounts displays classic soft-signal referral farming. The members feature a tight signup burst, fast bonus claims averaging within 24 hours, post-claim dormancy, and highly templated order amounts. Although they lack shared devices or payment instruments, the behavioral patterns strongly indicate coordinated bonus abuse.",
+    "case_summary": "Cluster C0083 exhibits classic soft-signal referral farming behavior characterized by a tight signup burst over six days using shared IP subnets and referral links. A high percentage of members rapidly claimed bonuses followed by post-claim dormancy, while the remaining members show low variation in order amounts. Although there are no shared devices or payment instruments, the collective transaction patterns strongly suggest coordinated bonus abuse.",
     "confidence": 0.85,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans a tight window of 3.81 days",
-      "67% claim-then-dormant fraction indicating post-claim abandonment",
-      "low order-value coefficient of variation of 0.0828 showing templated spending",
-      "75% of members rapidly claimed a referral bonus averaging 23.99 hours after signup"
+      "signup burst spans only 6.17 days",
+      "order-value coefficient of variation is 0.0743 indicating near-identical order amounts",
+      "44% claim-then-dormant fraction",
+      "shared ip_subnet_overlap and referral_link across 14 fully interconnected accounts"
     ]
   },
   {
     "cluster_id": "C0084",
     "mode": "gemini",
-    "case_summary": "This cluster of 15 fully interconnected accounts exhibits a classic soft-signal farming pattern characterized by a tight signup burst over 2.2 days, extremely rapid bonus claims averaging 2.57 hours post-signup, and subsequent dormancy in 77 percent of members. Furthermore, members placed orders with near-identical templated amounts, reflected by a very low order-value coefficient of variation of 0.0098, without showing genuine organic ongoing use.",
-    "confidence": 0.92,
+    "case_summary": "This 7-account cluster exhibits classic soft-signal referral farming with a rapid signup burst within 0.94 days and fast bonus claims averaging 2.1 hours. Members demonstrate near-identical templated order values and 83% dormancy after claiming their bonuses. Despite a lack of shared devices or payment instruments, the behavioral patterns strongly indicate coordinated abuse.",
+    "confidence": 0.91,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 2.2 days",
-      "87 percent of members claimed a bonus averaging 2.57 hours after signup",
-      "77 percent claim-then-dormant fraction",
-      "order-value coefficient of variation of 0.0098 indicating near-identical order amounts"
+      "signup burst spans only 0.94 days across the cluster",
+      "order-value CV of 0.005 -- near-identical order amounts",
+      "83% of members went dormant after bonus claim",
+      "86% of members claimed a bonus averaging 2.1 hours after signup"
     ]
   },
   {
     "cluster_id": "C0085",
     "mode": "gemini",
-    "case_summary": "This cluster of 10 accounts exhibits classic referral farming behavior, featuring fully interconnected edges, a tight signup burst spanning just 5 days, and rapid bonus claims averaging under 19 hours. Furthermore, 57% of members went dormant immediately after claiming their bonuses, and order amounts show templated behavior with a low coefficient of variation.",
-    "confidence": 0.85,
+    "case_summary": "This cluster of 10 accounts exhibits classic soft-signal referral farming with a fully interconnected graph, a tight signup burst spanning under a day, and near-identical templated order values. All members rapidly claimed bonuses within hours of registration and immediately went dormant with zero long-term engagement. Recommend holding pending bonuses while a human analyst reviews the pattern.",
+    "confidence": 0.95,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "Edge density among members is 1.0, indicating full interconnection",
-      "Signup burst spans only 5.08 days",
-      "70% of members claimed a bonus averaging 18.85 hours after signup",
-      "Claim-then-dormant fraction is 57%",
-      "Order-value coefficient of variation is 0.0682, indicating templated amounts"
+      "signup burst spans only 0.91 days across the cluster",
+      "order-value CV of 0.0038 -- near-identical order amounts",
+      "100% claim-then-dormant fraction",
+      "80% of members claimed a bonus averaging 2.4 hours after signup"
     ]
   },
   {
     "cluster_id": "C0086",
     "mode": "gemini",
-    "case_summary": "This cluster of 6 accounts exhibits a coordinated soft-signal farming pattern characterized by a tight signup burst spanning less than a day, rapid referral bonus claims, and 100% post-claim dormancy. Furthermore, order values are near-identical with a low coefficient of variation of 0.0054, and zero ongoing engagement occurs after day seven. These combined behaviors strongly indicate automated or incentivized bonus extraction rather than organic user acquisition.",
+    "case_summary": "This cluster of 4 accounts exhibits classic soft-signal referral farming characteristics, featuring a tight signup burst over 2 days and rapid bonus claims within 24 hours. The majority of members went dormant after claiming their bonuses and placed orders with near-identical values, despite a lack of shared devices or payment instruments.",
+    "confidence": 0.78,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "signup burst spans only 2.11 days",
+      "75% of members claimed a bonus averaging 24.44 hours after signup",
+      "67% claim-then-dormant fraction",
+      "order-value CV of 0.0571 -- near-identical order amounts"
+    ]
+  },
+  {
+    "cluster_id": "C0087",
+    "mode": "gemini",
+    "case_summary": "This cluster of 4 accounts exhibits a classic soft-signal farming pattern with a tight signup burst spanning under half a day and near-identical templated order values. 75 percent of the members quickly claimed referral bonuses within an hour and a quarter of signup and subsequently entered complete dormancy. Given the fully interconnected referral links and IP subnet overlap, this indicates coordinated bonus abuse.",
     "confidence": 0.92,
     "recommended_action": "HOLD_BONUS",
     "key_evidence": [
-      "signup burst spans only 0.8 days across the cluster",
-      "83% of members claimed a bonus averaging 2.77 hours after signup",
-      "100% claim-then-dormant fraction with zero sessions more than 7 days after signup",
-      "order-value CV of 0.0054 indicating near-identical templated order amounts"
+      "signup burst spans only 0.48 days",
+      "order-value CV of 0.0063 -- near-identical order amounts",
+      "75% of members claimed a bonus averaging 1.26 hours after signup",
+      "claim-then-dormant fraction is 100%"
+    ]
+  },
+  {
+    "cluster_id": "C0088",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0088 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.93 days",
+      "order-value CV of 0.0626 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0089",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0089 (6 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.51 days",
+      "order-value CV of 0.0277 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0090",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0090 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.13 days",
+      "order-value CV of 0.0085 (near-identical amounts)",
+      "83% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0091",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0091 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 5.71 days",
+      "order-value CV of 0.0693 (near-identical amounts)",
+      "62% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0092",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0092 (12 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.81 days",
+      "order-value CV of 0.0157 (near-identical amounts)",
+      "71% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0094",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0094 (8 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.8 days",
+      "order-value CV of 0.0058 (near-identical amounts)",
+      "100% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0095",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0095 (15 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.84 days",
+      "order-value CV of 0.0068 (near-identical amounts)",
+      "91% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0096",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0096 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 6.74 days",
+      "order-value CV of 0.0763 (near-identical amounts)",
+      "56% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0097",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0097 (10 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 1.03 days",
+      "order-value CV of 0.0146 (near-identical amounts)",
+      "78% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0098",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0098 (9 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 4.89 days",
+      "order-value CV of 0.0716 (near-identical amounts)",
+      "75% claim-then-dormant"
+    ]
+  },
+  {
+    "cluster_id": "C0099",
+    "mode": "fallback_template",
+    "case_summary": "[template fallback -- no LLM available] Cluster C0099 (5 accounts, soft-signal detection) was flagged by the deterministic filter: No shared device or instrument, but signup burst, templated order values, fast bonus claims, and dormancy after claim line up -- classic soft-signal farming pattern.",
+    "confidence": 0.72,
+    "recommended_action": "HOLD_BONUS",
+    "key_evidence": [
+      "cluster shares an IP subnet",
+      "signup burst spans only 0.41 days",
+      "order-value CV of 0.0103 (near-identical amounts)",
+      "100% claim-then-dormant"
     ]
   }
 ]

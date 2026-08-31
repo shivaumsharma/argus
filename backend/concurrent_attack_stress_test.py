@@ -356,9 +356,11 @@ def run():
                 print(f"  NEW INTERFERENCE: {cid} ({c['type']}, {len(c['members'])} members) -- flagged only "
                       f"when the concurrent attacks were present, not in the zero-attack baseline.")
         else:
+            n_baseline = len(conf_ids_baseline)
             print(f"  None. Every confounder flagged in the {len(rings)}-attack run was ALSO already flagged "
-                  "in the zero-attack baseline -- no new interference effect found in this run, once the "
-                  "dataset's one pre-existing known false positive is correctly controlled for.")
+                  f"in the zero-attack baseline -- no new interference effect found in this run, once the "
+                  f"dataset's {n_baseline} pre-existing known false positive{'s' if n_baseline != 1 else ''} "
+                  f"{'are' if n_baseline != 1 else 'is'} correctly controlled for.")
 
         report = {
             "master_seed": MASTER_SEED, "n_rings_injected": len(rings),

@@ -116,6 +116,27 @@ everything above: a real, re-runnable sweep added to `elliptic.py` itself
 `EXTERNAL_VALIDATION.md`, `ARCHITECTURE.md`, and `README.md` rather than
 left as a chat answer.
 
+## Addendum 2 — the primary-dataset re-freeze this doc's own numbers predate
+
+Everything above was checked against the original `SEED=20260828` dataset.
+That dataset was subsequently re-frozen (`SEED=51238923`,
+`USE_GROUNDED_DEVICE_SHARING` turned on — see `ARCHITECTURE.md`'s Known
+Limitations), per the same eval integrity protocol used everywhere else in
+this project: fresh seed, one `generate → pipeline → eval` run, numbers
+reported as-is. Every doc that cites a number computed against the primary
+dataset (`FAIRNESS_AUDIT.md`, `COST_THRESHOLD_SENSITIVITY.md`,
+`FRAUDAR_CROSSCHECK.md`, `COMPLIANCE_SUMMARY.md`, the confidence-calibration
+bullet in `ARCHITECTURE.md`, and the concurrent-attack/infra-resilience/
+time-drift docs) was re-run against the new freeze and updated — not left
+standing next to numbers that no longer match the live system, and not
+silently patched without the fresh-seed/single-run discipline. External
+validation (YelpChi/Amazon/Elliptic) is unaffected, since it runs against
+outside data, not ours. The numbers in this document's own tables above
+are intentionally left as the dated historical record of that specific
+pass, not rewritten to match the new freeze — the "Known limitations"
+narrative sections that referenced now-superseded specifics were fixed at
+their source (`ARCHITECTURE.md`, `README.md`) rather than here.
+
 ## What this check does not cover
 
 This is a consistency and dry-run pass, not a re-verification of every
@@ -123,7 +144,7 @@ underlying claim from scratch — each capability's own numbers were already
 measured and reported honestly in its own doc when it was built (see
 `ARCHITECTURE.md`'s Known Limitations for the full list of what's honestly
 unresolved: the adaptive-adversary limit, the zero-attribute blind spot,
-the primary-dataset re-freeze still staged but not applied, and the rest).
+and the rest).
 What this pass adds is confirmation that those already-honest numbers
 still agree with each other and with the live system, and it found three
 places where they had quietly drifted apart.

@@ -40,8 +40,10 @@ advance.
 disposable tempdir copy of the real `data/raw/` every period; the original
 is never touched. Confounder false positives use the same baseline-control
 method established in `CONCURRENT_ATTACK_STRESS_TEST.md` (computed once,
-since the background is identical every period). Fresh seed (`55019284`,
-registered in `used_seeds.json`).
+since the background is identical every period). Fresh seed (`55019285`,
+registered in `used_seeds.json`), re-run against the re-frozen
+`SEED=51238923` primary dataset — see `ARCHITECTURE.md`'s Known
+Limitations.
 
 Run: `python -m backend.time_drift_simulation`
 
@@ -73,10 +75,10 @@ real baseline to decay from.
 
 | Period | No-shared-device recall | Shared-device recall | Confounder FP rate |
 |---|---|---|---|
-| 1 | **100%** (8/8) | **100%** (8/8) | 2.5% (1/40) |
-| 2 | **0%** (0/8) | 100% (8/8) | 2.5% (1/40) |
-| 3 | 0% (0/8) | 100% (8/8) | 2.5% (1/40) |
-| 4 | 0% (0/8) | **25%** (2/8) | 2.5% (1/40) |
+| 1 | **100%** (8/8) | **100%** (8/8) | 5.0% (2/40) |
+| 2 | **0%** (0/8) | 100% (8/8) | 5.0% (2/40) |
+| 3 | 0% (0/8) | 100% (8/8) | 5.0% (2/40) |
+| 4 | 0% (0/8) | **38%** (3/8) | 5.0% (2/40) |
 
 **No-shared-device: a cliff, not a gradual slope.** Recall drops from 100%
 to 0% between period 1 (`sophistication=0.0`) and period 2
@@ -95,19 +97,23 @@ crossing point sits; reported as a real limit of this test's resolution,
 not smoothed into a slope the data doesn't show.
 
 **Shared-device: a later, gentler decay.** Recall holds at 100% through
-period 3, then drops to 25% at period 4, once the knobs reach the exact
+period 3, then drops to 38% at period 4, once the knobs reach the exact
 real production thresholds (`spread_out_days=21`, `diverse_order_cv=0.28`,
 `engaged_sessions=1.5`) — the same organic-clear boundary already
 characterized elsewhere this session (a probabilistic per-ring outcome, not
 a guaranteed bypass; see `CONCURRENT_ATTACK_STRESS_TEST.md`'s 1/4 result on
-the identical archetype). Consistent with, not contradicting, that earlier
-finding.
+the identical archetype — both 38% and 25% are plausible draws from the same
+underlying per-ring probability, not a contradiction between runs).
+Consistent with, not contradicting, that earlier finding.
 
-**Confounder false-positive rate: flat at 2.5% (1/40) in every period.**
-The one flagged confounder is the same pre-existing "tight household" false
-positive present with zero rings injected at all (see
+**Confounder false-positive rate: flat at 5.0% (2/40) in every period.**
+The two flagged confounders are the same pre-existing false positives
+present with zero rings injected at all (see
 `CONCURRENT_ATTACK_STRESS_TEST.md`'s baseline-control methodology) — no new
-interference from either evolving population, in any period.
+interference from either evolving population, in any period. (This is 2,
+not the 1 reported when this test first ran, because the primary dataset
+was re-frozen with grounded household device-sharing in between — an
+unrelated, expected shift, not a change in this test's own mechanism.)
 
 ## Honest read
 
@@ -115,7 +121,7 @@ interference from either evolving population, in any period.
 slope — this test's 4-period resolution cannot distinguish a genuinely
 instantaneous threshold effect from a fast-but-continuous one in the
 `[0.0, 0.33]` sophistication gap. **Trend, shared-device: decaying** (100%
-→ 25%), later and less completely than the no-device population within the
+→ 38%), later and less completely than the no-device population within the
 same 4 periods, because the device-branch's organic-clear condition
 requires all three checks to clear *simultaneously*, a harder bar for an
 adversary to reach than any single suspicion check flipping. **Trend,

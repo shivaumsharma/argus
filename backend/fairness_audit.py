@@ -152,14 +152,21 @@ def run(verbose=True):
             account_tier_counts[classify_pincode(pincode_map[m])] += 1
 
     t1r, t3r = ring_recall_by_tier_d["tier1_metro"], ring_recall_by_tier_d["tier3_other"]
+    t1_missed = t1r["n"] - t1r["hits"]
+    total_conf_fp = sum(1 for r in conf_tagged if r["wrongly_flagged"])
+    total_conf_n = len(conf_tagged)
+    total_ring_n = len(ring_tagged)
+    swing_pct_per_miss = round(100 / t1r["n"]) if t1r["n"] else 0
     honest_read = (
         f"The ring-recall column has a gap that looks real if you only read the percentages -- "
         f"{t1r['rate']:.0%} for Tier-1 metro vs {t3r['rate']:.0%} for Tier-3/other. Read the counts "
         f"before the rate, exactly the discipline this project applies everywhere else: Tier-1 metro is "
-        f"{t1r['hits']} of {t1r['n']} rings detected -- missing 2 out of 8 is a 25-percentage-point swing "
-        f"from a single additional miss, which is what small-N does, not evidence of a real tier-linked "
-        f"gap. With only 40 confounders and 80 rings split three ways, and 1 real confounder false "
-        f"positive across the whole frozen set, no split of this data has enough events to support a "
+        f"{t1r['hits']} of {t1r['n']} rings detected -- missing {t1_missed} out of {t1r['n']} is a "
+        f"{swing_pct_per_miss * max(t1_missed, 1)}-percentage-point swing from just {t1_missed} miss"
+        f"{'es' if t1_missed != 1 else ''}, which is what small-N does, not evidence of a real tier-linked "
+        f"gap. With only {total_conf_n} confounders and {total_ring_n} rings split three ways, and "
+        f"{total_conf_fp} real confounder false positive{'s' if total_conf_fp != 1 else ''} across the "
+        f"whole frozen set, no split of this data has enough events to support a "
         f"statistically meaningful rate comparison in any direction -- for confounder FP or for ring "
         f"recall. This audit ran for real against real (random) pincode values and is reported exactly "
         f"as it came out, not stretched into a finding it can't support and not smoothed over to hide a "
