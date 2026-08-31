@@ -100,6 +100,22 @@ calibration rebuild, the data_io.py malformed-record fix) didn't leave
 anything stale behind in the one doc that's supposed to be fully
 auto-generated.
 
+## Addendum — a fourth issue, found after this pass, fixed the same way
+
+A follow-up question asked directly whether Elliptic's Stage 4/5 rules
+actually applied to Bitcoin data, and whether that cost real recall.
+Checked, not assumed: they never applied at all — `elliptic.py` only ever
+ran Stage 2/3 clustering, substituting one bare `density > 50%` rule
+(inherited unchanged from YelpChi/Amazon) for the entire Stage 4+5 decision
+logic. Sweeping that one threshold on the exact same, already-computed
+clusters found 3.4x more identifiable illicit transactions (2,033 vs. 597)
+at a still-real 3.2x lift over base rate — meaning the reported 829/597/
+72.0% headline was one unswept point, not a ceiling. Fixed the same way as
+everything above: a real, re-runnable sweep added to `elliptic.py` itself
+(not a one-off calculation), and the finding written into
+`EXTERNAL_VALIDATION.md`, `ARCHITECTURE.md`, and `README.md` rather than
+left as a chat answer.
+
 ## What this check does not cover
 
 This is a consistency and dry-run pass, not a re-verification of every
