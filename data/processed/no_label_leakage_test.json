@@ -1,0 +1,78 @@
+{
+  "n_checked": 14,
+  "n_clean": 14,
+  "n_violations": 0,
+  "violations": [],
+  "results": [
+    {
+      "function": "pipeline.features.compute_features (Stage 4, primary pipeline)",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "pipeline.confounder_filter.evaluate_cluster (Stage 5, primary pipeline)",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "cod_collusion.features.compute_features (COD Stage 4)",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "cod_collusion.filter.evaluate_cluster (COD Stage 5)",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "adversarial_recommender.gap_characterizer.characterize",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "adversarial_recommender.recommendation_drafter.draft",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "llm_investigate.build_prompt",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "llm_investigate._fallback_investigation",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "fraudar_analysis.build_bipartite_graph",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "fraudar_analysis.fast_greedy_decreasing",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "fraudar_analysis.detect_top_k_blocks",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "external_validation.behavioral_scoring.heuristic_suspicion_score",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "external_validation.behavioral_scoring.evaluate_behavioral (feature construction)",
+      "clean": true,
+      "matched_patterns": []
+    },
+    {
+      "function": "external_validation.elliptic.label_blind_classifier_check (feature construction)",
+      "clean": true,
+      "matched_patterns": []
+    }
+  ]
+}

@@ -9,3 +9,5 @@ pyvis>=0.3.2
 anthropic>=0.40
 google-genai>=2.0
 pydantic>=2.6
+scikit-learn>=1.5
+xgboost>=2.0
