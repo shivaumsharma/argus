@@ -47,9 +47,19 @@ def _add_edge(G, u, v, signal, weight):
         G.add_edge(u, v, weight=weight, signals={signal})
 
 
-def build_graph(data: DataBundle) -> nx.Graph:
+def build_graph(data: DataBundle, max_shared_attribute_group_size: int = None) -> nx.Graph:
+    """max_shared_attribute_group_size=None (the default, unchanged from every prior run of this
+    project -- verified byte-identical against the frozen dataset) builds a full clique for every
+    shared-attribute group, same as always. Set it to skip building ANY edges for a group whose
+    size exceeds the cap -- the same judgment this project already applies to Amazon's excluded
+    net_usu relation in external_validation/run.py ("an attribute touched by many distinct users
+    earns suspicion, not weight" -- Stage 5's own philosophy, extended here to Stage 1 itself).
+    Built in response to backend/supernode_stress_test.py, which found the current unconditional
+    approach is O(n^2) edge construction per shared-attribute group -- see that module's docstring
+    for the measured before/after."""
     G = nx.Graph()
     G.add_nodes_from(data.accounts.user_id)
+    cap = max_shared_attribute_group_size
 
     # --- shared instrument_hash ---
     groups = defaultdict(list)
@@ -57,7 +67,7 @@ def build_graph(data: DataBundle) -> nx.Graph:
         if _valid(ih):
             groups[ih].append(uid)
     for members in groups.values():
-        if len(members) < 2:
+        if len(members) < 2 or (cap is not None and len(members) > cap):
             continue
         for i in range(len(members)):
             for j in range(i + 1, len(members)):
@@ -69,7 +79,7 @@ def build_graph(data: DataBundle) -> nx.Graph:
         if _valid(dev):
             groups[dev].append(uid)
     for members in groups.values():
-        if len(members) < 2:
+        if len(members) < 2 or (cap is not None and len(members) > cap):
             continue
         for i in range(len(members)):
             for j in range(i + 1, len(members)):
@@ -81,7 +91,7 @@ def build_graph(data: DataBundle) -> nx.Graph:
         if _valid(subnet):
             groups[subnet].append(uid)
     for members in groups.values():
-        if len(members) < 2:
+        if len(members) < 2 or (cap is not None and len(members) > cap):
             continue
         for i in range(len(members)):
             for j in range(i + 1, len(members)):

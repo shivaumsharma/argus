@@ -1,0 +1,157 @@
+{
+  "sweep_sizes": [
+    50,
+    200,
+    1000,
+    5000
+  ],
+  "uncapped_sweep": [
+    {
+      "n": 50,
+      "degree_cap": null,
+      "graph_build_seconds": 0.1147,
+      "clustering_seconds": 0.3472,
+      "n_edges_among_injected_accounts": 1225,
+      "uncapped_clique_edges_would_be": 1225,
+      "merged_into_one_cluster": true,
+      "cluster_stage": "hard",
+      "cluster_size": 50,
+      "injected_accounts_captured": 50,
+      "flagged": false,
+      "organic_score": 3,
+      "suspicion_score": 0,
+      "reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+      "features": {
+        "signup_span_days": 354.11,
+        "order_value_cv": 0.4198,
+        "post_signup_engagement": 6.72,
+        "claim_then_dormant_frac": 0.0,
+        "bonus_claim_velocity_hours": 179.17
+      }
+    },
+    {
+      "n": 200,
+      "degree_cap": null,
+      "graph_build_seconds": 0.1474,
+      "clustering_seconds": 0.4527,
+      "n_edges_among_injected_accounts": 19900,
+      "uncapped_clique_edges_would_be": 19900,
+      "merged_into_one_cluster": true,
+      "cluster_stage": "hard",
+      "cluster_size": 200,
+      "injected_accounts_captured": 200,
+      "flagged": false,
+      "organic_score": 3,
+      "suspicion_score": 0,
+      "reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+      "features": {
+        "signup_span_days": 357.68,
+        "order_value_cv": 0.4531,
+        "post_signup_engagement": 7.325,
+        "claim_then_dormant_frac": 0.091,
+        "bonus_claim_velocity_hours": 145.98
+      }
+    },
+    {
+      "n": 1000,
+      "degree_cap": null,
+      "graph_build_seconds": 1.1904,
+      "clustering_seconds": 9.227,
+      "n_edges_among_injected_accounts": 499500,
+      "uncapped_clique_edges_would_be": 499500,
+      "merged_into_one_cluster": true,
+      "cluster_stage": "hard",
+      "cluster_size": 1000,
+      "injected_accounts_captured": 1000,
+      "flagged": false,
+      "organic_score": 3,
+      "suspicion_score": 0,
+      "reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+      "features": {
+        "signup_span_days": 358.51,
+        "order_value_cv": 0.4547,
+        "post_signup_engagement": 7.325,
+        "claim_then_dormant_frac": 0.051,
+        "bonus_claim_velocity_hours": 171.21
+      }
+    },
+    {
+      "n": 5000,
+      "degree_cap": null,
+      "graph_build_seconds": 36.3468,
+      "clustering_seconds": 282.5881,
+      "n_edges_among_injected_accounts": 12497500,
+      "uncapped_clique_edges_would_be": 12497500,
+      "merged_into_one_cluster": true,
+      "cluster_stage": "hard",
+      "cluster_size": 5000,
+      "injected_accounts_captured": 5000,
+      "flagged": false,
+      "organic_score": 3,
+      "suspicion_score": 0,
+      "reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+      "features": {
+        "signup_span_days": 359.91,
+        "order_value_cv": 0.4452,
+        "post_signup_engagement": 7.268,
+        "claim_then_dormant_frac": 0.059,
+        "bonus_claim_velocity_hours": 175.41
+      }
+    }
+  ],
+  "any_false_positive": false,
+  "quadratic_blowup_confirmed": true,
+  "degree_cap_tested": 100,
+  "mitigation_sweep": [
+    {
+      "n": 50,
+      "degree_cap": 100,
+      "graph_build_seconds": 0.0752,
+      "clustering_seconds": 0.3644,
+      "n_edges_among_injected_accounts": 1225,
+      "uncapped_clique_edges_would_be": 1225,
+      "merged_into_one_cluster": true,
+      "cluster_stage": "hard",
+      "cluster_size": 50,
+      "injected_accounts_captured": 50,
+      "flagged": false,
+      "organic_score": 3,
+      "suspicion_score": 0,
+      "reason": "Shared device, but activity is spread out, order values are diverse, and members stay engaged for months after signup -- consistent with a shared household device.",
+      "features": {
+        "signup_span_days": 354.11,
+        "order_value_cv": 0.4198,
+        "post_signup_engagement": 6.72,
+        "claim_then_dormant_frac": 0.0,
+        "bonus_claim_velocity_hours": 179.17
+      }
+    },
+    {
+      "n": 200,
+      "degree_cap": 100,
+      "graph_build_seconds": 0.081,
+      "clustering_seconds": 0.3826,
+      "n_edges_among_injected_accounts": 1,
+      "uncapped_clique_edges_would_be": 19900,
+      "merged_into_one_cluster": false
+    },
+    {
+      "n": 1000,
+      "degree_cap": 100,
+      "graph_build_seconds": 0.0834,
+      "clustering_seconds": 0.3822,
+      "n_edges_among_injected_accounts": 7,
+      "uncapped_clique_edges_would_be": 499500,
+      "merged_into_one_cluster": false
+    },
+    {
+      "n": 5000,
+      "degree_cap": 100,
+      "graph_build_seconds": 0.0864,
+      "clustering_seconds": 0.3842,
+      "n_edges_among_injected_accounts": 331,
+      "uncapped_clique_edges_would_be": 12497500,
+      "merged_into_one_cluster": false
+    }
+  ]
+}
