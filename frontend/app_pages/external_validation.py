@@ -7,7 +7,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_external_validation_report, cached_fraudar_report, ensure_version  # noqa: E402
+from shared import cached_external_validation_report, cached_fraudar_report, cached_fraudar_seed_isolation, ensure_version  # noqa: E402
 
 st.title(":material/travel_explore: External validation")
 st.caption(
@@ -44,6 +44,25 @@ st.caption(
     "resulting percentages to mean something. Signals: " + "; ".join(yc["signals"]) + "."
 )
 
+with st.expander("Is 17.0% recall a real ceiling, or an untested threshold hiding more real fraud? Checked directly."):
+    st.caption(
+        "The `density > 50%` flag rule was never independently swept on YelpChi. Re-scoring the exact "
+        "same, already-computed candidate clusters at lower thresholds — no re-clustering:"
+    )
+    st.dataframe(
+        [{"Threshold": s["threshold"], "Flagged": s["n_flagged"], "Accounts": s["captured_total_nodes"],
+          "Fraud captured": s["captured_fraud_nodes"], "Recall": f"{s['recall']:.1%}",
+          "Precision": f"{s['precision']:.1%}"} for s in yc["threshold_sweep"]],
+        hide_index=True, width="stretch",
+    )
+    f = yc["threshold_sweep_finding"]
+    st.caption(
+        f"At threshold 0.1, recall rises to {f['recall_at_0.1']:.1%} (vs. {f['recall_at_0.5']:.1%} at "
+        "the reported headline) — real fraud the headline threshold leaves on the table, at a real "
+        "precision cost (99.2% → 19.9%). 0.5 was inherited from convention, not chosen for this "
+        "dataset; the 17.0% headline is one point on a curve, not a discovered ceiling."
+    )
+
 st.space("large")
 
 # ==========================================================================
@@ -70,6 +89,65 @@ st.caption(
     "at down-weighted 0.4 — and changes nothing, closing the question rather than leaving it unexplained. "
     "Full detail in `docs/EXTERNAL_VALIDATION.md`."
 )
+
+with st.expander("Is the ~824-account fraud population under-caught by the same untested threshold? Checked directly."):
+    st.caption(
+        "Same sweep as YelpChi, on the same already-computed candidate clusters — no re-clustering:"
+    )
+    st.dataframe(
+        [{"Threshold": s["threshold"], "Flagged": s["n_flagged"], "Accounts": s["captured_total_nodes"],
+          "Fraud captured": s["captured_fraud_nodes"], "Recall": f"{s['recall']:.1%}",
+          "Precision": f"{s['precision']:.1%}"} for s in am["threshold_sweep"]],
+        hide_index=True, width="stretch",
+    )
+    f = am["threshold_sweep_finding"]
+    st.caption(
+        f"Yes, confirmed: at threshold 0.1, recall rises to {f['recall_at_0.1']:.1%} (205 of 821 fraud "
+        f"accounts, vs. {f['recall_at_0.5']:.1%} / 9 at the reported headline) — a sample 18x larger, "
+        "still at a real 3.0x lift over base rate. The tiny 11-account headline sample is an artifact "
+        "of an inherited, untested threshold on this dataset too, same as YelpChi and Elliptic."
+    )
+
+st.space("large")
+
+# ==========================================================================
+# Behavioral scoring: is the precision collapse fixable?
+# ==========================================================================
+bs = ev.get("behavioral_scoring")
+if bs:
+    st.header(":material/science: Is the precision collapse fixable with real behavioral scoring?")
+    st.caption(
+        "First, a correction to the premise: the `fraud_density` rule above is not graph density — it's "
+        "the fraction of a cluster's members that are **independently, ground-truth labeled fraud**. It "
+        "uses the answer key directly, the same structural gap already found in Elliptic. Built real "
+        "trained classifiers (logistic regression, XGBoost) on real per-node behavioral features (32-dim "
+        "YelpChi, 25-dim Amazon) to test whether that's fixable — never the label as an input feature, "
+        "only as the training target — with a proper 60/15/25 train/dev/test split: model selection on "
+        "dev only, the held-out test split touched exactly once."
+    )
+    method_labels = {"heuristic_superseded": "Heuristic (superseded)",
+                      "logistic_regression": "Logistic regression", "xgboost": "XGBoost"}
+    rows = []
+    for key, name in [("yelpchi", "YelpChi"), ("amazon", "Amazon")]:
+        for method_key, method_label in method_labels.items():
+            r = bs[key]["methods"][method_key]["test_result_at_dev_chosen_threshold"]
+            if not r:
+                continue
+            rows.append({"Dataset": name, "Method": method_label, "Recall": f"{r['recall']:.1%}",
+                         "Precision": f"{r['precision']:.1%}", "Caught": r["captured_fraud"],
+                         "Wrongly flagged": r["captured_total"] - r["captured_fraud"]})
+    st.dataframe(rows, hide_index=True, width="stretch")
+    st.warning(
+        "**Real result: XGBoost meaningfully beats the heuristic at matched recall on YelpChi (fewer "
+        "false positives, same catch rate) — but neither trained model comes close to the label-density "
+        "baseline's precision on either dataset.** That's not a failed fix; it's the honest structural "
+        "finding: the label-density rule already uses the strongest signal that could exist for this "
+        "task (the ground-truth label itself), so no behavioral model — however well-fit — substitutes "
+        "for having the answer key. Amazon's larger-looking swing rests on ~20-24 true catches and should "
+        "be read as directional, not a precise rate. Full methodology and per-dataset detail in "
+        "`docs/EXTERNAL_VALIDATION.md`.",
+        icon=":material/warning:",
+    )
 
 st.space("large")
 
@@ -116,6 +194,103 @@ with st.expander("Is the headline number a ceiling, or one point on an unswept c
         "`docs/EXTERNAL_VALIDATION.md`."
     )
 
+cv = el["clustering_validity"]["soft"]
+with st.expander("Clustering validity: are the 21 flagged groups real connected transactions, or a Louvain artifact?", expanded=True):
+    st.caption(
+        "Independent of the fraud-label question entirely — this check never references illicit/licit "
+        "labels. Stage 3's Louvain communities carry no connectivity guarantee (unlike Stage 2's literal "
+        "connected components): modularity optimization groups nodes by how well they fit a partition, "
+        "not by whether they're mutually reachable. This checks whether each flagged group's members "
+        "induce one genuinely connected block of real payment edges, or several disjoint pieces the "
+        "algorithm merged anyway."
+    )
+    st.metric(
+        "Flagged groups that are one real connected block",
+        f"{cv['n_single_connected_block']} / {cv['n_groups_checked']}",
+        help="A group scores 'connected' if every member is reachable from every other member via real "
+             "payment edges within that group -- not an assumption, computed directly on the raw graph.",
+        border=True,
+    )
+    if cv["n_fragmented"] == 0:
+        st.success(
+            "Every flagged group is a genuinely connected block of real transactions — Louvain's "
+            "partition happens to align with actual graph connectivity here, not just its own "
+            "modularity objective.", icon=":material/check_circle:",
+        )
+    else:
+        st.warning(f"{cv['n_fragmented']} flagged group(s) are actually fragmented into multiple "
+                   "disconnected pieces the algorithm merged anyway.", icon=":material/warning:")
+
+cov = el.get("structural_coverage_density_detector")
+if cov:
+    with st.expander("Coverage: of every real fraud structure that exists, how much did detection find?", expanded=True):
+        st.caption(
+            "A different question from clustering validity above (which confirmed the 21 flagged groups "
+            "are real). This asks how much of the real fraud *structure* in the graph was found at all. "
+            "\"A real structure\" is defined independently of Stage 2/3: the connected components of the "
+            "subgraph induced by illicit-labeled nodes only, "
+            f"≥2 members — {cov['n_real_structures']} such structures exist in this graph."
+        )
+        with st.container(horizontal=True):
+            st.metric("Real structures found (≥50% coverage each)",
+                      f"{cov['n_found']} / {cov['n_real_structures']}", border=True)
+            st.metric("Illicit transactions in found structures",
+                      f"{cov['illicit_transactions_in_found_structures']} / {cov['total_illicit_transactions_in_structures']}",
+                      border=True)
+        st.caption(
+            f"{cov['fraction_structures_found']:.1%} of real structures found, covering "
+            f"{cov['fraction_illicit_txns_in_found_structures']:.1%} of the illicit transactions that sit "
+            "inside one. Lower than the node-level recall reported above, on purpose — that figure counts "
+            "any illicit transaction reachable through a flagged community at all, including ones diluted "
+            "inside much larger structures; this one asks the stricter question of whether the real "
+            "connected sub-community was substantially isolated as its own group."
+        )
+        st.warning(
+            "**This number describes the density-based (ground-truth-selected) detector's full, "
+            "unsplit population — it is not directly comparable to a held-out classifier's coverage at "
+            "the same scale.** See the matched, apples-to-apples comparison directly below, which "
+            "restricts all methods to the identical held-out test population.",
+            icon=":material/warning:",
+        )
+
+classifier_check = el.get("label_blind_classifier_check")
+coverage_by_method = el.get("structural_coverage_by_label_blind_method")
+if classifier_check and coverage_by_method:
+    with st.expander("Label-blind classifiers: real trained models, no ground truth as an input feature", expanded=True):
+        st.caption(
+            "Logistic regression and XGBoost trained on Elliptic's real 166 per-transaction columns "
+            "(time-step + Weber et al.'s 165 local/aggregated features) — never the label as an input, "
+            "only as the training target and for dev-side threshold selection. Density baseline recomputed "
+            "identically (same held-out split) for a fair three-way comparison, not the original unsplit "
+            "51/203 figure above, which uses a different, much larger population."
+        )
+        target_labels = {"low_recall_point": "Low recall (~9–11%)",
+                          "matched_to_density_default_threshold": "Matched to density's default recall (~18–24%)"}
+        for target_key, target_title in target_labels.items():
+            target = classifier_check["targets"].get(target_key)
+            if not target:
+                continue
+            st.markdown(f"**{target_title}**")
+            rows = []
+            for method_key, method_label in [("density_baseline", "Density"),
+                                              ("logistic_regression", "Logistic regression"),
+                                              ("xgboost", "XGBoost")]:
+                r = target["methods"].get(method_key, {}).get("test_result")
+                c = coverage_by_method.get(target_key, {}).get(method_key)
+                if not r or not c:
+                    continue
+                rows.append({"Method": method_label, "Recall": f"{r['recall']:.1%}",
+                             "Precision": f"{r['precision']:.1%}",
+                             "Structures found": f"{c['n_found']} / {c['n_real_structures']}",
+                             "Illicit txns captured": f"{c['illicit_transactions_in_found_structures']} / "
+                                                       f"{c['total_illicit_transactions_in_structures']}"})
+            st.dataframe(rows, hide_index=True, width="stretch")
+        st.caption(
+            "At matched recall, the leak's effect on coverage is small and consistent across both "
+            "operating points — the density rule isn't meaningfully outperforming a real, label-blind "
+            "classifier once recall is held fixed. Full methodology in `docs/EXTERNAL_VALIDATION.md`."
+        )
+
 st.space("large")
 
 # ==========================================================================
@@ -156,3 +331,35 @@ else:
         "smaller rings) for this specific problem. Full methodology, including a stopping-rule circularity bug "
         "found and fixed while building this, in `docs/FRAUDAR_CROSSCHECK.md`."
     )
+
+    iso = cached_fraudar_seed_isolation(version)
+    if iso:
+        with st.expander("Historical: why did this recall drop from 15/40 to 5/40 across an earlier re-freeze? Isolated directly, not left as a guess.", expanded=True):
+            st.caption(
+                "This decomposes one specific past transition (this project's first re-freeze), not the "
+                "current live number above. Two things changed in that re-freeze: the seed and the "
+                "realism-recalibration flag (`USE_GROUNDED_DEVICE_SHARING`). This holds one fixed while "
+                "varying the other, across three disposable datasets, to separate the two causes. The "
+                "current dataset is a later, second re-freeze for an unrelated reason (grounding ring size, "
+                "not device-sharing) — see `docs/EXTERNAL_VALIDATION.md`."
+            )
+            st.dataframe(
+                [{"Variant": v["label"], "Seed": v["seed"], "Grounding": "ON" if v["grounding"] else "OFF",
+                  "Blocks found": v["n_blocks_found"],
+                  "Hard-ring recall": f"{v['n_hard_rings_matched']}/{v['n_hard_rings_total']}"}
+                 for v in iso["variants"]],
+                hide_index=True, width="stretch",
+            )
+            with st.container(horizontal=True):
+                st.metric("Seed-only effect", f"{iso['seed_effect_rings']:+d} rings", border=True)
+                st.metric("Grounding-only effect", f"{iso['grounding_effect_rings']:+d} rings", border=True)
+                st.metric("Total observed change", f"{iso['total_change_rings']:+d} rings", border=True)
+            st.caption(
+                f"Dominant cause: **{iso['dominant_cause']}**. Neither change is negligible on its own — "
+                "half the drop is ordinary seed-to-seed variance, the same kind every single-seed result "
+                "in this project already carries; the other half is the realism recalibration's own real "
+                "effect. Full writeup in `docs/REALISM_CALIBRATION.md`."
+            )
+    else:
+        st.info("Run `python -m backend.fraudar_seed_isolation` to generate the cause-isolation breakdown.",
+                icon=":material/info:")

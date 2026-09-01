@@ -171,3 +171,9 @@ def get_cod_graph(_version: int):
     from backend.cod_collusion import graph_build
     accounts, orders = graph_build.load_data()
     return graph_build.build_graph(accounts)
+
+
+@st.cache_data(show_spinner=False)
+def cached_fraudar_seed_isolation(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "fraudar_seed_isolation.json")

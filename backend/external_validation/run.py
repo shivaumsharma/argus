@@ -74,6 +74,32 @@ DATASETS = {
 }
 
 
+SWEEP_THRESHOLDS = (0.5, 0.4, 0.3, 0.2, 0.1)
+
+
+def _score_at_threshold(rows, threshold, total_fraud, base_rate):
+    """Re-scores the same already-computed candidate rows at a different flag
+    threshold -- no re-clustering, identical pattern to elliptic.py's sweep_thresholds()."""
+    flagged = [r for r in rows if r["fraud_density"] > threshold]
+    captured_fraud = sum(r["frauds"] for r in flagged)
+    captured_total = sum(r["size"] for r in flagged)
+    recall = captured_fraud / total_fraud if total_fraud else float("nan")
+    precision = captured_fraud / captured_total if captured_total else float("nan")
+    lift = (precision / base_rate) if base_rate else float("nan")
+    return {"threshold": threshold, "n_flagged": len(flagged),
+            "captured_total_nodes": captured_total, "captured_fraud_nodes": captured_fraud,
+            "recall": round(recall, 4), "precision": round(precision, 4),
+            "lift": round(lift, 2) if lift == lift else None}
+
+
+def sweep_thresholds(rows, total_fraud, base_rate):
+    """Is FLAG_THRESHOLD=0.5 a real ceiling or an untested setting hiding more
+    real fraud, on THIS dataset? Same question elliptic.py already answers for
+    Elliptic, asked here for YelpChi/Amazon: re-score the identical, already
+    -computed candidate clusters at lower density thresholds, no re-clustering."""
+    return [_score_at_threshold(rows, t, total_fraud, base_rate) for t in SWEEP_THRESHOLDS]
+
+
 def evaluate(dataset_key: str, verbose=True):
     cfg = DATASETS[dataset_key]
     m = sio.loadmat(cfg["path"])
@@ -116,6 +142,9 @@ def evaluate(dataset_key: str, verbose=True):
     lift = (precision / base_rate) if base_rate else float("nan")
 
     largest = max((r["size"] for r in rows), default=0)
+    threshold_sweep = sweep_thresholds(rows, total_fraud, base_rate)
+    sweep_recalls = {s["threshold"]: s["recall"] for s in threshold_sweep}
+    ceiling_is_real = sweep_recalls[0.1] <= sweep_recalls[FLAG_THRESHOLD] * 1.001  # sweeping lower never helps
 
     report = {
         "dataset": cfg["name"], "source": cfg["source"], "signals": signal_notes,
@@ -126,6 +155,12 @@ def evaluate(dataset_key: str, verbose=True):
         "fraud_recall": round(recall, 4), "flagged_cluster_precision": round(precision, 4),
         "lift_over_base_rate": round(lift, 2),
         "captured_fraud_nodes": captured_fraud, "captured_total_nodes": captured_total,
+        "threshold_sweep": threshold_sweep,
+        "threshold_sweep_finding": {
+            "flag_threshold_is_ceiling": ceiling_is_real,
+            "recall_at_0.5": sweep_recalls[FLAG_THRESHOLD], "recall_at_0.1": sweep_recalls[0.1],
+        },
+        "flagged_cluster_sizes": sorted(r["size"] for r in flagged),
     }
 
     if verbose:
@@ -138,6 +173,12 @@ def evaluate(dataset_key: str, verbose=True):
         print(f"Flagged (fraud density > {FLAG_THRESHOLD:.0%}): {len(flagged)} ({len(hard_flagged)} hard, {len(soft_flagged)} soft)")
         print(f"Fraud recall (fraud nodes captured in a flagged cluster): {recall:.1%} ({captured_fraud:,}/{total_fraud:,})")
         print(f"Flagged-cluster precision: {precision:.1%}  (vs. {base_rate:.1%} base rate -> {lift:.1f}x lift)")
+        print(f"\n{cfg['name']} threshold sweep (same candidate clusters, same rows, only the flag threshold moves):")
+        for s in threshold_sweep:
+            lift_s = s["lift"] if s["lift"] is not None else float("nan")
+            print(f"  threshold={s['threshold']:.1f}: {s['n_flagged']:4d} flagged, {s['captured_total_nodes']:6d} "
+                  f"accounts, {s['captured_fraud_nodes']:6d} fraud -> recall={s['recall']:.1%}, "
+                  f"precision={s['precision']:.1%} ({lift_s:.1f}x base rate)")
 
     return report, rows
 
@@ -146,13 +187,16 @@ def run_and_save(verbose=True):
     """Runs YelpChi, Amazon, and Elliptic (the same unmodified functions the docs and CLI use)
     and persists one combined JSON for the dashboard -- so the External Validation tab reads the
     same live-computed numbers as EXTERNAL_VALIDATION.md, not a hand-copied duplicate."""
-    from . import elliptic as elliptic_module
+    from . import behavioral_scoring, elliptic as elliptic_module
 
     yelpchi_report, _ = evaluate("yelpchi", verbose=verbose)
     amazon_report, _ = evaluate("amazon", verbose=verbose)
     elliptic_report = elliptic_module.run(verbose=verbose)
+    yelpchi_behavioral = behavioral_scoring.evaluate_behavioral("yelpchi", verbose=verbose)
+    amazon_behavioral = behavioral_scoring.evaluate_behavioral("amazon", verbose=verbose)
 
-    combined = {"yelpchi": yelpchi_report, "amazon": amazon_report, "elliptic": elliptic_report}
+    combined = {"yelpchi": yelpchi_report, "amazon": amazon_report, "elliptic": elliptic_report,
+                "behavioral_scoring": {"yelpchi": yelpchi_behavioral, "amazon": amazon_behavioral}}
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
     out_path = PROCESSED_DIR / "external_validation.json"
     with open(out_path, "w") as f:
