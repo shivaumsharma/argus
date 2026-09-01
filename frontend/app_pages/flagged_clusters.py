@@ -8,9 +8,77 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import ACTION_COLOR, MODE_ICON, MODE_LABEL, STAGE_COLOR, cached_all_clusters, ensure_version, get_graph, graph_viz  # noqa: E402
+from shared import ACTION_COLOR, MODE_ICON, MODE_LABEL, STAGE_COLOR, cached_all_clusters, cached_cod_clusters, ensure_version, get_cod_graph, get_graph, graph_viz  # noqa: E402
 
 st.title(":material/flag: Flagged clusters")
+
+loss_type = st.segmented_control("Loss type", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+
+if loss_type == "COD Collusion":
+    st.caption(
+        "Stretch scope: same Stage 2/3 clustering, reused unchanged, fed shared delivery-address and "
+        "phone-number-prefix edges instead of device/instrument/IP/referral. No LLM narrative layer exists "
+        "for this loss type — Stage 5's deterministic reason is the whole case. See `docs/SECOND_LOSS_TYPE.md`."
+    )
+    version = ensure_version()
+    cod_all = cached_cod_clusters(version)
+    cod_flagged = [c for c in cod_all if c["flagged"]]
+    if not cod_flagged:
+        st.info("No flagged COD clusters yet. Run `python -m backend.cod_collusion.run`.", icon=":material/info:")
+        st.stop()
+
+    with st.container(horizontal=True):
+        st.metric("Flagged clusters", len(cod_flagged), border=True)
+        st.metric("Hard-signal", sum(1 for c in cod_flagged if c["detection_stage"] == "hard"), border=True)
+        st.metric("Soft-signal", sum(1 for c in cod_flagged if c["detection_stage"] == "soft"), border=True)
+
+    st.space("medium")
+    cod_search = st.text_input("Search cluster ID", placeholder="e.g. CC0001", key="cod_search")
+    cod_rows = [c for c in cod_flagged if not cod_search or cod_search.lower() in c["cluster_id"].lower()]
+    st.caption(f"Showing {len(cod_rows)} of {len(cod_flagged)} flagged COD clusters.")
+
+    cod_table = pd.DataFrame([{
+        "Cluster": c["cluster_id"], "Stage": c["detection_stage"], "Size": c["features"]["size"],
+        "Refusal rate": c["features"]["refusal_rate"], "COD fraction": c["features"]["cod_fraction"],
+        "Avg order value": c["features"]["avg_order_value"], "Shared address": c["features"]["shared_address"],
+    } for c in cod_rows])
+    cod_event = st.dataframe(
+        cod_table, hide_index=True, width="stretch", height=min(360, 46 + 35 * len(cod_table)),
+        on_select="rerun", selection_mode="single-row",
+        column_config={"Refusal rate": st.column_config.ProgressColumn(min_value=0, max_value=1, format="%.0%%")},
+    )
+    cod_selected_idx = cod_event.selection.rows[0] if cod_event.selection.rows else 0
+    cod_selected = cod_rows[cod_selected_idx] if cod_rows else None
+
+    if cod_selected is None:
+        st.info("No clusters match this filter.", icon=":material/info:")
+        st.stop()
+
+    st.space("large")
+    st.subheader(f"Case: {cod_selected['cluster_id']}")
+    cf = cod_selected["features"]
+    st.badge(f"{cod_selected['detection_stage']}-signal", color=STAGE_COLOR.get(cod_selected["detection_stage"], "gray"))
+    st.markdown(f"**Deterministic filter reason**: {cod_selected['filter_reason']}")
+
+    cod_detail_cols = st.columns(2)
+    with cod_detail_cols[0]:
+        with st.expander("Stage 4 feature scores", icon=":material/query_stats:", expanded=True):
+            fc1, fc2 = st.columns(2)
+            fc1.metric("Size", cf["size"])
+            fc1.metric("Refusal rate", f"{cf['refusal_rate']:.0%}")
+            fc1.metric("COD fraction", f"{cf['cod_fraction']:.0%}")
+            fc2.metric("Avg order value", f"Rs {cf['avg_order_value']:,.0f}")
+            fc2.metric("Order-value CV", cf.get("order_value_cv", "n/a"))
+            fc2.metric("Shared address", "Yes" if cf["shared_address"] else "No")
+            st.caption(f"Signals present: {', '.join(cf['signals_present']) or 'none'}")
+    with cod_detail_cols[1]:
+        with st.expander("Graph", icon=":material/hub:", expanded=True):
+            G_cod = get_cod_graph(version)
+            html_path = graph_viz.render_cluster_graph(G_cod, cod_selected["members"], node_color="#c0392b",
+                                                        cache_key=f"cod_{cod_selected['cluster_id']}")
+            st.iframe(src=html_path, height=380)
+    st.stop()
+
 st.caption(
     "Every candidate cluster that survived Stage 5's confounder filter. Each one already has a "
     "deterministic reason before any LLM ever saw it — the case writeup below explains that reason "

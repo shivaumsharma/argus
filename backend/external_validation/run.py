@@ -27,6 +27,7 @@ hidden.
 Run: python -m backend.external_validation.run [yelpchi|amazon|both]
 """
 
+import json
 import sys
 from pathlib import Path
 
@@ -34,6 +35,7 @@ import networkx as nx
 import scipy.io as sio
 
 from ..pipeline.clustering import dedupe_candidates, stage2_hard_clusters, stage3_soft_clusters
+from ..pipeline.data_io import PROCESSED_DIR
 
 ROOT = Path(__file__).resolve().parents[2]
 FLAG_THRESHOLD = 0.5  # cluster is a "predicted ring" if more than half its members are independently labeled fraud
@@ -140,8 +142,31 @@ def evaluate(dataset_key: str, verbose=True):
     return report, rows
 
 
+def run_and_save(verbose=True):
+    """Runs YelpChi, Amazon, and Elliptic (the same unmodified functions the docs and CLI use)
+    and persists one combined JSON for the dashboard -- so the External Validation tab reads the
+    same live-computed numbers as EXTERNAL_VALIDATION.md, not a hand-copied duplicate."""
+    from . import elliptic as elliptic_module
+
+    yelpchi_report, _ = evaluate("yelpchi", verbose=verbose)
+    amazon_report, _ = evaluate("amazon", verbose=verbose)
+    elliptic_report = elliptic_module.run(verbose=verbose)
+
+    combined = {"yelpchi": yelpchi_report, "amazon": amazon_report, "elliptic": elliptic_report}
+    PROCESSED_DIR.mkdir(parents=True, exist_ok=True)
+    out_path = PROCESSED_DIR / "external_validation.json"
+    with open(out_path, "w") as f:
+        json.dump(combined, f, indent=2)
+    if verbose:
+        print(f"\nWritten -> {out_path}")
+    return combined
+
+
 if __name__ == "__main__":
     target = sys.argv[1] if len(sys.argv) > 1 else "both"
-    keys = ["yelpchi", "amazon"] if target == "both" else [target]
-    for k in keys:
-        evaluate(k)
+    if target == "all":
+        run_and_save()
+    else:
+        keys = ["yelpchi", "amazon"] if target == "both" else [target]
+        for k in keys:
+            evaluate(k)

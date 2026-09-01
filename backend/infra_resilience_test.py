@@ -234,20 +234,31 @@ def test_malformed_records():
               "out-of-range value, missing required id) injected into the middle of two "
               "different tables. None halted the run. Every one was dropped and logged "
               "with its table, reason, and an example row id -- none silently miscounted.\n")
-        return {"injected": len(injected), "dropped_and_logged": total_dropped,
+        return {"injected": len(injected),
+                "injected_detail": [{"table": t, "column": c, "reason": r} for t, c, r in injected],
+                "dropped_and_logged": total_dropped, "data_quality_report": data.data_quality_report,
                 "pipeline_completed": True, "n_candidates": len(candidates), "n_flagged": n_flagged}
     finally:
         shutil.rmtree(tmp, ignore_errors=True)
 
 
 def run():
+    import json as json_module
+    from .pipeline.data_io import PROCESSED_DIR
+
     a = test_llm_resilience()
     b = test_malformed_records()
     print("=== Summary ===")
     print(f"Scenario (a) -- LLM call resilience: {sum(1 for v in a.values() if v == 'PASS')}/{len(a)} checks passed.")
     print(f"Scenario (b) -- malformed records: {b['dropped_and_logged']}/{b['injected']} bad records correctly "
           f"dropped and logged; pipeline completed end-to-end ({b['n_candidates']} candidates, {b['n_flagged']} flagged).")
-    return {"scenario_a": a, "scenario_b": b}
+
+    result = {"scenario_a": a, "scenario_b": b}
+    out_path = PROCESSED_DIR / "infra_resilience_test.json"
+    with open(out_path, "w") as f:
+        json_module.dump(result, f, indent=2, default=str)
+    print(f"\nWritten -> {out_path}")
+    return result
 
 
 if __name__ == "__main__":

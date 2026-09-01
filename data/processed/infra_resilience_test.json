@@ -1,0 +1,70 @@
+{
+  "scenario_a": {
+    "rate_limit_retry_then_succeed": "PASS",
+    "timeout_degrades_to_next_provider": "PASS",
+    "all_providers_fail_falls_back_cleanly": "PASS",
+    "no_providers_configured": "PASS"
+  },
+  "scenario_b": {
+    "injected": 5,
+    "injected_detail": [
+      {
+        "table": "orders",
+        "column": "order_value",
+        "reason": "wrong type (non-numeric string)"
+      },
+      {
+        "table": "orders",
+        "column": "order_value",
+        "reason": "missing field (empty)"
+      },
+      {
+        "table": "orders",
+        "column": "order_value",
+        "reason": "out-of-range value (negative)"
+      },
+      {
+        "table": "orders",
+        "column": "user_id",
+        "reason": "missing required field"
+      },
+      {
+        "table": "sessions",
+        "column": "timestamp",
+        "reason": "wrong type (unparseable date)"
+      }
+    ],
+    "dropped_and_logged": 5,
+    "data_quality_report": [
+      {
+        "table": "orders",
+        "reason": "missing user_id",
+        "rows_dropped": 1,
+        "example_ids": [
+          NaN
+        ]
+      },
+      {
+        "table": "sessions",
+        "reason": "unparseable timestamp",
+        "rows_dropped": 1,
+        "example_ids": [
+          "U003802"
+        ]
+      },
+      {
+        "table": "orders",
+        "reason": "missing/negative order_value",
+        "rows_dropped": 3,
+        "example_ids": [
+          "U003458",
+          "U003504",
+          "U003552"
+        ]
+      }
+    ],
+    "pipeline_completed": true,
+    "n_candidates": 178,
+    "n_flagged": 77
+  }
+}

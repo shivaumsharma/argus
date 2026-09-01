@@ -151,6 +151,28 @@ def _print_sweep_table(sweep, thresholds, current_threshold):
               f"{'':<4}{s['fp_rate']:.1%}{'':<4}{s['rings_missed']:<14}{s['confounders_fp']}")
 
 
+def _soft_finding(soft_sweep: dict) -> dict:
+    """Structured facts behind the soft-branch finding -- computed once here, stored in the
+    JSON report, and rendered by both the console printout below and the dashboard, so neither
+    one can drift out of sync with the other by hand-editing prose."""
+    fp_values = {soft_sweep[T]["confounders_fp"] for T in THRESHOLDS}
+    if len(fp_values) == 1:
+        return {"fp_flat": True, "fp_value": next(iter(fp_values)), "fp_by_threshold": None}
+    return {"fp_flat": False, "fp_value": None,
+            "fp_by_threshold": {T: soft_sweep[T]["confounders_fp"] for T in THRESHOLDS}}
+
+
+def _device_finding(device_sweep: dict, n_rings_total: int) -> dict:
+    recalls = {device_sweep[T]["rings_detected"] for T in THRESHOLDS}
+    fp_by_threshold = {T: device_sweep[T]["confounders_fp"] for T in THRESHOLDS}
+    if len(recalls) == 1:
+        return {"recall_flat": True, "recall_value": next(iter(recalls)), "n_rings_total": n_rings_total,
+                "recall_by_threshold": None, "fp_by_threshold": fp_by_threshold}
+    return {"recall_flat": False, "recall_value": None, "n_rings_total": n_rings_total,
+            "recall_by_threshold": {T: device_sweep[T]["rings_detected"] for T in THRESHOLDS},
+            "fp_by_threshold": fp_by_threshold}
+
+
 def run(verbose=True):
     rings, confounders = load_ground_truth()
     all_clusters = db.get_all_clusters()
@@ -164,6 +186,10 @@ def run(verbose=True):
     soft_cost = _cost_table(soft_sweep, THRESHOLDS, fn_cost, fp_scenarios, SOFT_FLAG_SUSPICION_THRESHOLD)
     device_cost = _cost_table(device_sweep, THRESHOLDS, fn_cost, fp_scenarios, DEVICE_CLEAR_ORGANIC_THRESHOLD)
 
+    soft_finding = _soft_finding(soft_sweep)
+    soft_finding["optimal_thresholds"] = sorted({c["optimal_threshold"] for c in soft_cost.values()})
+    device_finding = _device_finding(device_sweep, len(rings))
+
     report = {
         "fn_cost_per_missed_ring": round(fn_cost, 2),
         "fn_cost_methodology": "Mean of actual paid referral-bonus amounts (data/raw/referrals.csv) touching "
@@ -175,11 +201,11 @@ def run(verbose=True):
                                "3 scenarios rather than asserted as one true number.",
         "soft_signal_suspicion_threshold": {
             "current_production_value": SOFT_FLAG_SUSPICION_THRESHOLD,
-            "sweep": soft_sweep, "cost_by_scenario": soft_cost,
+            "sweep": soft_sweep, "cost_by_scenario": soft_cost, "finding": soft_finding,
         },
         "device_clear_organic_threshold": {
             "current_production_value": DEVICE_CLEAR_ORGANIC_THRESHOLD,
-            "sweep": device_sweep, "cost_by_scenario": device_cost,
+            "sweep": device_sweep, "cost_by_scenario": device_cost, "finding": device_finding,
         },
     }
 
