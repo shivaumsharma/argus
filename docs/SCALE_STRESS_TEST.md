@@ -81,33 +81,33 @@ first number that comes out.
 
 | Scale | Accounts | Graph edges | Candidate clusters | Generation | Stage 3 (Louvain) | **Total pipeline** |
 |---|---|---|---|---|---|---|
-| 1x | 7,500 | 9,018 | 174 | n/a (frozen) | 0.57s | **2.42s** |
-| 10x | 75,000 | 89,998 | 1,700 | 29.6s | 8.41s | **26.65s** |
-| 50x | 375,000 | 469,352 | 9,043 | 190.6s | 33.26s | **79.27s** |
+| 1x | 7,500 | 9,765 | 166 | n/a (frozen) | 0.31s | **1.19s** |
+| 10x | 75,000 | 89,373 | 1,722 | 14.1s | 5.56s | **14.32s** |
+| 50x | 375,000 | 464,608 | 9,262 | 151.4s | 33.22s | **81.17s** |
 
 Full per-stage breakdown:
 
 | Stage | 1x | 10x | 50x |
 |---|---|---|---|
-| load_data | 1.37s | 13.34s | 32.67s |
-| Stage 1 (graph build) | 0.23s | 2.29s | 6.09s |
-| Stage 2 (hard clustering) | 0.01s | 0.12s | 0.35s |
-| Stage 3 (Louvain) | 0.57s | 8.41s | 33.26s |
-| Stage 4 (feature scoring) | 0.25s | 2.50s | 6.89s |
-| Stage 5 (confounder filter) | 0.00s | 0.01s | 0.01s |
-| **Total pipeline** | **2.42s** | **26.65s** | **79.27s** |
+| load_data | 0.64s | 6.44s | 35.17s |
+| Stage 1 (graph build) | 0.12s | 1.11s | 6.53s |
+| Stage 2 (hard clustering) | 0.01s | 0.06s | 0.33s |
+| Stage 3 (Louvain) | 0.31s | 5.56s | 33.22s |
+| Stage 4 (feature scoring) | 0.11s | 1.15s | 5.92s |
+| Stage 5 (confounder filter) | 0.00s | 0.00s | 0.01s |
+| **Total pipeline** | **1.19s** | **14.32s** | **81.17s** |
 
 ## Honest read
 
 **The pipeline itself scales close to linearly** with account volume once the
-two bugs above are fixed: ~11x pipeline time for a 10x account increase,
-~3x more for the next 5x increase (10x → 50x) — sublinear-to-linear, not the
-quadratic blowup either unfixed bottleneck would have produced. At 375,000
-accounts (50x this project's demo scale), the full detection pipeline
-completes in under 80 seconds.
+two bugs above are fixed: ~12x pipeline time for a 10x account increase,
+~5.7x more for the next 5x increase (10x → 50x) — very close to linear at
+both steps, not the quadratic blowup either unfixed bottleneck would have
+produced. At 375,000 accounts (50x this project's demo scale), the full
+detection pipeline completes in about 81 seconds.
 
-**Louvain (Stage 3) is now the largest single component at scale** — 33.3s of
-79.3s total at 50x (42%), up from being a minor cost at 1x. It isn't a
+**Louvain (Stage 3) is now the largest single component at scale** — 33.2s of
+81.2s total at 50x (~41%), up from being a minor cost at 1x. It isn't a
 problem at the scale tested here, but it's the component most likely to
 become the next bottleneck if pushed further (100x+), and the honest
 next-step target if this were being sized for a genuinely larger deployment.
@@ -115,7 +115,7 @@ next-step target if this were being sized for a genuinely larger deployment.
 **Data generation is not the pipeline, and shouldn't be read as one.** It's a
 synthetic-cohort-creation step specific to this project's evaluation
 methodology, not something a real production system does (real transaction
-data already exists; it isn't generated). Its 190.6s at 50x is reported for
+data already exists; it isn't generated). Its 151.4s at 50x is reported for
 completeness, not as evidence about production readiness.
 
 ## What a genuinely production-scale test would need

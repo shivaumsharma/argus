@@ -25,41 +25,87 @@ reported below isn't a finding about FRAUDAR's capability; it's an artifact
 of what this specific test was scoped to look at. Everything below that
 matters as a real comparison is scoped to the 40 hard-signal rings only.
 
-*(Numbers below are from the re-frozen `SEED=51238923` dataset —
-`USE_GROUNDED_DEVICE_SHARING` turned on, see `ARCHITECTURE.md`. Re-run
-fresh, single pass, not patched from the prior `SEED=20260828` numbers,
-which found 15/40. The drop is discussed honestly below, not hidden.)*
+*(Numbers below are from the current re-frozen `SEED=42668329` dataset —
+`HARD_RING_SIZE_RANGE` minimum lowered 3→2, grounded in real YelpChi/Amazon
+fraud-cluster sizes, see `EXTERNAL_VALIDATION.md`. This is this project's
+third freeze; the number below has moved at every step — 37.5% (`SEED=20260828`)
+→ 12.5% (`SEED=51238923`) → 17.5% (current) — and each move is discussed
+honestly below, not hidden.)*
 
 ## The one comparable number
 
 **FRAUDAR's recall on the 40 planted hard-signal rings, counted straight
 (≥50% bidirectional member overlap, the same threshold this project's own
-`eval.py` uses everywhere else — no other filtering): 5/40 (12.5%).**
+`eval.py` uses everywhere else — no other filtering): 7/40 (17.5%).**
 
 That's the single number directly comparable to this project's own Stage 2,
 which gets **100% (40/40)** on the identical 40 rings, from the identical
 underlying device/instrument/subnet signals. Every other count in this
-document (11 blocks found, 77 flagged clusters, 100%/100% precision-recall
+document (13 blocks found, 75 flagged clusters, 100%/100% precision-recall
 on individual blocks) is supporting detail *about* that headline, not a
 competing one — see "Overlap with our own pipeline's output" below for why
-5/40 and "5 of 77" are the same 5 rings counted against two different,
+7/40 and "7 of 75" are the same 7 rings counted against two different,
 non-interchangeable denominators.
 
-**This number dropped substantially from the prior seed (37.5%→12.5%) —
-reported plainly, not smoothed over.** A plausible mechanism, not a
-rigorously isolated one: real household/hostel device-sharing (grounded in
-Indian survey data, see `ARCHITECTURE.md`) now puts more legitimate
-confounders onto shared devices than before, which is exactly the kind of
-added, non-fraud dense structure single-pass greedy peeling is sensitive to
-diluting into. But this run also drew a different random set of ring sizes
-and attribute overlaps than the prior seed, and this test has not run
-multiple seeds to separate "more confounder density" from ordinary
-seed-to-seed variance as the cause — stated as a real, honest limit of what
-this single re-run can establish, not stretched into a confirmed causal
-claim. Stage 2's connected-components approach is unaffected either way:
-still 100% (40/40) on identical underlying signals, exactly because it
-extracts each connected component whole regardless of what density
-surrounds it — see "Why FRAUDAR misses" below.
+**This number has moved at every one of this project's three freezes
+(37.5% → 12.5% → 17.5%) — reported plainly at each step, not smoothed over.**
+The middle drop (37.5%→12.5%) was isolated directly, not left as a plausible
+guess. Two things changed in that re-freeze: the seed (`20260828` → `51238923`)
+and `USE_GROUNDED_DEVICE_SHARING` (False → True, grounding household/hostel
+device-sharing in real Indian survey data — see `ARCHITECTURE.md`).
+`backend/fraudar_seed_isolation.py` generates three disposable datasets
+holding one variable fixed while changing the other, to separate the two:
+
+| Variant | Seed | Grounding | Blocks found | Hard-ring recall |
+|---|---|---|---|---|
+| A — original pre-refreeze dataset | `20260828` | OFF | 18 | 15/40 (37.5%) |
+| B — new seed only | `51238923` | OFF | 13 | 10/40 (25.0%) |
+| C — dataset after that re-freeze | `51238923` | ON | 11 | 5/40 (12.5%) |
+
+Variant A exactly reproduces the original 15/40 result, confirming the
+isolation harness itself is trustworthy before reading its decomposition.
+**That drop split exactly evenly between the two causes: −5 rings from
+ordinary seed-to-seed variance (A→B), −5 rings from the grounding
+recalibration itself (B→C).** Neither cause dominated. Half of what looked
+like a realism-recalibration side effect was the same kind of single-seed
+variance every other result in this project already carries; the other half
+was real — grounding device-sharing in actual survey statistics measurably
+added enough legitimate dense structure to cost FRAUDAR 5 clean ring
+isolations on the identical 40 underlying rings. Full methodology and the
+general governance this motivated for this whole class of parameter: see
+[`REALISM_CALIBRATION.md`](REALISM_CALIBRATION.md).
+
+**The most recent move (12.5%→17.5%) is a third, separate freeze — a
+different class of parameter (`HARD_RING_SIZE_RANGE`, the fraud ring's own
+size shape, not organic device-sharing) and a fresh seed together, not
+isolated the same way.** No forensic decomposition was run for this specific
+transition — unlike the middle drop, this one wasn't the subject the user
+asked to isolate, and a third disposable-dataset study for every future
+freeze would be disproportionate. Reported as what it is: a real number from
+a real re-freeze, moving in a direction (up) that happens to be favorable
+here, on a seed drawn for a completely different, well-documented reason
+(see `EXTERNAL_VALIDATION.md`'s ring-size grounding section) — not evidence
+of anything about FRAUDAR beyond ordinary run-to-run variance.
+
+**Is the primary dataset expected to move again, which would determine
+whether isolating this move is worth doing yet? No — stated explicitly, not
+left implicit.** Every other item of recent work touched external data only:
+the YelpChi/Amazon behavioral-scoring investigation (`EXTERNAL_VALIDATION.md`)
+runs against outside data with no write path to `backend/generate_data.py`
+or `data/raw/`; the Elliptic coverage check is the same; the adversarial
+-recommender audit-trail investigation queried `data/app.db` read-only. None
+of them are generator-logic changes, so none of them require another
+Eval Integrity Protocol re-freeze. The primary dataset (`SEED=42668329`) is
+locked as of this pass — deep-diagnosing this specific FRAUDAR move the same
+way the first drop was diagnosed would be reasonable *future* work if it's
+ever wanted, but isn't currently blocked on, or racing, further primary
+-dataset churn.
+
+Stage 2's connected-components approach is unaffected by any of this: still
+100% (40/40) on identical underlying signals at every freeze, exactly
+because it extracts each connected component whole regardless of what
+density surrounds
+it — see "Why FRAUDAR misses" below.
 
 ## What FRAUDAR is, and what "independent" means here
 
@@ -101,10 +147,10 @@ definition) — an edge wherever a user has that exact value. Deliberately
 excludes referral-link edges (unlike Stage 1's own graph), exactly as asked:
 device/instrument/subnet only, nothing about timing.
 
-**7,500 users, 20,946 distinct attribute values, 22,500 edges.** (Edge count
+**7,500 users, 20,903 distinct attribute values, 22,500 edges.** (Edge count
 is a structural constant — each user contributes exactly 3 attribute edges,
 device + instrument + subnet, regardless of how much any value is shared —
-so it's identical across both seeds; the distinct-attribute-value count
+so it's identical across every seed; the distinct-attribute-value count
 shifts slightly with sharing intensity.)
 
 ## Independence, qualified — a real bug found and fixed, and a circularity problem found in the fix
@@ -147,54 +193,60 @@ that check is a confirmation performed *after* fixing the actual problem,
 not a retroactive justification for having had it, and it's reported as
 exactly that rather than as proof the original shortcut was fine all along.
 (This `min_block_users=2` fix is the only threshold this script has ever
-used since — the 11-blocks/5-of-40 result reported throughout the rest of
-this document, on the re-frozen `SEED=51238923` dataset, already reflects
+used since — the 13-blocks/7-of-40 result reported throughout the rest of
+this document, on the current `SEED=42668329` dataset, already reflects
 it.)
 
 ## Results (raw counts, not just percentages)
 
-**FRAUDAR found 11 dense blocks** (down from 18 on the prior seed — fewer,
-not just weaker, blocks survive the same peeling process against a denser
-confounder population). 5 of them each *exactly* match one distinct
-hard-signal ring — not just overlap it: 100% recall and 100% precision *for
-that individual block*, meaning the block's members are identical to the
-ring's members, member for member: `RING_HARD_03` (15 members),
-`RING_HARD_10` (15), `RING_HARD_22` (15), `RING_HARD_33` (14), `RING_HARD_34`
-(15). Those are the same 5 rings behind the 5/40 headline number above —
-notably, every single one of them sits at 14-15 members, the largest
-size band this generator plants (`gen_hard_ring` draws 3-15 members).
+**FRAUDAR found 13 dense blocks** (up from 11 on the prior seed — a
+different random draw of ring sizes and attribute overlaps, not a
+consequence of the ring-size-range change specifically; the smallest planted
+rings this generator now draws, size 2, don't show up as clean FRAUDAR
+matches either way). 7 of them each *exactly* match one distinct hard-signal
+ring — not just overlap it: 100% recall and 100% precision *for that
+individual block*, meaning the block's members are identical to the ring's
+members, member for member: `RING_HARD_32` (12 members), `RING_HARD_28`
+(12), `RING_HARD_08` (13), `RING_HARD_06` (13), `RING_HARD_40` (14),
+`RING_HARD_12` (14), `RING_HARD_10` (14). Those are the same 7 rings behind
+the 7/40 headline number above — every one of them sits at 12-14 members,
+the upper-middle-to-top of this generator's size range (`gen_hard_ring` now
+draws 2-15 members, grounded in real YelpChi/Amazon fraud-cluster sizes —
+see `EXTERNAL_VALIDATION.md`).
 
 | | Count |
 |---|---|
-| Hard-signal rings FRAUDAR isolates as a clean, standalone block (exact 100%/100% match) | 5 / 40 |
-| Hard-signal rings FRAUDAR does not isolate cleanly (see "why" below) | 35 / 40 |
+| Hard-signal rings FRAUDAR isolates as a clean, standalone block (exact 100%/100% match) | 7 / 40 |
+| Hard-signal rings FRAUDAR does not isolate cleanly (see "why" below) | 33 / 40 |
 
-**0 of 40 soft-signal rings** were matched — out of scope by construction
-(see Scope above), not a capability finding.
+**0 of 40 soft-signal rings** were matched cleanly — out of scope by
+construction (see Scope above), not a capability finding.
 
 **0 of 40 planted confounders were ever flagged as a standalone dense
 block** — this is the specific disagreement check asked for, and the honest
 answer is: no disagreement in the false-positive direction, at least not as
-a clean, standalone detection. Two tiny 2-user blocks each touch a small
-sliver of a real hostel confounder (`CONF_HOSTEL_07`, `CONF_HOSTEL_08`, both
-at only 13.3% recall of that confounder — two of its members happen to
-share one device with each other, not the whole group), far short of a real
-match. FRAUDAR — despite having no explainable legitimacy filter of any
-kind, unlike Stage 5 — still does not mistake a genuine household, hostel,
-office, or influencer network for a fraud block on its own.
+a clean, standalone detection. One tiny 2-user block touches a small sliver
+of a real hostel confounder (`CONF_HOSTEL_05`, 13.3% recall of that
+confounder — two of its members happen to share one device with each other,
+not the whole group), far short of a real match. FRAUDAR — despite having no
+explainable legitimacy filter of any kind, unlike Stage 5 — still does not
+mistake a genuine household, hostel, office, or influencer network for a
+fraud block on its own.
 
-**Three diluted blocks appear, and they matter for reading the above
-honestly.** Beyond the 5 clean matches, the next-best remaining cuts aren't
-other distinct rings — they're diluted masses that technically *touch* real
-ground truth at 100% recall but single-digit-to-low-double-digit precision:
-a 104-user block containing all of `RING_HARD_24` (13 members, 12.5%
-precision); a 99-user block containing all of both `RING_HARD_02` (6
-members) and `CONF_HOUSEHOLD_01` (6 members, 6.1% precision each); and a
-119-user block containing all of `RING_HARD_18` (12 members, 10.1%
-precision) plus over a third of `CONF_HOSTEL_06` (7 of 19 members, 5.9%
-precision). On top of those, one massive **7,100-user block (94.7% of the
+**Diluted blocks appear, and they matter for reading the above honestly.**
+Beyond the 7 clean matches, the next-best remaining cuts aren't other
+distinct rings — they're diluted masses that technically *touch* real ground
+truth at 100% recall but single-digit precision: a 44-user block containing
+all of `RING_HARD_38` (11 members, 25.0% precision); a 62-user block
+containing all of `RING_HARD_35` (15 members, 24.2% precision); a 141-user
+block containing all of `RING_HARD_01` (11 members, 7.8% precision) plus a
+sliver of `CONF_HOUSEHOLD_02` (5 of 5 members, but only 3.5% of that block —
+the confounder is fully inside it, but so is nearly everyone else); a
+second 62-user block containing all of `RING_HARD_02` (15 members, 24.2%
+precision) plus a sliver of `CONF_HOSTEL_01` (2 of 14 members, 3.2%
+precision). On top of those, one massive **7,097-user block (94.6% of the
 entire 7,500-account dataset)** touches all of `RING_SOFT_02` and all of
-`CONF_INFLUENCER_05` at 0.2% and 0.6% precision respectively — the
+`CONF_INFLUENCER_01` at 0.2% and 0.6% precision respectively — the
 "block" is overwhelmingly everyone else, not a detection. Reported here
 exactly because the raw numbers, read carelessly, could be misquoted as
 "FRAUDAR flagged a confounder" — it technically touches several, inside
@@ -203,45 +255,43 @@ flag by any reasonable reading.
 
 ## Overlap with our own pipeline's output
 
-This is a *different* count from the 5/40 headline above, with a different
+This is a *different* count from the 7/40 headline above, with a different
 denominator, on purpose — worth stating plainly rather than leaving two
-"5 of X" numbers sitting next to each other unexplained. Our pipeline's 77
+"7 of X" numbers sitting next to each other unexplained. Our pipeline's 75
 flagged clusters break down as 40 matched hard rings + 34 matched soft rings
-+ 3 false positives (2 confounders, plus one other flagged cluster). FRAUDAR
-was never scoped to find the soft rings or evaluate the false positives (see
-Scope), so "5 of 77" isn't a recall figure — it's simply how many of those
-77 clusters happen to be one of the same 5 hard rings FRAUDAR independently
-found, expressed against the denominator of *everything* our pipeline
-flagged rather than the 40 hard rings that are actually comparable:
++ 1 false positive (a confounder). FRAUDAR was never scoped to find the soft
+rings or evaluate the false positive (see Scope), so "7 of 75" isn't a recall
+figure — it's simply how many of those 75 clusters happen to be one of the
+same 7 hard rings FRAUDAR independently found, expressed against the
+denominator of *everything* our pipeline flagged rather than the 40 hard
+rings that are actually comparable:
 
 | | Count |
 |---|---|
-| FRAUDAR blocks that substantially match one of our 77 flagged clusters | 5 / 11 |
-| Our flagged clusters that FRAUDAR also substantially finds | 5 / 77 (= the same 5 hard rings, restated against the larger denominator) |
+| FRAUDAR blocks that substantially match one of our 75 flagged clusters | 7 / 13 |
+| Our flagged clusters that FRAUDAR also substantially finds | 7 / 75 (= the same 7 hard rings, restated against the larger denominator) |
 
 The useful reading of this table: FRAUDAR — a completely different algorithm
 family, with no access to referral timing, order values, or engagement
 signals, and a detection mechanism that never sees ground truth — confirms
-5 of our flagged clusters *are* real dense blocks by a completely unrelated
-method's own criteria. That's genuine cross-validation that those 5
+7 of our flagged clusters *are* real dense blocks by a completely unrelated
+method's own criteria. That's genuine cross-validation that those 7
 hard-ring detections aren't an artifact of this project's own
 graph-clustering choices (with the one qualification on how many total
 blocks got reported — see "Independence, qualified" above).
 
-## Why FRAUDAR misses the other 35 hard rings, and what that says about Stage 2
+## Why FRAUDAR misses the other 33 hard rings, and what that says about Stage 2
 
-Every ring FRAUDAR *cleanly* isolated on this re-frozen dataset has 14-15
-members — the top of this generator's own size range (`gen_hard_ring` draws
-3-15) — an even tighter concentration than the prior seed's ≥10-member
-pattern (a few of this run's 12-13-member rings were swept into the diluted
-catch-all blocks instead of isolated cleanly; see the 104-user and 119-user
-blocks above). Consistent with, not contradicting, the prior finding: size
-correlates strongly with clean separability here, more strongly on a denser
-graph, but isn't a hard cutoff either time. This is a real, well-understood
-limitation of *single-pass greedy peeling for multiple simultaneous
-blocks*, not a bug: the largest, densest blocks get correctly isolated
-first, but as peeling continues, the "next best" remaining cut in the
-residual graph isn't guaranteed to align with any one remaining planted
+Every ring FRAUDAR *cleanly* isolated on this dataset has 12-14 members —
+the upper-middle-to-top of this generator's size range (`gen_hard_ring` now
+draws 2-15) — consistent with, not contradicting, the pattern seen on both
+prior seeds (≥10-member rings, then 14-15-member rings, isolate more
+cleanly). Size correlates with clean separability here, more strongly on a
+denser graph, but isn't a hard cutoff on any seed tested. This is a real,
+well-understood limitation of *single-pass greedy peeling for multiple
+simultaneous blocks*, not a bug: the largest, densest blocks get correctly
+isolated first, but as peeling continues, the "next best" remaining cut in
+the residual graph isn't guaranteed to align with any one remaining planted
 structure — smaller rings get swept into a larger, messier leftover mass
 instead, and that effect is more pronounced the more competing dense
 structure (like grounded confounder device-sharing) is in the graph.
@@ -250,7 +300,7 @@ This is the concrete, measured reason this project's own Stage 2 (connected
 components on the hard-signal subgraph, not a density metric) achieves 100%
 recall on *all* 40 hard rings regardless of size, while a generic
 density-peeling approach — run here completely independently, on the exact
-same underlying attribute-sharing signals — only cleanly isolates 5. A
+same underlying attribute-sharing signals — only cleanly isolates 7. A
 connected component is extracted whole regardless of how it compares to
 every other component's relative density; a greedy density-maximizing walk
 inherently favors the biggest, densest structure first and dilutes weaker
@@ -263,21 +313,25 @@ peeling," measured on the same data.
 
 ## What this does and doesn't establish
 
-- **Does establish**: 5 of the 40 hard-signal rings (12.5%) are confirmed
+- **Does establish**: 7 of the 40 hard-signal rings (17.5%) are confirmed
   by an unrelated, published, camouflage-resistant method whose detection
   mechanism never sees ground truth — real cross-validation, not just an
-  internal self-check, for those 5 of this project's 40/40 Stage 2
-  detections. Qualified: how many total blocks got reported (11 on this
-  seed, 18 on the prior one) used one tuning decision informed by this
-  project's own data before being fixed — see "Independence, qualified"
-  above. The recall drop from 37.5%→12.5% on the re-frozen dataset is
-  reported honestly, with a plausible but not rigorously isolated mechanism
-  (more real confounder density diluting the same peeling process) — see
-  "The one comparable number" above.
+  internal self-check, for those 7 of this project's 40/40 Stage 2
+  detections. Qualified: how many total blocks got reported (13 on this
+  seed, 11 and 18 on the two prior ones) used one tuning decision informed
+  by this project's own data before being fixed — see "Independence,
+  qualified" above. This number has moved at every one of this project's
+  three freezes (37.5%→12.5%→17.5%); the middle move is isolated, not just
+  plausibly explained — exactly half (−5 rings) was ordinary seed-to-seed
+  variance and half (−5 rings) was the realism recalibration itself,
+  confirmed by `fraudar_seed_isolation.py` — see "The one comparable number"
+  above and `REALISM_CALIBRATION.md`. The most recent move was not isolated
+  the same way; reported as a real number from a real re-freeze for an
+  unrelated, already-documented reason, not a claim about cause.
 - **Does establish**: no planted confounder is mistaken for a dense fraud
   block by a method with zero legitimacy-checking logic, at least not
-  cleanly — a relevant data point for Stage 5's value, though the three
-  diluted blocks (plus one 7,100-user near-graph-spanning block) mean this
+  cleanly — a relevant data point for Stage 5's value, though the several
+  diluted blocks (plus one 7,097-user near-graph-spanning block) mean this
   isn't a clean, unqualified "zero false positives" claim either.
 - **Does not establish** that FRAUDAR is worse than this project's pipeline
   in general — it was deliberately run with far less information than Stage

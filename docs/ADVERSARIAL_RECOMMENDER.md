@@ -98,6 +98,12 @@ recommendation data itself (the parameter, the simulation numbers, the
 fresh-seed reeval report) lives in a new `recommendations` table in the
 same `data/app.db`.
 
+**Scope, stated plainly:** the audit trail covers the automated system's own
+decisions — every round `run_round()` produces, end to end. Ad hoc manual
+investigations by a person (using the same underlying functions directly,
+outside that orchestration) are a separate thing and aren't logged, on
+purpose.
+
 ## Real results from testing this
 
 Round 1 (the reused base ring): organic_score 3/3 — no single-parameter
@@ -147,6 +153,71 @@ every fix be a complete solution. The finding that it doesn't flag the
 *specific* attack that motivated it is real and stays real; it just isn't
 evidence the recommendation was "rejected." Restated precisely rather than
 left as an ambiguous label.
+
+**(a-continued) Full history, forensically checked — plainly resolved.** A
+follow-up question pushed further: was there ever a rejected/discarded round-2
+recommendation that *didn't* get permanently logged (which would itself
+violate "every recommendation gets logged"), or did "caught its own bad fix"
+describe an intermediate draft that got refined into the single approved
+`REC00001`? Checked three independent ways, not asserted:
+
+1. **The `recommendations` table has held exactly one row, ever** —
+   `id=1` (`REC00001`). SQLite's own row-id sequence proves this: if a second
+   recommendation had ever been inserted (drafted, rejected, then somehow
+   removed), the *next* insert would receive `id=2` or higher, not reuse `1`.
+   It never has.
+2. **No code path in this codebase can delete a recommendation.**
+   `backend/db.py` has no `delete_recommendation` function, and grepping the
+   entire repo for `DELETE FROM` / `DROP TABLE` finds nothing that touches
+   this table. The status enum (`db.py`'s own schema comment: `pending ->
+   (approved_pending_reeval | rejected) -> (validated_approved |
+   rejected_after_reeval)`) explicitly supports a permanent `rejected` state
+   — if a recommendation had ever been rejected, it would still be sitting in
+   the table with that status. It is not there.
+3. **`run.py`'s orchestration (`run_round()`) has no silent-discard branch.**
+   Read directly: a round either produces no gap (attack caught, or no
+   single-parameter fix exists — nothing to log either way, correctly) or it
+   calls `db.insert_recommendation()` immediately once a draft and its
+   mandatory Stage 4 simulation both exist. There is no code path where a
+   recommendation is drafted, simulated, and then discarded without being
+   inserted.
+
+**Conclusion, stated plainly: there was never a rejected round-2
+recommendation, logged or otherwise.** `REC00001` was approved at both gates
+from the start; "caught its own bad fix" refers to Stage 4's simulation
+catching that the fix doesn't flag its own motivating attack (see (b) below)
+— a finding *about* the approved recommendation's limits, not a rejection of
+it. Neither of the two hypothesized scenarios happened: there is no
+silently-discarded logging gap (nothing to discard — the table and the code
+both rule it out), and there is no "intermediate draft refined into
+`REC00001`" either — `REC00001` was the *only* draft round 2 ever produced,
+approved as-is on first review.
+
+One separate, real gap does exist, but it is not this one and is not
+"rejected": the round-3 suspicion-threshold investigation later in this
+document (soft_flag_suspicion_threshold -> 1) was a **manual, one-off
+analysis run outside `run_round()`'s orchestration entirely** — it never
+reached `db.insert_recommendation()`, by design, since the exhaustive
+parameter sweep already answered the only question a reviewer could act on.
+Whether that's a compliance gap against "every recommendation gets logged"
+depends on scope: compliant if the guarantee covers the automated pipeline's
+own outputs (which it does, completely — see above), a real if narrow gap if
+the guarantee was meant to cover every fix candidate any part of this system
+ever computes, including manual investigations. Named explicitly rather than
+elided either way.
+
+*(A genuine, unrelated curiosity surfaced while checking this: `audit_log`'s
+own row-id sequence has one real gap, 4 missing ids between `REC00001`'s
+finalization on 2026-08-29 and the next present row on 2026-08-31 — two days
+later, i.e. not part of the `REC00001` sequence at all, which is fully
+intact (ids 249-252, no gap). The most plausible explanation, given this
+project's `backend/snapshot.py` repeatedly copies `data/app.db` wholesale
+during dashboard/demo testing, is a snapshot restore overwriting a few rows
+from unrelated dashboard testing in that window — plausible, not provable
+after the fact, since the intermediate database states no longer exist to
+inspect. Checked because it was there to check, not because it changes the
+answer above: it predates the gap in time, doesn't involve `REC00001`, and
+no `recommendation_*` event type appears anywhere near it.)*
 
 **(b) Root cause — confirmed by direct computation, not just described.**
 Reproducing the exact round-2 attack (`generate_variant(2, seed=2026,

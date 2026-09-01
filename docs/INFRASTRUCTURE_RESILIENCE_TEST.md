@@ -83,9 +83,9 @@ drop-and-log step once, so every check reports the same way.
 - The same 5 injected corruptions: **zero crash**, **5/5 dropped and
   logged** (matching the injected count exactly — nothing silently missed,
   nothing double-dropped), and the **full Stage 1-5 pipeline completes
-  end-to-end** on the cleaned data (178 candidate clusters, 77 flagged on
-  the re-frozen `SEED=51238923` dataset — consistent with the frozen
-  dataset's own known 77-flagged baseline, since removing 5 malformed rows
+  end-to-end** on the cleaned data (166 candidate clusters, 75 flagged on
+  the current `SEED=42668329` dataset — consistent with the frozen
+  dataset's own known 75-flagged baseline, since removing 5 malformed rows
   out of 80,000+ shouldn't and doesn't change cluster-level outcomes).
 - **Zero regression on the real frozen dataset**: run against the actual,
   unmodified `data/raw/` (which has no malformed rows), the new validation
@@ -94,9 +94,10 @@ drop-and-log step once, so every check reports the same way.
   original `SEED=20260828` dataset at the time, 100% hard recall, 82.5% soft
   recall, 2.5% confounder FP rate, 98.65% cluster precision — the fix
   changes failure-handling, not the frozen dataset's own results. (The
-  primary dataset was re-frozen afterward for an unrelated reason —
-  grounded device-sharing statistics, see `ARCHITECTURE.md` — which is why
-  today's headline numbers differ from this specific regression check.)
+  primary dataset was re-frozen twice afterward for unrelated reasons —
+  grounded device-sharing statistics, then a grounded hard-signal ring-size
+  range, see `ARCHITECTURE.md` — which is why today's headline numbers
+  differ from this specific regression check.)
 
 ## Honest read
 

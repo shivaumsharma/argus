@@ -49,7 +49,7 @@
         "reason": "unparseable timestamp",
         "rows_dropped": 1,
         "example_ids": [
-          "U003802"
+          "U003844"
         ]
       },
       {
@@ -57,14 +57,14 @@
         "reason": "missing/negative order_value",
         "rows_dropped": 3,
         "example_ids": [
-          "U003458",
-          "U003504",
-          "U003552"
+          "U003539",
+          "U003592",
+          "U003643"
         ]
       }
     ],
     "pipeline_completed": true,
-    "n_candidates": 178,
-    "n_flagged": 77
+    "n_candidates": 166,
+    "n_flagged": 75
   }
 }

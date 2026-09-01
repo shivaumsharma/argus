@@ -21,6 +21,7 @@ import argparse
 import json
 import random
 import string
+from dataclasses import dataclass
 from datetime import datetime, timedelta
 from pathlib import Path
 
@@ -36,11 +37,12 @@ import pandas as pd
 # every debugging iteration), so a held-out claim on that data is weaker than it
 # looks even without explicit retuning. This one has not been looked at before
 # Stage 5's thresholds and Stage 3's Louvain resolution were already frozen.
-SEED = 51238923  # re-frozen: USE_GROUNDED_DEVICE_SHARING flipped True below, a generator-logic
-                  # change, so per this project's eval integrity protocol this is a fresh seed
-                  # (registered in data/adversarial_recommender/used_seeds.json), not a patch on
-                  # top of the prior SEED=20260828 freeze. Original frozen dataset recoverable at
-                  # that seed / commit 4e36d8f if ever needed.
+SEED = 42668329  # re-frozen again: HARD_RING_SIZE_RANGE's minimum lowered 3->2 below, a second
+                  # generator-logic change, so per this project's eval integrity protocol this is
+                  # another fresh seed (registered in data/adversarial_recommender/used_seeds.json),
+                  # not a patch on top of the prior SEED=51238923 freeze. That freeze is recoverable
+                  # at that seed / commit af013f5 if ever needed; the original SEED=20260828 dataset
+                  # at commit 4e36d8f.
 random.seed(SEED)
 np.random.seed(SEED)
 
@@ -56,38 +58,112 @@ SPAN_DAYS = (TODAY - START).days
 
 TARGET_TOTAL_ACCOUNTS = 7500
 
+# Hard-signal ring size range, grounded in real confirmed-fraud cluster sizes measured directly
+# from YelpChi and Amazon's independently-labeled data (backend/external_validation/run.py's
+# flagged_cluster_sizes, both real >50%-fraud-density clusters extracted via the same strong
+# identity-signal relation this project's own hard-signal stage is modeled on -- "same reviewer"
+# / "same product reviewed"). Measured, not assumed: across 492 flagged YelpChi clusters + 4
+# flagged Amazon clusters, the real size distribution is median=2, p90=3, max=13 -- overwhelmingly
+# pairs, not larger groups. That real distribution's floor (2) is below this generator's previous
+# minimum (3), which had no cited justification of its own. Lowered here to 2, matching
+# MIN_HARD_SIZE=2 in pipeline/clustering.py (Stage 2 has always been willing to flag a pair; the
+# generator just never tested that floor). Elliptic's flagged-cluster sizes (31-632 members) were
+# deliberately NOT used for this calibration -- they measure a structurally different phenomenon
+# (large transaction-flow communities from Louvain, not a tight identity-sharing ring), and
+# blending incommensurable structures would be a fabricated number, not real grounding. Upper
+# bound (15) is unchanged -- no real dataset here provides an upper bound for this project's
+# specific "coordinated referral-bonus ring" concept, so it stays as previously set, not touched.
+# Full analysis: docs/EXTERNAL_VALIDATION.md's "Deriving synthetic-data realism..." section.
+HARD_RING_SIZE_RANGE = (2, 15)
+
 EMAIL_DOMAINS = ["gmail.com", "yahoo.com", "outlook.com", "rediffmail.com", "hotmail.com"]
 
-# --------------------------------------------------------------------------
-# Real-statistics grounding for device-sharing probabilities. NOT applied to
-# the frozen SEED=20260828 dataset by default -- USE_GROUNDED_DEVICE_SHARING
-# defaults to False specifically so `python -m backend.generate_data` keeps
-# reproducing the exact frozen dataset byte-for-byte (verified). Flip it and
-# use a genuinely fresh, never-used seed for the next full freeze-and
-# -reevaluate cycle; per this project's eval integrity protocol, that's the
-# only way these values are allowed to affect any reported headline number.
+# ============================================================================
+# REALISM CALIBRATION -- isolated on purpose, read this before changing anything below
 #
-# Real sources, fetched and verified via web search before use, not assumed:
-#   - IAMAI-KANTAR "Internet in India Report 2025" (Jan 2025, ~100,000-consumer
-#     survey across 400+ towns and 1,000+ villages): 18% of Indian internet
-#     users go online through someone else's mobile device, ~80% of them rural.
-#   - NSO Comprehensive Annual Modular Survey (CAMS), Round 79, 2022-23: "a
-#     majority of Indian phone users share their phone with a family member,
-#     and are not exclusive users of the device."
+# Every constant in this block grounds a piece of the generator in an external,
+# cited real-world statistic rather than an invented number. That's exactly
+# what makes them dangerous to change casually: unlike a threshold in
+# confounder_filter.py (which is swept and impact-simulated before every
+# change -- see cost_threshold_sensitivity.py / the adversarial recommender's
+# Stage 4), these constants change the SHAPE of the generated data itself, and
+# their downstream blast radius has already been observed to be real, not
+# theoretical. Concrete case study: flipping USE_GROUNDED_DEVICE_SHARING for
+# the SEED=51238923 re-freeze moved FRAUDAR's cross-check recall from 15/40 to
+# 5/40 -- half of that drop (-5 rings) traced to this flag, the other half
+# (-5 rings) to ordinary seed variance, decomposed and confirmed by
+# backend/fraudar_seed_isolation.py (see docs/FRAUDAR_CROSSCHECK.md and
+# docs/REALISM_CALIBRATION.md for the full isolation result). Nobody predicted
+# that effect when the flag was flipped -- it was found afterward, during
+# downstream re-verification. This section exists so the next change doesn't
+# repeat that: every parameter below carries its source and its known
+# downstream-sensitive docs/scripts in one place, instead of being a bare
+# unlabeled constant that only the commit history explains.
 #
-# Current frozen values were invented, not grounded: household=0.5 (close to
-# defensible given the NSO "majority" finding, left as-is), hostel=0.0 (the
-# function's own docstring already claims "rarely shared device" but the code
-# never implemented any sharing at all -- a real gap, not just an arbitrary
-# choice), background=0.0 (ordinary accounts never share a device at all,
-# which is the least realistic of the three -- real device-sharing is not
-# confined to planted confounder archetypes). Raising these makes the
-# detection problem *more* honest, not easier, per the same logic already
-# applied to backend/cod_collusion/'s COD refusal rate.
+# Required process to change ANY value in this block (not optional, same
+# discipline as this project's Eval Integrity Protocol):
+#   1. Re-run backend/fraudar_seed_isolation.py with the new value to check
+#      whether it moves the FRAUDAR cross-check specifically, not just the
+#      primary eval -- that's the one downstream number already proven
+#      sensitive to this exact class of change.
+#   2. Treat it as a generator-logic change requiring a fresh, never-used seed
+#      (register it in data/adversarial_recommender/used_seeds.json) -- not a
+#      patch applied on top of the currently-frozen seed.
+#   3. Re-run every doc/script listed in `known_downstream_effects` below and
+#      update any stale numbers found, exactly as was done for this project's
+#      own re-freeze (see the "downstream re-verification" pass in git history).
+# ============================================================================
+
+@dataclass(frozen=True)
+class RealismParam:
+    value: float
+    source: str
+    known_downstream_effects: tuple[str, ...]
+
+
+REALISM_CALIBRATION = {
+    "household_device_share_prob": RealismParam(
+        value=0.55,
+        source="NSO Comprehensive Annual Modular Survey (CAMS), Round 79, 2022-23: 'a majority of "
+               "Indian phone users share their phone with a family member, and are not exclusive "
+               "users of the device.' Modest rise from the previously invented 0.5, which happened "
+               "to already be close to this finding.",
+        known_downstream_effects=("docs/FRAUDAR_CROSSCHECK.md", "docs/FAIRNESS_AUDIT.md",
+                                   "docs/COST_THRESHOLD_SENSITIVITY.md", "docs/ARCHITECTURE.md"),
+    ),
+    "hostel_device_share_prob": RealismParam(
+        value=0.15,
+        source="IAMAI-KANTAR 'Internet in India Report 2025' (Jan 2025, ~100,000-consumer survey "
+               "across 400+ towns and 1,000+ villages): 18% of Indian internet users go online "
+               "through someone else's mobile device, ~80% of them rural. Rounded down slightly "
+               "from the national 18% figure since a hostel population skews younger/more "
+               "device-independent than the national average this statistic covers.",
+        known_downstream_effects=("docs/FRAUDAR_CROSSCHECK.md", "docs/FAIRNESS_AUDIT.md",
+                                   "docs/COST_THRESHOLD_SENSITIVITY.md", "docs/ARCHITECTURE.md"),
+    ),
+    "background_device_share_prob": RealismParam(
+        value=0.18,
+        source="Same IAMAI-KANTAR 18% national figure as hostel, above. Declared here but "
+               "deliberately NOT wired into gen_background() yet -- see the note at its usage "
+               "site below for why that's a structural change, not a probability tweak.",
+        known_downstream_effects=(),  # not yet wired in -- has no downstream effect to track yet
+    ),
+}
+
+# USE_GROUNDED_DEVICE_SHARING stays a plain top-level mutable bool, not a REALISM_CALIBRATION
+# entry -- backend/fraudar_seed_isolation.py toggles it directly at runtime to isolate its
+# effect from the seed's, and freezing it into the dataclass above would make that toggle
+# awkward for no benefit (it's a switch, not a value with its own source citation).
+# Defaults to False so `python -m backend.generate_data` with no seed override keeps
+# reproducing the exact frozen SEED=20260828 dataset byte-for-byte if anyone ever needs to;
+# the current SEED=51238923 freeze explicitly sets it True (see the module docstring above).
 USE_GROUNDED_DEVICE_SHARING = True  # flipped on for the SEED=51238923 re-freeze -- household/hostel
                                      # device-sharing now uses the grounded probabilities below
-GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB = 0.55   # NSO CAMS "majority" finding; modest rise from the current 0.5
-GROUNDED_HOSTEL_DEVICE_SHARE_PROB = 0.15      # roughly the 18% IAMAI-KANTAR national average
+
+# Backward-compatible aliases -- every call site below (gen_household, gen_hostel) reads these
+# exact names unchanged; only the definition moved into the documented registry above.
+GROUNDED_HOUSEHOLD_DEVICE_SHARE_PROB = REALISM_CALIBRATION["household_device_share_prob"].value
+GROUNDED_HOSTEL_DEVICE_SHARE_PROB = REALISM_CALIBRATION["hostel_device_share_prob"].value
 # GROUNDED_BACKGROUND_DEVICE_SHARE_PROB is declared but deliberately NOT wired into
 # gen_background() yet: household/hostel archetypes already generate members in a
 # shared group, so adding a shared-device draw is a one-line probability change.
@@ -97,7 +173,7 @@ GROUNDED_HOSTEL_DEVICE_SHARE_PROB = 0.15      # roughly the 18% IAMAI-KANTAR nat
 # which is a real structural change (new pairing logic, not a probability tweak)
 # and a larger blast radius than the household/hostel fix. Flagged here as a
 # recommended next step, not rushed in to check a box.
-GROUNDED_BACKGROUND_DEVICE_SHARE_PROB = 0.18  # the 18% IAMAI-KANTAR figure, for whenever that structural change is made
+GROUNDED_BACKGROUND_DEVICE_SHARE_PROB = REALISM_CALIBRATION["background_device_share_prob"].value
 
 # --------------------------------------------------------------------------
 # Global state
@@ -570,7 +646,7 @@ def generate(scale: int = 1, raw_dir: Path = None, gt_dir: Path = None, seed: in
     # --- Hard-signal rings ---
     n_hard = 40 * scale
     for i in range(1, n_hard + 1):
-        size = random.randint(3, 15)
+        size = random.randint(*HARD_RING_SIZE_RANGE)
         members = gen_hard_ring(size)
         ring_id = f"RING_HARD_{i:02d}"
         rings_gt[ring_id] = {

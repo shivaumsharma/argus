@@ -4,27 +4,21 @@
     "members": [
       "U000001",
       "U000002",
-      "U000003"
+      "U000003",
+      "U000004",
+      "U000005",
+      "U000006",
+      "U000007",
+      "U000008",
+      "U000009",
+      "U000010",
+      "U000011"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_02": {
     "type": "hard",
     "members": [
-      "U000004",
-      "U000005",
-      "U000006",
-      "U000007",
-      "U000008",
-      "U000009"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_03": {
-    "type": "hard",
-    "members": [
-      "U000010",
-      "U000011",
       "U000012",
       "U000013",
       "U000014",
@@ -37,124 +31,106 @@
       "U000021",
       "U000022",
       "U000023",
-      "U000024"
+      "U000024",
+      "U000025",
+      "U000026"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_04": {
+  "RING_HARD_03": {
     "type": "hard",
     "members": [
-      "U000025",
-      "U000026",
       "U000027",
       "U000028",
       "U000029",
       "U000030",
-      "U000031"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_05": {
-    "type": "hard",
-    "members": [
+      "U000031",
       "U000032",
       "U000033",
       "U000034"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_06": {
+  "RING_HARD_04": {
     "type": "hard",
     "members": [
       "U000035",
       "U000036",
       "U000037",
       "U000038",
-      "U000039",
+      "U000039"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_05": {
+    "type": "hard",
+    "members": [
       "U000040",
-      "U000041"
+      "U000041",
+      "U000042",
+      "U000043",
+      "U000044",
+      "U000045",
+      "U000046"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_06": {
+    "type": "hard",
+    "members": [
+      "U000047",
+      "U000048",
+      "U000049",
+      "U000050",
+      "U000051",
+      "U000052",
+      "U000053",
+      "U000054",
+      "U000055",
+      "U000056",
+      "U000057",
+      "U000058",
+      "U000059"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_07": {
     "type": "hard",
     "members": [
-      "U000042",
-      "U000043",
-      "U000044",
-      "U000045"
+      "U000060",
+      "U000061",
+      "U000062",
+      "U000063",
+      "U000064",
+      "U000065"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_08": {
     "type": "hard",
     "members": [
-      "U000046",
-      "U000047",
-      "U000048",
-      "U000049",
-      "U000050"
+      "U000066",
+      "U000067",
+      "U000068",
+      "U000069",
+      "U000070",
+      "U000071",
+      "U000072",
+      "U000073",
+      "U000074",
+      "U000075",
+      "U000076",
+      "U000077",
+      "U000078"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_09": {
     "type": "hard",
     "members": [
-      "U000051",
-      "U000052",
-      "U000053",
-      "U000054"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_10": {
-    "type": "hard",
-    "members": [
-      "U000055",
-      "U000056",
-      "U000057",
-      "U000058",
-      "U000059",
-      "U000060",
-      "U000061",
-      "U000062",
-      "U000063",
-      "U000064",
-      "U000065",
-      "U000066",
-      "U000067",
-      "U000068",
-      "U000069"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_11": {
-    "type": "hard",
-    "members": [
-      "U000070",
-      "U000071",
-      "U000072"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_12": {
-    "type": "hard",
-    "members": [
-      "U000073",
-      "U000074",
-      "U000075",
-      "U000076",
-      "U000077",
-      "U000078",
       "U000079",
       "U000080",
-      "U000081"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_13": {
-    "type": "hard",
-    "members": [
+      "U000081",
       "U000082",
       "U000083",
       "U000084",
@@ -163,24 +139,18 @@
       "U000087",
       "U000088",
       "U000089",
-      "U000090"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_14": {
-    "type": "hard",
-    "members": [
+      "U000090",
       "U000091",
       "U000092",
-      "U000093",
-      "U000094",
-      "U000095"
+      "U000093"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_15": {
+  "RING_HARD_10": {
     "type": "hard",
     "members": [
+      "U000094",
+      "U000095",
       "U000096",
       "U000097",
       "U000098",
@@ -190,58 +160,58 @@
       "U000102",
       "U000103",
       "U000104",
-      "U000105"
+      "U000105",
+      "U000106",
+      "U000107"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_16": {
+  "RING_HARD_11": {
     "type": "hard",
     "members": [
-      "U000106",
-      "U000107",
       "U000108",
       "U000109",
       "U000110",
       "U000111",
-      "U000112"
+      "U000112",
+      "U000113"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_17": {
+  "RING_HARD_12": {
     "type": "hard",
     "members": [
-      "U000113",
       "U000114",
       "U000115",
       "U000116",
       "U000117",
       "U000118",
       "U000119",
-      "U000120"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_18": {
-    "type": "hard",
-    "members": [
+      "U000120",
       "U000121",
       "U000122",
       "U000123",
       "U000124",
       "U000125",
       "U000126",
-      "U000127",
-      "U000128",
-      "U000129",
-      "U000130",
-      "U000131",
-      "U000132"
+      "U000127"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_19": {
+  "RING_HARD_13": {
     "type": "hard",
     "members": [
+      "U000128",
+      "U000129",
+      "U000130",
+      "U000131"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_14": {
+    "type": "hard",
+    "members": [
+      "U000132",
       "U000133",
       "U000134",
       "U000135",
@@ -249,19 +219,25 @@
       "U000137",
       "U000138",
       "U000139",
-      "U000140",
-      "U000141",
-      "U000142",
-      "U000143",
-      "U000144"
+      "U000140"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_20": {
+  "RING_HARD_15": {
     "type": "hard",
     "members": [
+      "U000141",
+      "U000142",
+      "U000143",
+      "U000144",
       "U000145",
-      "U000146",
+      "U000146"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_16": {
+    "type": "hard",
+    "members": [
       "U000147",
       "U000148",
       "U000149",
@@ -271,35 +247,41 @@
       "U000153",
       "U000154",
       "U000155",
-      "U000156"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_21": {
-    "type": "hard",
-    "members": [
+      "U000156",
       "U000157",
       "U000158",
       "U000159",
-      "U000160",
+      "U000160"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_17": {
+    "type": "hard",
+    "members": [
       "U000161",
       "U000162",
       "U000163",
       "U000164",
-      "U000165"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_22": {
-    "type": "hard",
-    "members": [
+      "U000165",
       "U000166",
       "U000167",
       "U000168",
-      "U000169",
+      "U000169"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_18": {
+    "type": "hard",
+    "members": [
       "U000170",
       "U000171",
-      "U000172",
+      "U000172"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_19": {
+    "type": "hard",
+    "members": [
       "U000173",
       "U000174",
       "U000175",
@@ -307,28 +289,22 @@
       "U000177",
       "U000178",
       "U000179",
-      "U000180"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_23": {
-    "type": "hard",
-    "members": [
+      "U000180",
       "U000181",
       "U000182",
       "U000183",
       "U000184",
       "U000185",
       "U000186",
-      "U000187",
-      "U000188",
-      "U000189"
+      "U000187"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_24": {
+  "RING_HARD_20": {
     "type": "hard",
     "members": [
+      "U000188",
+      "U000189",
       "U000190",
       "U000191",
       "U000192",
@@ -345,25 +321,31 @@
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_25": {
+  "RING_HARD_21": {
     "type": "hard",
     "members": [
       "U000203",
       "U000204",
-      "U000205",
+      "U000205"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_22": {
+    "type": "hard",
+    "members": [
       "U000206",
-      "U000207",
+      "U000207"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_23": {
+    "type": "hard",
+    "members": [
       "U000208",
       "U000209",
       "U000210",
       "U000211",
-      "U000212"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_26": {
-    "type": "hard",
-    "members": [
+      "U000212",
       "U000213",
       "U000214",
       "U000215",
@@ -371,64 +353,70 @@
       "U000217",
       "U000218",
       "U000219",
-      "U000220"
+      "U000220",
+      "U000221"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_24": {
+    "type": "hard",
+    "members": [
+      "U000222",
+      "U000223",
+      "U000224"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_25": {
+    "type": "hard",
+    "members": [
+      "U000225",
+      "U000226",
+      "U000227",
+      "U000228",
+      "U000229"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_26": {
+    "type": "hard",
+    "members": [
+      "U000230",
+      "U000231"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_27": {
     "type": "hard",
     "members": [
-      "U000221",
-      "U000222",
-      "U000223",
-      "U000224",
-      "U000225",
-      "U000226",
-      "U000227",
-      "U000228",
-      "U000229",
-      "U000230",
-      "U000231"
+      "U000232",
+      "U000233",
+      "U000234",
+      "U000235"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_28": {
     "type": "hard",
     "members": [
-      "U000232",
-      "U000233",
-      "U000234",
-      "U000235",
       "U000236",
-      "U000237"
+      "U000237",
+      "U000238",
+      "U000239",
+      "U000240",
+      "U000241",
+      "U000242",
+      "U000243",
+      "U000244",
+      "U000245",
+      "U000246",
+      "U000247"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_29": {
     "type": "hard",
     "members": [
-      "U000238",
-      "U000239",
-      "U000240"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_30": {
-    "type": "hard",
-    "members": [
-      "U000241",
-      "U000242",
-      "U000243",
-      "U000244"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_31": {
-    "type": "hard",
-    "members": [
-      "U000245",
-      "U000246",
-      "U000247",
       "U000248",
       "U000249",
       "U000250",
@@ -436,29 +424,29 @@
       "U000252",
       "U000253",
       "U000254",
-      "U000255"
+      "U000255",
+      "U000256",
+      "U000257"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_32": {
+  "RING_HARD_30": {
     "type": "hard",
     "members": [
-      "U000256",
-      "U000257",
       "U000258",
       "U000259",
       "U000260",
-      "U000261"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_33": {
-    "type": "hard",
-    "members": [
+      "U000261",
       "U000262",
       "U000263",
       "U000264",
-      "U000265",
+      "U000265"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_31": {
+    "type": "hard",
+    "members": [
       "U000266",
       "U000267",
       "U000268",
@@ -466,15 +454,15 @@
       "U000270",
       "U000271",
       "U000272",
-      "U000273",
-      "U000274",
-      "U000275"
+      "U000273"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_34": {
+  "RING_HARD_32": {
     "type": "hard",
     "members": [
+      "U000274",
+      "U000275",
       "U000276",
       "U000277",
       "U000278",
@@ -484,50 +472,44 @@
       "U000282",
       "U000283",
       "U000284",
-      "U000285",
+      "U000285"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_33": {
+    "type": "hard",
+    "members": [
       "U000286",
       "U000287",
       "U000288",
       "U000289",
-      "U000290"
+      "U000290",
+      "U000291"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_34": {
+    "type": "hard",
+    "members": [
+      "U000292",
+      "U000293",
+      "U000294",
+      "U000295",
+      "U000296",
+      "U000297",
+      "U000298",
+      "U000299",
+      "U000300",
+      "U000301"
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
   "RING_HARD_35": {
     "type": "hard",
     "members": [
-      "U000291",
-      "U000292",
-      "U000293",
-      "U000294",
-      "U000295",
-      "U000296"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_36": {
-    "type": "hard",
-    "members": [
-      "U000297",
-      "U000298",
-      "U000299",
-      "U000300"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_37": {
-    "type": "hard",
-    "members": [
-      "U000301",
       "U000302",
       "U000303",
-      "U000304"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_38": {
-    "type": "hard",
-    "members": [
+      "U000304",
       "U000305",
       "U000306",
       "U000307",
@@ -543,40 +525,39 @@
     ],
     "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
   },
-  "RING_HARD_39": {
+  "RING_HARD_36": {
     "type": "hard",
     "members": [
       "U000317",
       "U000318",
-      "U000319",
+      "U000319"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_37": {
+    "type": "hard",
+    "members": [
       "U000320",
       "U000321",
       "U000322",
       "U000323",
-      "U000324"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_HARD_40": {
-    "type": "hard",
-    "members": [
+      "U000324",
       "U000325",
       "U000326",
       "U000327",
       "U000328",
-      "U000329"
-    ],
-    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
-  },
-  "RING_SOFT_01": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000329",
       "U000330",
       "U000331",
       "U000332",
       "U000333",
-      "U000334",
+      "U000334"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_38": {
+    "type": "hard",
+    "members": [
       "U000335",
       "U000336",
       "U000337",
@@ -585,21 +566,26 @@
       "U000340",
       "U000341",
       "U000342",
-      "U000343"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_02": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000343",
       "U000344",
-      "U000345",
+      "U000345"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_39": {
+    "type": "hard",
+    "members": [
       "U000346",
       "U000347",
       "U000348",
       "U000349",
-      "U000350",
+      "U000350"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_HARD_40": {
+    "type": "hard",
+    "members": [
       "U000351",
       "U000352",
       "U000353",
@@ -607,50 +593,43 @@
       "U000355",
       "U000356",
       "U000357",
-      "U000358"
-    ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
-  },
-  "RING_SOFT_03": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000358",
       "U000359",
       "U000360",
       "U000361",
       "U000362",
       "U000363",
-      "U000364",
+      "U000364"
+    ],
+    "description": "Shared device_fingerprint_id and/or instrument_hash across distinct accounts; signup burst; templated order values; claim-then-dormant."
+  },
+  "RING_SOFT_01": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000365",
       "U000366",
       "U000367",
       "U000368",
-      "U000369"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_04": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000369",
       "U000370",
       "U000371",
       "U000372",
       "U000373",
-      "U000374",
+      "U000374"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_02": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
       "U000375",
       "U000376",
       "U000377",
       "U000378",
       "U000379",
-      "U000380"
-    ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
-  },
-  "RING_SOFT_05": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000380",
       "U000381",
       "U000382",
       "U000383",
@@ -659,57 +638,50 @@
       "U000386",
       "U000387",
       "U000388",
-      "U000389",
-      "U000390",
-      "U000391",
-      "U000392"
+      "U000389"
     ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
-  "RING_SOFT_06": {
+  "RING_SOFT_03": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
+      "U000390",
+      "U000391",
+      "U000392",
       "U000393",
       "U000394",
       "U000395",
-      "U000396",
+      "U000396"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_04": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
       "U000397",
       "U000398",
       "U000399",
       "U000400",
       "U000401",
-      "U000402"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_07": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000402",
       "U000403",
       "U000404",
       "U000405",
       "U000406",
-      "U000407"
+      "U000407",
+      "U000408"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
-  "RING_SOFT_08": {
+  "RING_SOFT_05": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000408",
       "U000409",
       "U000410",
-      "U000411"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_09": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000411",
       "U000412",
       "U000413",
       "U000414",
@@ -720,15 +692,15 @@
       "U000419",
       "U000420",
       "U000421",
-      "U000422",
-      "U000423"
+      "U000422"
     ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_10": {
+  "RING_SOFT_06": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
+      "U000423",
       "U000424",
       "U000425",
       "U000426",
@@ -740,36 +712,50 @@
       "U000432",
       "U000433",
       "U000434",
-      "U000435",
-      "U000436",
-      "U000437",
-      "U000438"
+      "U000435"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_11": {
+  "RING_SOFT_07": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
+      "U000436",
+      "U000437",
+      "U000438",
+      "U000439"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_08": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000439",
       "U000440",
       "U000441",
       "U000442",
       "U000443",
-      "U000444"
+      "U000444",
+      "U000445"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_12": {
+  "RING_SOFT_09": {
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000445",
       "U000446",
       "U000447",
       "U000448",
       "U000449",
-      "U000450",
+      "U000450"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_10": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000451",
       "U000452",
       "U000453",
@@ -777,9 +763,9 @@
       "U000455",
       "U000456"
     ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_13": {
+  "RING_SOFT_11": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
@@ -789,21 +775,21 @@
       "U000460",
       "U000461",
       "U000462",
-      "U000463",
+      "U000463"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_12": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
       "U000464",
       "U000465",
       "U000466",
       "U000467",
       "U000468",
       "U000469",
-      "U000470"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_14": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000470",
       "U000471",
       "U000472",
       "U000473",
@@ -811,20 +797,27 @@
       "U000475",
       "U000476",
       "U000477",
-      "U000478",
-      "U000479",
-      "U000480",
-      "U000481",
-      "U000482"
+      "U000478"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
-  "RING_SOFT_15": {
+  "RING_SOFT_13": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
+      "U000479",
+      "U000480",
+      "U000481",
+      "U000482",
       "U000483",
-      "U000484",
+      "U000484"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_14": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
       "U000485",
       "U000486",
       "U000487",
@@ -834,10 +827,22 @@
       "U000491",
       "U000492",
       "U000493",
-      "U000494",
+      "U000494"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_15": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000495",
       "U000496",
-      "U000497"
+      "U000497",
+      "U000498",
+      "U000499",
+      "U000500",
+      "U000501",
+      "U000502"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -845,13 +850,20 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000498",
-      "U000499",
-      "U000500",
-      "U000501",
-      "U000502",
       "U000503",
-      "U000504"
+      "U000504",
+      "U000505",
+      "U000506",
+      "U000507",
+      "U000508",
+      "U000509",
+      "U000510",
+      "U000511",
+      "U000512",
+      "U000513",
+      "U000514",
+      "U000515",
+      "U000516"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -859,13 +871,11 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000505",
-      "U000506",
-      "U000507",
-      "U000508",
-      "U000509",
-      "U000510",
-      "U000511"
+      "U000517",
+      "U000518",
+      "U000519",
+      "U000520",
+      "U000521"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -873,20 +883,14 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000512",
-      "U000513",
-      "U000514",
-      "U000515",
-      "U000516",
-      "U000517",
-      "U000518",
-      "U000519",
-      "U000520",
-      "U000521",
       "U000522",
       "U000523",
       "U000524",
-      "U000525"
+      "U000525",
+      "U000526",
+      "U000527",
+      "U000528",
+      "U000529"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -894,10 +898,6 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000526",
-      "U000527",
-      "U000528",
-      "U000529",
       "U000530",
       "U000531",
       "U000532",
@@ -907,7 +907,12 @@
       "U000536",
       "U000537",
       "U000538",
-      "U000539"
+      "U000539",
+      "U000540",
+      "U000541",
+      "U000542",
+      "U000543",
+      "U000544"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -915,11 +920,6 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000540",
-      "U000541",
-      "U000542",
-      "U000543",
-      "U000544",
       "U000545",
       "U000546",
       "U000547",
@@ -927,7 +927,8 @@
       "U000549",
       "U000550",
       "U000551",
-      "U000552"
+      "U000552",
+      "U000553"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -935,7 +936,6 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000553",
       "U000554",
       "U000555",
       "U000556",
@@ -945,7 +945,11 @@
       "U000560",
       "U000561",
       "U000562",
-      "U000563"
+      "U000563",
+      "U000564",
+      "U000565",
+      "U000566",
+      "U000567"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -953,10 +957,6 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000564",
-      "U000565",
-      "U000566",
-      "U000567",
       "U000568",
       "U000569",
       "U000570",
@@ -964,7 +964,9 @@
       "U000572",
       "U000573",
       "U000574",
-      "U000575"
+      "U000575",
+      "U000576",
+      "U000577"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -972,20 +974,12 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000576",
-      "U000577",
       "U000578",
       "U000579",
       "U000580",
       "U000581",
       "U000582",
-      "U000583",
-      "U000584",
-      "U000585",
-      "U000586",
-      "U000587",
-      "U000588",
-      "U000589"
+      "U000583"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -993,6 +987,12 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
+      "U000584",
+      "U000585",
+      "U000586",
+      "U000587",
+      "U000588",
+      "U000589",
       "U000590",
       "U000591",
       "U000592",
@@ -1000,13 +1000,7 @@
       "U000594",
       "U000595",
       "U000596",
-      "U000597",
-      "U000598",
-      "U000599",
-      "U000600",
-      "U000601",
-      "U000602",
-      "U000603"
+      "U000597"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -1014,6 +1008,12 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
+      "U000598",
+      "U000599",
+      "U000600",
+      "U000601",
+      "U000602",
+      "U000603",
       "U000604",
       "U000605",
       "U000606",
@@ -1037,7 +1037,11 @@
       "U000617",
       "U000618",
       "U000619",
-      "U000620"
+      "U000620",
+      "U000621",
+      "U000622",
+      "U000623",
+      "U000624"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -1045,10 +1049,17 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000621",
-      "U000622",
-      "U000623",
-      "U000624"
+      "U000625",
+      "U000626",
+      "U000627",
+      "U000628",
+      "U000629",
+      "U000630",
+      "U000631",
+      "U000632",
+      "U000633",
+      "U000634",
+      "U000635"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -1056,42 +1067,10 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000625",
-      "U000626",
-      "U000627",
-      "U000628"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_29": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
-      "U000629",
-      "U000630",
-      "U000631",
-      "U000632",
-      "U000633"
-    ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
-  },
-  "RING_SOFT_30": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
-      "U000634",
-      "U000635",
       "U000636",
       "U000637",
       "U000638",
-      "U000639"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_31": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000639",
       "U000640",
       "U000641",
       "U000642",
@@ -1099,15 +1078,15 @@
       "U000644",
       "U000645",
       "U000646",
-      "U000647"
+      "U000647",
+      "U000648"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_32": {
+  "RING_SOFT_29": {
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000648",
       "U000649",
       "U000650",
       "U000651",
@@ -1116,18 +1095,18 @@
       "U000654",
       "U000655",
       "U000656",
-      "U000657"
-    ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
-  },
-  "RING_SOFT_33": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000657",
       "U000658",
       "U000659",
       "U000660",
-      "U000661",
+      "U000661"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_30": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000662",
       "U000663",
       "U000664",
@@ -1135,32 +1114,25 @@
       "U000666",
       "U000667",
       "U000668",
-      "U000669"
-    ],
-    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
-  },
-  "RING_SOFT_34": {
-    "type": "soft",
-    "difficulty": "hard",
-    "members": [
+      "U000669",
       "U000670",
       "U000671",
       "U000672",
       "U000673",
-      "U000674",
+      "U000674"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_31": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000675",
       "U000676",
       "U000677",
       "U000678",
       "U000679",
-      "U000680"
-    ],
-    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
-  },
-  "RING_SOFT_35": {
-    "type": "soft",
-    "difficulty": "easy",
-    "members": [
+      "U000680",
       "U000681",
       "U000682",
       "U000683",
@@ -1172,9 +1144,9 @@
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_36": {
+  "RING_SOFT_32": {
     "type": "soft",
-    "difficulty": "easy",
+    "difficulty": "hard",
     "members": [
       "U000689",
       "U000690",
@@ -1186,7 +1158,14 @@
       "U000696",
       "U000697",
       "U000698",
-      "U000699",
+      "U000699"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_33": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
       "U000700",
       "U000701",
       "U000702",
@@ -1194,7 +1173,7 @@
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
-  "RING_SOFT_37": {
+  "RING_SOFT_34": {
     "type": "soft",
     "difficulty": "hard",
     "members": [
@@ -1204,17 +1183,17 @@
       "U000707",
       "U000708",
       "U000709",
-      "U000710",
-      "U000711",
-      "U000712",
-      "U000713"
+      "U000710"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
-  "RING_SOFT_38": {
+  "RING_SOFT_35": {
     "type": "soft",
     "difficulty": "easy",
     "members": [
+      "U000711",
+      "U000712",
+      "U000713",
       "U000714",
       "U000715",
       "U000716",
@@ -1224,7 +1203,48 @@
       "U000720",
       "U000721",
       "U000722",
-      "U000723"
+      "U000723",
+      "U000724",
+      "U000725"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_36": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
+      "U000726",
+      "U000727",
+      "U000728",
+      "U000729",
+      "U000730"
+    ],
+    "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
+  },
+  "RING_SOFT_37": {
+    "type": "soft",
+    "difficulty": "hard",
+    "members": [
+      "U000731",
+      "U000732",
+      "U000733",
+      "U000734",
+      "U000735",
+      "U000736"
+    ],
+    "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
+  },
+  "RING_SOFT_38": {
+    "type": "soft",
+    "difficulty": "easy",
+    "members": [
+      "U000737",
+      "U000738",
+      "U000739",
+      "U000740",
+      "U000741",
+      "U000742",
+      "U000743"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   },
@@ -1232,15 +1252,14 @@
     "type": "soft",
     "difficulty": "hard",
     "members": [
-      "U000724",
-      "U000725",
-      "U000726",
-      "U000727",
-      "U000728",
-      "U000729",
-      "U000730",
-      "U000731",
-      "U000732"
+      "U000744",
+      "U000745",
+      "U000746",
+      "U000747",
+      "U000748",
+      "U000749",
+      "U000750",
+      "U000751"
     ],
     "description": "Shared IP subnet + slow/loose referral-chain timing + noisier templated order values; occasional follow-up activity. No shared device or instrument. Deliberately harder to catch."
   },
@@ -1248,11 +1267,20 @@
     "type": "soft",
     "difficulty": "easy",
     "members": [
-      "U000733",
-      "U000734",
-      "U000735",
-      "U000736",
-      "U000737"
+      "U000752",
+      "U000753",
+      "U000754",
+      "U000755",
+      "U000756",
+      "U000757",
+      "U000758",
+      "U000759",
+      "U000760",
+      "U000761",
+      "U000762",
+      "U000763",
+      "U000764",
+      "U000765"
     ],
     "description": "Shared IP subnet + tight referral-chain timing (hours) + templated order values; claim-then-dormant. No shared device or instrument."
   }

@@ -1,38 +1,38 @@
 # Compliance summary — RBI FREE-AI alignment
 
-*Auto-generated from the live audit_log and clusters store — 2026-08-31 15:55 UTC. Every number below is computed from this run, not asserted. Also rendered live in the dashboard's **Compliance** tab, from this exact same computed data.*
+*Auto-generated from the live audit_log and clusters store — 2026-09-01 11:09 UTC. Every number below is computed from this run, not asserted. Also rendered live in the dashboard's **Compliance** tab, from this exact same computed data.*
 
 The RBI's FREE-AI framework (August 2025) sets explicit expectations that AI used in fraud detection be **F**air, **R**eliable, **E**xplainable, and **E**thical — responsible, auditable, "safety by design, not safety as an afterthought," in a former RBI Deputy Governor's words. This report is the concrete evidence for each of those, drawn from the system's own audit trail rather than claimed in prose.
 
 ## Explainable
 
-Every one of the 77 currently-flagged clusters has a decision chain that traces back to specific graph edges and feature values — no black-box score. A worked example from this exact run:
+Every one of the 75 currently-flagged clusters has a decision chain that traces back to specific graph edges and feature values — no black-box score. A worked example from this exact run:
 
-**Cluster `C0001`** (hard-signal, 3 accounts)
+**Cluster `C0001`** (hard-signal, 11 accounts)
 
-1. **Stage 5 decision** (deterministic, no model): _Distinct accounts share a payment instrument -- near-certain farming signal; legitimate reason for this is rare, so organic behavior does not override it._
-   Logged as audit_log row `257`, event `stage5_confounder_filter`, with the full Stage 4 feature vector as input evidence.
-2. **Stage 8 writeup** (gemini): _"This cluster of 3 fully interconnected accounts exhibits classic referral farming behavior, featuring a shared device fingerprint, a shared payment instrument, and an extremely tight signup window. Furthermore, all bonus..."_
-   Logged as audit_log row `435`, event `llm_investigation_gemini`, with the exact prompt text (Stage 4/5 evidence only, no raw account data) stored as input evidence and the full structured response stored as output.
+1. **Stage 5 decision** (deterministic, no model): _Shared device with a burst signup, templated orders, or claim-then-dormant behavior -- does not look like organic shared-device use._
+   Logged as audit_log row `512`, event `stage5_confounder_filter`, with the full Stage 4 feature vector as input evidence.
+2. **Stage 8 writeup** (gemini): _"This cluster of 11 fully interconnected accounts exhibits classic coordinated referral abuse, characterized by a rapid signup burst within 2.58 days and 100% device sharing. Members quickly claimed bonuses followed by hi..."_
+   Logged as audit_log row `678`, event `llm_investigation_gemini`, with the exact prompt text (Stage 4/5 evidence only, no raw account data) stored as input evidence and the full structured response stored as output.
 3. **Recommended action**: `HOLD_BONUS` — bounded to HOLD_BONUS / MANUAL_REVIEW / NO_ACTION; a human executes.
 
 ## Auditable
 
-The audit_log table currently holds **507 entries**, every one with its full input evidence and output stored as JSON, queryable by cluster ID:
+The audit_log table currently holds **748 entries**, every one with its full input evidence and output stored as JSON, queryable by cluster ID:
 
 - `llm_investigation_fallback_template`: 11
-- `llm_investigation_gemini`: 140
+- `llm_investigation_gemini`: 215
 - `recommendation_finalized`: 1
 - `recommendation_proposed`: 1
 - `recommendation_reevaluated`: 1
 - `recommendation_reviewed`: 1
-- `stage5_confounder_filter`: 352
+- `stage5_confounder_filter`: 518
 
 This means any flag can be reconstructed end to end after the fact — which graph edges fired, which Stage 4 features were computed, why Stage 5 did or didn't suppress the flag, and exactly what evidence the LLM saw before it wrote its case. Nothing is decided or discarded silently. This extends to backend/adversarial_recommender/'s own recommendation lifecycle (`recommendation_proposed` / `_reviewed` / `_reevaluated` / `_finalized`) via the same table, not a parallel log.
 
 ## Fair
 
-The concrete fairness metric for this system is the **confounder false-positive rate: 5.0%** (3 of 40 planted legitimate clusters — real households, hostels, office networks, and organic referral trees — wrongly flagged). Stage 5 exists specifically to prevent dense, legitimate clusters from being punished for looking structurally similar to a fraud ring; this number is reported honestly rather than folded into an aggregate accuracy figure that would hide it.
+The concrete fairness metric for this system is the **confounder false-positive rate: 2.5%** (1 of 40 planted legitimate clusters — real households, hostels, office networks, and organic referral trees — wrongly flagged). Stage 5 exists specifically to prevent dense, legitimate clusters from being punished for looking structurally similar to a fraud ring; this number is reported honestly rather than folded into an aggregate accuracy figure that would hide it.
 
 Fairness is also architectural, not just measured: every recommendation is bounded to `HOLD_BONUS` / `MANUAL_REVIEW` / `NO_ACTION`, so a false positive costs a delayed payout pending human review, never an executed penalty. There is no code path in this system that can ban, block, or claw back funds automatically.
 
@@ -40,13 +40,13 @@ Fairness is also architectural, not just measured: every recommendation is bound
 
 ## Reliable
 
-Hard-signal ring recall: **100.0%**. Soft-signal ring recall: **85.0%** — reported separately, not blended, because it is the genuinely harder detection case and the honest number is lower. Cluster-level precision: **96.1%**. All three are measured on a held-out split of ground truth never used to pick a threshold.
+Hard-signal ring recall: **100.0%**. Soft-signal ring recall: **85.0%** — reported separately, not blended, because it is the genuinely harder detection case and the honest number is lower. Cluster-level precision: **98.7%**. All three are measured on a held-out split of ground truth never used to pick a threshold.
 
-Stage 8's self-reported LLM confidence was checked against ground truth across 89 scored clusters (74 from the primary dataset, 15 from a purpose-built supplementary batch run through the real pipeline via `backend/custom_scenario.py`, isolated scratch space): **11 negative examples**, enough spread to see a genuine trend (accuracy rises with stated confidence). See the dashboard's Metrics page for the full decile breakdown.
+Stage 8's self-reported LLM confidence was checked against ground truth across 90 scored clusters (75 from the primary dataset, 15 from a purpose-built supplementary batch run through the real pipeline via `backend/custom_scenario.py`, isolated scratch space): **11 negative examples**, enough spread to see a genuine trend (accuracy rises with stated confidence). See the dashboard's Metrics page for the full decile breakdown.
 
 ## Ethical / human-in-the-loop
 
-Of the 77 flagged clusters, 66 carry a real LLM-authored case (vs. 11 on the deterministic template fallback), and every one recommends exactly one of three bounded actions: `HOLD_BONUS` (74), `NO_ACTION` (3). The LLM never sees raw account data (no names, phones, emails) — only the aggregate evidence the deterministic pipeline already computed — and it never decides whether a cluster is suspicious; that decision is made by Stages 1-5 before the LLM is invoked at all.
+Of the 75 flagged clusters, 75 carry a real LLM-authored case (vs. 0 on the deterministic template fallback), and every one recommends exactly one of three bounded actions: `HOLD_BONUS` (74), `NO_ACTION` (1). The LLM never sees raw account data (no names, phones, emails) — only the aggregate evidence the deterministic pipeline already computed — and it never decides whether a cluster is suspicious; that decision is made by Stages 1-5 before the LLM is invoked at all.
 
 ---
 

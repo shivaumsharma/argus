@@ -60,9 +60,10 @@ from .reporting import load_ground_truth
 N_BLOCKS = 80  # = 40 hard + 40 soft planted rings; generous enough to give FRAUDAR a fair chance at all of them
 
 
-def build_bipartite_graph():
-    accounts = pd.read_csv(RAW_DIR / "accounts.csv", dtype=str)
-    instruments = pd.read_csv(RAW_DIR / "payment_instruments.csv", dtype=str)
+def build_bipartite_graph(raw_dir=None):
+    raw_dir = raw_dir or RAW_DIR
+    accounts = pd.read_csv(raw_dir / "accounts.csv", dtype=str)
+    instruments = pd.read_csv(raw_dir / "payment_instruments.csv", dtype=str)
     instrument_by_user = dict(zip(instruments.user_id, instruments.instrument_hash))
 
     row_neighbors = defaultdict(set)   # user_id -> set of attribute-node ids

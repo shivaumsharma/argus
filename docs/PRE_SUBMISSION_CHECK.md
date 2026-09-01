@@ -137,6 +137,30 @@ pass, not rewritten to match the new freeze — the "Known limitations"
 narrative sections that referenced now-superseded specifics were fixed at
 their source (`ARCHITECTURE.md`, `README.md`) rather than here.
 
+## Addendum 3 — a second re-freeze, same discipline
+
+Everything above (including Addendum 2) was checked against the
+`SEED=51238923` dataset. That dataset was subsequently re-frozen a second
+time (`SEED=42668329`, `HARD_RING_SIZE_RANGE` minimum lowered 3→2, grounded
+in real YelpChi/Amazon confirmed-fraud cluster sizes — see
+`EXTERNAL_VALIDATION.md`'s ring-size grounding section), per the identical
+eval integrity protocol: fresh seed, one `generate → pipeline → eval` run,
+numbers reported as-is. The same full downstream sweep was repeated:
+`FAIRNESS_AUDIT.md`, `COST_THRESHOLD_SENSITIVITY.md`, `FRAUDAR_CROSSCHECK.md`
+(headline moved 5/40→7/40), `COMPLIANCE_SUMMARY.md` (auto-regenerated), the
+confidence-calibration and fairness bullets in `ARCHITECTURE.md`, and the
+concurrent-attack/infra-resilience/time-drift/scale-stress/adversarial-stress
+scripts were all re-run against the new freeze and their docs updated where
+numbers moved — not left standing next to stale figures. `explainer.html`'s
+KPI tiles were checked and corrected the same way as Addendum 2's original
+fix (confounder FP rate and cluster precision had drifted; soft-signal
+recall and background-account count happened to already match). External
+validation (YelpChi/Amazon/Elliptic) is unaffected by this re-freeze either
+— it runs against outside data, not ours, though this specific re-freeze is
+itself *derived from* that external data, a different relationship than
+"unaffected by." As with Addendum 2, this document's own historical tables
+above are left as the dated record of the pass they document, not rewritten.
+
 ## What this check does not cover
 
 This is a consistency and dry-run pass, not a re-verification of every

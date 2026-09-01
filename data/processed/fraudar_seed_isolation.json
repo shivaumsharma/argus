@@ -1,0 +1,44 @@
+{
+  "variants": [
+    {
+      "seed": 20260828,
+      "grounding": false,
+      "n_users": 7500,
+      "n_attributes": 20914,
+      "n_edges": 22500,
+      "n_blocks_found": 18,
+      "n_hard_rings_matched": 15,
+      "n_hard_rings_total": 40,
+      "recall": 0.375,
+      "label": "A: old seed, grounding OFF (original pre-refreeze dataset)"
+    },
+    {
+      "seed": 51238923,
+      "grounding": false,
+      "n_users": 7500,
+      "n_attributes": 20927,
+      "n_edges": 22500,
+      "n_blocks_found": 13,
+      "n_hard_rings_matched": 10,
+      "n_hard_rings_total": 40,
+      "recall": 0.25,
+      "label": "B: new seed, grounding OFF (isolates seed-only effect)"
+    },
+    {
+      "seed": 51238923,
+      "grounding": true,
+      "n_users": 7500,
+      "n_attributes": 20946,
+      "n_edges": 22500,
+      "n_blocks_found": 11,
+      "n_hard_rings_matched": 5,
+      "n_hard_rings_total": 40,
+      "recall": 0.125,
+      "label": "C: new seed, grounding ON (the current committed dataset)"
+    }
+  ],
+  "seed_effect_rings": -5,
+  "grounding_effect_rings": -5,
+  "total_change_rings": -10,
+  "dominant_cause": "neither -- split exactly evenly between the two causes"
+}

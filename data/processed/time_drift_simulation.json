@@ -1,5 +1,5 @@
 {
-  "seed": 55019285,
+  "seed": 55019286,
   "n_periods": 4,
   "rings_per_population_per_period": 8,
   "periods": [
@@ -18,8 +18,8 @@
       "n_caught_shared_device": 8,
       "recall_shared_device": 1.0,
       "n_confounders": 40,
-      "n_confounder_fp": 2,
-      "confounder_fp_rate": 0.05,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
       "new_interference_confounders": []
     },
     {
@@ -37,8 +37,8 @@
       "n_caught_shared_device": 8,
       "recall_shared_device": 1.0,
       "n_confounders": 40,
-      "n_confounder_fp": 2,
-      "confounder_fp_rate": 0.05,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
       "new_interference_confounders": []
     },
     {
@@ -56,8 +56,8 @@
       "n_caught_shared_device": 8,
       "recall_shared_device": 1.0,
       "n_confounders": 40,
-      "n_confounder_fp": 2,
-      "confounder_fp_rate": 0.05,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
       "new_interference_confounders": []
     },
     {
@@ -75,8 +75,8 @@
       "n_caught_shared_device": 3,
       "recall_shared_device": 0.375,
       "n_confounders": 40,
-      "n_confounder_fp": 2,
-      "confounder_fp_rate": 0.05,
+      "n_confounder_fp": 1,
+      "confounder_fp_rate": 0.025,
       "new_interference_confounders": []
     }
   ],
