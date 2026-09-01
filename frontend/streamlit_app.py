@@ -18,6 +18,8 @@ pages = [
     st.Page("app_pages/graph_explorer.py", title="Graph explorer", icon=":material/share:"),
     st.Page("app_pages/live_injection.py", title="Live injection", icon=":material/bolt:"),
     st.Page("app_pages/metrics.py", title="Metrics", icon=":material/monitoring:"),
+    st.Page("app_pages/external_validation.py", title="External Validation", icon=":material/travel_explore:"),
+    st.Page("app_pages/resilience.py", title="Resilience", icon=":material/security:"),
     st.Page("app_pages/compliance.py", title="Compliance", icon=":material/verified:"),
     st.Page("app_pages/recommendations.py", title="Recommendations", icon=":material/shield_with_heart:"),
     st.Page("app_pages/audit_log.py", title="Audit log", icon=":material/history:"),

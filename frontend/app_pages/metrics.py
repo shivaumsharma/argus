@@ -8,9 +8,39 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_calibration_report, cached_confounder_rows, cached_cost_sensitivity_report, cached_eval_report, cached_fraudar_report, cached_ring_rows, cached_scale_stress_report, ensure_version  # noqa: E402
+from shared import cached_calibration_report, cached_cod_eval, cached_confounder_rows, cached_cost_sensitivity_report, cached_eval_report, cached_ring_rows, cached_scale_stress_report, ensure_version  # noqa: E402
 
 st.title(":material/monitoring: Metrics")
+
+loss_type = st.segmented_control("Loss type", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+
+if loss_type == "COD Collusion":
+    st.caption(
+        "Stretch scope: same Stage 2/3 clustering (connected components + Louvain), reused completely "
+        "unchanged, fed a different edge vocabulary — shared delivery address and phone-number-prefix "
+        "instead of device/instrument/IP/referral. A separate, smaller, self-contained dataset and "
+        "pipeline; no dev/holdout split, no confidence calibration, no cost-threshold sweep, and no LLM "
+        "narrative layer exist for this loss type by design — see `docs/SECOND_LOSS_TYPE.md`."
+    )
+    version = ensure_version()
+    cod_eval = cached_cod_eval(version)
+    if not cod_eval:
+        st.warning("No COD eval report found. Run `python -m backend.cod_collusion.run`.", icon=":material/warning:")
+        st.stop()
+    with st.container(horizontal=True):
+        st.metric("Ring recall", f"{cod_eval['ring_recall']:.0%}",
+                  help=f"{cod_eval['rings_detected']} of {cod_eval['n_rings']} planted COD collusion rings", border=True)
+        st.metric("Confounder false-positive rate", f"{cod_eval['confounder_fp_rate']:.0%}",
+                  help=f"{cod_eval['confounders_wrongly_flagged']} of {cod_eval['n_confounders']} planted "
+                       "legitimate shared-address clusters (real hostels/apartments) wrongly flagged", border=True)
+    st.caption(
+        f"Single run, smaller sample ({cod_eval['n_rings']} rings, {cod_eval['n_confounders']} confounders) "
+        "than the primary system's 40/40/40 — treat this as \"the mechanism works, cleanly, on an "
+        "easier-by-construction dataset,\" not evidence at the primary system's statistical resolution. "
+        "Full writeup in `docs/SECOND_LOSS_TYPE.md`."
+    )
+    st.stop()
+
 st.caption(
     "Computed on a held-out split of the planted ground truth — never used to pick any threshold in the "
     "pipeline. Reported honestly, including the numbers that aren't a clean 100%."
@@ -205,13 +235,22 @@ else:
                         })
             st.caption(f"`{param_label}` — current production default = {cur}")
 
-    st.markdown(
-        "**Real finding**: recall is completely flat (73/80 rings) across every shared-device threshold "
-        "tested — no real ring in this dataset has a high enough organic_score for this threshold to ever "
-        "cost recall. Only the confounder FP count moves: 0 at threshold 1-2, 1 at the current default (3), "
-        "6 at threshold 4. That makes threshold=2 a strict improvement on every metric measured here — same "
-        "recall, fewer false positives — regardless of any FP-cost assumption."
-    )
+    finding = device["finding"]
+    if finding["recall_flat"]:
+        fp_desc = ", ".join(f"{v} at threshold {t}" for t, v in finding["fp_by_threshold"].items())
+        st.markdown(
+            f"**Real finding**: recall is completely flat ({finding['recall_value']}/{finding['n_rings_total']} "
+            f"rings) across every shared-device threshold tested — no real ring in this dataset has a high "
+            f"enough organic_score for this threshold to ever cost recall. Only the confounder FP count moves: "
+            f"{fp_desc}. That makes the lowest-FP threshold at equal recall a strict improvement on every "
+            f"metric measured here — same recall, fewer false positives — regardless of any FP-cost assumption."
+        )
+    else:
+        recall_desc = ", ".join(f"{v}/{finding['n_rings_total']} at threshold {t}"
+                                for t, v in finding["recall_by_threshold"].items())
+        st.markdown(f"**Real finding**: recall varies by threshold on this run ({recall_desc}) — unlike a "
+                   "prior run of this same script, at least one real ring's organic_score is now sensitive "
+                   "to this threshold.")
     st.caption(
         ":material/info: This finding is **not applied to production** here — it was found by evaluating "
         "against the full ring/confounder set, including the holdout split this project has deliberately "
@@ -224,36 +263,8 @@ else:
 
 st.space("large")
 
-# --- FRAUDAR cross-check ---
-st.subheader("FRAUDAR cross-check — an independent method, not our own pipeline")
-fraudar = cached_fraudar_report(version)
-if not fraudar:
-    st.info("Run `python -m backend.fraudar_crosscheck` to generate this.", icon=":material/info:")
-else:
-    h = fraudar["headline"]
-    st.warning(
-        f":material/info: **Scope, stated up front, not buried**: {fraudar['scope']}",
-        icon=":material/warning:",
-    )
-    with st.container(horizontal=True):
-        st.metric("FRAUDAR recall (hard-signal rings)", f"{h['fraudar_hard_ring_recall']:.0%}",
-                   help=f"{h['hard_rings_matched']} of {h['hard_rings_total']} planted hard-signal rings", border=True)
-        st.metric("Our Stage 2 recall (same rings, same signals)", f"{h['our_stage2_hard_ring_recall']:.0%}",
-                   help="Connected components recovers every planted hard-signal ring whole; FRAUDAR's density"
-                        "-peeling dilutes smaller rings into a larger residual block.", border=True)
-        st.metric("Density blocks found", f"{fraudar['n_blocks_found']}",
-                   help=f"requested {fraudar['n_blocks_requested']}, algorithm's own stopping rule found fewer", border=True)
-    st.caption(
-        f"Independent, published, camouflage-resistant densest-subgraph method (Hooi et al., KDD 2016), run "
-        f"standalone against this dataset's device/instrument/subnet graph only — {fraudar['graph']['n_users']:,} "
-        f"users, {fraudar['graph']['n_attributes']:,} attributes, {fraudar['graph']['n_edges']:,} edges. "
-        f"It recovers **{h['hard_rings_matched']} of {h['hard_rings_total']}** planted hard-signal rings exactly "
-        f"({h['fraudar_hard_ring_recall']:.1%}) against Stage 2's 100% on the identical rings from the identical "
-        "signals — real cross-validation from a detection mechanism that never sees ground truth, and a concrete "
-        "illustration of why connected components (extracted whole) beats generic density-peeling (which dilutes "
-        "smaller rings) for this specific problem. Full methodology, including a stopping-rule circularity bug "
-        "found and fixed while building this, in `docs/FRAUDAR_CROSSCHECK.md`."
-    )
+st.info("The FRAUDAR cross-check, and the YelpChi/Amazon/Elliptic external validation results, moved to the "
+       "**External Validation** tab, alongside each other.", icon=":material/info:")
 
 st.space("large")
 

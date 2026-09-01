@@ -148,6 +148,14 @@
         "optimal_threshold": 1,
         "optimal_cost": 2469.98
       }
+    },
+    "finding": {
+      "fp_flat": true,
+      "fp_value": 2,
+      "fp_by_threshold": null,
+      "optimal_thresholds": [
+        1
+      ]
     }
   },
   "device_clear_organic_threshold": {
@@ -290,6 +298,18 @@
         ],
         "optimal_threshold": 1,
         "optimal_cost": 6096.24
+      }
+    },
+    "finding": {
+      "recall_flat": true,
+      "recall_value": 74,
+      "n_rings_total": 80,
+      "recall_by_threshold": null,
+      "fp_by_threshold": {
+        "1": 0,
+        "2": 0,
+        "3": 2,
+        "4": 10
       }
     }
   }

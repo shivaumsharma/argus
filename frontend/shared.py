@@ -36,6 +36,7 @@ def ensure_version() -> int:
 def bump_version():
     st.session_state["data_version"] = st.session_state.get("data_version", 0) + 1
     get_graph.clear()
+    get_cod_graph.clear()
 
 
 @st.cache_data(show_spinner=False)
@@ -117,3 +118,56 @@ def cached_scale_stress_report(_version: int):
         return None
     with open(path) as f:
         return json.load(f)
+
+
+def _cached_json(_version: int, path):
+    import json
+    if not path.exists():
+        return None
+    with open(path) as f:
+        return json.load(f)
+
+
+@st.cache_data(show_spinner=False)
+def cached_concurrent_attack_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "concurrent_attack_stress_test.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_infra_resilience_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "infra_resilience_test.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_time_drift_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "time_drift_simulation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_external_validation_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "external_validation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_cod_clusters(_version: int):
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    return _cached_json(_version, root / "data" / "cod" / "processed" / "clusters.json") or []
+
+
+@st.cache_data(show_spinner=False)
+def cached_cod_eval(_version: int):
+    from pathlib import Path
+    root = Path(__file__).resolve().parents[1]
+    return _cached_json(_version, root / "data" / "cod" / "processed" / "eval_report.json")
+
+
+@st.cache_resource(show_spinner="Building the COD collusion entity graph...")
+def get_cod_graph(_version: int):
+    from backend.cod_collusion import graph_build
+    accounts, orders = graph_build.load_data()
+    return graph_build.build_graph(accounts)

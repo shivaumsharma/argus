@@ -1,0 +1,171 @@
+{
+  "yelpchi": {
+    "dataset": "YelpChi",
+    "source": "Rayana & Akoglu, KDD 2015 -- via github.com/YingtongDou/CARE-GNN",
+    "signals": [
+      "same reviewer (R-U-R): hard, weight 4.0",
+      "same product+month (R-T-R): soft, weight 1.2",
+      "same product+rating+week (R-S-R) -- very dense, down-weighted: soft, weight 0.4"
+    ],
+    "n_nodes": 45954,
+    "total_fraud": 6677,
+    "base_fraud_rate": 0.1453,
+    "n_candidates": 7355,
+    "n_hard_candidates": 7308,
+    "n_soft_candidates": 90,
+    "largest_candidate_size": 782,
+    "n_flagged": 492,
+    "n_flagged_hard": 491,
+    "n_flagged_soft": 1,
+    "fraud_recall": 0.1698,
+    "flagged_cluster_precision": 0.9921,
+    "lift_over_base_rate": 6.83,
+    "captured_fraud_nodes": 1134,
+    "captured_total_nodes": 1143
+  },
+  "amazon": {
+    "dataset": "Amazon",
+    "source": "McAuley & Leskovec -- via github.com/YingtongDou/CARE-GNN",
+    "signals": [
+      "same product reviewed (U-P-U): hard, weight 4.0",
+      "top-5% TF-IDF text similarity (U-V-U): soft, weight 1.0",
+      "same rating within a week (U-S-U) -- avg degree ~597, near-complete graph, excluded as non-discriminating and computationally prohibitive: EXCLUDED"
+    ],
+    "n_nodes": 11944,
+    "total_fraud": 821,
+    "base_fraud_rate": 0.0687,
+    "n_candidates": 338,
+    "n_hard_candidates": 331,
+    "n_soft_candidates": 20,
+    "largest_candidate_size": 9314,
+    "n_flagged": 4,
+    "n_flagged_hard": 4,
+    "n_flagged_soft": 0,
+    "fraud_recall": 0.011,
+    "flagged_cluster_precision": 0.8182,
+    "lift_over_base_rate": 11.9,
+    "captured_fraud_nodes": 9,
+    "captured_total_nodes": 11
+  },
+  "elliptic": {
+    "n_nodes": 114634,
+    "n_edges": 133700,
+    "n_labeled": 46564,
+    "n_illicit": 4545,
+    "base_rate": 0.0976,
+    "largest_component": 7880,
+    "largest_component_frac": 0.0687,
+    "n_components": 40,
+    "n_communities": 320,
+    "hard": {
+      "n_clusters": 29,
+      "n_flagged": 0,
+      "n_captured": 0,
+      "n_illicit_captured": 0,
+      "recall": 0.0,
+      "precision": NaN
+    },
+    "soft": {
+      "n_clusters": 261,
+      "n_flagged": 21,
+      "n_captured": 829,
+      "n_illicit_captured": 597,
+      "recall": 0.13135313531353135,
+      "precision": 0.7201447527141134
+    },
+    "hard_threshold_sweep": [
+      {
+        "threshold": 0.5,
+        "n_clusters": 29,
+        "n_flagged": 0,
+        "n_captured": 0,
+        "n_illicit_captured": 0,
+        "recall": 0.0,
+        "precision": NaN
+      },
+      {
+        "threshold": 0.4,
+        "n_clusters": 29,
+        "n_flagged": 0,
+        "n_captured": 0,
+        "n_illicit_captured": 0,
+        "recall": 0.0,
+        "precision": NaN
+      },
+      {
+        "threshold": 0.3,
+        "n_clusters": 29,
+        "n_flagged": 2,
+        "n_captured": 1587,
+        "n_illicit_captured": 539,
+        "recall": 0.1185918591859186,
+        "precision": 0.33963453056080656
+      },
+      {
+        "threshold": 0.2,
+        "n_clusters": 29,
+        "n_flagged": 6,
+        "n_captured": 3644,
+        "n_illicit_captured": 1076,
+        "recall": 0.23674367436743673,
+        "precision": 0.29527991218441274
+      },
+      {
+        "threshold": 0.1,
+        "n_clusters": 29,
+        "n_flagged": 15,
+        "n_captured": 9580,
+        "n_illicit_captured": 1932,
+        "recall": 0.4250825082508251,
+        "precision": 0.20167014613778705
+      }
+    ],
+    "soft_threshold_sweep": [
+      {
+        "threshold": 0.5,
+        "n_clusters": 261,
+        "n_flagged": 21,
+        "n_captured": 829,
+        "n_illicit_captured": 597,
+        "recall": 0.13135313531353135,
+        "precision": 0.7201447527141134
+      },
+      {
+        "threshold": 0.4,
+        "n_clusters": 261,
+        "n_flagged": 26,
+        "n_captured": 1637,
+        "n_illicit_captured": 963,
+        "recall": 0.21188118811881188,
+        "precision": 0.5882712278558339
+      },
+      {
+        "threshold": 0.3,
+        "n_clusters": 261,
+        "n_flagged": 34,
+        "n_captured": 2349,
+        "n_illicit_captured": 1217,
+        "recall": 0.26776677667766774,
+        "precision": 0.5180928054491273
+      },
+      {
+        "threshold": 0.2,
+        "n_clusters": 261,
+        "n_flagged": 46,
+        "n_captured": 4532,
+        "n_illicit_captured": 1759,
+        "recall": 0.387018701870187,
+        "precision": 0.38812886142983233
+      },
+      {
+        "threshold": 0.1,
+        "n_clusters": 261,
+        "n_flagged": 58,
+        "n_captured": 6593,
+        "n_illicit_captured": 2033,
+        "recall": 0.4473047304730473,
+        "precision": 0.30835734870317005
+      }
+    ]
+  }
+}
