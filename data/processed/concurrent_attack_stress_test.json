@@ -56,12 +56,10 @@
   ],
   "n_confounders": 40,
   "confounders_flagged_baseline": [
-    "CONF_HOUSEHOLD_02",
-    "CONF_HOUSEHOLD_03"
+    "CONF_HOUSEHOLD_02"
   ],
   "confounders_flagged_with_attacks": [
-    "CONF_HOUSEHOLD_02",
-    "CONF_HOUSEHOLD_03"
+    "CONF_HOUSEHOLD_02"
   ],
   "new_interference_confounders": []
 }

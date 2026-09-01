@@ -1,7 +1,12 @@
 {
-  "n_flagged": 74,
-  "n_true_rings": 73,
-  "n_not_true_ring": 1,
+  "status": "ok",
+  "n_flagged": 90,
+  "n_true_rings": 79,
+  "n_not_true_ring": 11,
+  "sources": {
+    "primary_dataset": 75,
+    "supplementary_batch": 15
+  },
   "buckets": [
     {
       "range": "0.0-0.1",
@@ -30,30 +35,46 @@
     },
     {
       "range": "0.5-0.6",
-      "n": 0,
-      "accuracy": null
+      "n": 1,
+      "accuracy": 0.0,
+      "false_positives": [
+        "CAL20"
+      ]
     },
     {
       "range": "0.6-0.7",
-      "n": 0,
-      "accuracy": null
+      "n": 1,
+      "accuracy": 0.0,
+      "false_positives": [
+        "CAL11"
+      ]
     },
     {
       "range": "0.7-0.8",
-      "n": 0,
-      "accuracy": null
+      "n": 2,
+      "accuracy": 0.0,
+      "false_positives": [
+        "CAL14",
+        "CAL16"
+      ]
     },
     {
       "range": "0.8-0.9",
-      "n": 19,
-      "accuracy": 0.947,
+      "n": 28,
+      "accuracy": 0.75,
       "false_positives": [
-        "C0041"
+        "C0041",
+        "CAL10",
+        "CAL12",
+        "CAL13",
+        "CAL18",
+        "CAL19",
+        "CAL21"
       ]
     },
     {
       "range": "0.9-1.0",
-      "n": 55,
+      "n": 58,
       "accuracy": 1.0,
       "false_positives": []
     }

@@ -40,9 +40,9 @@ advance.
 disposable tempdir copy of the real `data/raw/` every period; the original
 is never touched. Confounder false positives use the same baseline-control
 method established in `CONCURRENT_ATTACK_STRESS_TEST.md` (computed once,
-since the background is identical every period). Fresh seed (`55019285`,
-registered in `used_seeds.json`), re-run against the re-frozen
-`SEED=51238923` primary dataset — see `ARCHITECTURE.md`'s Known
+since the background is identical every period). Fresh seed (`55019286`,
+registered in `used_seeds.json`), re-run against the current
+`SEED=42668329` primary dataset — see `ARCHITECTURE.md`'s Known
 Limitations.
 
 Run: `python -m backend.time_drift_simulation`
@@ -75,10 +75,10 @@ real baseline to decay from.
 
 | Period | No-shared-device recall | Shared-device recall | Confounder FP rate |
 |---|---|---|---|
-| 1 | **100%** (8/8) | **100%** (8/8) | 5.0% (2/40) |
-| 2 | **0%** (0/8) | 100% (8/8) | 5.0% (2/40) |
-| 3 | 0% (0/8) | 100% (8/8) | 5.0% (2/40) |
-| 4 | 0% (0/8) | **38%** (3/8) | 5.0% (2/40) |
+| 1 | **100%** (8/8) | **100%** (8/8) | 2.5% (1/40) |
+| 2 | **0%** (0/8) | 100% (8/8) | 2.5% (1/40) |
+| 3 | 0% (0/8) | 100% (8/8) | 2.5% (1/40) |
+| 4 | 0% (0/8) | **38%** (3/8) | 2.5% (1/40) |
 
 **No-shared-device: a cliff, not a gradual slope.** Recall drops from 100%
 to 0% between period 1 (`sophistication=0.0`) and period 2
@@ -106,7 +106,7 @@ the identical archetype — both 38% and 25% are plausible draws from the same
 underlying per-ring probability, not a contradiction between runs).
 Consistent with, not contradicting, that earlier finding.
 
-**Confounder false-positive rate: flat at 5.0% (2/40) in every period.**
+**Confounder false-positive rate: flat at 2.5% (1/40) in every period.**
 The two flagged confounders are the same pre-existing false positives
 present with zero rings injected at all (see
 `CONCURRENT_ATTACK_STRESS_TEST.md`'s baseline-control methodology) — no new

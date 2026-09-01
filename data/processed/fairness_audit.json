@@ -26,35 +26,35 @@
   },
   "confounder_fp_rate_by_tier": {
     "tier1_metro": {
-      "n": 8,
+      "n": 6,
       "hits": 0,
       "rate": 0.0
     },
     "tier2_city": {
-      "n": 8,
+      "n": 7,
       "hits": 0,
       "rate": 0.0
     },
     "tier3_other": {
-      "n": 24,
-      "hits": 2,
-      "rate": 0.0833
+      "n": 27,
+      "hits": 1,
+      "rate": 0.037
     }
   },
   "confounder_fp_rate_by_type_and_tier": {
     "hostel": {
       "tier1_metro": {
-        "n": 2,
+        "n": 3,
         "hits": 0,
         "rate": 0.0
       },
       "tier2_city": {
-        "n": 1,
+        "n": 2,
         "hits": 0,
         "rate": 0.0
       },
       "tier3_other": {
-        "n": 7,
+        "n": 5,
         "hits": 0,
         "rate": 0.0
       }
@@ -72,40 +72,40 @@
       },
       "tier3_other": {
         "n": 13,
-        "hits": 2,
-        "rate": 0.1538
+        "hits": 1,
+        "rate": 0.0769
       }
     },
     "influencer": {
       "tier1_metro": {
-        "n": 3,
+        "n": 2,
         "hits": 0,
         "rate": 0.0
       },
       "tier2_city": {
-        "n": 4,
+        "n": 1,
         "hits": 0,
         "rate": 0.0
       },
       "tier3_other": {
-        "n": 0,
+        "n": 4,
         "hits": 0,
-        "rate": null
+        "rate": 0.0
       }
     },
     "office": {
       "tier1_metro": {
-        "n": 3,
+        "n": 1,
         "hits": 0,
         "rate": 0.0
       },
       "tier2_city": {
-        "n": 3,
+        "n": 4,
         "hits": 0,
         "rate": 0.0
       },
       "tier3_other": {
-        "n": 4,
+        "n": 5,
         "hits": 0,
         "rate": 0.0
       }
@@ -113,28 +113,28 @@
   },
   "ring_recall_by_tier": {
     "tier1_metro": {
-      "n": 8,
-      "hits": 6,
-      "rate": 0.75
+      "n": 9,
+      "hits": 8,
+      "rate": 0.8889
     },
     "tier2_city": {
-      "n": 8,
+      "n": 10,
       "hits": 8,
-      "rate": 1.0
+      "rate": 0.8
     },
     "tier3_other": {
-      "n": 64,
-      "hits": 60,
-      "rate": 0.9375
+      "n": 61,
+      "hits": 58,
+      "rate": 0.9508
     }
   },
   "account_level": {
-    "n_confounder_accounts_with_pincode": 746,
+    "n_confounder_accounts_with_pincode": 737,
     "tier_counts": {
-      "tier1_metro": 8,
-      "tier2_city": 12,
-      "tier3_other": 726
+      "tier1_metro": 6,
+      "tier2_city": 9,
+      "tier3_other": 722
     }
   },
-  "honest_read": "The ring-recall column has a gap that looks real if you only read the percentages -- 75% for Tier-1 metro vs 94% for Tier-3/other. Read the counts before the rate, exactly the discipline this project applies everywhere else: Tier-1 metro is 6 of 8 rings detected -- missing 2 out of 8 is a 24-percentage-point swing from just 2 misses, which is what small-N does, not evidence of a real tier-linked gap. With only 40 confounders and 80 rings split three ways, and 2 real confounder false positives across the whole frozen set, no split of this data has enough events to support a statistically meaningful rate comparison in any direction -- for confounder FP or for ring recall. This audit ran for real against real (random) pincode values and is reported exactly as it came out, not stretched into a finding it can't support and not smoothed over to hide a number that looks uncomfortable at first glance either. What it does confirm: there is no code path today where geography can directly bias a flag decision. The indirect risk this audit exists to guard against is real and correctly named even though this dataset can't yet measure it: shared device/IP signals genuinely correlate with hostel living and lower-income shared housing in the real world, and Stage 5's organic-evidence thresholds have never been tested against a sample where that correlation is present, because pincode is generated independently at random here."
+  "honest_read": "The ring-recall column has a gap that looks real if you only read the percentages -- 89% for Tier-1 metro vs 95% for Tier-3/other. Read the counts before the rate, exactly the discipline this project applies everywhere else: Tier-1 metro is 8 of 9 rings detected -- missing 1 out of 9 is a 11-percentage-point swing from just 1 miss, which is what small-N does, not evidence of a real tier-linked gap. With only 40 confounders and 80 rings split three ways, and 1 real confounder false positive across the whole frozen set, no split of this data has enough events to support a statistically meaningful rate comparison in any direction -- for confounder FP or for ring recall. This audit ran for real against real (random) pincode values and is reported exactly as it came out, not stretched into a finding it can't support and not smoothed over to hide a number that looks uncomfortable at first glance either. What it does confirm: there is no code path today where geography can directly bias a flag decision. The indirect risk this audit exists to guard against is real and correctly named even though this dataset can't yet measure it: shared device/IP signals genuinely correlate with hostel living and lower-income shared housing in the real world, and Stage 5's organic-evidence thresholds have never been tested against a sample where that correlation is present, because pincode is generated independently at random here."
 }

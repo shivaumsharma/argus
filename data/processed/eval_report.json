@@ -12,211 +12,211 @@
     "n_flagged_relevant": 51,
     "ring_detail": [
       {
-        "ring_id": "RING_HARD_28",
-        "type": "hard",
-        "size": 6,
-        "detected": true,
-        "matched_cluster": "C0028",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_HARD_04",
         "type": "hard",
-        "size": 7,
+        "size": 5,
         "detected": true,
         "matched_cluster": "C0004",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_27",
-        "type": "hard",
-        "size": 11,
-        "detected": true,
-        "matched_cluster": "C0027",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_10",
-        "type": "hard",
-        "size": 15,
-        "detected": true,
-        "matched_cluster": "C0010",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_08",
-        "type": "hard",
-        "size": 5,
-        "detected": true,
-        "matched_cluster": "C0008",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_02",
-        "type": "hard",
-        "size": 6,
-        "detected": true,
-        "matched_cluster": "C0002",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_18",
-        "type": "hard",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0018",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_20",
-        "type": "hard",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0020",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_38",
-        "type": "hard",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0038",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_HARD_36",
         "type": "hard",
-        "size": 4,
+        "size": 3,
         "detected": true,
         "matched_cluster": "C0036",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_06",
-        "type": "hard",
-        "size": 7,
-        "detected": true,
-        "matched_cluster": "C0006",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_07",
-        "type": "hard",
-        "size": 4,
-        "detected": true,
-        "matched_cluster": "C0007",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_03",
-        "type": "hard",
-        "size": 15,
-        "detected": true,
-        "matched_cluster": "C0003",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_19",
-        "type": "hard",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0019",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_26",
-        "type": "hard",
-        "size": 8,
-        "detected": true,
-        "matched_cluster": "C0026",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_HARD_31",
         "type": "hard",
-        "size": 11,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0031",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_09",
+        "ring_id": "RING_HARD_18",
         "type": "hard",
-        "size": 4,
+        "size": 3,
         "detected": true,
-        "matched_cluster": "C0009",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_12",
-        "type": "hard",
-        "size": 9,
-        "detected": true,
-        "matched_cluster": "C0012",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_24",
-        "type": "hard",
-        "size": 13,
-        "detected": true,
-        "matched_cluster": "C0024",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_13",
-        "type": "hard",
-        "size": 9,
-        "detected": true,
-        "matched_cluster": "C0013",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_23",
-        "type": "hard",
-        "size": 9,
-        "detected": true,
-        "matched_cluster": "C0023",
+        "matched_cluster": "C0018",
         "matched_stage": "hard"
       },
       {
         "ring_id": "RING_HARD_35",
         "type": "hard",
-        "size": 6,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0035",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_05",
-        "type": "hard",
-        "size": 3,
-        "detected": true,
-        "matched_cluster": "C0005",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_HARD_15",
         "type": "hard",
-        "size": 10,
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0015",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_37",
+        "ring_id": "RING_HARD_27",
         "type": "hard",
         "size": 4,
+        "detected": true,
+        "matched_cluster": "C0027",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_08",
+        "type": "hard",
+        "size": 13,
+        "detected": true,
+        "matched_cluster": "C0008",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_20",
+        "type": "hard",
+        "size": 15,
+        "detected": true,
+        "matched_cluster": "C0020",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_23",
+        "type": "hard",
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0023",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_37",
+        "type": "hard",
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0037",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_SOFT_32",
-        "type": "soft",
-        "size": 10,
+        "ring_id": "RING_HARD_12",
+        "type": "hard",
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0091",
+        "matched_cluster": "C0012",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_13",
+        "type": "hard",
+        "size": 4,
+        "detected": true,
+        "matched_cluster": "C0013",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_38",
+        "type": "hard",
+        "size": 11,
+        "detected": true,
+        "matched_cluster": "C0038",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_26",
+        "type": "hard",
+        "size": 2,
+        "detected": true,
+        "matched_cluster": "C0026",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_07",
+        "type": "hard",
+        "size": 6,
+        "detected": true,
+        "matched_cluster": "C0007",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_24",
+        "type": "hard",
+        "size": 3,
+        "detected": true,
+        "matched_cluster": "C0024",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_09",
+        "type": "hard",
+        "size": 15,
+        "detected": true,
+        "matched_cluster": "C0009",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_05",
+        "type": "hard",
+        "size": 7,
+        "detected": true,
+        "matched_cluster": "C0005",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_28",
+        "type": "hard",
+        "size": 12,
+        "detected": true,
+        "matched_cluster": "C0028",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_10",
+        "type": "hard",
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0010",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_03",
+        "type": "hard",
+        "size": 8,
+        "detected": true,
+        "matched_cluster": "C0003",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_02",
+        "type": "hard",
+        "size": 15,
+        "detected": true,
+        "matched_cluster": "C0002",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_06",
+        "type": "hard",
+        "size": 13,
+        "detected": true,
+        "matched_cluster": "C0006",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_19",
+        "type": "hard",
+        "size": 15,
+        "detected": true,
+        "matched_cluster": "C0019",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_SOFT_18",
+        "type": "soft",
+        "size": 8,
+        "detected": true,
+        "matched_cluster": "C0068",
         "matched_stage": "soft"
       },
       {
@@ -228,185 +228,129 @@
         "matched_stage": null
       },
       {
-        "ring_id": "RING_SOFT_03",
-        "type": "soft",
-        "size": 11,
-        "detected": true,
-        "matched_cluster": "C0062",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_05",
-        "type": "soft",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0064",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_10",
-        "type": "soft",
-        "size": 15,
-        "detected": true,
-        "matched_cluster": "C0069",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_17",
-        "type": "soft",
-        "size": 7,
-        "detected": true,
-        "matched_cluster": "C0076",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_29",
-        "type": "soft",
-        "size": 5,
-        "detected": true,
-        "matched_cluster": "C0088",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_39",
-        "type": "soft",
-        "size": 9,
-        "detected": true,
-        "matched_cluster": "C0098",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_36",
-        "type": "soft",
-        "size": 15,
-        "detected": true,
-        "matched_cluster": "C0095",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_22",
-        "type": "soft",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0081",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_25",
-        "type": "soft",
-        "size": 7,
-        "detected": true,
-        "matched_cluster": "C0084",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_15",
-        "type": "soft",
-        "size": 15,
-        "detected": true,
-        "matched_cluster": "C0074",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_27",
-        "type": "soft",
-        "size": 4,
-        "detected": true,
-        "matched_cluster": "C0086",
-        "matched_stage": "soft"
-      },
-      {
         "ring_id": "RING_SOFT_13",
-        "type": "soft",
-        "size": 14,
-        "detected": true,
-        "matched_cluster": "C0072",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_11",
         "type": "soft",
         "size": 6,
         "detected": true,
-        "matched_cluster": "C0070",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_20",
-        "type": "soft",
-        "size": 13,
-        "detected": true,
-        "matched_cluster": "C0079",
+        "matched_cluster": "C0063",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_14",
         "type": "soft",
-        "size": 12,
-        "detected": false,
-        "matched_cluster": null,
-        "matched_stage": null
-      },
-      {
-        "ring_id": "RING_SOFT_30",
-        "type": "soft",
-        "size": 6,
-        "detected": true,
-        "matched_cluster": "C0089",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_18",
-        "type": "soft",
-        "size": 14,
-        "detected": true,
-        "matched_cluster": "C0077",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_37",
-        "type": "soft",
         "size": 10,
         "detected": true,
-        "matched_cluster": "C0096",
+        "matched_cluster": "C0064",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_06",
+        "ring_id": "RING_SOFT_15",
         "type": "soft",
-        "size": 10,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0065",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_38",
+        "ring_id": "RING_SOFT_30",
         "type": "soft",
-        "size": 10,
+        "size": 13,
         "detected": true,
-        "matched_cluster": "C0097",
+        "matched_cluster": "C0080",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_12",
+        "ring_id": "RING_SOFT_38",
         "type": "soft",
-        "size": 12,
+        "size": 7,
         "detected": true,
-        "matched_cluster": "C0071",
+        "matched_cluster": "C0088",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_16",
         "type": "soft",
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0066",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_36",
+        "type": "soft",
+        "size": 5,
+        "detected": true,
+        "matched_cluster": "C0086",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_37",
+        "type": "soft",
+        "size": 6,
+        "detected": true,
+        "matched_cluster": "C0087",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_17",
+        "type": "soft",
+        "size": 5,
+        "detected": true,
+        "matched_cluster": "C0067",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_28",
+        "type": "soft",
+        "size": 13,
+        "detected": true,
+        "matched_cluster": "C0078",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_11",
+        "type": "soft",
         "size": 7,
+        "detected": true,
+        "matched_cluster": "C0061",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_07",
+        "type": "soft",
+        "size": 4,
+        "detected": true,
+        "matched_cluster": "C0057",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_25",
+        "type": "soft",
+        "size": 13,
         "detected": true,
         "matched_cluster": "C0075",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_34",
+        "ring_id": "RING_SOFT_31",
         "type": "soft",
-        "size": 11,
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0081",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_01",
+        "type": "soft",
+        "size": 10,
+        "detected": true,
+        "matched_cluster": "C0051",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_29",
+        "type": "soft",
+        "size": 13,
         "detected": false,
         "matched_cluster": null,
         "matched_stage": null
@@ -414,31 +358,55 @@
       {
         "ring_id": "RING_SOFT_08",
         "type": "soft",
-        "size": 4,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0067",
+        "matched_cluster": "C0058",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_07",
+        "ring_id": "RING_SOFT_12",
         "type": "soft",
-        "size": 5,
+        "size": 15,
         "detected": false,
         "matched_cluster": null,
         "matched_stage": null
       },
       {
-        "ring_id": "RING_SOFT_31",
+        "ring_id": "RING_SOFT_39",
         "type": "soft",
         "size": 8,
         "detected": true,
-        "matched_cluster": "C0090",
+        "matched_cluster": "C0089",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_01",
+        "ring_id": "RING_SOFT_03",
         "type": "soft",
-        "size": 14,
+        "size": 7,
+        "detected": true,
+        "matched_cluster": "C0053",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_34",
+        "type": "soft",
+        "size": 7,
+        "detected": true,
+        "matched_cluster": "C0084",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_06",
+        "type": "soft",
+        "size": 13,
+        "detected": true,
+        "matched_cluster": "C0056",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_10",
+        "type": "soft",
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0060",
         "matched_stage": "soft"
@@ -446,60 +414,78 @@
       {
         "ring_id": "RING_SOFT_19",
         "type": "soft",
-        "size": 14,
+        "size": 15,
         "detected": false,
         "matched_cluster": null,
         "matched_stage": null
       },
       {
-        "ring_id": "RING_SOFT_28",
+        "ring_id": "RING_SOFT_32",
         "type": "soft",
-        "size": 4,
+        "size": 11,
+        "detected": false,
+        "matched_cluster": null,
+        "matched_stage": null
+      },
+      {
+        "ring_id": "RING_SOFT_20",
+        "type": "soft",
+        "size": 9,
         "detected": true,
-        "matched_cluster": "C0087",
+        "matched_cluster": "C0070",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_27",
+        "type": "soft",
+        "size": 11,
+        "detected": true,
+        "matched_cluster": "C0077",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_22",
+        "type": "soft",
+        "size": 10,
+        "detected": true,
+        "matched_cluster": "C0072",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_05",
+        "type": "soft",
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0055",
         "matched_stage": "soft"
       }
     ],
     "confounder_detail": [
       {
-        "confounder_id": "CONF_HOSTEL_07",
-        "type": "hostel",
-        "size": 15,
+        "confounder_id": "CONF_HOUSEHOLD_04",
+        "type": "household",
+        "size": 6,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_02",
         "type": "hostel",
-        "size": 17,
+        "size": 15,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOSTEL_03",
+        "confounder_id": "CONF_HOSTEL_08",
         "type": "hostel",
         "size": 24,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOUSEHOLD_05",
-        "type": "household",
-        "size": 5,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_13",
-        "type": "household",
-        "size": 4,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_OFFICE_03",
-        "type": "office",
-        "size": 34,
+        "confounder_id": "CONF_INFLUENCER_01",
+        "type": "influencer",
+        "size": 42,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -511,16 +497,30 @@
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_OFFICE_05",
-        "type": "office",
-        "size": 26,
+        "confounder_id": "CONF_HOSTEL_03",
+        "type": "hostel",
+        "size": 23,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_INFLUENCER_04",
-        "type": "influencer",
+        "confounder_id": "CONF_OFFICE_02",
+        "type": "office",
         "size": 28,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_08",
+        "type": "household",
+        "size": 3,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_05",
+        "type": "household",
+        "size": 5,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -532,44 +532,37 @@
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_INFLUENCER_03",
-        "type": "influencer",
-        "size": 41,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_INFLUENCER_01",
-        "type": "influencer",
-        "size": 27,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_OFFICE_02",
+        "confounder_id": "CONF_OFFICE_05",
         "type": "office",
-        "size": 22,
+        "size": 29,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_OFFICE_08",
+        "confounder_id": "CONF_HOUSEHOLD_09",
+        "type": "household",
+        "size": 4,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_OFFICE_03",
         "type": "office",
-        "size": 30,
+        "size": 19,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOSTEL_05",
-        "type": "hostel",
-        "size": 12,
+        "confounder_id": "CONF_OFFICE_04",
+        "type": "office",
+        "size": 16,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOSTEL_10",
-        "type": "hostel",
-        "size": 23,
+        "confounder_id": "CONF_INFLUENCER_06",
+        "type": "influencer",
+        "size": 38,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -581,79 +574,86 @@
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOUSEHOLD_08",
-        "type": "household",
-        "size": 6,
+        "confounder_id": "CONF_HOSTEL_10",
+        "type": "hostel",
+        "size": 12,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_INFLUENCER_04",
+        "type": "influencer",
+        "size": 29,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOSTEL_07",
+        "type": "hostel",
+        "size": 23,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_09",
         "type": "office",
-        "size": 17,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_OFFICE_04",
-        "type": "office",
-        "size": 28,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_09",
-        "type": "household",
-        "size": 6,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOSTEL_08",
-        "type": "hostel",
-        "size": 15,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_04",
-        "type": "household",
-        "size": 6,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_INFLUENCER_06",
-        "type": "influencer",
-        "size": 43,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_INFLUENCER_05",
-        "type": "influencer",
-        "size": 44,
+        "size": 21,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_07",
         "type": "office",
-        "size": 22,
+        "size": 18,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_INFLUENCER_02",
+        "confounder_id": "CONF_HOSTEL_05",
+        "type": "hostel",
+        "size": 15,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_INFLUENCER_03",
         "type": "influencer",
-        "size": 42,
+        "size": 34,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_OFFICE_08",
+        "type": "office",
+        "size": 29,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_07",
         "type": "influencer",
-        "size": 40,
+        "size": 41,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_INFLUENCER_05",
+        "type": "influencer",
+        "size": 27,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_13",
+        "type": "household",
+        "size": 3,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_INFLUENCER_02",
+        "type": "influencer",
+        "size": 28,
         "wrongly_flagged": false,
         "matched_cluster": null
       }
@@ -665,16 +665,40 @@
     "n_rings_soft": 9,
     "soft_signal_recall": 0.8888888888888888,
     "n_confounders": 12,
-    "confounder_false_positive_rate": 0.16666666666666666,
-    "cluster_precision": 0.8846153846153846,
+    "confounder_false_positive_rate": 0.08333333333333333,
+    "cluster_precision": 0.9583333333333334,
     "cluster_tp": 23,
-    "cluster_fp": 3,
-    "n_flagged_relevant": 26,
+    "cluster_fp": 1,
+    "n_flagged_relevant": 24,
     "ring_detail": [
+      {
+        "ring_id": "RING_HARD_14",
+        "type": "hard",
+        "size": 9,
+        "detected": true,
+        "matched_cluster": "C0014",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_11",
+        "type": "hard",
+        "size": 6,
+        "detected": true,
+        "matched_cluster": "C0011",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_21",
+        "type": "hard",
+        "size": 3,
+        "detected": true,
+        "matched_cluster": "C0021",
+        "matched_stage": "hard"
+      },
       {
         "ring_id": "RING_HARD_30",
         "type": "hard",
-        "size": 4,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0030",
         "matched_stage": "hard"
@@ -682,39 +706,39 @@
       {
         "ring_id": "RING_HARD_34",
         "type": "hard",
-        "size": 15,
+        "size": 10,
         "detected": true,
         "matched_cluster": "C0034",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_21",
-        "type": "hard",
-        "size": 9,
-        "detected": true,
-        "matched_cluster": "C0021",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_14",
+        "ring_id": "RING_HARD_39",
         "type": "hard",
         "size": 5,
         "detected": true,
-        "matched_cluster": "C0014",
+        "matched_cluster": "C0039",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_22",
+        "ring_id": "RING_HARD_33",
         "type": "hard",
-        "size": 15,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0022",
+        "matched_cluster": "C0033",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_16",
+        "type": "hard",
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0016",
         "matched_stage": "hard"
       },
       {
         "ring_id": "RING_HARD_17",
         "type": "hard",
-        "size": 8,
+        "size": 9,
         "detected": true,
         "matched_cluster": "C0017",
         "matched_stage": "hard"
@@ -722,79 +746,63 @@
       {
         "ring_id": "RING_HARD_29",
         "type": "hard",
-        "size": 3,
+        "size": 10,
         "detected": true,
         "matched_cluster": "C0029",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_16",
+        "ring_id": "RING_HARD_22",
         "type": "hard",
-        "size": 7,
+        "size": 2,
         "detected": true,
-        "matched_cluster": "C0016",
+        "matched_cluster": "C0022",
         "matched_stage": "hard"
       },
       {
         "ring_id": "RING_HARD_32",
         "type": "hard",
-        "size": 6,
+        "size": 12,
         "detected": true,
         "matched_cluster": "C0032",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_25",
-        "type": "hard",
-        "size": 10,
-        "detected": true,
-        "matched_cluster": "C0025",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_11",
-        "type": "hard",
-        "size": 3,
-        "detected": true,
-        "matched_cluster": "C0011",
-        "matched_stage": "hard"
-      },
-      {
-        "ring_id": "RING_HARD_33",
-        "type": "hard",
-        "size": 14,
-        "detected": true,
-        "matched_cluster": "C0033",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_HARD_01",
         "type": "hard",
-        "size": 3,
+        "size": 11,
         "detected": true,
         "matched_cluster": "C0001",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_40",
+        "ring_id": "RING_HARD_25",
         "type": "hard",
         "size": 5,
+        "detected": true,
+        "matched_cluster": "C0025",
+        "matched_stage": "hard"
+      },
+      {
+        "ring_id": "RING_HARD_40",
+        "type": "hard",
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0040",
         "matched_stage": "hard"
       },
       {
-        "ring_id": "RING_HARD_39",
-        "type": "hard",
-        "size": 8,
-        "detected": true,
-        "matched_cluster": "C0039",
-        "matched_stage": "hard"
-      },
-      {
         "ring_id": "RING_SOFT_26",
         "type": "soft",
-        "size": 10,
+        "size": 14,
+        "detected": true,
+        "matched_cluster": "C0076",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_35",
+        "type": "soft",
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0085",
         "matched_stage": "soft"
@@ -802,29 +810,13 @@
       {
         "ring_id": "RING_SOFT_23",
         "type": "soft",
-        "size": 14,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0082",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_35",
-        "type": "soft",
-        "size": 8,
-        "detected": true,
-        "matched_cluster": "C0094",
+        "matched_cluster": "C0073",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_04",
-        "type": "soft",
-        "size": 11,
-        "detected": true,
-        "matched_cluster": "C0063",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_09",
         "type": "soft",
         "size": 12,
         "detected": false,
@@ -832,19 +824,27 @@
         "matched_stage": null
       },
       {
-        "ring_id": "RING_SOFT_40",
+        "ring_id": "RING_SOFT_33",
         "type": "soft",
-        "size": 5,
+        "size": 4,
         "detected": true,
-        "matched_cluster": "C0099",
+        "matched_cluster": "C0083",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_21",
+        "ring_id": "RING_SOFT_40",
         "type": "soft",
-        "size": 11,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0080",
+        "matched_cluster": "C0090",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_09",
+        "type": "soft",
+        "size": 5,
+        "detected": true,
+        "matched_cluster": "C0059",
         "matched_stage": "soft"
       },
       {
@@ -852,44 +852,23 @@
         "type": "soft",
         "size": 14,
         "detected": true,
-        "matched_cluster": "C0083",
+        "matched_cluster": "C0074",
         "matched_stage": "soft"
       },
       {
-        "ring_id": "RING_SOFT_33",
+        "ring_id": "RING_SOFT_21",
         "type": "soft",
-        "size": 12,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0092",
+        "matched_cluster": "C0071",
         "matched_stage": "soft"
       }
     ],
     "confounder_detail": [
       {
-        "confounder_id": "CONF_HOSTEL_09",
-        "type": "hostel",
-        "size": 17,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_10",
-        "type": "household",
-        "size": 4,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_01",
-        "type": "household",
-        "size": 6,
-        "wrongly_flagged": false,
-        "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOSTEL_06",
-        "type": "hostel",
-        "size": 19,
+        "confounder_id": "CONF_OFFICE_10",
+        "type": "office",
+        "size": 33,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -901,21 +880,28 @@
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_OFFICE_01",
-        "type": "office",
-        "size": 16,
+        "confounder_id": "CONF_HOSTEL_06",
+        "type": "hostel",
+        "size": 17,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_01",
         "type": "hostel",
-        "size": 21,
+        "size": 14,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
-        "confounder_id": "CONF_HOUSEHOLD_12",
+        "confounder_id": "CONF_OFFICE_01",
+        "type": "office",
+        "size": 34,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_03",
         "type": "household",
         "size": 6,
         "wrongly_flagged": false,
@@ -924,30 +910,44 @@
       {
         "confounder_id": "CONF_HOUSEHOLD_02",
         "type": "household",
-        "size": 6,
+        "size": 5,
         "wrongly_flagged": true,
-        "matched_cluster": "C0042"
+        "matched_cluster": "C0041"
       },
       {
-        "confounder_id": "CONF_OFFICE_10",
-        "type": "office",
-        "size": 21,
+        "confounder_id": "CONF_HOUSEHOLD_10",
+        "type": "household",
+        "size": 5,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_12",
+        "type": "household",
+        "size": 3,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOSTEL_09",
+        "type": "hostel",
+        "size": 20,
+        "wrongly_flagged": false,
+        "matched_cluster": null
+      },
+      {
+        "confounder_id": "CONF_HOUSEHOLD_01",
+        "type": "household",
+        "size": 6,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_06",
         "type": "office",
-        "size": 15,
+        "size": 28,
         "wrongly_flagged": false,
         "matched_cluster": null
-      },
-      {
-        "confounder_id": "CONF_HOUSEHOLD_03",
-        "type": "household",
-        "size": 4,
-        "wrongly_flagged": true,
-        "matched_cluster": "C0043"
       }
     ]
   },
@@ -957,16 +957,16 @@
     "n_rings_soft": 40,
     "soft_signal_recall": 0.85,
     "n_confounders": 40,
-    "confounder_false_positive_rate": 0.05,
-    "cluster_precision": 0.961038961038961,
+    "confounder_false_positive_rate": 0.025,
+    "cluster_precision": 0.9866666666666667,
     "cluster_tp": 74,
-    "cluster_fp": 3,
-    "n_flagged_relevant": 77,
+    "cluster_fp": 1,
+    "n_flagged_relevant": 75,
     "ring_detail": [
       {
         "ring_id": "RING_HARD_01",
         "type": "hard",
-        "size": 3,
+        "size": 11,
         "detected": true,
         "matched_cluster": "C0001",
         "matched_stage": "hard"
@@ -974,7 +974,7 @@
       {
         "ring_id": "RING_HARD_02",
         "type": "hard",
-        "size": 6,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0002",
         "matched_stage": "hard"
@@ -982,7 +982,7 @@
       {
         "ring_id": "RING_HARD_03",
         "type": "hard",
-        "size": 15,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0003",
         "matched_stage": "hard"
@@ -990,7 +990,7 @@
       {
         "ring_id": "RING_HARD_04",
         "type": "hard",
-        "size": 7,
+        "size": 5,
         "detected": true,
         "matched_cluster": "C0004",
         "matched_stage": "hard"
@@ -998,7 +998,7 @@
       {
         "ring_id": "RING_HARD_05",
         "type": "hard",
-        "size": 3,
+        "size": 7,
         "detected": true,
         "matched_cluster": "C0005",
         "matched_stage": "hard"
@@ -1006,7 +1006,7 @@
       {
         "ring_id": "RING_HARD_06",
         "type": "hard",
-        "size": 7,
+        "size": 13,
         "detected": true,
         "matched_cluster": "C0006",
         "matched_stage": "hard"
@@ -1014,7 +1014,7 @@
       {
         "ring_id": "RING_HARD_07",
         "type": "hard",
-        "size": 4,
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0007",
         "matched_stage": "hard"
@@ -1022,7 +1022,7 @@
       {
         "ring_id": "RING_HARD_08",
         "type": "hard",
-        "size": 5,
+        "size": 13,
         "detected": true,
         "matched_cluster": "C0008",
         "matched_stage": "hard"
@@ -1030,7 +1030,7 @@
       {
         "ring_id": "RING_HARD_09",
         "type": "hard",
-        "size": 4,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0009",
         "matched_stage": "hard"
@@ -1038,7 +1038,7 @@
       {
         "ring_id": "RING_HARD_10",
         "type": "hard",
-        "size": 15,
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0010",
         "matched_stage": "hard"
@@ -1046,7 +1046,7 @@
       {
         "ring_id": "RING_HARD_11",
         "type": "hard",
-        "size": 3,
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0011",
         "matched_stage": "hard"
@@ -1054,7 +1054,7 @@
       {
         "ring_id": "RING_HARD_12",
         "type": "hard",
-        "size": 9,
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0012",
         "matched_stage": "hard"
@@ -1062,7 +1062,7 @@
       {
         "ring_id": "RING_HARD_13",
         "type": "hard",
-        "size": 9,
+        "size": 4,
         "detected": true,
         "matched_cluster": "C0013",
         "matched_stage": "hard"
@@ -1070,7 +1070,7 @@
       {
         "ring_id": "RING_HARD_14",
         "type": "hard",
-        "size": 5,
+        "size": 9,
         "detected": true,
         "matched_cluster": "C0014",
         "matched_stage": "hard"
@@ -1078,7 +1078,7 @@
       {
         "ring_id": "RING_HARD_15",
         "type": "hard",
-        "size": 10,
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0015",
         "matched_stage": "hard"
@@ -1086,7 +1086,7 @@
       {
         "ring_id": "RING_HARD_16",
         "type": "hard",
-        "size": 7,
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0016",
         "matched_stage": "hard"
@@ -1094,7 +1094,7 @@
       {
         "ring_id": "RING_HARD_17",
         "type": "hard",
-        "size": 8,
+        "size": 9,
         "detected": true,
         "matched_cluster": "C0017",
         "matched_stage": "hard"
@@ -1102,7 +1102,7 @@
       {
         "ring_id": "RING_HARD_18",
         "type": "hard",
-        "size": 12,
+        "size": 3,
         "detected": true,
         "matched_cluster": "C0018",
         "matched_stage": "hard"
@@ -1110,7 +1110,7 @@
       {
         "ring_id": "RING_HARD_19",
         "type": "hard",
-        "size": 12,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0019",
         "matched_stage": "hard"
@@ -1118,7 +1118,7 @@
       {
         "ring_id": "RING_HARD_20",
         "type": "hard",
-        "size": 12,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0020",
         "matched_stage": "hard"
@@ -1126,7 +1126,7 @@
       {
         "ring_id": "RING_HARD_21",
         "type": "hard",
-        "size": 9,
+        "size": 3,
         "detected": true,
         "matched_cluster": "C0021",
         "matched_stage": "hard"
@@ -1134,7 +1134,7 @@
       {
         "ring_id": "RING_HARD_22",
         "type": "hard",
-        "size": 15,
+        "size": 2,
         "detected": true,
         "matched_cluster": "C0022",
         "matched_stage": "hard"
@@ -1142,7 +1142,7 @@
       {
         "ring_id": "RING_HARD_23",
         "type": "hard",
-        "size": 9,
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0023",
         "matched_stage": "hard"
@@ -1150,7 +1150,7 @@
       {
         "ring_id": "RING_HARD_24",
         "type": "hard",
-        "size": 13,
+        "size": 3,
         "detected": true,
         "matched_cluster": "C0024",
         "matched_stage": "hard"
@@ -1158,7 +1158,7 @@
       {
         "ring_id": "RING_HARD_25",
         "type": "hard",
-        "size": 10,
+        "size": 5,
         "detected": true,
         "matched_cluster": "C0025",
         "matched_stage": "hard"
@@ -1166,7 +1166,7 @@
       {
         "ring_id": "RING_HARD_26",
         "type": "hard",
-        "size": 8,
+        "size": 2,
         "detected": true,
         "matched_cluster": "C0026",
         "matched_stage": "hard"
@@ -1174,7 +1174,7 @@
       {
         "ring_id": "RING_HARD_27",
         "type": "hard",
-        "size": 11,
+        "size": 4,
         "detected": true,
         "matched_cluster": "C0027",
         "matched_stage": "hard"
@@ -1182,7 +1182,7 @@
       {
         "ring_id": "RING_HARD_28",
         "type": "hard",
-        "size": 6,
+        "size": 12,
         "detected": true,
         "matched_cluster": "C0028",
         "matched_stage": "hard"
@@ -1190,7 +1190,7 @@
       {
         "ring_id": "RING_HARD_29",
         "type": "hard",
-        "size": 3,
+        "size": 10,
         "detected": true,
         "matched_cluster": "C0029",
         "matched_stage": "hard"
@@ -1198,7 +1198,7 @@
       {
         "ring_id": "RING_HARD_30",
         "type": "hard",
-        "size": 4,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0030",
         "matched_stage": "hard"
@@ -1206,7 +1206,7 @@
       {
         "ring_id": "RING_HARD_31",
         "type": "hard",
-        "size": 11,
+        "size": 8,
         "detected": true,
         "matched_cluster": "C0031",
         "matched_stage": "hard"
@@ -1214,7 +1214,7 @@
       {
         "ring_id": "RING_HARD_32",
         "type": "hard",
-        "size": 6,
+        "size": 12,
         "detected": true,
         "matched_cluster": "C0032",
         "matched_stage": "hard"
@@ -1222,7 +1222,7 @@
       {
         "ring_id": "RING_HARD_33",
         "type": "hard",
-        "size": 14,
+        "size": 6,
         "detected": true,
         "matched_cluster": "C0033",
         "matched_stage": "hard"
@@ -1230,7 +1230,7 @@
       {
         "ring_id": "RING_HARD_34",
         "type": "hard",
-        "size": 15,
+        "size": 10,
         "detected": true,
         "matched_cluster": "C0034",
         "matched_stage": "hard"
@@ -1238,7 +1238,7 @@
       {
         "ring_id": "RING_HARD_35",
         "type": "hard",
-        "size": 6,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0035",
         "matched_stage": "hard"
@@ -1246,7 +1246,7 @@
       {
         "ring_id": "RING_HARD_36",
         "type": "hard",
-        "size": 4,
+        "size": 3,
         "detected": true,
         "matched_cluster": "C0036",
         "matched_stage": "hard"
@@ -1254,7 +1254,7 @@
       {
         "ring_id": "RING_HARD_37",
         "type": "hard",
-        "size": 4,
+        "size": 15,
         "detected": true,
         "matched_cluster": "C0037",
         "matched_stage": "hard"
@@ -1262,7 +1262,7 @@
       {
         "ring_id": "RING_HARD_38",
         "type": "hard",
-        "size": 12,
+        "size": 11,
         "detected": true,
         "matched_cluster": "C0038",
         "matched_stage": "hard"
@@ -1270,7 +1270,7 @@
       {
         "ring_id": "RING_HARD_39",
         "type": "hard",
-        "size": 8,
+        "size": 5,
         "detected": true,
         "matched_cluster": "C0039",
         "matched_stage": "hard"
@@ -1278,7 +1278,7 @@
       {
         "ring_id": "RING_HARD_40",
         "type": "hard",
-        "size": 5,
+        "size": 14,
         "detected": true,
         "matched_cluster": "C0040",
         "matched_stage": "hard"
@@ -1286,9 +1286,9 @@
       {
         "ring_id": "RING_SOFT_01",
         "type": "soft",
-        "size": 14,
+        "size": 10,
         "detected": true,
-        "matched_cluster": "C0060",
+        "matched_cluster": "C0051",
         "matched_stage": "soft"
       },
       {
@@ -1302,135 +1302,135 @@
       {
         "ring_id": "RING_SOFT_03",
         "type": "soft",
-        "size": 11,
+        "size": 7,
         "detected": true,
-        "matched_cluster": "C0062",
+        "matched_cluster": "C0053",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_04",
         "type": "soft",
-        "size": 11,
-        "detected": true,
-        "matched_cluster": "C0063",
-        "matched_stage": "soft"
+        "size": 12,
+        "detected": false,
+        "matched_cluster": null,
+        "matched_stage": null
       },
       {
         "ring_id": "RING_SOFT_05",
         "type": "soft",
-        "size": 12,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0064",
+        "matched_cluster": "C0055",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_06",
         "type": "soft",
-        "size": 10,
+        "size": 13,
         "detected": true,
-        "matched_cluster": "C0065",
+        "matched_cluster": "C0056",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_07",
         "type": "soft",
-        "size": 5,
-        "detected": false,
-        "matched_cluster": null,
-        "matched_stage": null
+        "size": 4,
+        "detected": true,
+        "matched_cluster": "C0057",
+        "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_08",
         "type": "soft",
-        "size": 4,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0067",
+        "matched_cluster": "C0058",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_09",
         "type": "soft",
-        "size": 12,
-        "detected": false,
-        "matched_cluster": null,
-        "matched_stage": null
+        "size": 5,
+        "detected": true,
+        "matched_cluster": "C0059",
+        "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_10",
         "type": "soft",
-        "size": 15,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0069",
+        "matched_cluster": "C0060",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_11",
         "type": "soft",
-        "size": 6,
+        "size": 7,
         "detected": true,
-        "matched_cluster": "C0070",
+        "matched_cluster": "C0061",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_12",
         "type": "soft",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0071",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_13",
-        "type": "soft",
-        "size": 14,
-        "detected": true,
-        "matched_cluster": "C0072",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_14",
-        "type": "soft",
-        "size": 12,
+        "size": 15,
         "detected": false,
         "matched_cluster": null,
         "matched_stage": null
       },
       {
+        "ring_id": "RING_SOFT_13",
+        "type": "soft",
+        "size": 6,
+        "detected": true,
+        "matched_cluster": "C0063",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_14",
+        "type": "soft",
+        "size": 10,
+        "detected": true,
+        "matched_cluster": "C0064",
+        "matched_stage": "soft"
+      },
+      {
         "ring_id": "RING_SOFT_15",
         "type": "soft",
-        "size": 15,
+        "size": 8,
         "detected": true,
-        "matched_cluster": "C0074",
+        "matched_cluster": "C0065",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_16",
         "type": "soft",
-        "size": 7,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0075",
+        "matched_cluster": "C0066",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_17",
         "type": "soft",
-        "size": 7,
+        "size": 5,
         "detected": true,
-        "matched_cluster": "C0076",
+        "matched_cluster": "C0067",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_18",
         "type": "soft",
-        "size": 14,
+        "size": 8,
         "detected": true,
-        "matched_cluster": "C0077",
+        "matched_cluster": "C0068",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_19",
         "type": "soft",
-        "size": 14,
+        "size": 15,
         "detected": false,
         "matched_cluster": null,
         "matched_stage": null
@@ -1438,33 +1438,33 @@
       {
         "ring_id": "RING_SOFT_20",
         "type": "soft",
-        "size": 13,
+        "size": 9,
         "detected": true,
-        "matched_cluster": "C0079",
+        "matched_cluster": "C0070",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_21",
         "type": "soft",
-        "size": 11,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0080",
+        "matched_cluster": "C0071",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_22",
         "type": "soft",
-        "size": 12,
+        "size": 10,
         "detected": true,
-        "matched_cluster": "C0081",
+        "matched_cluster": "C0072",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_23",
         "type": "soft",
-        "size": 14,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0082",
+        "matched_cluster": "C0073",
         "matched_stage": "soft"
       },
       {
@@ -1472,83 +1472,67 @@
         "type": "soft",
         "size": 14,
         "detected": true,
-        "matched_cluster": "C0083",
+        "matched_cluster": "C0074",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_25",
         "type": "soft",
-        "size": 7,
+        "size": 13,
         "detected": true,
-        "matched_cluster": "C0084",
+        "matched_cluster": "C0075",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_26",
         "type": "soft",
-        "size": 10,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0085",
+        "matched_cluster": "C0076",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_27",
         "type": "soft",
-        "size": 4,
+        "size": 11,
         "detected": true,
-        "matched_cluster": "C0086",
+        "matched_cluster": "C0077",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_28",
         "type": "soft",
-        "size": 4,
+        "size": 13,
         "detected": true,
-        "matched_cluster": "C0087",
+        "matched_cluster": "C0078",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_29",
         "type": "soft",
-        "size": 5,
-        "detected": true,
-        "matched_cluster": "C0088",
-        "matched_stage": "soft"
+        "size": 13,
+        "detected": false,
+        "matched_cluster": null,
+        "matched_stage": null
       },
       {
         "ring_id": "RING_SOFT_30",
         "type": "soft",
-        "size": 6,
+        "size": 13,
         "detected": true,
-        "matched_cluster": "C0089",
+        "matched_cluster": "C0080",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_31",
         "type": "soft",
-        "size": 8,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0090",
+        "matched_cluster": "C0081",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_32",
-        "type": "soft",
-        "size": 10,
-        "detected": true,
-        "matched_cluster": "C0091",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_33",
-        "type": "soft",
-        "size": 12,
-        "detected": true,
-        "matched_cluster": "C0092",
-        "matched_stage": "soft"
-      },
-      {
-        "ring_id": "RING_SOFT_34",
         "type": "soft",
         "size": 11,
         "detected": false,
@@ -1556,51 +1540,67 @@
         "matched_stage": null
       },
       {
+        "ring_id": "RING_SOFT_33",
+        "type": "soft",
+        "size": 4,
+        "detected": true,
+        "matched_cluster": "C0083",
+        "matched_stage": "soft"
+      },
+      {
+        "ring_id": "RING_SOFT_34",
+        "type": "soft",
+        "size": 7,
+        "detected": true,
+        "matched_cluster": "C0084",
+        "matched_stage": "soft"
+      },
+      {
         "ring_id": "RING_SOFT_35",
         "type": "soft",
-        "size": 8,
+        "size": 15,
         "detected": true,
-        "matched_cluster": "C0094",
+        "matched_cluster": "C0085",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_36",
         "type": "soft",
-        "size": 15,
+        "size": 5,
         "detected": true,
-        "matched_cluster": "C0095",
+        "matched_cluster": "C0086",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_37",
         "type": "soft",
-        "size": 10,
+        "size": 6,
         "detected": true,
-        "matched_cluster": "C0096",
+        "matched_cluster": "C0087",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_38",
         "type": "soft",
-        "size": 10,
+        "size": 7,
         "detected": true,
-        "matched_cluster": "C0097",
+        "matched_cluster": "C0088",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_39",
         "type": "soft",
-        "size": 9,
+        "size": 8,
         "detected": true,
-        "matched_cluster": "C0098",
+        "matched_cluster": "C0089",
         "matched_stage": "soft"
       },
       {
         "ring_id": "RING_SOFT_40",
         "type": "soft",
-        "size": 5,
+        "size": 14,
         "detected": true,
-        "matched_cluster": "C0099",
+        "matched_cluster": "C0090",
         "matched_stage": "soft"
       }
     ],
@@ -1615,16 +1615,16 @@
       {
         "confounder_id": "CONF_HOUSEHOLD_02",
         "type": "household",
-        "size": 6,
+        "size": 5,
         "wrongly_flagged": true,
-        "matched_cluster": "C0042"
+        "matched_cluster": "C0041"
       },
       {
         "confounder_id": "CONF_HOUSEHOLD_03",
         "type": "household",
-        "size": 4,
-        "wrongly_flagged": true,
-        "matched_cluster": "C0043"
+        "size": 6,
+        "wrongly_flagged": false,
+        "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOUSEHOLD_04",
@@ -1657,21 +1657,21 @@
       {
         "confounder_id": "CONF_HOUSEHOLD_08",
         "type": "household",
-        "size": 6,
+        "size": 3,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOUSEHOLD_09",
         "type": "household",
-        "size": 6,
+        "size": 4,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOUSEHOLD_10",
         "type": "household",
-        "size": 4,
+        "size": 5,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -1685,35 +1685,35 @@
       {
         "confounder_id": "CONF_HOUSEHOLD_12",
         "type": "household",
-        "size": 6,
+        "size": 3,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOUSEHOLD_13",
         "type": "household",
-        "size": 4,
+        "size": 3,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_01",
         "type": "hostel",
-        "size": 21,
+        "size": 14,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_02",
         "type": "hostel",
-        "size": 17,
+        "size": 15,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_03",
         "type": "hostel",
-        "size": 24,
+        "size": 23,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
@@ -1727,161 +1727,161 @@
       {
         "confounder_id": "CONF_HOSTEL_05",
         "type": "hostel",
-        "size": 12,
+        "size": 15,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_06",
         "type": "hostel",
-        "size": 19,
+        "size": 17,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_07",
         "type": "hostel",
-        "size": 15,
+        "size": 23,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_08",
         "type": "hostel",
-        "size": 15,
+        "size": 24,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_09",
         "type": "hostel",
-        "size": 17,
+        "size": 20,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_HOSTEL_10",
         "type": "hostel",
-        "size": 23,
+        "size": 12,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_01",
         "type": "influencer",
-        "size": 27,
+        "size": 42,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_02",
         "type": "influencer",
-        "size": 42,
+        "size": 28,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_03",
         "type": "influencer",
-        "size": 41,
+        "size": 34,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_04",
         "type": "influencer",
-        "size": 28,
+        "size": 29,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_05",
         "type": "influencer",
-        "size": 44,
+        "size": 27,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_06",
         "type": "influencer",
-        "size": 43,
+        "size": 38,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_INFLUENCER_07",
         "type": "influencer",
-        "size": 40,
+        "size": 41,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_01",
         "type": "office",
-        "size": 16,
+        "size": 34,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_02",
         "type": "office",
-        "size": 22,
+        "size": 28,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_03",
         "type": "office",
-        "size": 34,
+        "size": 19,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_04",
         "type": "office",
-        "size": 28,
+        "size": 16,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_05",
         "type": "office",
-        "size": 26,
+        "size": 29,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_06",
         "type": "office",
-        "size": 15,
+        "size": 28,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_07",
         "type": "office",
-        "size": 22,
+        "size": 18,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_08",
         "type": "office",
-        "size": 30,
+        "size": 29,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_09",
         "type": "office",
-        "size": 17,
+        "size": 21,
         "wrongly_flagged": false,
         "matched_cluster": null
       },
       {
         "confounder_id": "CONF_OFFICE_10",
         "type": "office",
-        "size": 21,
+        "size": 33,
         "wrongly_flagged": false,
         "matched_cluster": null
       }

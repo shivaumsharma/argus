@@ -90,48 +90,50 @@ with confounder type, ring type, or anything else. This means the split
 below is computed against real, unmanipulated values already in the frozen
 dataset — not a constructed or fabricated scenario.
 
-## Results (run against the re-frozen `SEED=51238923` dataset)
+## Results (run against the current `SEED=42668329` dataset)
 
-Re-frozen from `SEED=20260828` specifically to turn on
-`USE_GROUNDED_DEVICE_SHARING` (real Indian device-sharing statistics for
-household/hostel confounders — see `ARCHITECTURE.md`'s Known Limitations).
-Numbers below are the fresh, single re-run per this project's eval
-integrity protocol, not a patch on the prior table.
+This is this project's third dataset freeze — `SEED=20260828` (original) →
+`SEED=51238923` (grounded household/hostel device-sharing) →
+`SEED=42668329` (grounded hard-signal ring-size range, see
+`EXTERNAL_VALIDATION.md`). Numbers below are the fresh, single re-run per
+this project's eval integrity protocol against the current freeze, not a
+patch on any prior table.
 
 | Tier | Confounders (n / FP) | FP rate | Rings (n / detected) | Recall |
 |---|---|---|---|---|
-| Tier-1 metro | 8 / 0 | 0.0% | 8 / 6 | 75.0% |
-| Tier-2 city | 8 / 0 | 0.0% | 8 / 8 | 100.0% |
-| Tier-3 / other | 24 / 2 | 8.3% | 64 / 60 | 93.8% |
+| Tier-1 metro | 6 / 0 | 0.0% | 9 / 8 | 88.9% |
+| Tier-2 city | 7 / 0 | 0.0% | 10 / 8 | 80.0% |
+| Tier-3 / other | 27 / 1 | 3.7% | 61 / 58 | 95.1% |
 
 By confounder type (raw counts — cells this small can't support a rate):
 
 | Type | Tier-1 (n/FP) | Tier-2 (n/FP) | Tier-3 (n/FP) |
 |---|---|---|---|
-| hostel | 2/0 | 1/0 | 7/0 |
-| household | 0/0 | 0/0 | 13/2 |
-| influencer | 3/0 | 4/0 | 0/0 |
-| office | 3/0 | 3/0 | 4/0 |
+| hostel | 3/0 | 2/0 | 5/0 |
+| household | 0/0 | 0/0 | 13/1 |
+| influencer | 2/0 | 1/0 | 4/0 |
+| office | 1/0 | 4/0 | 5/0 |
 
-Account level: of 746 accounts across all 40 confounder clusters, 8 land in
-a Tier-1 metro prefix, 12 in a Tier-2 city prefix, 726 in Tier-3/other.
+Account level: of 737 accounts across all 40 confounder clusters, 6 land in
+a Tier-1 metro prefix, 9 in a Tier-2 city prefix, 722 in Tier-3/other.
 
 ## Honest read
 
 **The ring-recall column has a gap that looks real if you only read the
-percentages — 75% for Tier-1 metro vs. 93.8% for Tier-3/other.** Read the
-counts before the rate, exactly the discipline this project applies
-everywhere else: Tier-1 metro is 6 of 8 rings detected — missing 2 out of 8
-is a ~24-percentage-point swing from just 2 misses, which is what small-N
-does, not evidence of a real tier-linked gap. With only 40 confounders and
-80 rings split three ways, and 2 real confounder false positives across the
-whole frozen set (up from 1 on the prior seed — the honest, predicted
-consequence of grounding household device-sharing in real statistics, not a
-regression), **no split of this data has enough events to support a
-statistically meaningful rate comparison in any direction** — for
-confounder FP or for ring recall. This is reported exactly as it came out:
-not stretched into a finding it can't support, and not smoothed over to
-hide a number that looks uncomfortable at first glance either.
+percentages — 88.9% for Tier-1 metro vs. 80.0% for Tier-2 city vs. 95.1% for
+Tier-3/other, and note the ordering isn't even monotonic with tier.** Read
+the counts before the rate, exactly the discipline this project applies
+everywhere else: Tier-1 metro is 8 of 9 rings detected (1 miss) and Tier-2
+city is 8 of 10 (2 misses) — each miss on a single-digit ring count swings
+the percentage by 10+ points, which is what small-N does, not evidence of a
+real tier-linked gap; if it were a real effect, Tier-2 wouldn't score lower
+than Tier-3 while Tier-1 scores higher. With only 40 confounders and 80
+rings split three ways, and 1 real confounder false positive across the
+whole frozen set, **no split of this data has enough events to support a
+statistically meaningful rate comparison in any direction** — for confounder
+FP or for ring recall. This is reported exactly as it came out: not
+stretched into a finding it can't support, and not smoothed over to hide a
+number that looks uncomfortable at first glance either.
 
 What this audit *does* establish:
 
