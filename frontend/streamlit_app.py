@@ -9,7 +9,7 @@ if str(ROOT) not in sys.path:
 
 from shared import bump_version  # noqa: E402
 
-st.set_page_config(page_title="Fraud-Ring Sentinel", layout="wide", page_icon=":material/hub:")
+st.set_page_config(page_title="Argus", layout="wide", page_icon=":material/hub:")
 
 # Grouped so the sidebar itself tells the right story: this is a general fraud/collusion-ring
 # detector (proven on real-world data) that also ships two illustrative example scenarios --
