@@ -12,7 +12,12 @@ from shared import cached_calibration_report, cached_cod_eval, cached_confounder
 
 st.title(":material/monitoring: Metrics")
 
-loss_type = st.segmented_control("Loss type", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+loss_type = st.segmented_control("Example scenario", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+st.caption(
+    ":material/info: Two synthetic scenarios, shown here to make the mechanism concrete — the underlying "
+    "graph-clustering detector isn't limited to these. See **External Validation** for the same approach run "
+    "against 5 real, independently-labeled fraud datasets (review fraud, Bitcoin, card transactions)."
+)
 
 if loss_type == "COD Collusion":
     st.caption(

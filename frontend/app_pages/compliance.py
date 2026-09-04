@@ -7,7 +7,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_compliance_data, ensure_version  # noqa: E402
+from shared import MODE_LABEL, cached_compliance_data, cached_leak_safeguard_report, ensure_version, humanize_event_type  # noqa: E402
 
 st.title(":material/verified: Compliance")
 st.caption(
@@ -37,12 +37,12 @@ if chain:
         st.markdown(f"**Cluster `{c['cluster_id']}`** ({c['detection_stage']}-signal, {c['features']['size']} accounts)")
         st.markdown(f"**1. Stage 5 decision** (deterministic, no model): _{c['filter_reason']}_")
         if filter_row:
-            st.caption(f"Logged as audit_log row `{filter_row['id']}`, event `{filter_row['event_type']}`, "
+            st.caption(f"Logged as audit_log row `{filter_row['id']}`, event `{humanize_event_type(filter_row['event_type'])}`, "
                       "with the full Stage 4 feature vector as input evidence.")
-        st.markdown(f"**2. Stage 8 writeup** ({c.get('llm_mode', 'n/a')}): "
+        st.markdown(f"**2. Stage 8 writeup** ({MODE_LABEL.get(c.get('llm_mode'), 'n/a')}): "
                    f"_\"{(c.get('llm_case_summary') or '')[:220]}...\"_")
         if llm_row:
-            st.caption(f"Logged as audit_log row `{llm_row['id']}`, event `{llm_row['event_type']}`, with the "
+            st.caption(f"Logged as audit_log row `{llm_row['id']}`, event `{humanize_event_type(llm_row['event_type'])}`, with the "
                       "exact prompt (Stage 4/5 evidence only, no raw account data) as input and the full "
                       "structured response as output.")
         st.markdown(f"**3. Recommended action**: `{c.get('llm_recommended_action', 'n/a')}` — bounded to "
@@ -58,7 +58,7 @@ st.subheader(":material/history: Auditable")
 st.write(f"The audit_log table currently holds **{d['audit_rows_total']} entries**, every one with its full "
         "input evidence and output stored as JSON, queryable by cluster ID.")
 st.dataframe(
-    [{"event_type": event, "count": n} for event, n in sorted(d["event_counts"].items())],
+    [{"event_type": humanize_event_type(event), "count": n} for event, n in sorted(d["event_counts"].items())],
     hide_index=True, width="stretch",
 )
 st.caption(
@@ -146,6 +146,32 @@ elif calib:
            icon=":material/info:")
 else:
     st.info("No confidence-calibration data in the current store.", icon=":material/info:")
+
+st.markdown("**Ground-truth leakage safeguard**")
+leak = cached_leak_safeguard_report(version)
+if not leak:
+    st.info("Run `python -m backend.no_label_leakage_test` to generate this.", icon=":material/info:")
+else:
+    st.metric("Detection-time functions checked, zero leaks found", f"{leak['n_clean']}/{leak['n_checked']}",
+              border=True)
+    st.caption(
+        "A standing automated test, not a one-time manual check: every detection-time scoring/feature "
+        "function across the primary pipeline (Stage 4/5), the COD-collusion pipeline, the adversarial "
+        "recommender, the LLM investigation layer, the FRAUDAR cross-check, and the external-validation "
+        "classifiers is scanned by source for any read of a ground-truth label, fraud density, or is_fraud "
+        "field. Built after exactly this pattern was found and fixed twice in the external-validation code "
+        "(YelpChi/Amazon's `fraud_density` and Elliptic's `density`, both silently using the answer key as "
+        "the detection signal) — this test exists so a reported number can never quietly leak ground truth "
+        "again without a hard test failure."
+    )
+    with st.expander(f"All {leak['n_checked']} functions checked"):
+        st.dataframe(
+            [{"Function": r["function"], "Clean": "clean" if r["clean"] else "LEAK FOUND",
+              "Matched patterns": ", ".join(r["matched_patterns"]) or "—"} for r in leak["results"]],
+            hide_index=True, width="stretch",
+        )
+    if leak["n_violations"]:
+        st.error(f"{leak['n_violations']} violation(s) found — see above.", icon=":material/error:")
 
 st.space("large")
 

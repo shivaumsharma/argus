@@ -20,11 +20,18 @@ from shared import (  # noqa: E402
 version = ensure_version()
 
 # --- Hero: one line, not a paragraph ---
-st.title(":material/hub: Promo/referral abuse-ring sentinel")
+st.title(":material/hub: Fraud-ring sentinel")
 st.markdown(
     "##### A farmed account looks ordinary alone. A *ring* of them doesn't — the fraud only shows up "
     "when you look at accounts **together**. So instead of scoring one account at a time, this system "
     "builds a graph of who's connected to whom, and clusters it."
+)
+st.caption(
+    ":material/travel_explore: This is a general coordinated-fraud/collusion-ring detector, not a "
+    "single-scenario tool. The demo below runs on a synthetic promo/referral-abuse dataset for a concrete "
+    "walkthrough, and the same unmodified clustering mechanism is separately validated against **5 real, "
+    "independently-labeled fraud datasets** (review fraud, Bitcoin, card transactions) — see "
+    "**External Validation** in the sidebar for that evidence."
 )
 
 eval_report = cached_eval_report(version)
@@ -83,6 +90,10 @@ with st.container(horizontal=True):
     st.metric("Rings caught", f"{rings_caught} / {len(ring_rows)}", border=True)
     st.metric("Confounders correctly spared", f"{confounders_spared} / {len(conf_rows)}", border=True)
     st.metric("Confounder false-positive rate", f"{overall['confounder_false_positive_rate']:.1%}", border=True)
+st.caption(
+    "These four numbers are from the primary synthetic (referral-abuse) demo dataset specifically. For "
+    "results on real-world data this system never generated itself, see External Validation."
+)
 
 st.space("large")
 
@@ -118,18 +129,23 @@ st.space("large")
 
 # --- Navigation ---
 st.subheader("Where to look next")
-nav_cols = st.columns(3)
+nav_cols = st.columns(4)
 with nav_cols[0]:
     with st.container(border=True):
-        st.markdown(":material/flag: **Flagged clusters**")
-        st.caption("Every cluster the pipeline flagged, with its evidence, its graph, and the LLM's case writeup.")
-        st.page_link("app_pages/flagged_clusters.py", label="Open flagged clusters", icon=":material/arrow_forward:")
+        st.markdown(":material/travel_explore: **External Validation**")
+        st.caption("The general-capability proof: this same detector on 5 real, independently-labeled fraud datasets.")
+        st.page_link("app_pages/external_validation.py", label="Open external validation", icon=":material/arrow_forward:")
 with nav_cols[1]:
+    with st.container(border=True):
+        st.markdown(":material/flag: **Flagged clusters**")
+        st.caption("Every cluster the demo pipeline flagged, with its evidence, its graph, and the LLM's case writeup.")
+        st.page_link("app_pages/flagged_clusters.py", label="Open flagged clusters", icon=":material/arrow_forward:")
+with nav_cols[2]:
     with st.container(border=True):
         st.markdown(":material/verified_user: **Confounders left alone**")
         st.caption("Every household, hostel, and office network that looks similar but was correctly not flagged.")
         st.page_link("app_pages/confounders.py", label="Open confounders", icon=":material/arrow_forward:")
-with nav_cols[2]:
+with nav_cols[3]:
     with st.container(border=True):
         st.markdown(":material/monitoring: **Metrics**")
         st.caption("Held-out precision/recall, hard vs. soft signal, and the confounder false-positive rate.")

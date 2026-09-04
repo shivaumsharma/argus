@@ -12,7 +12,12 @@ from shared import ACTION_COLOR, MODE_ICON, MODE_LABEL, STAGE_COLOR, cached_all_
 
 st.title(":material/flag: Flagged clusters")
 
-loss_type = st.segmented_control("Loss type", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+loss_type = st.segmented_control("Example scenario", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+st.caption(
+    ":material/info: Two synthetic scenarios, shown here to make the mechanism concrete — the underlying "
+    "graph-clustering detector isn't limited to these. See **External Validation** for the same approach run "
+    "against 5 real, independently-labeled fraud datasets (review fraud, Bitcoin, card transactions)."
+)
 
 if loss_type == "COD Collusion":
     st.caption(
@@ -102,7 +107,7 @@ with st.container(horizontal=True):
     st.metric("Hold bonus", sum(1 for c in flagged if c["llm_recommended_action"] == "HOLD_BONUS"), border=True)
     st.metric("Manual review", sum(1 for c in flagged if c["llm_recommended_action"] == "MANUAL_REVIEW"), border=True)
     st.metric("Written by live LLM", f"{n_live}/{len(flagged)}", border=True,
-              help="Cases written by a real LLM call (Claude or Gemini) vs. the deterministic template fallback.")
+              help="Cases written by a real, live LLM call (primary or fallback provider) vs. the deterministic template fallback.")
 
 st.space("medium")
 

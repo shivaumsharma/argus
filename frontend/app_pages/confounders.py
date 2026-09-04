@@ -8,18 +8,31 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import cached_confounder_rows, ensure_version  # noqa: E402
+from shared import cached_cod_confounder_rows, cached_confounder_rows, ensure_version  # noqa: E402
 
 st.title(":material/verified_user: Confounders left alone")
-st.caption(
-    "These are planted, *legitimate* dense clusters — real households, hostels, office networks, and "
-    "organic referral trees. They share device/IP/referral attributes just like a fraud ring, but their "
-    "behavior is organic. The entire job of Stage 5 is to notice that and leave them alone — this page is "
-    "the honesty check on how well it does that."
-)
+
+loss_type = st.segmented_control("Example scenario", ["Referral Abuse", "COD Collusion"], default="Referral Abuse")
+
+if loss_type == "COD Collusion":
+    st.caption(
+        "These are planted, *legitimate* dense clusters for the COD (cash-on-delivery) serial-refusal example "
+        "— real multi-tenant addresses (a hostel, a shared apartment) with a normal 20-40% refusal rate. "
+        "They share a delivery address just like a collusion ring, but without the abnormally high refusal "
+        "rate. Same Stage 5 discipline as the referral-abuse example, different thresholds — see "
+        "docs/SECOND_LOSS_TYPE.md. Not the limit of what this filter can be adapted to — see External "
+        "Validation for the same underlying detector on real fraud data."
+    )
+else:
+    st.caption(
+        "These are planted, *legitimate* dense clusters — real households, hostels, office networks, and "
+        "organic referral trees. They share device/IP/referral attributes just like a fraud ring, but their "
+        "behavior is organic. The entire job of Stage 5 is to notice that and leave them alone — this page is "
+        "the honesty check on how well it does that, on this one illustrative example."
+    )
 
 version = ensure_version()
-rows = cached_confounder_rows(version)
+rows = cached_cod_confounder_rows(version) if loss_type == "COD Collusion" else cached_confounder_rows(version)
 
 if not rows:
     st.info("No confounder ground truth found.", icon=":material/info:")

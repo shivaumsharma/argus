@@ -7,7 +7,7 @@ FRONTEND_DIR = Path(__file__).resolve().parents[1]
 if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
-from shared import db  # noqa: E402
+from shared import db, humanize_event_type  # noqa: E402
 
 st.title(":material/history: Audit log")
 st.caption(
@@ -26,7 +26,7 @@ log_rows = db.get_audit_log(cluster_id=cluster_id or None, limit=limit)
 st.caption(f"{len(log_rows)} log entries.")
 
 st.dataframe(
-    [{"id": r["id"], "event": r["event_type"], "cluster": r["cluster_id"], "timestamp": r["timestamp"]}
+    [{"id": r["id"], "event": humanize_event_type(r["event_type"]), "cluster": r["cluster_id"], "timestamp": r["timestamp"]}
      for r in log_rows],
     hide_index=True, width="stretch", height=min(400, 46 + 35 * len(log_rows)),
 )

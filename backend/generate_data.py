@@ -1,5 +1,5 @@
 """
-Synthetic data generator for the Promo/Referral Abuse-Ring Sentinel.
+Synthetic data generator for the Fraud-Ring Sentinel (promo/referral bonus abuse loss type).
 
 Produces:
   data/raw/accounts.csv

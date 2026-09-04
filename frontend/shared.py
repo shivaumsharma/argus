@@ -14,11 +14,24 @@ from backend.pipeline.data_io import load_data  # noqa: E402
 from backend.pipeline.graph_build import build_graph  # noqa: E402
 
 ACTION_COLOR = {"HOLD_BONUS": "red", "MANUAL_REVIEW": "orange", "NO_ACTION": "gray"}
-MODE_LABEL = {"anthropic": "Claude (live)", "gemini": "Gemini (live)", "fallback_template": "Template fallback"}
+MODE_LABEL = {"anthropic": "Primary LLM (live)", "gemini": "Fallback LLM (live)", "fallback_template": "Template fallback"}
 MODE_ICON = {"anthropic": ":material/bolt:", "gemini": ":material/bolt:", "fallback_template": ":material/description:"}
 ACTION_ICON = {"HOLD_BONUS": ":material/pause_circle:", "MANUAL_REVIEW": ":material/search:", "NO_ACTION": ":material/check_circle:"}
 STAGE_COLOR = {"hard": "red", "soft": "violet"}
 DIFFICULTY_COLOR = {"easy": "gray", "hard": "orange", "tight": "orange", "n/a": "gray"}
+
+# audit_log's event_type is written as f"llm_investigation_{mode}" (backend/db.py),
+# where mode is the raw provider key -- humanize just that one dynamic suffix for
+# display, without touching the stored value or any code that filters/counts by it.
+_EVENT_TYPE_SUFFIX_LABEL = {"anthropic": "primary LLM", "gemini": "fallback LLM", "fallback_template": "template"}
+
+
+def humanize_event_type(event_type: str) -> str:
+    for mode, label in _EVENT_TYPE_SUFFIX_LABEL.items():
+        suffix = f"_{mode}"
+        if event_type.endswith(suffix):
+            return f"{event_type[:-len(suffix)]} ({label})"
+    return event_type
 
 
 @st.cache_resource(show_spinner="Building the entity graph...")
@@ -174,6 +187,51 @@ def get_cod_graph(_version: int):
 
 
 @st.cache_data(show_spinner=False)
+def cached_cod_confounder_rows(_version: int):
+    return reporting.cod_confounder_callout_rows()
+
+
+@st.cache_data(show_spinner=False)
+def cached_cod_ring_rows(_version: int):
+    return reporting.cod_ring_recall_rows()
+
+
+@st.cache_data(show_spinner=False)
+def cached_cod_ground_truth(_version: int):
+    return reporting.load_cod_ground_truth()
+
+
+@st.cache_data(show_spinner=False)
 def cached_fraudar_seed_isolation(_version: int):
     from backend.pipeline.data_io import PROCESSED_DIR
     return _cached_json(_version, PROCESSED_DIR / "fraudar_seed_isolation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_supernode_stress_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "supernode_stress_test.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_leak_safeguard_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "no_label_leakage_test.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_ulb_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "ulb_validation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_ieee_cis_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "ieee_cis_validation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_ieee_cis_graph_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "ieee_cis_graph_validation.json")

@@ -1,4 +1,4 @@
-# Promo/Referral Abuse-Ring Sentinel
+# Fraud-Ring Sentinel
 
 **Razorpay AI Buildathon 2026 — Track 02 (AI Risk Manager)**
 
