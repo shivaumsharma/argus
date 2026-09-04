@@ -42,8 +42,15 @@ def _edge_color(signals: set) -> str:
     return "#95a5a6"
 
 
-def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None) -> Path:
-    """Build and cache an interactive HTML visualization of the subgraph induced by `members`."""
+def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None, height: int = 520) -> Path:
+    """Build and cache an interactive HTML visualization of the subgraph induced by `members`.
+
+    `height` must match the caller's own st.iframe(..., height=height) exactly. pyvis/vis-network
+    sizes and centers its canvas at construction time using THIS height, not the iframe it ends up
+    embedded in -- passing a mismatched height here is why a graph can render with the node cluster
+    pushed toward the bottom and a dead blank band at the top of the visible iframe: the canvas was
+    built taller (or shorter) than the window actually showing it, and fit()/centering happened
+    against the wrong box. Every call site must pass its real display height, not rely on the default."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     members = list(members)
     sub = G.subgraph(members)
@@ -51,7 +58,7 @@ def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None) -> Pa
     # cdn_resources="in_line" embeds the vis-network JS/CSS directly in the HTML file --
     # "local" is misleadingly named and still fetches vis-network from cdnjs.cloudflare.com,
     # which fails in network-sandboxed environments and leaves the canvas undrawn.
-    net = Network(height="520px", width="100%", bgcolor="#111318", font_color="#e8e8e8", cdn_resources="in_line")
+    net = Network(height=f"{height}px", width="100%", bgcolor="#111318", font_color="#e8e8e8", cdn_resources="in_line")
     net.barnes_hut(gravity=-4000, spring_length=140, spring_strength=0.02, damping=0.25)
 
     for uid in members:

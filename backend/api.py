@@ -21,7 +21,7 @@ from .llm_investigate import investigate_all
 from .pipeline.run_pipeline import run as run_pipeline
 
 app = FastAPI(
-    title="Fraud-Ring Sentinel API",
+    title="Argus API",
     description="Read-only views over the graph-clustering fraud-ring detector. "
                  "Every recommendation is bounded to HOLD_BONUS / MANUAL_REVIEW / NO_ACTION.",
     version="1.0.0",

@@ -1,4 +1,4 @@
-# Fraud-Ring Sentinel
+# Argus
 
 **Razorpay AI Buildathon 2026 — Track 02 (AI Risk Manager)**
 

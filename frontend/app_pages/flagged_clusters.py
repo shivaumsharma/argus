@@ -80,7 +80,7 @@ if loss_type == "COD Collusion":
         with st.expander("Graph", icon=":material/hub:", expanded=True):
             G_cod = get_cod_graph(version)
             html_path = graph_viz.render_cluster_graph(G_cod, cod_selected["members"], node_color="#c0392b",
-                                                        cache_key=f"cod_{cod_selected['cluster_id']}")
+                                                        cache_key=f"cod_{cod_selected['cluster_id']}", height=380)
             st.iframe(src=html_path, height=380)
     st.stop()
 
@@ -196,5 +196,5 @@ with detail_cols[0]:
 with detail_cols[1]:
     with st.expander("Graph", icon=":material/hub:", expanded=True):
         G = get_graph(version)
-        html_path = graph_viz.render_cluster_graph(G, c["members"], node_color="#c0392b", cache_key=c["cluster_id"])
+        html_path = graph_viz.render_cluster_graph(G, c["members"], node_color="#c0392b", cache_key=c["cluster_id"], height=380)
         st.iframe(src=html_path, height=380)

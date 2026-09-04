@@ -82,5 +82,5 @@ if not options:
 members = options[pick]
 st.caption(f"{len(members)} accounts in {pick}")
 G = get_cod_graph(version) if is_cod else get_graph(version)
-html_path = graph_viz.render_cluster_graph(G, members, node_color=color, cache_key=f"explorer_{'cod_' if is_cod else ''}{pick}")
+html_path = graph_viz.render_cluster_graph(G, members, node_color=color, cache_key=f"explorer_{'cod_' if is_cod else ''}{pick}", height=560)
 st.iframe(src=html_path, height=560)

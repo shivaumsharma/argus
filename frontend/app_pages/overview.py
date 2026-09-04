@@ -20,7 +20,7 @@ from shared import (  # noqa: E402
 version = ensure_version()
 
 # --- Hero: one line, not a paragraph ---
-st.title(":material/hub: Fraud-ring sentinel")
+st.title(":material/hub: Argus")
 st.markdown(
     "##### A farmed account looks ordinary alone. A *ring* of them doesn't — the fraud only shows up "
     "when you look at accounts **together**. So instead of scoring one account at a time, this system "
@@ -53,8 +53,8 @@ lookalikes = {cid: c for cid, c in confounders.items() if c["type"] in lookalike
 conf_id, conf = sorted(lookalikes.items(), key=lambda kv: abs(len(kv[1]["members"]) - len(ring["members"])))[0]
 
 G = get_graph(version)
-ring_html = graph_viz.render_cluster_graph(G, ring["members"], node_color="#c0392b", cache_key=f"overview_{ring_id}")
-conf_html = graph_viz.render_cluster_graph(G, conf["members"], node_color="#27ae60", cache_key=f"overview_{conf_id}")
+ring_html = graph_viz.render_cluster_graph(G, ring["members"], node_color="#c0392b", cache_key=f"overview_{ring_id}", height=320)
+conf_html = graph_viz.render_cluster_graph(G, conf["members"], node_color="#27ae60", cache_key=f"overview_{conf_id}", height=320)
 
 st.space("small")
 g1, g2 = st.columns(2)

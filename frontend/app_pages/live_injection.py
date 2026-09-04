@@ -188,5 +188,5 @@ else:
         # falls back to the real, now-mutated dashboard graph exactly as before.
         G = outcome.get("graph") or get_graph(version)
         html_path = graph_viz.render_cluster_graph(G, matched["members"], node_color="#c0392b",
-                                                     cache_key=f"injected_{matched['cluster_id']}")
+                                                     cache_key=f"injected_{matched['cluster_id']}", height=380)
         st.iframe(src=html_path, height=380)
