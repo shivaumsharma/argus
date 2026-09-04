@@ -18,6 +18,9 @@ pages = {
     "": [
         st.Page("app_pages/overview.py", title="Overview", icon=":material/home:", default=True),
     ],
+    "Why this, why now": [
+        st.Page("app_pages/research_context.py", title="Research & market context", icon=":material/menu_book:"),
+    ],
     "Fraud detection — real-world validation": [
         st.Page("app_pages/external_validation.py", title="External Validation", icon=":material/travel_explore:"),
         st.Page("app_pages/resilience.py", title="Resilience", icon=":material/security:"),
@@ -58,11 +61,5 @@ with st.sidebar:
         bump_version()
         st.toast("LLM investigation re-run.", icon=":material/check_circle:")
         st.rerun()
-
-    st.caption(
-        "Provider chain: a primary LLM provider (if configured) -> a free-tier fallback LLM provider (if "
-        "configured) -> a clearly-labeled deterministic template writeup, so the app always has "
-        "something to show."
-    )
 
 page.run()
