@@ -17,13 +17,21 @@ SIGNAL_COLOR = {
     "shared_device": "#e74c3c",
     "ip_subnet_overlap": "#e67e22",
     "referral_link": "#3498db",
+    # COD collusion loss type (backend/cod_collusion/graph_build.py) -- same
+    # hard/soft color roles (purple = hard, orange = soft), reused rather than
+    # invented, since the two loss types are never shown side by side.
+    "shared_address": "#8e44ad",
+    "phone_prefix": "#e67e22",
 }
-SIGNAL_PRIORITY = ["shared_instrument", "shared_device", "ip_subnet_overlap", "referral_link"]
+SIGNAL_PRIORITY = ["shared_instrument", "shared_device", "ip_subnet_overlap", "referral_link",
+                   "shared_address", "phone_prefix"]
 SIGNAL_LABEL = {
     "shared_instrument": "shared instrument",
     "shared_device": "shared device",
     "ip_subnet_overlap": "IP subnet overlap",
     "referral_link": "referral link",
+    "shared_address": "shared delivery address",
+    "phone_prefix": "shared phone-number prefix",
 }
 
 

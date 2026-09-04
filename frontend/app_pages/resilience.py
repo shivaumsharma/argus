@@ -10,6 +10,7 @@ if str(FRONTEND_DIR) not in sys.path:
 from shared import (  # noqa: E402
     cached_concurrent_attack_report,
     cached_infra_resilience_report,
+    cached_supernode_stress_report,
     cached_time_drift_report,
     ensure_version,
 )
@@ -125,6 +126,72 @@ else:
         "real bugs this test found and fixed, in `docs/INFRASTRUCTURE_RESILIENCE_TEST.md`.",
         icon=":material/check_circle:",
     )
+
+st.space("large")
+
+# ==========================================================================
+# Supernode / graph-explosion stress test
+# ==========================================================================
+st.header(":material/hub: Supernode / graph-explosion stress test")
+st.caption(
+    "Every test above varies data content. This varies data shape: what happens when a shared "
+    "device/instrument/IP group is huge — a shared office NAT, a compromised SDK, a data-quality glitch — "
+    "not a small household or hostel? Real, existing organic background accounts from the frozen dataset, "
+    "not synthetic ones, with only one shared attribute overwritten to a single value."
+)
+supernode = cached_supernode_stress_report(version)
+if not supernode:
+    st.info("Run `python -m backend.supernode_stress_test` to generate this.", icon=":material/info:")
+else:
+    uncapped = {r["n"]: r for r in supernode["uncapped_sweep"]}
+    worst = uncapped[max(uncapped)]
+    added_seconds = worst["graph_build_seconds"] + worst["clustering_seconds"]
+
+    st.dataframe(
+        [{"N accounts": r["n"], "Graph build (s)": r["graph_build_seconds"], "Clustering (s)": r["clustering_seconds"],
+          "Merged into one cluster": "yes" if r["merged_into_one_cluster"] else "no",
+          "Stage 5 verdict": ("FLAGGED" if r.get("flagged") else "cleared as organic") if r["merged_into_one_cluster"] else "n/a"}
+         for r in supernode["uncapped_sweep"]],
+        hide_index=True, width="stretch",
+    )
+    if supernode["quadratic_blowup_confirmed"]:
+        st.warning(
+            f"Confirmed: a single N={max(uncapped):,} shared-attribute group adds **{added_seconds:.0f}s** to what "
+            "is otherwise a ~2s pipeline run. Stage 1's per-group edge construction is O(n²) (a clique) — "
+            f"{worst['n_edges_among_injected_accounts']:,} edges for {worst['n']:,} accounts — and Stage 3 "
+            "(Louvain) clustering absorbs most of that cost, not graph construction itself as originally "
+            f"guessed. Never a false positive at any size (organic_score {worst['organic_score']}/3 throughout) "
+            "— this is a performance vulnerability, not a detection-accuracy one.",
+            icon=":material/warning:",
+        )
+    else:
+        st.success(f"No problem confirmed — max added stage time across the sweep was {added_seconds:.1f}s.",
+                   icon=":material/check_circle:")
+
+    cap = supernode.get("degree_cap_tested")
+    if cap:
+        capped = {r["n"]: r for r in supernode["mitigation_sweep"]}
+        capped_worst = capped[max(capped)]
+        st.success(
+            f"Mitigated: `graph_build.build_graph`'s `max_shared_attribute_group_size` parameter (cap={cap}) "
+            "skips edge construction for any shared-attribute group above the cap — the same judgment already "
+            "applied to Amazon's excluded `net_usu` relation in external validation (\"an attribute touched by "
+            f"many distinct users earns suspicion, not weight\"). At N={max(capped):,}, capped: "
+            f"{capped_worst['graph_build_seconds']:.2f}s build + {capped_worst['clustering_seconds']:.2f}s "
+            "clustering — flat, unaffected by N. Verified this doesn't disturb legitimate small-scale behavior: "
+            "a real household or hostel in this dataset's own generator tops out at ~25 members, far under the "
+            f"cap of {cap}. Default is `None` (unchanged behavior) — the cap is opt-in.",
+            icon=":material/check_circle:",
+        )
+        with st.expander("Capped sweep, full detail"):
+            st.dataframe(
+                [{"N accounts": r["n"], "Graph build (s)": r["graph_build_seconds"], "Clustering (s)": r["clustering_seconds"],
+                  "Edges among injected accounts": r["n_edges_among_injected_accounts"],
+                  "Uncapped clique would be": r["uncapped_clique_edges_would_be"],
+                  "Merged into one cluster": "yes" if r["merged_into_one_cluster"] else "no"}
+                 for r in supernode["mitigation_sweep"]],
+                hide_index=True, width="stretch",
+            )
 
 st.space("large")
 

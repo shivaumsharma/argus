@@ -1,0 +1,131 @@
+{
+  "dataset": "ULB Credit Card Fraud Detection",
+  "source": "Kaggle mlg-ulb/creditcardfraud",
+  "scope": "Transaction-risk scoring only; no graph or clustering claim.",
+  "split": {
+    "strategy": "chronological by Time; earliest 70% train, next 15% threshold selection, final 15% holdout",
+    "train_rows": 199364,
+    "validation_rows": 42721,
+    "holdout_rows": 42722
+  },
+  "model": {
+    "name": "class-weighted XGBoost",
+    "features": [
+      "Time",
+      "V1",
+      "V2",
+      "V3",
+      "V4",
+      "V5",
+      "V6",
+      "V7",
+      "V8",
+      "V9",
+      "V10",
+      "V11",
+      "V12",
+      "V13",
+      "V14",
+      "V15",
+      "V16",
+      "V17",
+      "V18",
+      "V19",
+      "V20",
+      "V21",
+      "V22",
+      "V23",
+      "V24",
+      "V25",
+      "V26",
+      "V27",
+      "V28",
+      "Amount"
+    ],
+    "training_fraud_rows": 384,
+    "training_scale_pos_weight": 518.1771
+  },
+  "validation": {
+    "rows": 42721,
+    "fraud_rows": 56,
+    "fraud_rate": 0.001311,
+    "pr_auc": 0.837416,
+    "roc_auc": 0.989143,
+    "threshold": 0.949885,
+    "precision": 0.977778,
+    "recall": 0.785714,
+    "f1": 0.871287,
+    "accuracy": 0.999696,
+    "alerts": 45,
+    "true_positive_alerts": 44,
+    "false_positive_alerts": 1
+  },
+  "holdout": {
+    "rows": 42722,
+    "fraud_rows": 52,
+    "fraud_rate": 0.001217,
+    "pr_auc": 0.761865,
+    "roc_auc": 0.98046,
+    "threshold": 0.949885,
+    "precision": 0.883721,
+    "recall": 0.730769,
+    "f1": 0.8,
+    "accuracy": 0.999555,
+    "alerts": 43,
+    "true_positive_alerts": 38,
+    "false_positive_alerts": 5
+  },
+  "holdout_review_capacity_scenarios": [
+    {
+      "review_capacity": 43,
+      "minimum_score_in_queue": 0.973974,
+      "true_positive_alerts": 38,
+      "false_positive_alerts": 5,
+      "precision": 0.883721,
+      "recall": 0.730769,
+      "f1": 0.8
+    },
+    {
+      "review_capacity": 50,
+      "minimum_score_in_queue": 0.755539,
+      "true_positive_alerts": 39,
+      "false_positive_alerts": 11,
+      "precision": 0.78,
+      "recall": 0.75,
+      "f1": 0.764706
+    },
+    {
+      "review_capacity": 100,
+      "minimum_score_in_queue": 0.176691,
+      "true_positive_alerts": 40,
+      "false_positive_alerts": 60,
+      "precision": 0.4,
+      "recall": 0.769231,
+      "f1": 0.526316
+    },
+    {
+      "review_capacity": 250,
+      "minimum_score_in_queue": 0.044498,
+      "true_positive_alerts": 40,
+      "false_positive_alerts": 210,
+      "precision": 0.16,
+      "recall": 0.769231,
+      "f1": 0.264901
+    },
+    {
+      "review_capacity": 500,
+      "minimum_score_in_queue": 0.016738,
+      "true_positive_alerts": 44,
+      "false_positive_alerts": 456,
+      "precision": 0.088,
+      "recall": 0.846154,
+      "f1": 0.15942
+    }
+  ],
+  "interpretation": {
+    "primary_measure": "PR-AUC, because 99.8% accuracy can be achieved by predicting every transaction as legitimate.",
+    "threshold_selection": "Best F1 on validation only; holdout labels were not used to select it.",
+    "review_capacity_policy": "Top-k queues are evaluated at predeclared analyst capacities; ranking uses probabilities only, never holdout labels.",
+    "limitation": "PCA features are anonymized and ULB has no entity/linkage fields, so this cannot validate graph clustering or ring detection."
+  }
+}

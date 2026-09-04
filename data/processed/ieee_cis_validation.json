@@ -1,0 +1,174 @@
+{
+  "dataset": "IEEE-CIS Fraud Detection",
+  "source": "Kaggle ieee-fraud-detection (IEEE Computational Intelligence Society / Vesta)",
+  "scope": "Transaction-risk scoring only; no graph or clustering claim -- see graph_feasibility_finding.",
+  "graph_feasibility_finding": {
+    "question": "Could card1-6/addr/email/DeviceInfo support a shared-attribute entity graph the way device_fingerprint_id/instrument_hash do in the primary pipeline, or the way YelpChi's same-reviewer edge does?",
+    "answer": "No -- measured directly on this real file, not assumed.",
+    "field_collision_sizes": {
+      "card1": {
+        "distinct_values": 13553,
+        "largest_group_size": 14932,
+        "largest_group_value": "7919",
+        "groups_of_size_2_to_10": 6067
+      },
+      "card2": {
+        "distinct_values": 500,
+        "largest_group_size": 48935,
+        "largest_group_value": "321.0",
+        "groups_of_size_2_to_10": 0
+      },
+      "card3": {
+        "distinct_values": 114,
+        "largest_group_size": 521287,
+        "largest_group_value": "150.0",
+        "groups_of_size_2_to_10": 42
+      },
+      "card5": {
+        "distinct_values": 119,
+        "largest_group_size": 296546,
+        "largest_group_value": "226.0",
+        "groups_of_size_2_to_10": 38
+      },
+      "card6": {
+        "distinct_values": 4,
+        "largest_group_size": 439938,
+        "largest_group_value": "debit",
+        "groups_of_size_2_to_10": 0
+      },
+      "addr1": {
+        "distinct_values": 332,
+        "largest_group_size": 46335,
+        "largest_group_value": "299.0",
+        "groups_of_size_2_to_10": 110
+      },
+      "addr2": {
+        "distinct_values": 74,
+        "largest_group_size": 520481,
+        "largest_group_value": "87.0",
+        "groups_of_size_2_to_10": 39
+      },
+      "P_emaildomain": {
+        "distinct_values": 59,
+        "largest_group_size": 228355,
+        "largest_group_value": "gmail.com",
+        "groups_of_size_2_to_10": 0
+      },
+      "R_emaildomain": {
+        "distinct_values": 60,
+        "largest_group_size": 57147,
+        "largest_group_value": "gmail.com",
+        "groups_of_size_2_to_10": 2
+      },
+      "DeviceInfo": {
+        "distinct_values": 1786,
+        "largest_group_size": 47722,
+        "largest_group_value": "Windows",
+        "groups_of_size_2_to_10": 864
+      },
+      "DeviceType": {
+        "distinct_values": 2,
+        "largest_group_size": 85165,
+        "largest_group_value": "desktop",
+        "groups_of_size_2_to_10": 0
+      }
+    },
+    "conclusion": "These fields are coarse, anonymized/bucketed categoricals, not per-entity identifiers: the largest groups run into the tens of thousands, far past the 5,000-node case this project's own supernode_stress_test.py already found catastrophic, and -- unlike that stress test's synthetic injection -- there is no way to tell a real collision apart from a real identity link in this anonymized public data. Building ring edges from them would either explode (see docs on the supernode stress test) or, if degree-capped, still claim coincidence as identity. Left as ordinary classifier features instead."
+  },
+  "split": {
+    "strategy": "chronological by TransactionDT; earliest 70% train, next 15% threshold selection, final 15% holdout",
+    "train_rows": 413378,
+    "validation_rows": 88581,
+    "holdout_rows": 88581
+  },
+  "model": {
+    "name": "class-weighted XGBoost (native categorical support, no hand-rolled encoding)",
+    "n_features": 432,
+    "training_fraud_rows": 14538,
+    "training_scale_pos_weight": 27.4343,
+    "identity_join_rate": 0.2384
+  },
+  "validation": {
+    "rows": 88581,
+    "fraud_rows": 3042,
+    "fraud_rate": 0.034341,
+    "pr_auc": 0.502056,
+    "roc_auc": 0.89412,
+    "threshold": 0.808509,
+    "precision": 0.601622,
+    "recall": 0.41453,
+    "f1": 0.490852,
+    "accuracy": 0.970468,
+    "alerts": 2096,
+    "true_positive_alerts": 1261,
+    "false_positive_alerts": 835
+  },
+  "holdout": {
+    "rows": 88581,
+    "fraud_rows": 3083,
+    "fraud_rate": 0.034804,
+    "pr_auc": 0.4461,
+    "roc_auc": 0.877213,
+    "threshold": 0.808509,
+    "precision": 0.521356,
+    "recall": 0.364256,
+    "f1": 0.428871,
+    "accuracy": 0.966234,
+    "alerts": 2154,
+    "true_positive_alerts": 1123,
+    "false_positive_alerts": 1031
+  },
+  "holdout_review_capacity_scenarios": [
+    {
+      "review_capacity": 500,
+      "minimum_score_in_queue": 0.971694,
+      "true_positive_alerts": 458,
+      "false_positive_alerts": 42,
+      "precision": 0.916,
+      "recall": 0.148557,
+      "f1": 0.255652
+    },
+    {
+      "review_capacity": 1000,
+      "minimum_score_in_queue": 0.908912,
+      "true_positive_alerts": 762,
+      "false_positive_alerts": 238,
+      "precision": 0.762,
+      "recall": 0.247162,
+      "f1": 0.373255
+    },
+    {
+      "review_capacity": 2000,
+      "minimum_score_in_queue": 0.820305,
+      "true_positive_alerts": 1087,
+      "false_positive_alerts": 913,
+      "precision": 0.5435,
+      "recall": 0.352579,
+      "f1": 0.4277
+    },
+    {
+      "review_capacity": 5000,
+      "minimum_score_in_queue": 0.654163,
+      "true_positive_alerts": 1595,
+      "false_positive_alerts": 3405,
+      "precision": 0.319,
+      "recall": 0.517353,
+      "f1": 0.394655
+    },
+    {
+      "review_capacity": 10000,
+      "minimum_score_in_queue": 0.484052,
+      "true_positive_alerts": 2126,
+      "false_positive_alerts": 7874,
+      "precision": 0.2126,
+      "recall": 0.689588,
+      "f1": 0.325002
+    }
+  ],
+  "interpretation": {
+    "primary_measure": "PR-AUC -- base fraud rate here is ~3.5%, far denser than ULB's ~0.17%, so accuracy is less distorted but still not the headline number.",
+    "threshold_selection": "Best F1 on validation only; holdout labels were not used to select it.",
+    "review_capacity_policy": "Top-k queues are evaluated at predeclared analyst capacities; ranking uses probabilities only, never holdout labels.",
+    "limitation": "Real e-commerce transaction data with genuinely richer features than ULB (Vesta-engineered aggregates, counts, time-deltas), but still one row per transaction with no usable entity-linkage key -- see graph_feasibility_finding. Cannot validate graph clustering or ring detection; only a conventional scorer."
+  }
+}
