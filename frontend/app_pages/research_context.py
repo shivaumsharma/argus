@@ -510,26 +510,43 @@ st.write(
     "wishlist. Each one names the specific number that motivates it."
 )
 
-st.markdown("**Immediate — diagnosed and scoped, not yet built**")
-immediate = [
-    ("Elliptic: ensemble past its structural ceiling", "75% of real illicit Bitcoin transactions have zero "
-     "connection to any other illicit transaction — the graph is already near its ~25% recall ceiling. "
-     "Next: OR the soft-cluster flag with the label-blind classifier's independent score to reach past it."),
-    ("IEEE-CIS: segment-specific thresholds", "The same trained model scores 67%/56% (precision/recall) on "
-     "identity-rich rows vs. 21%/11% on identity-poor rows — one blended threshold serves neither well. "
-     "Next: two thresholds, or an explicit identity-presence interaction feature."),
-    ("YelpChi: per-node scoring inside diluted clusters", "99.2% of fraud accounts DO sit next to other "
-     "fraud in the graph, but Louvain dilutes most of them into majority-organic clusters. Next: score "
-     "individual nodes within a cluster, not just the cluster as a whole."),
-    ("Cost-threshold: the already-found, not-yet-applied fix", "The device-branch threshold has a strict, "
-     "same-recall, fewer-false-positive improvement available (3→2) — found during sensitivity analysis, "
-     "deliberately not applied yet to preserve this project's held-out-eval discipline. A real dev-split "
-     "tuning pass would apply it properly."),
+st.markdown("**Resolved this iteration — all four tried for real, one shipped**")
+st.caption(
+    "These four were flagged as the immediate next steps, then actually built and measured before this "
+    "submission — not left as a wishlist. One is a real, shipped improvement; three are honest negative "
+    "results, disclosed rather than hidden. Full numbers on the External Validation page."
+)
+resolved = [
+    ("Elliptic: ensemble past its structural ceiling", ":material/check_circle:", "success",
+     "**Shipped.** OR-ing the existing per-transaction XGBoost score onto the graph flag recovers 432 of "
+     "442 (98%) illicit transactions that have zero illicit neighbors — structurally unreachable by "
+     "clustering alone. Precision *improves* over graph-alone in the process (79.1% → 93.96%)."),
+    ("IEEE-CIS: segment-specific thresholds", ":material/cancel:", "warning",
+     "**Tried, not adopted.** Giving the identity-rich and identity-poor segments their own F1-optimal "
+     "threshold gives a *worse* blended result (F1 0.397 vs. the shipped single threshold's 0.429) — the "
+     "two populations differ enough that optimizing each alone doesn't add up to a better blend."),
+    ("YelpChi: per-node scoring inside diluted clusters", ":material/cancel:", "warning",
+     "**Tried, not adopted.** Flagging individual accounts with a direct hard-signal edge to confirmed "
+     "fraud, inside otherwise-diluted clusters, moves recall by only 0.1pp (6 accounts) while dragging "
+     "precision from 99.2% to 87.7% — not a strong enough node-level signal on its own here."),
+    ("Amazon: the same per-node check", ":material/cancel:", "warning",
+     "**Tried, not adopted.** The same technique on Amazon's denser graph moves recall from 1.1% to "
+     "41.1% — a real jump — but precision collapses to 9.1% (over 90% of the extra flags wrong). A "
+     "single hard-signal edge just isn't discriminating enough on this graph."),
+    ("Cost-threshold: the already-found, not-yet-applied fix", ":material/cancel:", "warning",
+     "**Tried, reverted.** The 3→2 device-branch threshold looked like a clean win on the full dev+holdout "
+     "sweep, but checking dev and holdout separately showed the gain lives entirely in the holdout split — "
+     "dev alone favors neither threshold. Adopting it would mean tuning against holdout, which this "
+     "project's own eval discipline forbids everywhere else. Reverted; documented in code as a disclosed "
+     "finding, legitimate to revisit with a real dev-only tuning pass."),
 ]
-for title, desc in immediate:
+for title, icon, kind, desc in resolved:
     with st.container(border=True):
-        st.markdown(f"**{title}**")
-        st.caption(desc)
+        st.markdown(f"{icon} **{title}**")
+        if kind == "success":
+            st.success(desc, icon=":material/check_circle:")
+        else:
+            st.caption(desc)
 
 st.markdown("**Near-term — feature parity across loss types**")
 with st.container(border=True):
