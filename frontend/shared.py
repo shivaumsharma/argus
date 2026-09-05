@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from backend import db, graph_viz, reporting  # noqa: E402
+from backend import architecture_diagram, db, graph_viz, reporting  # noqa: E402
 from backend.pipeline.data_io import load_data  # noqa: E402
 from backend.pipeline.graph_build import build_graph  # noqa: E402
 
