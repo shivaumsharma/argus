@@ -25,6 +25,13 @@ SIGNAL_COLOR = {
 }
 SIGNAL_PRIORITY = ["shared_instrument", "shared_device", "ip_subnet_overlap", "referral_link",
                    "shared_address", "phone_prefix"]
+# Same hard/soft split as backend/pipeline/graph_build.py's HARD_SIGNALS -- duplicated rather than
+# imported to keep this module decoupled from the pipeline package. Used to make edge *width* carry
+# the hard/soft distinction as strongly as edge color does: a near-certain shared-instrument/device
+# signal should look unmistakably bolder than an IP-subnet-only overlap, not just a slightly
+# different shade -- the two illustrative Overview graphs looked "the same shape" before this because
+# both signal types rendered as similarly thin lines once buried under a same-size, same-color node.
+HARD_SIGNALS_FOR_WIDTH = {"shared_instrument", "shared_device", "shared_address"}
 SIGNAL_LABEL = {
     "shared_instrument": "shared instrument",
     "shared_device": "shared device",
@@ -42,7 +49,8 @@ def _edge_color(signals: set) -> str:
     return "#95a5a6"
 
 
-def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None, height: int = 520) -> Path:
+def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None, height: int = 520,
+                          show_edge_labels: bool = True) -> Path:
     """Build and cache an interactive HTML visualization of the subgraph induced by `members`.
 
     `height` must match the caller's own st.iframe(..., height=height) exactly. pyvis/vis-network
@@ -50,7 +58,13 @@ def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None, heigh
     embedded in -- passing a mismatched height here is why a graph can render with the node cluster
     pushed toward the bottom and a dead blank band at the top of the visible iframe: the canvas was
     built taller (or shorter) than the window actually showing it, and fit()/centering happened
-    against the wrong box. Every call site must pass its real display height, not rely on the default."""
+    against the wrong box. Every call site must pass its real display height, not rely on the default.
+
+    `show_edge_labels=False` drops the always-on edge text (still available on hover via `title`) --
+    on a dense, near-complete cluster the labels stack and overlap into unreadable clutter that
+    competes with edge color for attention, which is the one signal these illustrative renders most
+    need to read clearly at a glance. Graph Explorer keeps labels on (default True) since there a
+    user is inspecting one edge at a time, not scanning two clusters side by side."""
     CACHE_DIR.mkdir(parents=True, exist_ok=True)
     members = list(members)
     sub = G.subgraph(members)
@@ -69,8 +83,9 @@ def render_cluster_graph(G, members, node_color="#c0392b", cache_key=None, heigh
     for u, v, d in sub.edges(data=True):
         signals = d.get("signals", set())
         label = " + ".join(SIGNAL_LABEL.get(s, s) for s in signals)
-        net.add_edge(u, v, label=label, color=_edge_color(signals),
-                     width=1 + min(d.get("weight", 1.0), 6), title=f"{label} (weight {d.get('weight', 1.0):.1f})")
+        width = 6 if signals & HARD_SIGNALS_FOR_WIDTH else 2
+        net.add_edge(u, v, label=(label if show_edge_labels else ""), color=_edge_color(signals),
+                     width=width, title=f"{label} (weight {d.get('weight', 1.0):.1f})")
 
     net.set_options("""
     {
