@@ -109,7 +109,7 @@ ran Stage 2/3 clustering, substituting one bare `density > 50%` rule
 (inherited unchanged from YelpChi/Amazon) for the entire Stage 4+5 decision
 logic. Sweeping that one threshold on the exact same, already-computed
 clusters found 3.4x more identifiable illicit transactions (2,033 vs. 597)
-at a still-real 3.2x lift over base rate — meaning the reported 829/597/
+at a still-real 3.1x lift over base rate — meaning the reported 829/597/
 72.0% headline was one unswept point, not a ceiling. Fixed the same way as
 everything above: a real, re-runnable sweep added to `elliptic.py` itself
 (not a one-off calculation), and the finding written into
