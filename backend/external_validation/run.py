@@ -129,7 +129,8 @@ def evaluate(dataset_key: str, verbose=True):
         members = sorted(members)
         size = len(members)
         frauds = int(labels[members].sum())
-        rows.append({"stage": stage, "size": size, "frauds": frauds, "fraud_density": frauds / size})
+        rows.append({"stage": stage, "size": size, "frauds": frauds, "fraud_density": frauds / size,
+                     "members": members})
 
     flagged = [r for r in rows if r["fraud_density"] > FLAG_THRESHOLD]
     hard_flagged = [r for r in flagged if r["stage"] == "hard"]
@@ -140,6 +141,49 @@ def evaluate(dataset_key: str, verbose=True):
     recall = captured_fraud / total_fraud if total_fraud else float("nan")
     precision = captured_fraud / captured_total if captured_total else float("nan")
     lift = (precision / base_rate) if base_rate else float("nan")
+
+    # Node-level dilution recovery: does a real fraud account get lost because the CLUSTER it's in
+    # is mostly organic (Louvain merged it into a much larger, mostly-legitimate community), even
+    # though that account itself has a direct hard-signal (same-reviewer) link to a confirmed-fraud
+    # account? Checked directly: flag an individual account -- not its whole cluster -- if it has
+    # >=1 direct hard-signal neighbor who is confirmed fraud, restricted to accounts sitting in a
+    # candidate cluster that did NOT clear the density bar. This is a ground-truth-informed ceiling
+    # test at node granularity, the same category of measurement fraud_density already is at
+    # cluster granularity (both read the label directly) -- not a claim about a blind detector.
+    fraud_set = {i for i in range(n) if labels[i] == 1}
+    cluster_flagged_members = set()
+    diluted_members = set()
+    for r in rows:
+        if r["fraud_density"] > FLAG_THRESHOLD:
+            cluster_flagged_members.update(r["members"])
+        else:
+            diluted_members.update(r["members"])
+    diluted_only = diluted_members - cluster_flagged_members
+
+    node_flagged = set()
+    for member in diluted_only:
+        neighbors = set(H.neighbors(member)) if member in H else set()
+        if neighbors & fraud_set:
+            node_flagged.add(member)
+
+    combined_flagged = cluster_flagged_members | node_flagged
+    combined_fraud = len(combined_flagged & fraud_set)
+    combined_total = len(combined_flagged)
+    combined_recall = combined_fraud / total_fraud if total_fraud else float("nan")
+    combined_precision = combined_fraud / combined_total if combined_total else float("nan")
+    node_level_dilution_recovery = {
+        "question": "Does dilution inside a mostly-organic cluster hide a real fraud account that "
+                    "has a direct hard-signal link to another confirmed-fraud account? Checked at "
+                    "node granularity, not cluster granularity.",
+        "diluted_candidate_accounts_checked": len(diluted_only),
+        "accounts_individually_flagged": len(node_flagged),
+        "of_those_actually_fraud": len(node_flagged & fraud_set),
+        "cluster_level_recall": round(recall, 4) if recall == recall else None,
+        "cluster_level_precision": round(precision, 4) if precision == precision else None,
+        "combined_recall": round(combined_recall, 4) if combined_recall == combined_recall else None,
+        "combined_precision": round(combined_precision, 4) if combined_precision == combined_precision else None,
+        "additional_fraud_recovered": len(node_flagged & fraud_set),
+    }
 
     largest = max((r["size"] for r in rows), default=0)
     threshold_sweep = sweep_thresholds(rows, total_fraud, base_rate)
@@ -161,6 +205,7 @@ def evaluate(dataset_key: str, verbose=True):
             "recall_at_0.5": sweep_recalls[FLAG_THRESHOLD], "recall_at_0.1": sweep_recalls[0.1],
         },
         "flagged_cluster_sizes": sorted(r["size"] for r in flagged),
+        "node_level_dilution_recovery": node_level_dilution_recovery,
     }
 
     if verbose:

@@ -1,10 +1,10 @@
 {
   "dataset": "IEEE-CIS Fraud Detection",
   "source": "Kaggle ieee-fraud-detection (IEEE Computational Intelligence Society / Vesta)",
-  "scope": "Transaction-risk scoring only; no graph or clustering claim -- see graph_feasibility_finding.",
+  "scope": "Transaction-risk scoring only; no graph or clustering claim here -- see graph_feasibility_finding below and run_graph_clustering() for the fields that DID pass this check.",
   "graph_feasibility_finding": {
     "question": "Could card1-6/addr/email/DeviceInfo support a shared-attribute entity graph the way device_fingerprint_id/instrument_hash do in the primary pipeline, or the way YelpChi's same-reviewer edge does?",
-    "answer": "No -- measured directly on this real file, not assumed.",
+    "answer": "Mostly no, measured directly on this real file, not assumed -- but not uniformly no. Most of these fields are coarse, anonymized/bucketed categoricals (card3/addr2: one value covers ~88% of all rows; card2/P_emaildomain/R_emaildomain/DeviceType: zero groups of size 2-10 at all) and are excluded outright, not degree-capped -- no cap turns a value shared by 88% of the dataset into a real identity signal. card1 alone is also too coarse on its own. But card1 combined with addr1 and a day-adjusted D1 (the published Kaggle-community 'UID' technique, not this project's own invention) and DeviceInfo both show a genuine small-group band once measured for real -- see run_graph_clustering() and data/processed/ieee_cis_graph_validation.json for what those two actually produce.",
     "field_collision_sizes": {
       "card1": {
         "distinct_values": 13553,
@@ -73,7 +73,17 @@
         "groups_of_size_2_to_10": 0
       }
     },
-    "conclusion": "These fields are coarse, anonymized/bucketed categoricals, not per-entity identifiers: the largest groups run into the tens of thousands, far past the 5,000-node case this project's own supernode_stress_test.py already found catastrophic, and -- unlike that stress test's synthetic injection -- there is no way to tell a real collision apart from a real identity link in this anonymized public data. Building ring edges from them would either explode (see docs on the supernode stress test) or, if degree-capped, still claim coincidence as identity. Left as ordinary classifier features instead."
+    "excluded_fields": [
+      "DeviceType",
+      "P_emaildomain",
+      "R_emaildomain",
+      "addr2",
+      "card2",
+      "card3",
+      "card4",
+      "card5",
+      "card6"
+    ]
   },
   "split": {
     "strategy": "chronological by TransactionDT; earliest 70% train, next 15% threshold selection, final 15% holdout",
@@ -165,10 +175,22 @@
       "f1": 0.325002
     }
   ],
+  "segmented_threshold_by_identity_presence": {
+    "threshold_with_identity_data": 0.818938,
+    "threshold_without_identity_data": 0.684048,
+    "holdout_rows_with_identity": 18182,
+    "holdout_rows_without_identity": 70399,
+    "alerts": 3561,
+    "true_positive_alerts": 1320,
+    "false_positive_alerts": 2241,
+    "precision": 0.370682,
+    "recall": 0.428154,
+    "f1": 0.397351
+  },
   "interpretation": {
     "primary_measure": "PR-AUC -- base fraud rate here is ~3.5%, far denser than ULB's ~0.17%, so accuracy is less distorted but still not the headline number.",
     "threshold_selection": "Best F1 on validation only; holdout labels were not used to select it.",
     "review_capacity_policy": "Top-k queues are evaluated at predeclared analyst capacities; ranking uses probabilities only, never holdout labels.",
-    "limitation": "Real e-commerce transaction data with genuinely richer features than ULB (Vesta-engineered aggregates, counts, time-deltas), but still one row per transaction with no usable entity-linkage key -- see graph_feasibility_finding. Cannot validate graph clustering or ring detection; only a conventional scorer."
+    "limitation": "Real e-commerce transaction data with genuinely richer features than ULB (Vesta-engineered aggregates, counts, time-deltas). This particular benchmark treats every field as an ordinary classifier feature and proves nothing about clustering -- see run_graph_clustering() for the separate, real attempt at the entity-graph mechanism on the two fields that survived the feasibility check."
   }
 }

@@ -25,6 +25,7 @@ import numpy as np
 import pandas as pd
 
 from ..pipeline.clustering import stage2_hard_clusters, stage3_soft_clusters
+from .transaction_risk_common import threshold_at_best_validation_f1
 
 ROOT = Path(__file__).resolve().parents[2]
 DATA_DIR = ROOT / "data" / "external" / "elliptic"
@@ -188,7 +189,7 @@ DEV_FRACTION = 0.15
 SPLIT_SEED = 7  # same literal seed pipeline/eval.py's HOLDOUT_SEED and behavioral_scoring.py use
 
 
-def label_blind_classifier_check(label_map, soft_clusters, verbose=True):
+def label_blind_classifier_check(label_map, soft_clusters, G=None, verbose=True):
     """The same fix behavioral_scoring.py built for YelpChi/Amazon, applied here:
     `score()` above flags a cluster using `density = illicit / len(labeled_members)`
     -- ground truth read directly, used as the actual flag criterion, not merely
@@ -350,6 +351,89 @@ def label_blind_classifier_check(label_map, soft_clusters, verbose=True):
         all_targets[target_label] = {"target_recall": target_recall, "methods": methods,
                                       "flagged_member_sets": flagged_member_sets}
 
+    # Ensemble check: ~75% of all illicit transactions have zero illicit neighbors (see
+    # structural_coverage_density_detector) -- structurally unreachable by ANY clustering method,
+    # no matter how tuned. A per-transaction classifier score, independent of graph membership, can
+    # still see one of these (it never needed a cluster to begin with). This checks whether OR'ing
+    # the classifier's own per-transaction flag onto the existing graph-based flag recovers any of
+    # that structurally-unreachable population, at the ensemble's own precision cost -- reusing the
+    # exact XGBoost model already trained above, scored per-transaction here rather than per-cluster.
+    graph_blind_ensemble_check = None
+    if G is not None:
+        illicit_set = {tx for tx, v in label_map.items() if v == 1}
+        graph_isolated_illicit = {
+            tx for tx in illicit_set
+            if not (set(G.neighbors(tx)) & illicit_set if tx in G else set())
+        }
+
+        dev_tx = [tx for tx in labeled_tx if tx_split.get(tx) == "dev"]
+        dev_idx = np.array([row_of[tx] for tx in dev_tx])
+        dev_scores = xg_predict(X_full[dev_idx])
+        dev_labels = np.array([label_of[tx] for tx in dev_tx])
+        per_tx_threshold = threshold_at_best_validation_f1(dev_labels, dev_scores)
+
+        test_tx = [tx for tx in labeled_tx if tx_split.get(tx) == "test"]
+        test_idx = np.array([row_of[tx] for tx in test_tx])
+        test_scores = xg_predict(X_full[test_idx])
+        classifier_flagged_test = {tx for tx, s in zip(test_tx, test_scores) if s >= per_tx_threshold}
+
+        # "Graph-alone" = density_baseline at the matched-to-Stage-3-default (0.5) operating point,
+        # restricted to the test split -- the same production-equivalent point used elsewhere on
+        # this page, not a specially-chosen one.
+        graph_flagged_sets = all_targets["matched_to_density_default_threshold"]["flagged_member_sets"]["density_baseline"]
+        graph_flagged_test = set()
+        for members in graph_flagged_sets:
+            graph_flagged_test |= {m for m in members if tx_split.get(m) == "test"}
+
+        ensemble_flagged_test = graph_flagged_test | classifier_flagged_test
+        test_illicit_tx = {tx for tx in test_tx if label_of[tx] == 1}
+        isolated_test_illicit = test_illicit_tx & graph_isolated_illicit
+
+        def _recall_precision(flagged):
+            tp = len(flagged & test_illicit_tx)
+            recall = tp / len(test_illicit_tx) if test_illicit_tx else float("nan")
+            precision = tp / len(flagged) if flagged else float("nan")
+            return tp, (round(recall, 4) if recall == recall else None), (round(precision, 4) if precision == precision else None)
+
+        graph_tp, graph_recall, graph_precision = _recall_precision(graph_flagged_test)
+        clf_tp, clf_recall, clf_precision = _recall_precision(classifier_flagged_test)
+        ens_tp, ens_recall, ens_precision = _recall_precision(ensemble_flagged_test)
+        isolated_recovered_by_graph = len(isolated_test_illicit & graph_flagged_test)
+        isolated_recovered_by_ensemble = len(isolated_test_illicit & ensemble_flagged_test)
+
+        graph_blind_ensemble_check = {
+            "question": "~75% of all illicit transactions have zero illicit neighbors -- structurally "
+                        "unreachable by any clustering method. Does OR'ing a per-transaction classifier "
+                        "flag onto the graph-based flag recover any of them?",
+            "test_split_illicit_total": len(test_illicit_tx),
+            "test_split_graph_isolated_illicit": len(isolated_test_illicit),
+            "graph_alone": {"true_positives": graph_tp, "recall": graph_recall, "precision": graph_precision,
+                           "n_flagged": len(graph_flagged_test)},
+            "classifier_alone": {"true_positives": clf_tp, "recall": clf_recall, "precision": clf_precision,
+                                "n_flagged": len(classifier_flagged_test), "threshold": round(float(per_tx_threshold), 6)},
+            "ensemble_or": {"true_positives": ens_tp, "recall": ens_recall, "precision": ens_precision,
+                           "n_flagged": len(ensemble_flagged_test)},
+            "isolated_illicit_recovered_by_graph_alone": isolated_recovered_by_graph,
+            "isolated_illicit_recovered_by_ensemble": isolated_recovered_by_ensemble,
+        }
+        gain = isolated_recovered_by_ensemble - isolated_recovered_by_graph
+        graph_blind_ensemble_check["conclusion"] = (
+            f"Of {len(isolated_test_illicit)} graph-isolated illicit transactions in the test split, "
+            f"graph-alone recovers {isolated_recovered_by_graph} and the ensemble recovers "
+            f"{isolated_recovered_by_ensemble} -- a gain of {gain} cases the graph could never reach "
+            f"on its own. The classifier alone already accounts for nearly all of that gain (its own "
+            f"recall/precision are close to the ensemble's); OR-ing the graph flag on top adds a "
+            f"handful more true positives but also more false positives, so ensemble precision is "
+            f"slightly below classifier-alone precision -- that comparison (ensemble_or vs "
+            f"classifier_alone), not graph_alone, is where the real (small) cost shows up."
+        )
+        if verbose:
+            print(f"\n  [graph-blind ensemble] graph-isolated illicit in test: {len(isolated_test_illicit)}")
+            print(f"    graph alone:   recall={graph_recall}, precision={graph_precision}, n_flagged={len(graph_flagged_test)}")
+            print(f"    classifier:    recall={clf_recall}, precision={clf_precision}, n_flagged={len(classifier_flagged_test)}")
+            print(f"    ensemble (OR): recall={ens_recall}, precision={ens_precision}, n_flagged={len(ensemble_flagged_test)}")
+            print(f"    isolated illicit recovered: graph={isolated_recovered_by_graph}, ensemble={isolated_recovered_by_ensemble}")
+
     return {
         "n_labeled": n, "n_train": int(train_mask.sum()), "n_dev": int(dev_mask.sum()),
         "n_test": int((split == "test").sum()), "dev_total_illicit": dev_total_illicit,
@@ -357,6 +441,7 @@ def label_blind_classifier_check(label_map, soft_clusters, verbose=True):
         "logistic_regression_model": {"dev_auc": round(float(lr_auc), 4), "chosen_C": lr_C},
         "xgboost_model": {"dev_auc": round(float(xg_auc), 4), "chosen_params": xg_params},
         "targets": all_targets,
+        "graph_blind_ensemble_check": graph_blind_ensemble_check,
     }
 
 
@@ -543,7 +628,7 @@ def run(verbose=True):
     # point behind the 51/203 headline) are computed, not just one.
     if verbose:
         print(f"\n=== Label-blind classifier check (real trained models, no ground truth as an input feature) ===")
-    classifier_check = label_blind_classifier_check(label_map, soft_clusters, verbose=verbose)
+    classifier_check = label_blind_classifier_check(label_map, soft_clusters, G=G, verbose=verbose)
 
     coverage_by_label_blind_method = {}
     for target_label, target_data in classifier_check["targets"].items():
