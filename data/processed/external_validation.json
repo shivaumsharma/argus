@@ -567,7 +567,18 @@
       7,
       9,
       13
-    ]
+    ],
+    "node_level_dilution_recovery": {
+      "question": "Does dilution inside a mostly-organic cluster hide a real fraud account that has a direct hard-signal link to another confirmed-fraud account? Checked at node granularity, not cluster granularity.",
+      "diluted_candidate_accounts_checked": 32290,
+      "accounts_individually_flagged": 157,
+      "of_those_actually_fraud": 6,
+      "cluster_level_recall": 0.1698,
+      "cluster_level_precision": 0.9921,
+      "combined_recall": 0.1707,
+      "combined_precision": 0.8769,
+      "additional_fraud_recovered": 6
+    }
   },
   "amazon": {
     "dataset": "Amazon",
@@ -649,7 +660,18 @@
       2,
       3,
       4
-    ]
+    ],
+    "node_level_dilution_recovery": {
+      "question": "Does dilution inside a mostly-organic cluster hide a real fraud account that has a direct hard-signal link to another confirmed-fraud account? Checked at node granularity, not cluster granularity.",
+      "diluted_candidate_accounts_checked": 10237,
+      "accounts_individually_flagged": 3681,
+      "of_those_actually_fraud": 328,
+      "cluster_level_recall": 0.011,
+      "cluster_level_precision": 0.8182,
+      "combined_recall": 0.4105,
+      "combined_precision": 0.0913,
+      "additional_fraud_recovered": 328
+    }
   },
   "elliptic": {
     "n_nodes": 114634,
@@ -3289,6 +3311,33 @@
             ]
           }
         }
+      },
+      "graph_blind_ensemble_check": {
+        "question": "~75% of all illicit transactions have zero illicit neighbors -- structurally unreachable by any clustering method. Does OR'ing a per-transaction classifier flag onto the graph-based flag recover any of them?",
+        "test_split_illicit_total": 588,
+        "test_split_graph_isolated_illicit": 442,
+        "graph_alone": {
+          "true_positives": 106,
+          "recall": 0.1803,
+          "precision": 0.791,
+          "n_flagged": 134
+        },
+        "classifier_alone": {
+          "true_positives": 558,
+          "recall": 0.949,
+          "precision": 0.9859,
+          "n_flagged": 566,
+          "threshold": 0.768281
+        },
+        "ensemble_or": {
+          "true_positives": 560,
+          "recall": 0.9524,
+          "precision": 0.9396,
+          "n_flagged": 596
+        },
+        "isolated_illicit_recovered_by_graph_alone": 70,
+        "isolated_illicit_recovered_by_ensemble": 432,
+        "conclusion": "Of 442 graph-isolated illicit transactions in the test split, graph-alone recovers 70 and the ensemble recovers 432 -- a gain of 362 cases the graph could never reach on its own. The classifier alone already accounts for nearly all of that gain (its own recall/precision are close to the ensemble's); OR-ing the graph flag on top adds a handful more true positives but also more false positives, so ensemble precision is slightly below classifier-alone precision -- that comparison (ensemble_or vs classifier_alone), not graph_alone, is where the real (small) cost shows up."
       }
     },
     "structural_coverage_by_label_blind_method": {

@@ -71,6 +71,25 @@ with st.expander("Is 17.0% recall a real ceiling, or an untested threshold hidin
         "dataset; the 17.0% headline is one point on a curve, not a discovered ceiling."
     )
 
+ndr = yc.get("node_level_dilution_recovery")
+if ndr:
+    with st.expander("Does dilution inside a mostly-organic cluster hide a fraud account with a direct link to a confirmed fraud account? Checked, and largely no."):
+        st.caption(ndr["question"])
+        with st.container(horizontal=True):
+            st.metric("Diluted candidates checked", f"{ndr['diluted_candidate_accounts_checked']:,}", border=True)
+            st.metric("Individually flagged", ndr["accounts_individually_flagged"], border=True)
+            st.metric("Of those, actually fraud", ndr["of_those_actually_fraud"], border=True)
+        st.warning(
+            f"**Tried, and not adopted.** Node-level recovery moves recall by only "
+            f"{ndr['combined_recall'] - ndr['cluster_level_recall']:.1%} ({ndr['additional_fraud_recovered']} "
+            f"more accounts, out of {ndr['diluted_candidate_accounts_checked']:,} checked) while dragging "
+            f"precision down from {ndr['cluster_level_precision']:.1%} to {ndr['combined_precision']:.1%} — "
+            "most of the individually-flagged accounts turn out not to be fraud. A direct hard-signal edge to "
+            "one confirmed-fraud account, on its own, isn't a strong enough node-level signal on YelpChi. Not "
+            "wired into the production flagging rule; reported here as a real, disclosed negative finding.",
+            icon=":material/warning:",
+        )
+
 st.space("large")
 
 # ==========================================================================
@@ -115,6 +134,25 @@ with st.expander("Is the ~824-account fraud population under-caught by the same 
         "still at a real 3.0x lift over base rate. The tiny 11-account headline sample is an artifact "
         "of an inherited, untested threshold on this dataset too, same as YelpChi and Elliptic."
     )
+
+ndr = am.get("node_level_dilution_recovery")
+if ndr:
+    with st.expander("Same node-level dilution check on Amazon — a much bigger recall move, at a precision cost too steep to adopt."):
+        st.caption(ndr["question"])
+        with st.container(horizontal=True):
+            st.metric("Diluted candidates checked", f"{ndr['diluted_candidate_accounts_checked']:,}", border=True)
+            st.metric("Individually flagged", f"{ndr['accounts_individually_flagged']:,}", border=True)
+            st.metric("Of those, actually fraud", ndr["of_those_actually_fraud"], border=True)
+        st.warning(
+            f"**A real, large recall gain — and a real reason not to ship it.** Recall jumps from "
+            f"{ndr['cluster_level_recall']:.1%} to {ndr['combined_recall']:.1%} "
+            f"({ndr['additional_fraud_recovered']} more fraud accounts recovered), but precision collapses "
+            f"from {ndr['cluster_level_precision']:.1%} to {ndr['combined_precision']:.1%} — over 90% of the "
+            "extra flags would be wrong. A single hard-signal edge to a confirmed-fraud account is common "
+            "enough on Amazon's much denser graph that it stops being a discriminating signal on its own. "
+            "Disclosed as a real finding, not adopted into the production rule.",
+            icon=":material/warning:",
+        )
 
 st.space("large")
 
@@ -299,6 +337,35 @@ if classifier_check and coverage_by_method:
             "classifier once recall is held fixed. Full methodology in `docs/EXTERNAL_VALIDATION.md`."
         )
 
+gbe = classifier_check.get("graph_blind_ensemble_check") if classifier_check else None
+if gbe:
+    with st.expander("~75% of illicit transactions have zero illicit neighbors — structurally unreachable by any clustering method. Does a classifier recover them?", expanded=True):
+        st.caption(gbe["question"])
+        st.dataframe(
+            [{"Method": "Graph alone (density rule)", "Recall": f"{gbe['graph_alone']['recall']:.1%}",
+              "Precision": f"{gbe['graph_alone']['precision']:.1%}", "Flagged": gbe["graph_alone"]["n_flagged"]},
+             {"Method": "Classifier alone (per-transaction)", "Recall": f"{gbe['classifier_alone']['recall']:.1%}",
+              "Precision": f"{gbe['classifier_alone']['precision']:.1%}", "Flagged": gbe["classifier_alone"]["n_flagged"]},
+             {"Method": "Ensemble (graph OR classifier)", "Recall": f"{gbe['ensemble_or']['recall']:.1%}",
+              "Precision": f"{gbe['ensemble_or']['precision']:.1%}", "Flagged": gbe["ensemble_or"]["n_flagged"]}],
+            hide_index=True, width="stretch",
+        )
+        st.success(
+            f"**Yes — decisively.** Of {gbe['test_split_graph_isolated_illicit']} graph-isolated illicit "
+            f"transactions in the test split (structurally unreachable by clustering alone), graph-alone "
+            f"recovers only {gbe['isolated_illicit_recovered_by_graph_alone']}; the ensemble recovers "
+            f"{gbe['isolated_illicit_recovered_by_ensemble']} ({gbe['isolated_illicit_recovered_by_ensemble'] / gbe['test_split_graph_isolated_illicit']:.0%}) "
+            "— and precision *improves* over graph-alone in the process (79.1% → 93.96%), because the "
+            "per-transaction classifier trained on Weber et al.'s 165 real behavioral/aggregated features is "
+            "simply a much stronger signal per-transaction than the mean fraud-density of the Louvain "
+            "community a transaction happens to sit in. The one real cost: relative to running the "
+            "classifier alone (98.6% precision), OR-ing the graph flag on top adds a handful more true "
+            "positives at a small precision cost (98.6% → 93.96%) — so the honest recommendation is "
+            "**run the classifier as the primary detector on this data shape, with the graph flag as a "
+            "structural backstop**, not the other way around.",
+            icon=":material/check_circle:",
+        )
+
 st.space("large")
 
 # ==========================================================================
@@ -387,6 +454,33 @@ else:
             "it's one predeclared point on the same scored list as every metric above.",
             icon=":material/check_circle:",
         )
+        seg = ic.get("segmented_threshold_by_identity_presence")
+        if seg:
+            with st.expander("Tried: a separate threshold for the with-identity vs. without-identity segments. A real, disclosed negative result."):
+                st.caption(
+                    f"Only {join_rate:.1%} of transactions carry any device/identity data — the two segments are "
+                    "different enough populations that a single blended threshold might be leaving performance "
+                    "on the table for one or both. Tested directly: chose each segment's own F1-optimal "
+                    "threshold on validation only, then applied each to its own holdout rows."
+                )
+                single_f1 = h["precision"] * h["recall"] * 2 / (h["precision"] + h["recall"])
+                st.dataframe(
+                    [{"Approach": "Single threshold (shipped)", "Precision": f"{h['precision']:.1%}",
+                      "Recall": f"{h['recall']:.1%}", "F1": f"{single_f1:.3f}"},
+                     {"Approach": "Segmented thresholds (with/without identity)",
+                      "Precision": f"{seg['precision']:.1%}",
+                      "Recall": f"{seg['recall']:.1%}",
+                      "F1": f"{seg['f1']:.3f}"}],
+                    hide_index=True, width="stretch",
+                )
+                st.warning(
+                    "**Tried, and not adopted.** Segmenting by identity-presence gives a worse blended F1 "
+                    f"({seg['f1']:.3f} vs the shipped single threshold's {single_f1:.3f}) — the two "
+                    "segments' base rates and score distributions differ enough that optimizing each in "
+                    "isolation doesn't add up to a better blend. Reported as-is, without further tuning, to "
+                    "avoid choosing whichever variant happens to look best after the fact.",
+                    icon=":material/warning:",
+                )
         if icg:
             with st.expander("Was a real entity graph attempted here too? Yes — with a serious caveat found and fixed"):
                 st.write(

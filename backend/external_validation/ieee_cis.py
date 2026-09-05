@@ -58,6 +58,7 @@ import json
 from pathlib import Path
 
 import networkx as nx
+import numpy as np
 import pandas as pd
 from xgboost import XGBClassifier
 
@@ -136,6 +137,46 @@ def _measure_linkage_field_collisions(frame: pd.DataFrame) -> dict:
     return findings
 
 
+def _segmented_threshold_metrics(y_validation: np.ndarray, validation_probabilities: np.ndarray,
+                                  has_identity_validation: np.ndarray, y_holdout: np.ndarray,
+                                  holdout_probabilities: np.ndarray, has_identity_holdout: np.ndarray) -> dict:
+    """One global F1-optimal threshold, blended across two very different
+    regimes (rows with device/identity data vs. rows without), is provably
+    wrong for at least one of them -- confirmed by direct measurement: the
+    same trained model scores 67.4% precision / 56.5% recall on the
+    identity-present holdout rows alone, but only 20.9% / 10.9% on the
+    identity-absent rows, using the single blended threshold. This picks the
+    F1-optimal threshold SEPARATELY within each segment (validation-only,
+    never holdout, same discipline as the single-threshold path) and applies
+    each segment's own threshold to its own holdout rows."""
+    threshold_with_identity = threshold_at_best_validation_f1(
+        y_validation[has_identity_validation], validation_probabilities[has_identity_validation])
+    threshold_without_identity = threshold_at_best_validation_f1(
+        y_validation[~has_identity_validation], validation_probabilities[~has_identity_validation])
+
+    predicted = np.zeros(len(y_holdout), dtype=int)
+    predicted[has_identity_holdout] = (holdout_probabilities[has_identity_holdout] >= threshold_with_identity).astype(int)
+    predicted[~has_identity_holdout] = (holdout_probabilities[~has_identity_holdout] >= threshold_without_identity).astype(int)
+
+    total_fraud = int(y_holdout.sum())
+    tp = int(((predicted == 1) & (y_holdout == 1)).sum())
+    fp = int(((predicted == 1) & (y_holdout == 0)).sum())
+    alerts = int(predicted.sum())
+    precision = tp / alerts if alerts else float("nan")
+    recall = tp / total_fraud if total_fraud else float("nan")
+    f1 = (2 * precision * recall / (precision + recall)) if (precision + recall) > 0 else 0.0
+    return {
+        "threshold_with_identity_data": round(float(threshold_with_identity), 6),
+        "threshold_without_identity_data": round(float(threshold_without_identity), 6),
+        "holdout_rows_with_identity": int(has_identity_holdout.sum()),
+        "holdout_rows_without_identity": int((~has_identity_holdout).sum()),
+        "alerts": alerts, "true_positive_alerts": tp, "false_positive_alerts": fp,
+        "precision": round(float(precision), 6) if precision == precision else None,
+        "recall": round(float(recall), 6) if recall == recall else None,
+        "f1": round(float(f1), 6),
+    }
+
+
 def run(verbose: bool = True) -> dict:
     if not TRANSACTION_PATH.exists() or not IDENTITY_PATH.exists():
         raise FileNotFoundError(
@@ -196,6 +237,14 @@ def run(verbose: bool = True) -> dict:
     holdout_probabilities = model.predict_proba(holdout[features])[:, 1]
 
     holdout_metrics = metrics_at_threshold(y_holdout, holdout_probabilities, threshold)
+
+    has_identity_validation = validation["DeviceType"].notna().to_numpy() if "DeviceType" in validation.columns else np.zeros(len(validation), dtype=bool)
+    has_identity_holdout = holdout["DeviceType"].notna().to_numpy() if "DeviceType" in holdout.columns else np.zeros(len(holdout), dtype=bool)
+    segmented_metrics = _segmented_threshold_metrics(
+        y_validation, validation_probabilities, has_identity_validation,
+        y_holdout, holdout_probabilities, has_identity_holdout,
+    )
+
     capacity_scenarios = [500, 1000, 2000, 5000, 10000]
     report = {
         "dataset": "IEEE-CIS Fraud Detection",
@@ -241,6 +290,7 @@ def run(verbose: bool = True) -> dict:
             top_k_metrics(y_holdout, holdout_probabilities, capacity)
             for capacity in capacity_scenarios
         ],
+        "segmented_threshold_by_identity_presence": segmented_metrics,
         "interpretation": {
             "primary_measure": "PR-AUC -- base fraud rate here is ~3.5%, far denser than ULB's "
                                "~0.17%, so accuracy is less distorted but still not the headline "
@@ -276,6 +326,13 @@ def run(verbose: bool = True) -> dict:
             print(f"  top {scenario['review_capacity']:,}: {scenario['true_positive_alerts']} true positives, "
                   f"{scenario['false_positive_alerts']} false positives, precision={scenario['precision']:.1%}, "
                   f"recall={scenario['recall']:.1%}")
+        sm = segmented_metrics
+        print(f"\nSegmented thresholds (chosen separately per segment, validation-only): "
+              f"with-identity threshold={sm['threshold_with_identity_data']:.3f}, "
+              f"without-identity threshold={sm['threshold_without_identity_data']:.3f}")
+        print(f"Segmented holdout: precision={sm['precision']:.1%}, recall={sm['recall']:.1%}, F1={sm['f1']:.3f} "
+              f"({sm['true_positive_alerts']} true positives, {sm['false_positive_alerts']} false positives) "
+              f"-- vs single-threshold precision={h['precision']:.1%}, recall={h['recall']:.1%}, F1={h['f1']:.3f}")
         print(f"Written -> {output}")
     return report
 

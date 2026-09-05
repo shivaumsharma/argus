@@ -22,6 +22,16 @@ DORMANT_FRAC = 0.4
 # inline, so that script calls this exact production function with an
 # overridden threshold rather than reimplementing the decision logic.
 DEVICE_CLEAR_ORGANIC_THRESHOLD = 3   # shared-device cluster clears if organic_score >= this
+# Tried lowering this to 2 -- cost_threshold_sensitivity.py's full-set sweep (dev+holdout combined)
+# showed 0/40 confounder FPs instead of 1/40 at identical ring recall. Reverted after checking dev
+# and holdout separately: dev-split evidence alone is 0 FP at BOTH threshold=2 and threshold=3 --
+# no dev signal favors 2 at all. The one FP that "improves" lives entirely in the holdout split
+# (holdout FP: 1/12 at threshold=3, 0/12 at threshold=2). Adopting 2 would mean picking a
+# production threshold specifically because it happens to erase a holdout failure -- exactly the
+# "tuned against the holdout" violation this project's own eval discipline forbids everywhere else.
+# Left as a genuine, disclosed finding (see docs/COST_THRESHOLD_SENSITIVITY.md) -- a real dev-split
+# tuning pass, done properly and before ever computing holdout numbers, could legitimately choose
+# 2 in the future; this isn't that.
 SOFT_CLEAR_ORGANIC_THRESHOLD = 2     # soft-only cluster clears if organic_score >= this
 SOFT_FLAG_SUSPICION_THRESHOLD = 3    # soft-only cluster flags if suspicion_score >= this
 
