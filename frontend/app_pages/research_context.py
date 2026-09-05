@@ -10,10 +10,77 @@ if str(FRONTEND_DIR) not in sys.path:
 st.title(":material/menu_book: Why this, why now")
 st.caption(
     "The technical pages on this dashboard show what Argus does. This page answers a different "
-    "question: is this a real research direction, is anyone else building it, has it worked anywhere "
-    "real, and why does a payments company that already owns a fraud-prevention product still have a "
-    "gap here? Every claim below is sourced — external links, not internal opinion."
+    "question: is this what the brief actually asked for, is it a real research direction, who else is "
+    "building it, has it worked anywhere real, and why does a payments company that already owns a "
+    "fraud-prevention product still have a gap here? Every claim below is sourced — external links, not "
+    "internal opinion."
 )
+
+st.space("large")
+
+# ==========================================================================
+# The actual brief, quoted
+# ==========================================================================
+st.header(":material/description: The actual brief — quoted, not paraphrased")
+with st.container(border=True):
+    st.markdown("**Track 02 — AI Risk Manager**")
+    st.markdown("*\"Detect risk. Explain it. Defend deterministically. Audit everything.\"*")
+    st.write(
+        "\"Merchants lose money through fraudulent and suspicious transactions, but they cannot manually "
+        "inspect every transaction. Simple blocklists are brittle, and black-box ML models reject "
+        "legitimate customers without explanation, creating a terrible customer experience.\""
+    )
+    st.write(
+        "\"The solution should combine **ML risk scoring**, **AI-generated evidence**, **deterministic "
+        "policy enforcement**, and **persistent audit trails** into a single, cohesive risk management "
+        "engine.\""
+    )
+    st.markdown(
+        "[Source: Razorpay AI Buildathon 2026 Track listings](https://velonx.in/blog/razorpay-ai-buildathon-2026-tracks-eligibility-stipend-selection-process)"
+    )
+
+st.write(
+    "That's four named requirements, not \"build an agent.\" Here's exactly where each one lives in "
+    "Argus, stage by stage:"
+)
+
+req_rows = [
+    {"Brief asks for": "ML risk scoring", "Argus's answer": "Stage 4 feature scoring",
+     "How": "Every candidate cluster is scored on real behavioral features — literally named "
+            "bonus_claim_velocity_hours (\"velocity\"), signup-burst tightness and order-value CV "
+            "(\"historical patterns\") — plus real trained classifiers (XGBoost/logistic regression) "
+            "used in External Validation. See the honest note below on why the primary path is "
+            "deterministic, not a trained model."},
+    {"Brief asks for": "AI-generated evidence", "Argus's answer": "Stage 8 — LLM writes the case",
+     "How": "This is the direct, literal answer to \"AI-generated evidence.\" The LLM never decides — it "
+            "writes a plain-English case from evidence Stage 1-5 already computed, after the verdict is "
+            "already fixed. That's why this feature exists: it's a named requirement, not an add-on."},
+    {"Brief asks for": "Deterministic policy enforcement", "Argus's answer": "Stage 5 confounder filter + bounded actions",
+     "How": "Explicit, auditable rules — not a model score — decide whether a flag survives, and every "
+            "surviving flag is bounded to exactly HOLD_BONUS / MANUAL_REVIEW / NO_ACTION. No code path "
+            "anywhere bans, blocks, or moves money on its own."},
+    {"Brief asks for": "Persistent audit trails", "Argus's answer": "audit_log table + Compliance/Audit log pages",
+     "How": "Every clustering decision and every LLM call is logged with its full input evidence and "
+            "output, queryable by cluster ID — see Compliance and Audit log."},
+]
+for row in req_rows:
+    with st.container(border=True):
+        c1, c2 = st.columns([1, 1.4])
+        c1.markdown(f"**{row['Brief asks for']}**\n\n→ {row['Argus\'s answer']}")
+        c2.caption(row["How"])
+
+with st.container(border=True):
+    st.markdown(":material/info: **The one honest trade-off — stated plainly, not hidden**")
+    st.write(
+        "The brief says \"ML model.\" Argus's primary decision path (Stages 1-5) is deterministic graph "
+        "clustering and rule-based scoring, not a trained model — a deliberate choice, made for the exact "
+        "reason the brief itself states: \"black-box ML models reject legitimate customers without "
+        "explanation.\" Real trained ML classifiers do exist in this project (XGBoost/logistic regression "
+        "in External Validation, evaluated against 5 real datasets) — they're used to test whether the "
+        "detection signal survives without the deterministic shortcut, not as the thing that decides a "
+        "real merchant's payout. That's a considered answer to the brief's own stated pain point, not a "
+        "gap in reading it."
+    )
 
 st.space("large")
 
@@ -31,26 +98,28 @@ papers = [
     ("CARE-GNN — CIKM 2020", "Dou, Liu, Sun, Deng, Peng, Yu",
      "\"Enhancing Graph Neural Network-based Fraud Detectors against Camouflaged Fraudsters.\" Introduced "
      "the YelpChi and Amazon multi-relation fraud graphs Argus is externally validated against — the "
-     "same benchmark, not a look-alike.",
+     "same benchmark, not a look-alike. A trained GNN that learns node embeddings end-to-end.",
      "https://dl.acm.org/doi/10.1145/3340531.3411903"),
     ("PC-GNN — WWW 2021", "Liu, Ao, Qin, Chi, Feng, Yang, He",
      "\"Pick and Choose: A GNN-based Imbalanced Learning Approach for Fraud Detection.\" A second, "
      "independent model published against the same YelpChi/Amazon graphs — the field's own standard "
-     "comparison point.",
+     "comparison point. Solves class imbalance via sampling, still a trained black-box embedding.",
      "https://dl.acm.org/doi/10.1145/3442381.3449989"),
     ("FRAUDAR — KDD 2016 (best paper)", "Hooi, Shah, Hooi, Beutel, Günnemann, Akoglu, Kumar, Basu, Faloutsos",
      "The densest-subgraph, camouflage-resistant detection algorithm Argus runs as its own independent "
-     "cross-check (see External Validation) — a published method, not our own code marking its own work.",
+     "cross-check (see External Validation) — a published method, not our own code marking its own work. "
+     "A single detection algorithm, not an end-to-end decision system.",
      "https://bhooi.github.io/papers/fraudar_kdd16.pdf"),
     ("PromoGuardian — arXiv 2025 / IEEE S&P 2026", "(Meituan + academic co-authors)",
      "\"Detecting Promotion Abuse Fraud with Multi-Relation Fused Graph Neural Networks.\" The closest "
      "published match to Argus's actual problem — promo-abuse ring detection via a multi-relation graph "
-     "— deployed and evaluated on Meituan's real platform.",
+     "— deployed and evaluated on Meituan's real platform. Still a trained GNN, no confounder-innocence "
+     "stage, no audit trail, no bounded-action governance.",
      "https://arxiv.org/abs/2510.12652"),
     ("FLAG — KDD 2025", "(fraud detection research track)",
-     "\"Fraud Detection with LLM-enhanced Graph Neural Network.\" Independent confirmation that pairing "
-     "graph-based detection with an LLM layer — Argus's own Stage 8 — is where current research is "
-     "heading, not a novelty invented here.",
+     "\"Fraud Detection with LLM-enhanced Graph Neural Network.\" Confirms the field is heading toward "
+     "graph + LLM combinations — but the LLM there sits *inside* the model, enhancing representations, "
+     "not strictly downstream of a fixed, already-final verdict the way Stage 8 is here.",
      "https://arxiv.org/abs/2601.06800"),
 ]
 for title, authors, desc, url in papers:
@@ -68,36 +137,134 @@ st.caption(
 st.space("large")
 
 # ==========================================================================
+# Where Argus differs
+# ==========================================================================
+st.header(":material/fork_right: Where Argus actually differs — the specific, not the generic, answer")
+st.write(
+    "Five papers above all say some version of \"graphs help catch fraud rings.\" That's not a "
+    "differentiator by itself — it's the shared premise. What none of the five ship, together, is this "
+    "combination:"
+)
+diffs = [
+    ("Fully explainable by construction, not post-hoc", "CARE-GNN, PC-GNN, and PromoGuardian all learn "
+     "opaque node embeddings — a trained vector, not a reason. Every Argus flag traces to a literal graph "
+     "edge and a literal feature threshold, because the primary path was never a trained model to begin "
+     "with (see the brief mapping above)."),
+    ("A dedicated stage that argues for innocence, not just absence of guilt", "None of the five papers "
+     "have an equivalent of Stage 5: a rule stage that actively looks for evidence a dense cluster is "
+     "organic (spread-out activity, varied spending, ongoing engagement) and suppresses the flag. Academic "
+     "benchmarks optimize precision/recall on a fixed test set; they don't ship a legitimacy-defense stage."),
+    ("The LLM is strictly downstream, never inside the decision", "FLAG pairs an LLM with a GNN, but the "
+     "LLM there participates in the model's own reasoning. Stage 8 only writes up a verdict Stages 1-5 "
+     "already fixed — it cannot change it. That's a narrower, more governable claim than \"LLM-enhanced.\""),
+    ("A governance layer that finds its own blind spots", "None of the five publish an equivalent of the "
+     "adversarial recommender: a system that continuously probes its own frozen pipeline for evasion gaps, "
+     "drafts one bounded fix, and simulates both sides of the trade-off — for a human to approve or reject, "
+     "never auto-applied."),
+    ("Cross-domain validation plus a leak-detection safeguard", "Most papers validate on one or two "
+     "benchmarks. Argus validates on five independent domains (review fraud ×2, Bitcoin, card fraud ×2) "
+     "and ships a standing 14-function test that fails hard if ground truth ever leaks into a detection "
+     "score again — built after finding and fixing exactly that leak in this project's own early attempt."),
+]
+for title, desc in diffs:
+    with st.container(border=True):
+        st.markdown(f"**{title}**")
+        st.caption(desc)
+
+st.space("large")
+
+# ==========================================================================
 # Who else is building this
 # ==========================================================================
 st.header(":material/domain: Who else is building this, commercially")
 st.write(
-    "This isn't a hypothetical market. Real, funded companies sell graph/network-based fraud detection "
-    "today, and at least two publish promo/referral abuse as a named use case."
+    "This isn't a hypothetical market. Real, well-funded companies sell graph/network-based fraud "
+    "detection today, and at least two publish promo/referral abuse as a named use case."
 )
 
 companies = [
-    ("Feedzai", "RiskOps platform for large banks and payment processors; ships graph-based investigation "
-                "tools that visualize account/device/behavior relationships to surface organized, "
-                "multi-account fraud specifically."),
+    ("Feedzai", "\\$347M raised across 7 rounds, \\$2B valuation (Series E, \\$75M, Oct 2025). RiskOps platform "
+                "for large banks and payment processors; ships graph-based investigation tools that "
+                "visualize account/device/behavior relationships to surface organized, multi-account fraud "
+                "specifically.",
+     "https://tracxn.com/d/companies/feedzai/__G4s4nyVCkwETmfEv7u2OcHiuM9rifirEcBfj1c7YATE"),
+    ("Forter", "\\$525M raised total (\\$300M single round, 2021). Network intelligence combined with risk "
+               "scoring, explicitly marketed for fraud patterns that only reveal themselves through "
+               "relationships between accounts, not single transactions.",
+     "https://www.cbinsights.com/compare/feedzai-vs-forter"),
     ("DataVisor", "Unsupervised ML (UML) plus graph/device intelligence built to catch coordinated attacks "
                   "with zero prior examples — the same \"rings look normal one at a time\" problem Argus "
-                  "targets, at production scale."),
-    ("Forter", "Network intelligence combined with risk scoring, explicitly marketed for fraud patterns "
-               "that only reveal themselves through relationships between accounts, not single transactions."),
-    ("Sardine", "Publishes promo-abuse detection as a named product line — their own framing, \"a strategic "
-               "infrastructure shift,\" for the exact loss type this project's primary demo targets."),
+                  "targets. Serves financial institutions, credit unions, and digital payment platforms "
+                  "at production scale.",
+     "https://www.datavisor.com/blog/top-10-fraud-platforms-plus-evaluation-criteria-challenges-and-trends"),
+    ("Sardine", "\\$70M Series C. API-based fraud/compliance platform for fintechs, neobanks, and payment "
+               "companies, combining behavioral analytics, device intelligence, and transaction "
+               "monitoring. Publishes promo-abuse detection as a named product line — their own framing, "
+               "\"a strategic infrastructure shift\" — for the exact loss type Argus's primary demo targets.",
+     "https://www.sardine.ai/blog/series-c-announcement"),
     ("SHIELD", "Sells referral- and promo-abuse detection as a dedicated use case, aimed at the same "
-              "device/account-linkage signals Argus's Stage 1 graph is built from."),
+              "device/account-linkage signals Argus's Stage 1 graph is built from.",
+     "https://shield.com/use-cases/referral-promo-abuse"),
     ("Featurespace", "ARIC Risk Hub — adaptive behavioral analytics modeling what \"normal\" looks like per "
-                     "customer, the same organic-evidence philosophy behind Argus's Stage 5 confounder filter."),
+                     "customer, the same organic-evidence philosophy behind Argus's Stage 5 confounder "
+                     "filter.",
+     "https://www.fraudio.com/roundups/best-ai-fraud-detection-software"),
 ]
 cols = st.columns(2)
-for i, (name, desc) in enumerate(companies):
+for i, (name, desc, url) in enumerate(companies):
     with cols[i % 2]:
         with st.container(border=True):
             st.markdown(f"**{name}**")
             st.caption(desc)
+            st.markdown(f"[Source]({url})")
+
+st.space("large")
+
+# ==========================================================================
+# Where India stands
+# ==========================================================================
+st.header(":material/flag: Where India stands, specifically")
+st.write(
+    "None of the six companies above are Indian. Here's who is — and, based on public materials, what "
+    "they actually cover."
+)
+
+india = [
+    ("Bureau", "Real-time fraud prevention and identity decisioning, combining device fingerprinting, "
+              "behavior, identity, network, and transaction data for onboarding/authentication/payment "
+              "decisions. The closest Indian player to Argus's own signal mix.",
+     "https://bureau.id/"),
+    ("IDfy", "Mumbai-headquartered — \"Asia's trust stack company.\" Identity verification, AML, and "
+             "background-check platform spanning KYC to employee verification.",
+     "https://en.wikipedia.org/wiki/IDfy"),
+    ("Signzy", "AI-powered liveness and deepfake detection, device fingerprinting, and behavioral "
+               "analysis for KYC — the only Indian platform named a notable innovator by Gartner in this "
+               "space.",
+     "https://www.signzy.com/blogs/signzy-one-touch-kyc-in-gartner"),
+    ("Karza (Perfios)", "Data-heavy verification connected to broader risk analytics — who someone is, "
+                        "plus their risk profile for lending/business decisions.",
+     "https://hyperverge.co/blog/karza-competitors/"),
+    ("HyperVerge", "Identity verification and onboarding-risk platform, commonly compared alongside "
+                   "Signzy/IDfy/Karza in this market.",
+     "https://hyperverge.co/blog/karza-competitors/"),
+]
+for name, desc, url in india:
+    with st.container(border=True):
+        st.markdown(f"**{name}**")
+        st.caption(desc)
+        st.markdown(f"[Source]({url})")
+
+with st.container(border=True):
+    st.markdown(":material/warning: **The honest whitespace finding**")
+    st.write(
+        "Every Indian player found here — including Razorpay's own Thirdwatch — is concentrated on KYC, "
+        "identity verification, device fingerprinting, or per-transaction/per-entity risk scoring. Based "
+        "on public materials (not an exhaustive audit), **none publicly market graph-based, multi-account "
+        "coordinated-ring detection as a named capability** the way Feedzai, DataVisor, or PromoGuardian "
+        "do globally. That gap — not \"India lacks fraud tools,\" India has strong ones — is specifically "
+        "in relationship-based, multi-account ring detection. It's the same gap Track 02's own brief "
+        "points at."
+    )
 
 st.space("large")
 
@@ -105,7 +272,7 @@ st.space("large")
 # What's actually been achieved
 # ==========================================================================
 st.header(":material/monitoring: What's actually been achieved, in the real world")
-st.write("Three real, cited outcomes — not projections:")
+st.write("Two real, cited external outcomes — not projections:")
 
 with st.container(border=True):
     st.markdown("**PromoGuardian on Meituan's real platform**")
@@ -120,48 +287,103 @@ with st.container(border=True):
     st.write(
         "Investigation found synthetic identities and duplicate-account networks exploiting sign-up and "
         "referral incentives; tightening device checks and eligibility rules recovered an estimated "
-        "$300,000 in prevented losses — the same abuse pattern, same fix category (device/account "
+        "\\$300,000 in prevented losses — the same abuse pattern, same fix category (device/account "
         "linkage), as Argus's primary demo."
     )
     st.markdown("[Source: Sardine — Promo Abuse Detection](https://www.sardine.ai/blog/promo-abuse)")
-
-with st.container(border=True):
-    st.markdown("**Razorpay's own Thirdwatch (Mitra), for context**")
-    st.write(
-        "Razorpay acquired Thirdwatch in 2019; its Mitra platform scores roughly 200 parameters per "
-        "transaction to generate a real-time trust score, and is credited with an 80% reduction in "
-        "e-commerce fraud losses for merchants using it. Real, working, and — as the next section covers "
-        "— solving a structurally different problem than the one this project targets."
-    )
-    st.markdown("[Source: Razorpay Blog — Thirdwatch acquisition](https://razorpay.com/blog/thirdwatch-acquisition-rto-fraud-ecommerce/)")
 
 st.space("large")
 
 # ==========================================================================
 # The gap at Razorpay, specifically
 # ==========================================================================
-st.header(":material/search: The gap this fills — stated precisely, not as a knock on what exists")
+st.header(":material/search: The gap this fills, at Razorpay specifically")
 with st.container(border=True):
+    st.markdown("**What Thirdwatch (Mitra) already does — in detail, not a one-liner**")
     st.write(
-        "Razorpay is not starting from zero on fraud. Thirdwatch's Mitra engine already does real-time, "
-        "per-transaction risk scoring, and its published results are genuinely strong. That's the honest "
-        "starting point — not a claim that Razorpay's fraud stack is weak."
+        "Razorpay acquired Thirdwatch in 2019. Its Mitra engine scores roughly 200 parameters **per "
+        "transaction** in real time — address completeness, order patterns, historical behavior of that "
+        "one account — to output a trust score, and is credited with an 80% reduction in e-commerce fraud "
+        "and RTO losses for merchants using it. That's real, deployed, and the published number is "
+        "strong. This is the honest starting point, not a claim that Razorpay's fraud stack is weak."
     )
+    st.markdown("[Source: Razorpay Blog — Thirdwatch acquisition](https://razorpay.com/blog/thirdwatch-acquisition-rto-fraud-ecommerce/)")
+
+with st.container(border=True):
+    st.markdown("**What Argus does differently — precisely, not just \"graphs vs rows\"**")
     st.write(
-        "But per-transaction scoring is architecturally a *row-level* method: it asks \"is this one "
-        "transaction risky,\" account by account, order by order. A promo/referral farming ring is built "
-        "specifically to defeat exactly that question — every individual account in the ring is designed "
-        "to look ordinary on its own. The fraud only exists in the **relationship** between accounts: the "
-        "same device behind thirteen signups, a referral bonus claimed in hours instead of weeks. No "
-        "amount of tuning a per-row score reaches that signal, because the signal was never in any single "
-        "row to begin with."
+        "Mitra's unit of analysis is one transaction. Argus's unit of analysis is a **cluster of "
+        "accounts** — it asks a question Mitra structurally cannot ask: do these thirteen separately-"
+        "ordinary accounts share a device, a payment instrument, or a suspiciously fast referral chain? "
+        "A farming ring is specifically built so every individual transaction inside it passes a "
+        "per-row trust check — that's what makes it a ring instead of a single bad actor. Scoring harder "
+        "at the row level cannot see a pattern that was never encoded in any single row."
     )
+
+with st.container(border=True):
+    st.markdown("**Why they need this, specifically**")
     st.write(
-        "That's not a hypothetical gap. This exact problem — coordinated, multi-account promo/referral "
-        "abuse — is the one Razorpay's own AI Buildathon Track 02 asked teams to solve from scratch, "
-        "rather than pointing to an existing internal system. The clearest evidence the gap is real is "
-        "that the brief exists at all."
+        "Three independent signals point at the same gap: (1) Track 02's own brief was posed as an open "
+        "problem — evidence Razorpay doesn't consider it solved internally. (2) Every Indian fraud vendor "
+        "surveyed above, Thirdwatch included, is a per-transaction or identity-verification tool, not a "
+        "ring-detection one. (3) Globally, the companies that *do* sell this (Feedzai, DataVisor) are "
+        "enterprise-tier platforms built for large banks, not a promo/referral-specific engine tuned to "
+        "Razorpay's own merchant traffic. Argus is a working, validated answer to a gap that's real by "
+        "all three measures — not a hypothetical one argued from first principles."
     )
+
+st.space("large")
+
+# ==========================================================================
+# What Argus actually tracks
+# ==========================================================================
+st.header(":material/hub: What Argus actually tracks to detect a ring")
+st.write(
+    "Concretely, not abstractly — the exact signals Stage 1 links accounts on, and Stage 4 scores a "
+    "cluster against:"
+)
+sig_cols = st.columns(2)
+with sig_cols[0]:
+    with st.container(border=True):
+        st.markdown("**Stage 1 — linkage signals (build the graph)**")
+        st.markdown(
+            "- Shared payment instrument *(hard)*\n"
+            "- Shared device fingerprint *(hard)*\n"
+            "- IP-subnet overlap *(soft)*\n"
+            "- Referral link, weighted by claim speed *(soft)*"
+        )
+with sig_cols[1]:
+    with st.container(border=True):
+        st.markdown("**Stage 4 — behavioral signals (score the cluster)**")
+        st.markdown(
+            "- Signup-burst tightness (days, not months)\n"
+            "- Bonus-claim velocity (hours since signup)\n"
+            "- Order-value templating (coefficient of variation)\n"
+            "- Claim-then-dormant fraction\n"
+            "- Post-signup engagement (sessions after the claim)"
+        )
+
+st.markdown("**The same signal philosophy, adapted per dataset — not reused blindly**")
+signal_table = [
+    {"Dataset": "Primary demo (referral abuse)", "Hard signal": "shared device / instrument",
+     "Soft signal": "IP subnet, referral timing", "Note": "The reference design"},
+    {"Dataset": "COD collusion (2nd loss type)", "Hard signal": "shared delivery address",
+     "Soft signal": "shared phone-number prefix", "Note": "Same Stage 2/3 code, new edge vocabulary"},
+    {"Dataset": "YelpChi (real)", "Hard signal": "same reviewer (net_rur)",
+     "Soft signal": "same product+month, same product+rating+week", "Note": "Real relations from CARE-GNN's own graph"},
+    {"Dataset": "Amazon (real)", "Hard signal": "same product reviewed (net_upu)",
+     "Soft signal": "text-similarity (net_uvu)", "Note": "One relation (net_usu) excluded — too dense to discriminate"},
+    {"Dataset": "Elliptic (real Bitcoin)", "Hard signal": "none — a payment isn't an identity signal",
+     "Soft signal": "payment flow between transactions", "Note": "Correctly finds 0 hard clusters, by design"},
+    {"Dataset": "IEEE-CIS (real card fraud)", "Hard signal": "card + day-adjusted UID",
+     "Soft signal": "device info", "Note": "Billing address deliberately excluded — see External Validation"},
+]
+st.dataframe(signal_table, hide_index=True, width="stretch")
+st.caption(
+    "ULB (real card fraud) isn't in this table on purpose — it has no account, card, or device field at "
+    "all, so no signal table applies; see External Validation for why that's a property of the dataset, "
+    "not a gap in the method."
+)
 
 st.space("large")
 
