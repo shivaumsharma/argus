@@ -19,6 +19,120 @@ st.caption(
 st.space("large")
 
 # ==========================================================================
+# Architecture diagram
+# ==========================================================================
+st.header(":material/schema: The architecture, end to end")
+st.write(
+    "One picture of what actually runs, stage by stage — the same eight stages named throughout this "
+    "dashboard, not a simplified marketing version of them."
+)
+_ARCH_SVG = """
+<svg viewBox="0 0 680 1180" xmlns="http://www.w3.org/2000/svg" style="width:100%;height:auto;font-family:-apple-system,Segoe UI,Helvetica,Arial,sans-serif;">
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7e8a9e"/>
+    </marker>
+  </defs>
+  <rect width="680" height="1180" fill="#0b0e14"/>
+
+  <!-- Raw data -->
+  <rect x="90" y="10" width="500" height="60" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="340" y="34" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">Raw data</text>
+  <text x="340" y="54" fill="#7e8a9e" font-size="11" text-anchor="middle">accounts · sessions · referrals · payment_instruments · orders</text>
+  <line x1="340" y1="70" x2="340" y2="100" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 1 -->
+  <rect x="90" y="100" width="500" height="60" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="340" y="124" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">Stage 1 — Graph construction (graph_build.py)</text>
+  <text x="340" y="144" fill="#7e8a9e" font-size="11" text-anchor="middle">shared device / instrument / IP subnet / referral = an edge</text>
+  <line x1="230" y1="160" x2="180" y2="195" stroke="#e74c3c" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="160" x2="500" y2="195" stroke="#8e44ad" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 2 / Stage 3 -->
+  <rect x="30" y="200" width="320" height="70" rx="8" fill="#181d29" stroke="#e74c3c" stroke-width="1.5"/>
+  <text x="190" y="226" fill="#ece8df" font-size="12.5" font-weight="600" text-anchor="middle">Stage 2 — Hard-signal clustering</text>
+  <text x="190" y="244" fill="#7e8a9e" font-size="10.5" text-anchor="middle">connected components —</text>
+  <text x="190" y="258" fill="#7e8a9e" font-size="10.5" text-anchor="middle">device/instrument edges only</text>
+
+  <rect x="330" y="200" width="320" height="70" rx="8" fill="#181d29" stroke="#8e44ad" stroke-width="1.5"/>
+  <text x="490" y="226" fill="#ece8df" font-size="12.5" font-weight="600" text-anchor="middle">Stage 3 — Soft-signal clustering</text>
+  <text x="490" y="244" fill="#7e8a9e" font-size="10.5" text-anchor="middle">Louvain community detection —</text>
+  <text x="490" y="258" fill="#7e8a9e" font-size="10.5" text-anchor="middle">full weighted graph</text>
+
+  <line x1="190" y1="270" x2="300" y2="305" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="490" y1="270" x2="380" y2="305" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 4 -->
+  <rect x="90" y="310" width="500" height="60" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="340" y="334" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">Stage 4 — Cluster feature scoring (features.py)</text>
+  <text x="340" y="354" fill="#7e8a9e" font-size="11" text-anchor="middle">burst timing · order-value templating · dormancy · engagement — still deterministic</text>
+  <line x1="340" y1="370" x2="340" y2="400" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 5 -->
+  <rect x="90" y="400" width="500" height="60" rx="8" fill="#181d29" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="340" y="424" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">Stage 5 — Confounder filter (confounder_filter.py)</text>
+  <text x="340" y="444" fill="#7e8a9e" font-size="11" text-anchor="middle">explainable rules — actively looks for evidence a cluster is legitimate</text>
+  <line x1="230" y1="460" x2="180" y2="495" stroke="#27ae60" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="460" x2="500" y2="495" stroke="#e3a94a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Suppressed / Flagged -->
+  <rect x="30" y="500" width="320" height="55" rx="8" fill="#12251c" stroke="#27ae60" stroke-width="1.5"/>
+  <text x="190" y="524" fill="#8fd6ac" font-size="12.5" font-weight="600" text-anchor="middle">Suppressed</text>
+  <text x="190" y="542" fill="#7e8a9e" font-size="10.5" text-anchor="middle">left alone — no further action</text>
+
+  <rect x="330" y="500" width="320" height="55" rx="8" fill="#241c0f" stroke="#e3a94a" stroke-width="1.5"/>
+  <text x="490" y="524" fill="#e3a94a" font-size="12.5" font-weight="600" text-anchor="middle">Flagged</text>
+  <text x="490" y="542" fill="#7e8a9e" font-size="10.5" text-anchor="middle">survives to Stage 8</text>
+
+  <line x1="490" y1="555" x2="490" y2="580" stroke="#e3a94a" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Stage 8 -->
+  <rect x="90" y="585" width="500" height="60" rx="8" fill="#181d29" stroke="#e3a94a" stroke-width="1.5"/>
+  <text x="340" y="609" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">Stage 8 — LLM investigation layer (llm_investigate.py)</text>
+  <text x="340" y="629" fill="#7e8a9e" font-size="11" text-anchor="middle">"AI-generated evidence" — writes the case, never decides</text>
+  <line x1="340" y1="645" x2="340" y2="675" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Output -->
+  <rect x="90" y="680" width="500" height="70" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="340" y="704" fill="#ece8df" font-size="12.5" font-weight="600" text-anchor="middle">case_summary · confidence · key_evidence</text>
+  <text x="340" y="724" fill="#7e8a9e" font-size="11" text-anchor="middle">recommended_action ∈ {HOLD_BONUS, MANUAL_REVIEW, NO_ACTION}</text>
+  <text x="340" y="740" fill="#7e8a9e" font-size="10" text-anchor="middle">— bounded; a human executes</text>
+  <line x1="340" y1="750" x2="340" y2="780" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Storage -->
+  <rect x="90" y="785" width="500" height="60" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="340" y="809" fill="#ece8df" font-size="13" font-weight="600" text-anchor="middle">SQLite — clusters + audit_log</text>
+  <text x="340" y="829" fill="#7e8a9e" font-size="11" text-anchor="middle">"persistent audit trails" — every decision, queryable by cluster ID</text>
+  <line x1="230" y1="845" x2="180" y2="880" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+  <line x1="450" y1="845" x2="500" y2="880" stroke="#7e8a9e" stroke-width="1.5" marker-end="url(#arrow)"/>
+
+  <!-- Consumers -->
+  <rect x="30" y="885" width="320" height="55" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="190" y="917" fill="#ece8df" font-size="12.5" font-weight="600" text-anchor="middle">Streamlit dashboard</text>
+
+  <rect x="330" y="885" width="320" height="55" rx="8" fill="#181d29" stroke="#2a3142" stroke-width="1.5"/>
+  <text x="490" y="917" fill="#ece8df" font-size="12.5" font-weight="600" text-anchor="middle">FastAPI read-only service</text>
+
+  <!-- Legend -->
+  <rect x="90" y="965" width="500" height="185" rx="8" fill="#12151d" stroke="#232838" stroke-width="1"/>
+  <text x="115" y="992" fill="#7e8a9e" font-size="10.5" font-weight="600" letter-spacing="0.06em">LEGEND</text>
+  <circle cx="122" cy="1012" r="5" fill="#e74c3c"/><text x="135" y="1016" fill="#a9afc0" font-size="11">Hard signal — near-certain (device / instrument)</text>
+  <circle cx="122" cy="1034" r="5" fill="#8e44ad"/><text x="135" y="1038" fill="#a9afc0" font-size="11">Soft signal — circumstantial (IP / referral timing)</text>
+  <circle cx="122" cy="1056" r="5" fill="#27ae60"/><text x="135" y="1060" fill="#a9afc0" font-size="11">Deterministic clearance — Stage 5's own rules</text>
+  <circle cx="122" cy="1078" r="5" fill="#e3a94a"/><text x="135" y="1082" fill="#a9afc0" font-size="11">AI-generated evidence — Stage 8 only, strictly downstream</text>
+  <text x="115" y="1112" fill="#7e8a9e" font-size="10.5">Stages 1-5 decide. Stage 8 only writes up what was already decided.</text>
+  <text x="115" y="1130" fill="#7e8a9e" font-size="10.5">No code path anywhere bans, blocks, or moves money on its own.</text>
+</svg>
+"""
+st.markdown(_ARCH_SVG, unsafe_allow_html=True)
+st.caption(
+    "Same eight stages as docs/ARCHITECTURE.md's own canonical diagram — this is a rendering of the real "
+    "pipeline, not a simplified pitch version of it."
+)
+
+st.space("large")
+
+# ==========================================================================
 # The actual brief, quoted
 # ==========================================================================
 st.header(":material/description: The actual brief — quoted, not paraphrased")
@@ -384,6 +498,60 @@ st.caption(
     "all, so no signal table applies; see External Validation for why that's a property of the dataset, "
     "not a gap in the method."
 )
+
+st.space("large")
+
+# ==========================================================================
+# Future escalation
+# ==========================================================================
+st.header(":material/trending_up: Future escalation — what's next, not just what's done")
+st.write(
+    "Every item below is a real, already-diagnosed finding from this project's own testing — not a "
+    "wishlist. Each one names the specific number that motivates it."
+)
+
+st.markdown("**Immediate — diagnosed and scoped, not yet built**")
+immediate = [
+    ("Elliptic: ensemble past its structural ceiling", "75% of real illicit Bitcoin transactions have zero "
+     "connection to any other illicit transaction — the graph is already near its ~25% recall ceiling. "
+     "Next: OR the soft-cluster flag with the label-blind classifier's independent score to reach past it."),
+    ("IEEE-CIS: segment-specific thresholds", "The same trained model scores 67%/56% (precision/recall) on "
+     "identity-rich rows vs. 21%/11% on identity-poor rows — one blended threshold serves neither well. "
+     "Next: two thresholds, or an explicit identity-presence interaction feature."),
+    ("YelpChi: per-node scoring inside diluted clusters", "99.2% of fraud accounts DO sit next to other "
+     "fraud in the graph, but Louvain dilutes most of them into majority-organic clusters. Next: score "
+     "individual nodes within a cluster, not just the cluster as a whole."),
+    ("Cost-threshold: the already-found, not-yet-applied fix", "The device-branch threshold has a strict, "
+     "same-recall, fewer-false-positive improvement available (3→2) — found during sensitivity analysis, "
+     "deliberately not applied yet to preserve this project's held-out-eval discipline. A real dev-split "
+     "tuning pass would apply it properly."),
+]
+for title, desc in immediate:
+    with st.container(border=True):
+        st.markdown(f"**{title}**")
+        st.caption(desc)
+
+st.markdown("**Near-term — feature parity across loss types**")
+with st.container(border=True):
+    st.write(
+        "COD collusion (the second loss type) currently writes to its own JSON file, not the shared "
+        "audit_log table, and has no live-injection demo — both are real, named gaps in this project's own "
+        "docs (docs/SECOND_LOSS_TYPE.md), not oversights discovered late. Closing them brings the second "
+        "loss type to the same operational maturity as the first, rather than leaving it a smaller "
+        "proof-of-reuse."
+    )
+
+st.markdown("**Long-term — the 6-month version, tied to real signal**")
+with st.container(border=True):
+    st.write(
+        "Everything validated so far runs against synthetic data or public external benchmarks, because "
+        "that's what's available outside Razorpay. The highest-leverage next step isn't more tuning — it's "
+        "running this same, unmodified Stage 1-5 mechanism against Razorpay's own real merchant graph, "
+        "where the linkage data this architecture actually needs (real device fingerprints, real payment "
+        "instruments, real referral chains) already exists internally. Everything on this dashboard was "
+        "built to make that step low-risk: deterministic, auditable, and bounded to a human-executed "
+        "action before it ever touches real money."
+    )
 
 st.space("large")
 
