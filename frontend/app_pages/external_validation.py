@@ -29,10 +29,33 @@ st.caption(
 
 version = ensure_version()
 ev = cached_external_validation_report(version)
+ic = cached_ieee_cis_report(version)
 
 if not ev:
     st.info("Run `python -m backend.external_validation.run all` to generate this.", icon=":material/info:")
     st.stop()
+
+with st.expander(":material/history: Iteration log — 4 things tried since the last review, one shipped", expanded=True):
+    st.caption(
+        "Every row is a real before/after, computed by re-running the actual pipeline — not a retrospective "
+        "narrative. Three didn't clear the bar and were left out of production, disclosed here rather than "
+        "hidden. Full detail in each dataset's own section below."
+    )
+    st.dataframe(
+        [
+            {"Tried": "Elliptic: OR classifier flag onto graph flag", "Before": "18.0% recall / 79.1% precision (graph alone)",
+             "After": "95.2% recall / 93.96% precision (ensemble)", "Decision": "Shipped"},
+            {"Tried": "IEEE-CIS: per-segment thresholds (identity present/absent)", "Before": "F1 0.429 (single threshold)",
+             "After": "F1 0.397 (segmented)", "Decision": "Reverted — worse"},
+            {"Tried": "YelpChi: flag individual accounts inside diluted clusters", "Before": "17.0% recall / 99.2% precision",
+             "After": "17.1% recall / 87.7% precision (+6 accounts)", "Decision": "Not adopted — no real gain"},
+            {"Tried": "Amazon: same per-node check", "Before": "1.1% recall / 81.8% precision",
+             "After": "41.1% recall / 9.1% precision", "Decision": "Not adopted — precision collapses"},
+            {"Tried": "Confounder device threshold 3→2", "Before": "2.5% confounder FP rate (1/40)",
+             "After": "0% on the full sweep, but the gain lives entirely in holdout", "Decision": "Reverted — holdout-only"},
+        ],
+        hide_index=True, width="stretch",
+    )
 
 # ==========================================================================
 # YelpChi
@@ -385,7 +408,6 @@ st.caption(
 )
 
 ulb = cached_ulb_report(version)
-ic = cached_ieee_cis_report(version)
 icg = cached_ieee_cis_graph_report(version)
 
 if not ulb and not ic:
