@@ -63,7 +63,7 @@ venv\Scripts\pip install -r requirements.txt          # Windows
 python -m backend.generate_data                        # Day 1 — synthetic accounts + planted rings/confounders
 python -m backend.pipeline.run_pipeline                 # Stages 1-5 — graph, clustering, scoring, filter
 python -m backend.pipeline.eval                          # precision/recall vs. ground truth
-python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set ANTHROPIC_API_KEY or GEMINI_API_KEY for live mode)
+python -m backend.llm_investigate                        # Stage 8 — LLM case writeups (set GEMINI_API_KEY or GOOGLE_API_KEY for live mode)
 python -m backend.confidence_calibration                 # does self-reported LLM confidence track ground truth?
 python -m backend.fairness_audit                          # does the confounder false-positive rate skew by geographic tier?
 python -m backend.cost_threshold_sensitivity               # real ₹ FN cost + assumption-labeled FP cost -> does the "right" threshold shift?
@@ -86,7 +86,7 @@ streamlit run frontend/streamlit_app.py                    # dashboard, includin
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
 ```
 
-Stage 8 tries providers in order and degrades gracefully: **Claude** (`ANTHROPIC_API_KEY`) → **Gemini free tier** (`GEMINI_API_KEY` or `GOOGLE_API_KEY`, no billing required — get one at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)) → a clearly-labeled deterministic template writeup. With no credentials at all, the pipeline still runs end to end on the template. Model choice matters here: the newest `gemini-3.6-flash` turned out to carry a free-tier quota of only 20 requests/**day** (not minute) per project — it's a brand-new model, presumably still ramping up its free allocation — so Stage 8 uses `gemini-flash-lite-latest` instead, whose free tier is roughly 1,000 requests/day and ~30/minute, comfortably enough for a full investigation run.
+Stage 8 tries the configured LLM provider, then degrades gracefully to the **Gemini free tier** (`GEMINI_API_KEY` or `GOOGLE_API_KEY`, no billing required — get one at [aistudio.google.com/apikey](https://aistudio.google.com/apikey)) and finally to a clearly-labeled deterministic template writeup. With no credentials at all, the pipeline still runs end to end on the template. Model choice matters here: the newest `gemini-3.6-flash` turned out to carry a free-tier quota of only 20 requests/**day** (not minute) per project — it's a brand-new model, presumably still ramping up its free allocation — so Stage 8 uses `gemini-flash-lite-latest` instead, whose free tier is roughly 1,000 requests/day and ~30/minute, comfortably enough for a full investigation run.
 
 ## Project layout
 
