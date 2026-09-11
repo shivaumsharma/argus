@@ -16,15 +16,25 @@ role CTU-13's "Background" traffic and this project's own household/hostel
 confounders play elsewhere: dense, legitimate sharing that must be told
 apart from coordination, not detection's actual target.
 
-Data: Stratosphere Laboratory's CTU-13 dataset (CC-BY), scenario 11
-("Botnet-52", RBot malware, ~16 minutes of capture), the detailed
-bidirectional-netflow file recommended by the dataset's own README
-("these are the files you should use for your research"):
-mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-52/
-detailed-bidirectional-flow-labels/capture20110818-2.binetflow
-Chosen over the other 12 scenarios for tractable size (~107K flows) while
-staying a genuine, unmodified, independently-labeled capture -- not
-subsampled or filtered before being placed here.
+Data: Stratosphere Laboratory's CTU-13 dataset (CC-BY), 4 scenarios spanning
+4 different malware families (Virut/s5, Murlo/s8, Rbot/s11, NSIS.ay/s12),
+the detailed bidirectional-netflow files recommended by the dataset's own
+README ("these are the files you should use for your research"):
+mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-<N>/
+detailed-bidirectional-flow-labels/*.binetflow
+Chosen over the other 9 scenarios for tractable size (~15-45MB each) while
+staying genuine, unmodified, independently-labeled captures -- not
+subsampled or filtered before being placed here. Combined because a single
+scenario has too few distinct infected hosts to say anything statistically
+(one infected VM generates thousands of flows from a handful of IPs, not
+thousands of infected accounts) -- the field's own standard fix, not an
+improvised workaround.
+
+Also includes a FRAUDAR cross-check (Hooi et al., KDD 2016), reusing the
+exact same densest-subgraph peeling already built and verified against the
+primary fraud dataset in backend/fraudar_analysis.py -- an independent
+detection method, never seeing this project's own labels, run against the
+same host graph to see whether it agrees or disagrees.
 
 Run: python -m backend.external_validation.ctu13
 """
@@ -38,6 +48,7 @@ from sklearn.linear_model import LogisticRegressionCV
 from sklearn.model_selection import train_test_split
 from xgboost import XGBClassifier
 
+from ..fraudar_analysis import detect_top_k_blocks
 from ..pipeline.clustering import stage2_hard_clusters, stage3_soft_clusters
 from ..pipeline.data_io import PROCESSED_DIR
 from .elliptic import clustering_validity_check, structural_coverage_check
@@ -153,6 +164,66 @@ def _build_graph(df: pd.DataFrame, verbose=True) -> nx.Graph:
                 else:
                     G.add_edge(srcs[i], srcs[j], weight=1, shared_destinations={d})
     return G
+
+
+FRAUDAR_N_BLOCKS = 20  # generous relative to any plausible per-scenario ring size; not tuned to this data
+
+
+def _build_bipartite(df: pd.DataFrame) -> tuple[dict, dict]:
+    """Rows = source IPs, columns = destination:port values -- the same
+    bipartite shape backend/fraudar_analysis.py already builds for the
+    primary dataset (users x device/instrument/subnet values), here with
+    'a shared C2 destination' standing in for 'a shared device/instrument'.
+    No degree cap here (unlike _build_graph's co-occurrence projection):
+    FRAUDAR's own camouflage-resistant column weighting (1/log(degree+5))
+    already down-weights popular destinations, which is the whole point of
+    that term -- capping on top of it would be redundant, not additive."""
+    row_neighbors: dict = {}
+    col_neighbors: dict = {}
+    for src, dst, port in zip(df["SrcAddr"], df["DstAddr"], df["Dport"].astype(str)):
+        col = f"{dst}:{port}"
+        row_neighbors.setdefault(src, set()).add(col)
+        col_neighbors.setdefault(col, set()).add(src)
+    return row_neighbors, col_neighbors
+
+
+def fraudar_cross_check(df: pd.DataFrame, label_map: dict, verbose=True) -> dict:
+    """FRAUDAR (Hooi et al., KDD 2016) run per scenario, same reasoning as
+    Stage 2/3 above: an independent detection mechanism, never given this
+    project's labels, evaluated against the identical host population this
+    project's own clustering was scored against -- the same cross-check
+    already run for the primary fraud dataset, reused unmodified via
+    backend.fraudar_analysis.detect_top_k_blocks, not reimplemented."""
+    cap_m, cap_t, n_blocks_total = set(), set(), 0
+    per_scenario = {}
+    for name in SCENARIOS:
+        sdf = df[df["scenario"] == name]
+        row_nbrs, col_nbrs = _build_bipartite(sdf)
+        s_label_map = {h: v for h, v in label_map.items() if h.startswith(name + ":")}
+        blocks = detect_top_k_blocks(row_nbrs, col_nbrs, k=FRAUDAR_N_BLOCKS, min_block_users=2)
+        n_blocks_total += len(blocks)
+        s_cap_m, s_cap_t = set(), set()
+        for b in blocks:
+            s_cap_m |= {u for u in b["users"] if s_label_map.get(u) == 1}
+            s_cap_t |= {u for u in b["users"] if u in s_label_map}
+        cap_m |= s_cap_m
+        cap_t |= s_cap_t
+        per_scenario[name] = {"n_blocks": len(blocks), "malicious_captured": len(s_cap_m),
+                              "n_malicious": sum(s_label_map.values())}
+
+    n_malicious = sum(label_map.values())
+    recall = len(cap_m) / n_malicious if n_malicious else float("nan")
+    precision = len(cap_m) / len(cap_t) if cap_t else float("nan")
+    result = {"n_blocks_total": n_blocks_total, "malicious_captured": len(cap_m),
+              "n_malicious": n_malicious, "recall": round(recall, 4),
+              "precision": round(precision, 4) if precision == precision else None,
+              "per_scenario": per_scenario}
+    if verbose:
+        print(f"\nFRAUDAR cross-check (independent method, per scenario then aggregated): "
+              f"{n_blocks_total} dense blocks found across 4 scenarios")
+        print(f"  Recall: {recall:.1%} ({len(cap_m)}/{n_malicious}) | Precision: "
+              f"{(precision or 0):.1%}  -- vs. this project's Stage 3 result above")
+    return result
 
 
 def _host_features(df: pd.DataFrame) -> pd.DataFrame:
@@ -358,6 +429,7 @@ def run(verbose=True):
 
     features = _host_features(df)
     classifier_check = label_blind_classifier_check(features, label_map, verbose=verbose)
+    fraudar_check = fraudar_cross_check(df, label_map, verbose=verbose)
 
     report = {
         "dataset": "CTU-13, 4 scenarios (Virut/s5, Murlo/s8, Rbot/s11, NSIS.ay/s12)",
@@ -387,6 +459,7 @@ def run(verbose=True):
         "clustering_validity": validity,
         "structural_coverage": coverage,
         "label_blind_classifier_check": classifier_check,
+        "fraudar_cross_check": fraudar_check,
     }
 
     PROCESSED_DIR.mkdir(parents=True, exist_ok=True)

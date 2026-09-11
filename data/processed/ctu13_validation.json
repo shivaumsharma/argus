@@ -147,5 +147,34 @@
       "true_positive_alerts": 3,
       "false_positive_alerts": 0
     }
+  },
+  "fraudar_cross_check": {
+    "n_blocks_total": 70,
+    "malicious_captured": 8,
+    "n_malicious": 14,
+    "recall": 0.5714,
+    "precision": 0.1143,
+    "per_scenario": {
+      "s5_virut": {
+        "n_blocks": 20,
+        "malicious_captured": 1,
+        "n_malicious": 1
+      },
+      "s8_murlo": {
+        "n_blocks": 20,
+        "malicious_captured": 1,
+        "n_malicious": 1
+      },
+      "s11_rbot": {
+        "n_blocks": 10,
+        "malicious_captured": 3,
+        "n_malicious": 3
+      },
+      "s12_nsis": {
+        "n_blocks": 20,
+        "malicious_captured": 3,
+        "n_malicious": 9
+      }
+    }
   }
 }
