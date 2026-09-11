@@ -1,0 +1,151 @@
+{
+  "dataset": "CTU-13, 4 scenarios (Virut/s5, Murlo/s8, Rbot/s11, NSIS.ay/s12)",
+  "source": "Stratosphere Laboratory (Garcia et al., 2014), CC-BY -- mcfp.felk.cvut.cz/publicDatasets/CTU-Malware-Capture-Botnet-<N>/",
+  "methodology_note": "Graph clustering (Stage 2/3) runs independently per scenario, then results are aggregated -- pooling all 4 captures into one graph before clustering measurably dilutes real clusters (Louvain's modularity objective is global), confirmed directly, not assumed. The label-blind classifier below is trained on the pooled host population instead, since per-host features don't have this graph-pooling problem and the pooled population is needed for a workable train/dev/test split.",
+  "n_flows": 676631,
+  "n_flows_botnet_labeled": 11296,
+  "n_flows_normal_labeled": 16702,
+  "n_flows_background": 648633,
+  "n_hosts_total": 140067,
+  "n_hosts_labeled": 78,
+  "n_hosts_malicious": 14,
+  "n_hosts_normal": 64,
+  "base_rate": 0.1795,
+  "destination_degree_cap": 100,
+  "n_graph_edges": 123507,
+  "per_scenario": {
+    "s5_virut": {
+      "n_hosts": 28301,
+      "n_edges": 29749,
+      "n_labeled": 23,
+      "n_malicious": 1,
+      "hard_candidates": 75,
+      "hard_flagged": 0,
+      "soft_candidates": 62,
+      "soft_flagged": 0
+    },
+    "s8_murlo": {
+      "n_hosts": 23057,
+      "n_edges": 25559,
+      "n_labeled": 14,
+      "n_malicious": 1,
+      "hard_candidates": 98,
+      "hard_flagged": 0,
+      "soft_candidates": 66,
+      "soft_flagged": 0
+    },
+    "s11_rbot": {
+      "n_hosts": 29157,
+      "n_edges": 29028,
+      "n_labeled": 18,
+      "n_malicious": 3,
+      "hard_candidates": 77,
+      "hard_flagged": 0,
+      "soft_candidates": 58,
+      "soft_flagged": 0
+    },
+    "s12_nsis": {
+      "n_hosts": 59552,
+      "n_edges": 39171,
+      "n_labeled": 23,
+      "n_malicious": 9,
+      "hard_candidates": 147,
+      "hard_flagged": 0,
+      "soft_candidates": 90,
+      "soft_flagged": 1
+    }
+  },
+  "stage2_hard": {
+    "n_flagged": 0,
+    "recall": 0.0,
+    "precision": null
+  },
+  "stage3_soft": {
+    "n_flagged": 1,
+    "recall": 0.2143,
+    "precision": 1.0
+  },
+  "threshold_sweep": [
+    {
+      "threshold": 0.5,
+      "n_flagged": 1,
+      "recall": 0.2143,
+      "precision": 1.0
+    },
+    {
+      "threshold": 0.4,
+      "n_flagged": 1,
+      "recall": 0.2143,
+      "precision": 1.0
+    },
+    {
+      "threshold": 0.3,
+      "n_flagged": 1,
+      "recall": 0.2143,
+      "precision": 1.0
+    },
+    {
+      "threshold": 0.2,
+      "n_flagged": 1,
+      "recall": 0.2143,
+      "precision": 1.0
+    },
+    {
+      "threshold": 0.1,
+      "n_flagged": 4,
+      "recall": 0.4286,
+      "precision": 0.25
+    }
+  ],
+  "clustering_validity": {
+    "n_groups_checked": 1,
+    "n_single_connected_block": 1,
+    "n_fragmented": 0,
+    "fraction_single_connected_block": 1.0
+  },
+  "structural_coverage": {
+    "n_real_structures": 2,
+    "n_found": 1,
+    "fraction_structures_found": 0.5,
+    "total_illicit_transactions_in_structures": 6,
+    "illicit_transactions_in_found_structures": 3
+  },
+  "label_blind_classifier_check": {
+    "n_labeled_hosts": 78,
+    "n_malicious_hosts": 14,
+    "n_train": 46,
+    "n_dev": 12,
+    "n_test": 20,
+    "test_malicious": 4,
+    "logistic_regression": {
+      "rows": 20,
+      "fraud_rows": 4,
+      "fraud_rate": 0.2,
+      "pr_auc": 0.435417,
+      "roc_auc": 0.679688,
+      "threshold": 0.0,
+      "precision": 0.333333,
+      "recall": 0.5,
+      "f1": 0.4,
+      "accuracy": 0.7,
+      "alerts": 6,
+      "true_positive_alerts": 2,
+      "false_positive_alerts": 4
+    },
+    "xgboost": {
+      "rows": 20,
+      "fraud_rows": 4,
+      "fraud_rate": 0.2,
+      "pr_auc": 0.816667,
+      "roc_auc": 0.828125,
+      "threshold": 0.8104,
+      "precision": 1.0,
+      "recall": 0.75,
+      "f1": 0.857143,
+      "accuracy": 0.95,
+      "alerts": 3,
+      "true_positive_alerts": 3,
+      "false_positive_alerts": 0
+    }
+  }
+}
