@@ -8,6 +8,7 @@ if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
 from shared import (  # noqa: E402
+    cached_adversarial_evasion_report,
     cached_concurrent_attack_report,
     cached_infra_resilience_report,
     cached_supernode_stress_report,
@@ -228,4 +229,70 @@ else:
         "archetype if it was still being caught the period before — outcome-conditioned, not a pre-baked "
         "ramp. Full methodology, including a real construction bug found and fixed in the first attempt at "
         "this test, in `docs/TIME_DRIFT_SIMULATION.md`."
+    )
+
+st.space("large")
+
+# ==========================================================================
+# Adversarial evasion via graph fragmentation
+# ==========================================================================
+st.header(":material/hub: Adversarial evasion via graph fragmentation")
+st.caption(
+    "Every test above varies *what a ring looks like once formed*. This varies the *shape* of the "
+    "sharing graph itself, holding ring size and behavior fixed — does a ring deliberately "
+    "restructuring how it shares attributes slip under detection? Three tactics, isolated so each is "
+    "attributable on its own."
+)
+evasion = cached_adversarial_evasion_report(version)
+if not evasion:
+    st.info("Run `python -m backend.adversarial_evasion` to generate this.", icon=":material/info:")
+else:
+    st.subheader("1. Sparsify edges — split one shared device into K independent pods")
+    st.dataframe(
+        [{"Pods": r["n_pods"], "Pod size": r["pod_size"], "Members captured": f"{r['members_captured']}/{r['n_members']}",
+          "Recall": f"{r['recall']:.0%}"} for r in evasion["baseline"]],
+        hide_index=True, width="stretch",
+    )
+    st.success(
+        "**100% recall holds all the way down to 2-member pods.** Stage 5 scores each candidate cluster "
+        "on its own behavioral merits regardless of size — sparsifying the shared-device graph alone "
+        "does not buy an adversary anything.",
+        icon=":material/check_circle:",
+    )
+
+    st.subheader("2. The true limiting case — complete atomization (zero shared device at all)")
+    a = evasion["atomized_tight_no_subnet"][0]
+    b = evasion["atomized_tight_subnet"][0]
+    c = evasion["atomized_spread_subnet"][0]
+    st.dataframe(
+        [
+            {"Condition": "(a) Atomized, tight timing, no other shared signal", "Shared subnet": "no",
+             "Signup spread": "0 days", "Recall": f"{a['recall']:.0%}"},
+            {"Condition": "(b) Atomized, tight timing, shared IP subnet", "Shared subnet": "yes",
+             "Signup spread": "0 days", "Recall": f"{b['recall']:.0%}"},
+            {"Condition": "(c) Atomized, spread over time, shared IP subnet", "Shared subnet": "yes",
+             "Signup spread": "up to ~33 days", "Recall": f"{c['recall']:.0%}"},
+        ],
+        hide_index=True, width="stretch",
+    )
+    st.warning(
+        "**(a) is a real limitation — but not a new one.** With zero shared attributes of any kind, none "
+        "of the 12 accounts ever form a candidate cluster (0% recall). Same zero-shared-attribute blind "
+        "spot already disclosed for isolated Elliptic transactions and this project's own stated "
+        "architecture limits — confirmed here directly, not assumed to transfer.",
+        icon=":material/warning:",
+    )
+    st.success(
+        "**(b) and (c) both fail to hold that evasion.** The instant the atomized accounts share any "
+        "other real-world attribute — here, an IP subnet, already a soft signal in Stage 1 — Stage 3's "
+        "existing Louvain clustering recovers 100% recall with zero code change. Spreading the same "
+        "accounts' signups across ~33 days on top of that doesn't undo the recovery either. The real "
+        "evasion floor is 'zero shared attributes of any kind,' not 'zero shared hard signal.'",
+        icon=":material/check_circle:",
+    )
+    st.caption(
+        "**No countermeasure was tuned** — nothing tested degraded detection short of the theoretical "
+        "floor, reported as a real, disclosed robustness finding rather than manufactured by picking an "
+        "easy attack to beat. Full methodology and the honest scope of what this test does and doesn't "
+        "establish in `docs/ADVERSARIAL_EVASION.md`."
     )

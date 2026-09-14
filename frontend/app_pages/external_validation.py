@@ -8,6 +8,7 @@ if str(FRONTEND_DIR) not in sys.path:
     sys.path.insert(0, str(FRONTEND_DIR))
 
 from shared import (  # noqa: E402
+    cached_ctu13_report,
     cached_external_validation_report,
     cached_fraudar_report,
     cached_fraudar_seed_isolation,
@@ -388,6 +389,79 @@ if gbe:
             "structural backstop**, not the other way around.",
             icon=":material/check_circle:",
         )
+
+st.space("large")
+
+# ==========================================================================
+# CTU-13 -- real botnet C2 detection, not fraud-adjacent at all
+# ==========================================================================
+st.header(":material/security: CTU-13 — real botnet C2 detection, a genuinely different domain")
+ctu = cached_ctu13_report(version)
+if not ctu:
+    st.info("Run `python -m backend.external_validation.ctu13` to generate this.", icon=":material/info:")
+else:
+    st.caption(
+        "Every dataset above is still fraud- or abuse-adjacent (fake reviews, Bitcoin transaction flow). "
+        "This is real network intrusion data — no fraud concept at all. Two bot-infected hosts calling "
+        "the same command-and-control server:port is treated as structurally identical to two fraud "
+        "accounts sharing a payment instrument — the same unmodified `stage2_hard_clusters`/"
+        "`stage3_soft_clusters` this project runs everywhere else, pointed at a co-destination host graph."
+    )
+    stage3 = ctu["stage3_soft"]
+    with st.container(horizontal=True):
+        st.metric("Stage 3 (Louvain) recall", f"{stage3['recall']:.1%}",
+                  help=f"{ctu['n_hosts_malicious']} malicious hosts across 4 scenarios; recall counted "
+                       "against the real coordinated infections that exist in this data.", border=True)
+        st.metric("Stage 3 precision", f"{stage3['precision']:.0%}", border=True)
+        st.metric("FRAUDAR cross-check recall", f"{ctu['fraudar_cross_check']['recall']:.1%}",
+                  help=f"Independent method — {ctu['fraudar_cross_check']['precision']:.1%} precision, "
+                       "opposite tradeoff from Stage 3.", border=True)
+    st.caption(
+        f"{ctu['n_flows']:,} real netflow records (Stratosphere Labs CTU-13, 4 malware families), "
+        f"{ctu['n_hosts_total']:,} hosts, {ctu['n_hosts_labeled']} labeled ({ctu['n_hosts_malicious']} "
+        f"malicious, {ctu['base_rate']:.1%} base rate). Stage 2 (connected components) flags "
+        f"{ctu['stage2_hard']['n_flagged']} — unlike the primary pipeline, there's no separate hard-signal "
+        "subgraph here, so legitimate shared infrastructure keeps components too large to isolate cleanly; "
+        "Stage 3's density threshold on Louvain communities is what finds the real signal. A real "
+        "methodological catch found along the way: pooling all 4 scenarios into one graph before "
+        "clustering measurably diluted a real 3-host cluster (confirmed by direct A/B measurement) — fixed "
+        "by clustering each scenario independently, then aggregating, which is also simply the correct "
+        "methodology for monitoring separate networks."
+    )
+
+    with st.expander("Is the headline recall a discovered ceiling? Checked directly."):
+        st.dataframe(
+            [{"Threshold": s["threshold"], "Flagged": s["n_flagged"], "Recall": f"{s['recall']:.1%}",
+              "Precision": f"{(s['precision'] or 0):.1%}"} for s in ctu["threshold_sweep"]],
+            hide_index=True, width="stretch",
+        )
+        st.caption(
+            "At threshold 0.1, recall doubles (21.4% → 42.9%) at a real precision cost (100% → 25%) — "
+            "same inherited-threshold pattern as every other external dataset in this document."
+        )
+
+    fc = ctu["fraudar_cross_check"]
+    st.warning(
+        f"**FRAUDAR recalls more malicious hosts here than this project's own Stage 3** "
+        f"({fc['recall']:.1%} vs. {stage3['recall']:.1%}) **at much worse precision** "
+        f"({fc['precision']:.1%} vs. {stage3['precision']:.0%}) — the *opposite* pattern from the primary "
+        "fraud dataset's own FRAUDAR comparison, where FRAUDAR badly underperforms. Read as a real "
+        "precision/recall tradeoff between two legitimate methods, not a clean win for either side. "
+        f"({fc['n_blocks_total']} dense blocks found across 4 scenarios.)",
+        icon=":material/warning:",
+    )
+
+    cbc = ctu["label_blind_classifier_check"]
+    st.success(
+        f"**Label-blind classifier, real per-host flow statistics, never the label as an input:** XGBoost "
+        f"catches {cbc['xgboost']['true_positive_alerts']} of {cbc['test_malicious']} malicious hosts in a "
+        f"{cbc['n_test']}-host held-out test split with **zero false positives** "
+        f"({cbc['xgboost']['recall']:.1%} recall, {cbc['xgboost']['precision']:.0%} precision) — a real, "
+        "independent positive data point, though on a sample small enough to read the count, not just the "
+        "rate. Full methodology, the graph-pooling dilution investigation, and clustering-validity check in "
+        "`docs/CTU13_BOTNET_VALIDATION.md`.",
+        icon=":material/check_circle:",
+    )
 
 st.space("large")
 

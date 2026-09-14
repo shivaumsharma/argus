@@ -235,3 +235,15 @@ def cached_ieee_cis_report(_version: int):
 def cached_ieee_cis_graph_report(_version: int):
     from backend.pipeline.data_io import PROCESSED_DIR
     return _cached_json(_version, PROCESSED_DIR / "ieee_cis_graph_validation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_ctu13_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "ctu13_validation.json")
+
+
+@st.cache_data(show_spinner=False)
+def cached_adversarial_evasion_report(_version: int):
+    from backend.pipeline.data_io import PROCESSED_DIR
+    return _cached_json(_version, PROCESSED_DIR / "adversarial_evasion.json")
