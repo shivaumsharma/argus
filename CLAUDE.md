@@ -1,12 +1,17 @@
 # Argus — working rules
 
-## 🚫 Do not push to GitHub until 2026-09-14
+## ✅ Push freeze lifted (2026-09-14)
+
+The Razorpay hackathon result came back and the user explicitly confirmed in conversation on 2026-09-14 that pushing to GitHub is fine now. The prior "no push until 2026-09-14" rule (below, kept for history) no longer applies — normal push behavior (confirm before pushing, per the general safety rules, but no standing freeze) resumes.
+
+<details>
+<summary>Former rule (2026-09-11 to 2026-09-14, now lifted)</summary>
 
 **No `git push` (to `origin` or any remote) until September 14, 2026 — even if asked to commit or if a commit already exists locally.** Local commits are fine and expected; pushing is not, until that date.
 
-**Why:** this repo (`shivaumsharma/argus`) is the live submission for a Razorpay hackathon (AI Buildathon 2026, Track 02) that is still under evaluation/review as of this writing. The project is also being extended with content aimed at a Palo Alto Networks job application (see below) — none of that should become visible on the public GitHub repo while Razorpay's reviewers may still be looking at it.
+**Why:** this repo (`shivaumsharma/argus`) was the live submission for a Razorpay hackathon (AI Buildathon 2026, Track 02) still under evaluation/review as of 2026-09-11. The project was also being extended with content aimed at a Palo Alto Networks job application (see below) — none of that was meant to become visible on the public GitHub repo while Razorpay's reviewers might still be looking at it.
 
-If a task seems to call for a push (deploying, sharing a link, "make it live"), stop and ask the user first — don't assume the date has passed or that they meant to override this. If the user explicitly says the freeze is lifted (e.g. confirms it's past Sept 14, or says the Razorpay review is over), you may resume pushing — but get that confirmation in the conversation itself before doing so, don't infer it from the calendar alone.
+</details>
 
 ## Project goal: Palo Alto Networks, not just the hackathon
 
