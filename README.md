@@ -53,6 +53,10 @@ This exact dataset is also frozen at `data/frozen_snapshot/` as the reset point 
 
 **Continuous adversarial recommendation engine**: a five-stage subsystem — attack generation, gap characterization, recommendation drafting, mandatory impact simulation, two-gate human approval — that probes the frozen pipeline round over round, following the methodology of a real, verified paper ("A multi-rounded adversarial scenario for graph-based promo fraud detection," SNAM, Dec 2025, DOI 10.1007/s13278-025-01566-0). One hard rule, never relaxed: **it recommends, it never modifies live detection logic.** Real result: round 2 found a genuine gap and drafted a bounded fix with a clean **73→73 rings, 1→1 confounder FPs (zero change)** simulated impact — and the mandatory Stage 4 check caught something easy to miss: **the fix doesn't actually flag the attack that motivated it**, landing it in Stage 5's conservative middle ground instead of a true flag. Approved and re-validated on a fresh, never-used seed anyway, reported exactly as what it is. Resolved, not left open: the audit trail was checked directly (all 4 lifecycle events present; real status is `validated_approved`, not rejected), the root cause was computed (the attack's `suspicion_score=0` by design, and Stage 5's organic-clear/suspicion-flag branches are structurally disjoint), and a genuinely different fix targeting the suspicion side was drafted, simulated, and still didn't close the gap — an exhaustive sweep of all ten tunable parameters confirms none ever could. Full design, the resolution, and all required limitations in [`docs/ADVERSARIAL_RECOMMENDER.md`](docs/ADVERSARIAL_RECOMMENDER.md).
 
+**Generalizing beyond fraud: real botnet C2 detection (CTU-13)**. Every external-validation dataset above is still fraud- or abuse-adjacent. This points the identical, unmodified Stage 2/3 clustering at a domain with no fraud concept at all — [Stratosphere Laboratory's CTU-13](https://www.stratosphereips.org/datasets-ctu13) (Garcia et al., 2014, CC-BY), 676,631 real netflow records across 4 malware families, with two bot-infected hosts calling the same command-and-control server:port treated as structurally identical to two fraud accounts sharing a payment instrument. Real result: Stage 3 (Louvain) isolates the one genuinely coordinated botnet cluster that exists in this data exactly — **21.4% recall (3/14 malicious hosts), 100% precision**, confirmed as a real connected structure, not an algorithm artifact. A real methodological catch found along the way: pooling all 4 scenarios into one graph before clustering measurably diluted a real 3-host cluster (Louvain's modularity objective is computed globally, confirmed by direct A/B measurement) — fixed by clustering each scenario independently, then aggregating, which is also simply the correct methodology for monitoring separate networks. An independent FRAUDAR cross-check recalls *more* malicious hosts here (57.1%) at much worse precision (11.4%) — the opposite tradeoff from the primary fraud dataset's own FRAUDAR comparison — and a label-blind XGBoost classifier on real per-host flow statistics catches 3 of 4 malicious hosts in a held-out test split with zero false positives. Full methodology in [`docs/CTU13_BOTNET_VALIDATION.md`](docs/CTU13_BOTNET_VALIDATION.md).
+
+**Adversarial evasion via graph fragmentation**: every other adversarial test in this project varies *what a ring looks like once formed* — this is the first to vary the **shape** of the sharing graph itself, holding ring size and behavior fixed. Three tactics, isolated so each is attributable on its own: (1) sparsifying one shared device into *K* independent pods — recall holds at **100% all the way down to 2-member pods**, since Stage 5 scores each candidate on its own behavioral merits regardless of size; (2) at complete atomization (zero shared device at all), recall drops to a real **0%** — the same zero-shared-attribute blind spot already disclosed for isolated Elliptic transactions, now confirmed directly in this system's own primary domain; (3) giving those same atomized accounts one other real-world shared attribute (an IP subnet) is enough for Stage 3's **existing** Louvain clustering, zero code change, to recover **100% recall** — and spreading their signups across roughly a month on top of that doesn't undo it. No countermeasure was tuned, because nothing tested actually degraded detection short of the theoretical floor — reported as a real, disclosed robustness finding, not manufactured by picking an easy attack to beat. Full methodology in [`docs/ADVERSARIAL_EVASION.md`](docs/ADVERSARIAL_EVASION.md).
+
 ## Quickstart
 
 ```bash
@@ -76,11 +80,13 @@ python -m backend.adversarial_stress_test                 # finds where detectio
 python -m backend.concurrent_attack_stress_test            # 8 simultaneous evasive rings + a baseline-controlled interference check
 python -m backend.infra_resilience_test                     # LLM-call resilience + malformed-record handling, both tested for real
 python -m backend.time_drift_simulation                     # does detection decay across 4 sequential periods of evolving fraud tactics?
+python -m backend.adversarial_evasion                         # does restructuring the sharing graph itself (sparsify/mimic/spread) evade detection?
 python -m backend.snapshot                                  # freezes data/raw + the DB as the live-injection demo's reset point
 python -m backend.live_injection hard 9                      # CLI version of the dashboard's live-injection control
 
 python -m backend.external_validation.run both              # same Stage 2/3 clustering vs. real YelpChi + Amazon fraud labels
 python -m backend.external_validation.elliptic                # same clustering vs. a real Bitcoin transaction graph
+python -m backend.external_validation.ctu13                    # same clustering vs. real CTU-13 botnet C2 netflow data
 
 streamlit run frontend/streamlit_app.py                    # dashboard, including the live-injection demo page
 uvicorn backend.api:app --reload                          # optional: read-only REST API over the same store
@@ -118,19 +124,23 @@ backend/
   concurrent_attack_stress_test.py       8 simultaneous evasive rings + baseline-controlled interference check
   infra_resilience_test.py                LLM-call resilience + malformed-record handling, both tested for real
   time_drift_simulation.py                 does detection decay across sequential periods of evolving fraud tactics?
+  adversarial_evasion.py                    does restructuring the sharing graph itself (sparsify/mimic density/spread time) evade detection?
   adversarial_recommender/               5-stage recommend-only engine: probes for gaps, never modifies live logic
   cod_collusion/                        second loss type (stretch) — reuses Stage 2/3 clustering unchanged
-  external_validation/                   same Stage 2/3 clustering vs. real YelpChi/Amazon/Elliptic fraud data
+  external_validation/                   same Stage 2/3 clustering vs. real YelpChi/Amazon/Elliptic/CTU-13 (botnet) data
 frontend/
   streamlit_app.py             entry point — page config, sidebar pipeline controls, navigation
   shared.py                     shared cached loaders (graph, clusters, eval report) used by every page
   app_pages/
     overview.py                  landing page — the thesis, headline KPIs, pipeline walkthrough
+    research_context.py           why this, why now — market/regulatory context
     flagged_clusters.py           filterable/searchable table + case detail with embedded graph
     confounders.py                 filterable confounder callout — correctly-left-alone vs. wrongly-flagged
     graph_explorer.py               free-form subgraph viewer
     live_injection.py                drop a new ring into the running system and watch it get flagged
     metrics.py                        precision/recall, dev/holdout split, recall-by-difficulty, confidence calibration, FRAUDAR, scale stress test, cost sensitivity
+    external_validation.py           live YelpChi/Amazon/Elliptic/CTU-13/ULB/IEEE-CIS + FRAUDAR results, all read from disk
+    resilience.py                     concurrent attack, infra failure, supernode, time-drift, and adversarial-evasion results
     compliance.py                       live RBI FREE-AI report (Fair/Reliable/Explainable/Auditable/Ethical) incl. the fairness audit
     recommendations.py                 pending/awaiting-confirmation/history queue for the recommendation engine
     audit_log.py                       full input-evidence/output audit trail
@@ -157,6 +167,8 @@ docs/
   CONCURRENT_ATTACK_STRESS_TEST.md          8 simultaneous evasive rings, baseline-controlled interference check
   INFRASTRUCTURE_RESILIENCE_TEST.md          LLM-call resilience + malformed-record handling, 2 real bugs found & fixed
   TIME_DRIFT_SIMULATION.md                    does detection decay as tactics evolve over 4 sequential periods?
+  CTU13_BOTNET_VALIDATION.md                   same clustering generalized to real botnet C2 detection, not fraud at all
+  ADVERSARIAL_EVASION.md                        does restructuring the sharing graph itself (sparsify/mimic/spread) evade detection?
   PRE_SUBMISSION_CHECK.md                      final cross-doc consistency pass before submission
   PITCH_SCRIPT.md                       5-minute pitch video script
 ```
